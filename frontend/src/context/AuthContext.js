@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext(null);
-export const API_BASE = "http://localhost:4000/api";
+export const API_BASE = "https://rps-fields-3.onrender.com/api";
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
