@@ -1,0 +1,76 @@
+=======================================
+  RPS FIELDS — HOW TO RUN
+=======================================
+
+REQUIREMENTS: Node.js installed (https://nodejs.org)
+
+---------------------------------------
+STEP 1 — Start the Backend
+---------------------------------------
+Open a terminal/command prompt:
+
+  cd backend
+  node server.js
+
+You should see:
+  🌿 RPS Fields API running at http://localhost:4000
+
+Keep this terminal open!
+
+---------------------------------------
+STEP 2 — Start the Frontend (NEW terminal)
+---------------------------------------
+
+  cd frontend
+  npm install        ← first time only, takes ~2 min
+  npm start
+
+App opens at: http://localhost:3000
+
+---------------------------------------
+LOGIN CREDENTIALS
+---------------------------------------
+
+👤 FARMER accounts:
+  Email:    ravi@farm.in
+  Password: farm1234
+
+  Email:    abdul@farm.in
+  Password: farm1234
+
+🛡 ADMIN panel (go to /admin/login):
+  Email:    admin@rpsfields.in
+  Password: admin123
+
+🛒 CUSTOMER:
+  Register a new account at /register
+
+---------------------------------------
+ALL PAGES
+---------------------------------------
+/                     Home
+/catalog              Browse products
+/product/:id          Product details
+/weather              Weather dashboard
+/about                About us
+/contact              Contact
+/faq                  FAQ
+/login                Login (farmer/customer)
+/register             Register chooser (Customer / Farmer / Admin)
+/register/customer    Customer registration
+/register/farmer      Farmer registration
+/admin/login          Admin login
+/admin/dashboard      Admin dashboard
+/admin/products       Manage products
+/admin/users          Manage users
+/admin/orders         Manage orders
+/customer/dashboard   Customer dashboard
+/cart                 Shopping cart
+/checkout             Checkout
+/orders               My orders
+/profile              My profile
+/farmer/dashboard     Farmer dashboard
+/farmer/products      My products
+/farmer/add-product   Add product
+/farmer/orders        Orders received
+/farmer/profile       Farmer profile
