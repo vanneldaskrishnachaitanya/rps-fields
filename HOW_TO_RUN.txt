@@ -1,76 +1,140 @@
-=======================================
-  RPS FIELDS — HOW TO RUN
-=======================================
+=================================================
+  RPS Fields v2 — MongoDB Edition
+  How to Run
+=================================================
 
-REQUIREMENTS: Node.js installed (https://nodejs.org)
+REQUIREMENTS
+  - Node.js v16+ (https://nodejs.org)
+  - MongoDB — one of:
+      A) Local: install MongoDB Community (https://www.mongodb.com/try/download/community)
+      B) Free cloud: create a cluster at https://mongodb.com/atlas (free tier)
 
----------------------------------------
-STEP 1 — Start the Backend
----------------------------------------
-Open a terminal/command prompt:
+-------------------------------------------------
+STEP 1 — Configure the Backend
+-------------------------------------------------
+1. Go into the backend folder:
+     cd rps-fields-complete/backend
 
-  cd backend
-  node server.js
+2. Create your .env file:
+     copy .env.example .env        (Windows)
+     cp .env.example .env          (Mac/Linux)
+
+3. Open .env and set your MongoDB connection string:
+
+   For LOCAL MongoDB:
+     MONGO_URI=mongodb://localhost:27017/rpsfields
+
+   For MongoDB Atlas (cloud):
+     MONGO_URI=mongodb+srv://USERNAME:PASSWORD@cluster0.xxxxx.mongodb.net/rpsfields
+
+   Also set a secret key:
+     JWT_SECRET=any_random_long_string_here
+     PORT=4000
+
+-------------------------------------------------
+STEP 2 — Start the Backend
+-------------------------------------------------
+  cd rps-fields-complete/backend
+  npm install
+  npm start
 
 You should see:
   🌿 RPS Fields API running at http://localhost:4000
+  ✅ MongoDB connected: ...
 
-Keep this terminal open!
-
----------------------------------------
-STEP 2 — Start the Frontend (NEW terminal)
----------------------------------------
-
-  cd frontend
-  npm install        ← first time only, takes ~2 min
+-------------------------------------------------
+STEP 3 — Start the Frontend (NEW terminal)
+-------------------------------------------------
+  cd rps-fields-complete/frontend
+  npm install
   npm start
 
-App opens at: http://localhost:3000
+App opens at http://localhost:3000
 
----------------------------------------
-LOGIN CREDENTIALS
----------------------------------------
+=================================================
+  LOGIN CREDENTIALS
+=================================================
 
-👤 FARMER accounts:
-  Email:    ravi@farm.in
-  Password: farm1234
+👤 FARMER — register at /register/farmer
+   (or seed data will be created automatically on first run)
 
-  Email:    abdul@farm.in
-  Password: farm1234
+🏢 AGENT — register at /register/agent
 
-🛡 ADMIN panel (go to /admin/login):
-  Email:    admin@rpsfields.in
-  Password: admin123
+🛒 CUSTOMER — register at /register/customer
 
-🛒 CUSTOMER:
-  Register a new account at /register
+🛡 ADMIN PANEL (at /admin/login):
+   Email:    admin@rpsfields.in
+   Password: admin123
 
----------------------------------------
-ALL PAGES
----------------------------------------
-/                     Home
-/catalog              Browse products
-/product/:id          Product details
-/weather              Weather dashboard
-/about                About us
-/contact              Contact
-/faq                  FAQ
-/login                Login (farmer/customer)
-/register             Register chooser (Customer / Farmer / Admin)
-/register/customer    Customer registration
-/register/farmer      Farmer registration
-/admin/login          Admin login
-/admin/dashboard      Admin dashboard
-/admin/products       Manage products
-/admin/users          Manage users
-/admin/orders         Manage orders
-/customer/dashboard   Customer dashboard
-/cart                 Shopping cart
-/checkout             Checkout
-/orders               My orders
-/profile              My profile
-/farmer/dashboard     Farmer dashboard
-/farmer/products      My products
-/farmer/add-product   Add product
-/farmer/orders        Orders received
-/farmer/profile       Farmer profile
+=================================================
+  ALL ROUTES
+=================================================
+
+PUBLIC
+  /                     Home page
+  /catalog              Browse all products
+  /product/:id          Product details + reviews
+  /weather              Weather dashboard (city search)
+  /about, /contact, /faq, /privacy, /terms
+
+AUTH
+  /login                Login (all roles)
+  /register             Choose role
+  /register/customer    Customer registration
+  /register/farmer      Farmer registration
+  /register/agent       Agent registration
+
+CUSTOMER
+  /customer/dashboard   Dashboard with orders + stats
+  /cart                 Shopping cart
+  /checkout             Checkout with delivery address
+  /orders               Order history + rate products
+  /profile              Profile management
+  /address              Manage delivery addresses
+
+FARMER
+  /farmer/dashboard     Overview: products, orders, revenue, rating
+  /farmer/products      Products listed by agents
+  /farmer/orders        Orders for farmer's products
+  /farmer/find-agents   Browse and connect with agents
+  /farmer/my-agents     List of accepted agent partners
+  /farmer/revenue       Revenue breakdown
+
+AGENT
+  /agent/dashboard      Overview: products, orders, farmer requests
+  /agent/add-product    Add product (must be partnered with farmer)
+  /agent/products       Manage listed products
+  /agent/edit-product/:id  Edit a product
+  /agent/orders         Orders for agent's products
+  /agent/farmers        Partnered farmers list
+  /agent/requests       Accept/reject farmer partnership requests
+
+ADMIN (at /admin/login with admin@rpsfields.in / admin123)
+  /admin/dashboard      Stats overview
+  /admin/users          Manage all users (ban/suspend/restore)
+  /admin/farmers        Farmer quality monitoring with ratings
+  /admin/agents         Manage agents
+  /admin/products       View/remove products
+  /admin/orders         All orders
+
+=================================================
+  SYSTEM FLOW
+=================================================
+
+1. FARMER registers → searches for agents → sends Connect request
+2. AGENT sees request → accepts → becomes partners
+3. AGENT adds products (must select a partnered farmer)
+4. Products appear in public /catalog and farmer's dashboard
+5. CUSTOMER browses → adds to cart → checkout → places order
+6. ORDER visible in: customer dashboard, agent orders, farmer orders
+7. After delivery, CUSTOMER can rate the product (⭐ 1–5)
+8. Ratings update farmer's average quality score
+9. ADMIN monitors farmer quality → can suspend/ban poor quality farmers
+
+=================================================
+  QUALITY THRESHOLDS (Admin Panel)
+=================================================
+  4.0 – 5.0  →  Excellent
+  3.0 – 4.0  →  Average
+  2.0 – 3.0  →  Warning
+  Below 2.0  →  Poor quality → Admin may ban

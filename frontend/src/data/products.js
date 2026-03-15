@@ -162,10 +162,10 @@ export const CATEGORIES = [
   },
   {
     name: "Dry Fruits",
-    img: "https://images.unsplash.com/photo-1548247416-ec66f4900b2e?w=300&q=80",
+    img: "https://images.unsplash.com/photo-1508061253366-f7da158b6d46?w=300&q=80",
   },
   {
     name: "Grains",
-    img: "https://images.unsplash.com/photo-1599579425103-6efb0779b0f5?w=300&q=80",
+    img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300&q=80",
   },
 ];

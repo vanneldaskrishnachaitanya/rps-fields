@@ -2,7 +2,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import { useTheme, TK } from "../context/ThemeContext";
 import { useCart } from "../context/CartContext";
-import { API_BASE } from "../context/AuthContext";
+import { API_BASE, useAuth } from "../context/AuthContext";
+import RatingsSection from "../components/RatingsSection";
 
 export default function ProductDetailsPage() {
   const navigate = useNavigate();
@@ -144,6 +145,9 @@ export default function ProductDetailsPage() {
             </div>
           </>
         )}
+      </div>
+    <div style={{ maxWidth:960, margin:"0 auto", padding:"0 20px 40px" }}>
+        <RatingsSection productId={id} />
       </div>
     </div>
   );

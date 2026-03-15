@@ -33,11 +33,8 @@ export default function FarmerProductsPage() {
           <div>
             <p style={{ color:"#74c69d", fontSize:11, letterSpacing:"2px", textTransform:"uppercase", margin:"0 0 6px" }}>🌾 Farmer Dashboard</p>
             <h1 style={{ color:"#fff", fontSize:30, fontFamily:"'Playfair Display',Georgia,serif", margin:0 }}>My Products</h1>
-            <p style={{ color:"rgba(255,255,255,0.6)", fontSize:13, margin:"4px 0 0" }}>{products.length} product{products.length!==1?"s":""} listed</p>
+            <p style={{ color:"rgba(255,255,255,0.6)", fontSize:13, margin:"4px 0 0" }}>{products.length} product{products.length!==1?"s":""} listed by agents</p>
           </div>
-          <Link to="/farmer/add-product" style={{ background:"linear-gradient(135deg,#d4a017,#c49010)", color:"#1b4332", padding:"12px 22px", borderRadius:10, fontWeight:800, fontSize:14, textDecoration:"none", boxShadow:"0 4px 14px rgba(212,160,23,0.4)" }}>
-            + Add New Product
-          </Link>
         </div>
       </div>
 
@@ -56,9 +53,10 @@ export default function FarmerProductsPage() {
         ) : products.length === 0 ? (
           <div style={{ textAlign:"center", padding:60, background:tk.bgCard, borderRadius:16, border:`1px solid ${tk.border}` }}>
             <div style={{ fontSize:56, marginBottom:14 }}>🌾</div>
-            <h3 style={{ color:tk.text, marginBottom:8 }}>No products yet</h3>
-            <Link to="/farmer/add-product" style={{ background:"linear-gradient(135deg,#52b788,#40916c)", color:"#fff", padding:"12px 24px", borderRadius:10, fontWeight:700, textDecoration:"none", display:"inline-block", marginTop:8 }}>
-              + Add First Product
+            <h3 style={{ color:tk.text, marginBottom:8 }}>No products listed yet</h3>
+            <p style={{ color:tk.textLt, marginBottom:20, fontSize:14 }}>Products are added by agents on your behalf. Connect with an agent to get started.</p>
+            <Link to="/farmer/find-agents" style={{ background:"linear-gradient(135deg,#52b788,#40916c)", color:"#fff", padding:"12px 24px", borderRadius:10, fontWeight:700, textDecoration:"none", display:"inline-block" }}>
+              🤝 Find an Agent
             </Link>
           </div>
         ) : (

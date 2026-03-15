@@ -1,18 +1,18 @@
 import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext(null);
-export const API_BASE = "https://rps-fields-3.onrender.com/api";
+export const API_BASE = "http://localhost:4000/api";
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [user, setUser]   = useState(null);
   const [token, setToken] = useState(() => localStorage.getItem("rps_token") || null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (token) {
       fetch(`${API_BASE}/auth/me`, { headers: { Authorization: `Bearer ${token}` } })
-        .then((r) => r.json())
-        .then((d) => { if (d.success) setUser(d.user); else logout(); })
+        .then(r => r.json())
+        .then(d => { if (d.success) setUser(normalise(d.user)); else logout(); })
         .catch(() => logout())
         .finally(() => setLoading(false));
     } else {
@@ -21,7 +21,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = async (email, password) => {
-    const res = await fetch(`${API_BASE}/auth/login`, {
+    const res  = await fetch(`${API_BASE}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
@@ -30,12 +30,13 @@ export function AuthProvider({ children }) {
     if (!data.success) throw new Error(data.error || "Login failed");
     localStorage.setItem("rps_token", data.token);
     setToken(data.token);
-    setUser(data.user);
-    return data.user;
+    const u = normalise(data.user);
+    setUser(u);
+    return u;
   };
 
   const register = async (fields) => {
-    const res = await fetch(`${API_BASE}/auth/register`, {
+    const res  = await fetch(`${API_BASE}/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(fields),
@@ -44,8 +45,9 @@ export function AuthProvider({ children }) {
     if (!data.success) throw new Error(data.error || "Registration failed");
     localStorage.setItem("rps_token", data.token);
     setToken(data.token);
-    setUser(data.user);
-    return data.user;
+    const u = normalise(data.user);
+    setUser(u);
+    return u;
   };
 
   const logout = () => {
@@ -57,8 +59,12 @@ export function AuthProvider({ children }) {
   const authFetch = (path, opts = {}) =>
     fetch(`${API_BASE}${path}`, {
       ...opts,
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}`, ...(opts.headers || {}) },
-    }).then((r) => r.json());
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        ...(opts.headers || {}),
+      },
+    }).then(r => r.json());
 
   return (
     <AuthContext.Provider value={{ user, token, loading, login, register, logout, authFetch }}>
@@ -68,3 +74,15 @@ export function AuthProvider({ children }) {
 }
 
 export const useAuth = () => useContext(AuthContext);
+
+function normalise(u) {
+  if (!u) return u;
+  return {
+    ...u,
+    id:       u._id  || u.id,
+    fullName: u.fullName || u.name,
+    phone:    u.phone    || u.mobile,
+    city:     u.city     || u.location,
+    address:  u.address  || u.location,
+  };
+}
