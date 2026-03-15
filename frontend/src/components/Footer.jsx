@@ -25,7 +25,7 @@ export default function Footer() {
         {/* Left: copyright + weather button */}
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <span style={{ color: tk.green5, fontSize: 13, fontWeight: 600 }}>
-            © 2025 RPS Fields
+            © 2026 RPS Fields
           </span>
           {/* WEATHER BUTTON — always in footer */}
           <button
