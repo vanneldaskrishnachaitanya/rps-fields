@@ -123,8 +123,6 @@ export default function HomePage() {
       <div style={{ background: "#2d6a4f", padding: "18px 0" }}>
         <div style={{ maxWidth: 900, margin: "0 auto", display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
           {[
-            ["500+", "Verified Farmers"],
-            ["12,000+", "Happy Customers"],
             ["50+", "Product Types"],
             ["24h", "Fresh Guarantee"],
           ].map(([n, l], i) => (
