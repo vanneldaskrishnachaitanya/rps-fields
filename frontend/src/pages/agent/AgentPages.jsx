@@ -19,7 +19,6 @@ function AgentHeader({ title, sub }) {
 
 // ── Manage Products ───────────────────────────────────────────────────────────
 export function AgentProductsPage() {
-  const navigate = useNavigate();
   const { dark } = useTheme(); const tk = TK(dark);
   const { user, authFetch } = useAuth();
   const [products, setProducts] = useState([]);
@@ -278,7 +277,7 @@ export function AgentEditProductPage() {
         setForm({ name:p.name, category:p.category, pricePerKg:String(p.pricePerKg||p.price), quantity:String(p.quantity||p.qty), description:p.description, image:p.image||p.img||"" });
       }
     }).finally(()=>setLoading(false));
-  }, [id]);
+  }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }));
 
