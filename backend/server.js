@@ -9,7 +9,15 @@ const app = express();
 connectDB();
 
 // ── Middleware ────────────────────────────────────────────────────────────────
-app.use(cors({ origin: "*", methods: ["GET","POST","PUT","DELETE","OPTIONS"] }));
+app.use(cors({
+  origin: [
+    "http://localhost:3000",
+    "https://your-vercel-app.vercel.app",   // ← your actual Vercel URL
+    /\.vercel\.app$/,                        // allows all vercel preview URLs
+  ],
+  methods: ["GET","POST","PUT","DELETE","OPTIONS"],
+  credentials: true,
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
