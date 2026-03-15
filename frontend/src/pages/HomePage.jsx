@@ -79,7 +79,7 @@ export default function HomePage() {
             }}
           >
             RPS Fields connects you with verified farmers across India. Fresh produce,
-            fair prices, zero middlemen.
+            fair prices.
           </p>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
             <button
