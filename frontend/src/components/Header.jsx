@@ -62,7 +62,7 @@ export default function Header() {
     color, fontSize: 15, fontWeight: 700, cursor: "pointer",
     borderBottom: "1px solid rgba(255,255,255,0.08)",
     textDecoration: "none", background: "transparent",
-    border: "none", borderBottom: "1px solid rgba(255,255,255,0.08)",
+    border: "none",
     textAlign: "left", fontFamily: "inherit", boxSizing: "border-box",
   });
 
