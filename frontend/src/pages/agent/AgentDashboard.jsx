@@ -56,7 +56,7 @@ export default function AgentDashboard() {
       setRecentOrders(orders.slice(0,5));
       setPendingReqs(pending.requests||[]);
     }).catch(()=>{});
-  }, [user]);
+  }, [user]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const card = { background:tk.bgCard, borderRadius:16, padding:24, boxShadow:tk.shadow, border:`1px solid ${tk.border}` };
 

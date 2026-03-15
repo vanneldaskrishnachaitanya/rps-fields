@@ -8,7 +8,7 @@ export default function CustomerDashboard() {
   const navigate = useNavigate();
   const { dark } = useTheme(); const tk = TK(dark);
   const { user, authFetch } = useAuth();
-  const { itemCount, total } = useCart();
+  const { itemCount } = useCart();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 

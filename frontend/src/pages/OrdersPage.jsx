@@ -17,7 +17,7 @@ export default function OrdersPage() {
     authFetch("/orders")
       .then(d => { if (d.success) setOrders(d.orders || []); })
       .finally(() => setLoading(false));
-  }, [user]);
+  }, [user]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!user) return null;
 

@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useTheme, TK } from "../../context/ThemeContext";
 import { useAuth } from "../../context/AuthContext";
 import { FarmerNav } from "./FarmerAgentPages";
 
 export default function FarmerRevenuePage() {
-  const navigate = useNavigate();
   const { dark } = useTheme(); const tk = TK(dark);
-  const { user, authFetch } = useAuth();
+  const { authFetch } = useAuth();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -15,7 +13,7 @@ export default function FarmerRevenuePage() {
     authFetch("/farmer/orders")
       .then(d => setOrders(d.orders||[]))
       .finally(()=>setLoading(false));
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const totalRevenue = orders.reduce((s,o)=>s+(o.totalPrice||o.total||0),0);
   const delivered    = orders.filter(o=>o.status==="delivered");

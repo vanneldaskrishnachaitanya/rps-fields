@@ -87,7 +87,7 @@ export function AdminLayout({ title, children }) {
 
   useEffect(() => {
     if (!isAdminLoggedIn()) navigate("/admin/login");
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!isAdminLoggedIn()) return null;
 
@@ -157,7 +157,7 @@ export function AdminLoginPage() {
 
   useEffect(() => {
     if (isAdminLoggedIn()) navigate("/admin/dashboard");
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleLogin = async () => {
     if (!email || !password) { setError("Enter email and password."); return; }
@@ -244,7 +244,7 @@ export function AdminDashboard() {
   const [stats, setStats] = useState(null);
   useEffect(() => {
     adminFetch("/admin/stats").then(d => { if (d.success) setStats(d.stats); }).catch(() => {});
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <AdminLayout title="📊 Dashboard Overview">
@@ -345,7 +345,7 @@ export function AdminFarmersPage() {
 
   useEffect(() => {
     adminFetch("/admin/farmers").then(d => { if (d.success) setFarmers(d.farmers); }).finally(() => setLoading(false));
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const setStatus = async (id, status) => {
     setActing(a => ({ ...a, [id]: true }));
@@ -394,7 +394,7 @@ export function AdminAgentsPage() {
 
   useEffect(() => {
     adminFetch("/admin/users?role=agent").then(d => { if (d.success) setAgents(d.users); }).finally(() => setLoading(false));
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const setStatus = async (id, status) => {
     setActing(a => ({ ...a, [id]: true }));
@@ -440,7 +440,7 @@ export function AdminProductsPage() {
     setLoading(true);
     adminFetch("/admin/products").then(d => { if (d.success) setProducts(d.products); }).finally(() => setLoading(false));
   };
-  useEffect(() => { load(); }, []);
+  useEffect(() => { load(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const remove = async (id) => {
     if (!window.confirm("Remove this product?")) return;
@@ -478,7 +478,7 @@ export function AdminOrdersPage() {
 
   useEffect(() => {
     adminFetch("/admin/orders").then(d => { if (d.success) setOrders(d.orders); }).finally(() => setLoading(false));
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const statusColor = s => s === "delivered" ? A.green : s === "cancelled" ? A.red : A.blue;
 

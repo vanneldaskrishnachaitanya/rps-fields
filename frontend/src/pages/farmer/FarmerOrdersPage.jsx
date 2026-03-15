@@ -26,7 +26,7 @@ export function FarmerOrdersPage() {
     authFetch("/farmer/orders")
       .then(d => { if (d.success) setOrders(d.orders); })
       .finally(() => setLoading(false));
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div style={{ background:tk.bg, minHeight:"100%" }}>

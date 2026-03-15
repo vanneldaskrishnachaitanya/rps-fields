@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import { useTheme, TK } from "../../context/ThemeContext";
 import { useAuth } from "../../context/AuthContext";
@@ -26,13 +26,13 @@ export function AgentProductsPage() {
   const [loading, setLoading] = useState(true);
   const [msg, setMsg] = useState("");
 
-  const load = () => {
+  const load = useCallback(() => {
     setLoading(true);
     authFetch(`/products?agentId=${user?.id||user?._id}`)
       .then(d => setProducts(d.products || []))
       .finally(() => setLoading(false));
-  };
-  useEffect(() => { load(); }, []);
+  }, [authFetch, user]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { load(); }, [load]);
 
   const handleDelete = async (id, name) => {
     if (!window.confirm(`Delete "${name}"?`)) return;
@@ -98,7 +98,7 @@ export function AgentOrdersPage() {
     authFetch("/orders/agent/orders")
       .then(d => setOrders(d.orders||[]))
       .finally(()=>setLoading(false));
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div style={{ background:tk.bg, minHeight:"100%" }}>
@@ -150,7 +150,7 @@ export function AgentFarmersPage() {
     authFetch("/partnerships/my-farmers")
       .then(d => setFarmers(d.farmers||[]))
       .finally(()=>setLoading(false));
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div style={{ background:tk.bg, minHeight:"100%" }}>
@@ -196,13 +196,13 @@ export function AgentRequestsPage() {
   const [loading, setLoading]   = useState(true);
   const [responding, setResponding] = useState({});
 
-  const load = () => {
+  const load = useCallback(() => {
     setLoading(true);
     authFetch("/partnerships/pending")
       .then(d => setRequests(d.requests||[]))
       .finally(()=>setLoading(false));
-  };
-  useEffect(() => { load(); }, []);
+  }, [authFetch]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { load(); }, [load]);
 
   const respond = async (id, status) => {
     setResponding(r => ({...r,[id]:status}));

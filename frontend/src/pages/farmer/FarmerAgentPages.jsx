@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useTheme, TK } from "../../context/ThemeContext";
 import { useAuth } from "../../context/AuthContext";
 
@@ -32,7 +32,7 @@ export { FarmerNav };
 // ── Find Agents Page ──────────────────────────────────────────────────────────
 export function FindAgentsPage() {
   const { dark } = useTheme(); const tk = TK(dark);
-  const { authFetch, user } = useAuth();
+  const { authFetch } = useAuth();
   const [agents, setAgents]       = useState([]);
   const [search, setSearch]       = useState("");
   const [loading, setLoading]     = useState(true);
@@ -43,7 +43,7 @@ export function FindAgentsPage() {
     authFetch(`/partnerships/agents${search ? `?search=${encodeURIComponent(search)}` : ""}`)
       .then(d => setAgents(d.agents||[]))
       .finally(()=>setLoading(false));
-  }, [search]);
+  }, [search]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleConnect = async (agentId) => {
     setConnecting(c => ({...c,[agentId]:true}));
@@ -117,7 +117,7 @@ export function PartneredAgentsPage() {
     authFetch("/partnerships/my-agents")
       .then(d => setAgents(d.agents||[]))
       .finally(()=>setLoading(false));
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div style={{ background:tk.bg, minHeight:"100%" }}>

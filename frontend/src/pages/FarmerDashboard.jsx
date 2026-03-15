@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useTheme, TK } from "../context/ThemeContext";
 import { useAuth } from "../context/AuthContext";
 
@@ -24,7 +24,7 @@ export default function FarmerDashboard() {
         rating: { avg: rat.avgRating||0, total: rat.totalRatings||0 },
       });
     }).finally(()=>setLoading(false));
-  }, [user]);
+  }, [user]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const totalRevenue  = data.orders.reduce((s,o)=>s+(o.totalPrice||o.total||0),0);
   const totalQty      = data.products.reduce((s,p)=>s+(p.quantity||p.qty||0),0);

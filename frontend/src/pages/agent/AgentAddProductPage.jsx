@@ -17,7 +17,7 @@ const QUICK_IMGS = [
 export default function AgentAddProductPage() {
   const navigate = useNavigate();
   const { dark } = useTheme(); const tk = TK(dark);
-  const { user, authFetch } = useAuth();
+  const { authFetch } = useAuth();
 
   const [form, setForm] = useState({ name:"", category:"Vegetables", pricePerKg:"", quantity:"", description:"", farmerId:"", image:"" });
   const [errors, setErrors] = useState({});
@@ -30,7 +30,7 @@ export default function AgentAddProductPage() {
     authFetch("/partnerships/my-farmers")
       .then(d => setFarmers(d.farmers || []))
       .catch(()=>{});
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }));
 

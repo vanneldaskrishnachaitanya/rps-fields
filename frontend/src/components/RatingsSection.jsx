@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useTheme, TK } from "../context/ThemeContext";
 import { useAuth, API_BASE } from "../context/AuthContext";
 import RateProductModal from "./RateProductModal";
@@ -12,7 +12,7 @@ export default function RatingsSection({ productId, orderId, orderItem }) {
   const [loading, setLoading]     = useState(true);
   const [showModal, setShowModal] = useState(false);
 
-  const load = () => {
+  const load = useCallback(() => {
     fetch(`${API_BASE}/ratings/product/${productId}`)
       .then(r => r.json())
       .then(d => {
@@ -23,9 +23,9 @@ export default function RatingsSection({ productId, orderId, orderItem }) {
         }
       })
       .finally(() => setLoading(false));
-  };
+  }, [productId]);
 
-  useEffect(() => { if (productId) load(); }, [productId]);
+  useEffect(() => { if (productId) load(); }, [productId, load]);
 
   const stars = n => "★".repeat(Math.max(0, n)) + "☆".repeat(Math.max(0, 5 - n));
 

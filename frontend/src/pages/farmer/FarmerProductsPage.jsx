@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useTheme, TK } from "../../context/ThemeContext";
 import { useAuth } from "../../context/AuthContext";
 
 export default function FarmerProductsPage() {
-  const navigate = useNavigate();
   const { dark } = useTheme(); const tk = TK(dark);
   const { user, authFetch } = useAuth();
   const [products, setProducts] = useState([]);
@@ -18,7 +17,7 @@ export default function FarmerProductsPage() {
       .finally(() => setLoading(false));
   };
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => { load(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleDelete = async (id, name) => {
     if (!window.confirm(`Delete "${name}"? This cannot be undone.`)) return;

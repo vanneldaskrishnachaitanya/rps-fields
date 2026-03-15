@@ -1,10 +1,8 @@
-import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
 import { useTheme, TK } from "../context/ThemeContext";
 
 // ── About Page ────────────────────────────────────────────────────────────────
 export function AboutPage() {
-  const navigate = useNavigate();
   const { dark } = useTheme();
   const tk = TK(dark);
   return (
@@ -62,7 +60,6 @@ export function AboutPage() {
 
 // ── Contact Page ──────────────────────────────────────────────────────────────
 export function ContactPage() {
-  const navigate = useNavigate();
   const { dark } = useTheme();
   const tk = TK(dark);
   const [sent, setSent] = useState(false);
@@ -139,7 +136,6 @@ export function ContactPage() {
 
 // ── Privacy Policy Page ───────────────────────────────────────────────────────
 export function PrivacyPage() {
-  const navigate = useNavigate();
   const { dark } = useTheme();
   const tk = TK(dark);
   return (
@@ -158,7 +154,6 @@ export function PrivacyPage() {
 
 // ── Terms of Service Page ─────────────────────────────────────────────────────
 export function TermsPage() {
-  const navigate = useNavigate();
   const { dark } = useTheme();
   const tk = TK(dark);
   return (
@@ -195,7 +190,6 @@ function StaticPage({ title, emoji, children, tk }) {
 
 // ── 404 Not Found Page ────────────────────────────────────────────────────────
 export function NotFoundPage() {
-  const navigate = useNavigate();
   const { dark } = useTheme();
   const tk = TK(dark);
   return (
