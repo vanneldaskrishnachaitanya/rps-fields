@@ -51,37 +51,37 @@ async function seedDemoData() {
       name: "Admin",      fullName: "Admin",      username: "admin",
       email: "admin@rpsfields.in", password: "admin123", role: "admin",
       mobile: "9000000000", phone: "9000000000",
-      location: "Mumbai", city: "Mumbai", status: "active",
+      location: "Secunderabad, Telangana", city: "Secunderabad", status: "active",
     });
 
     const farmer1 = await User.create({
       name: "Ravi Kumar",   fullName: "Ravi Kumar",   username: "ravikumar",
       email: "ravi@farm.in",   password: "farm1234",  role: "farmer",
       mobile: "9876543210",    phone: "9876543210",
-      location: "Pune, Maharashtra",  city: "Pune",
-      address: "Village Sinhagad, Pune", status: "active",
+      location: "Warangal, Telangana",  city: "Warangal",
+      address: "Warangal Rural, Telangana", status: "active",
     });
 
     const farmer2 = await User.create({
       name: "Abdul Khan",   fullName: "Abdul Khan",   username: "abdulkhan",
       email: "abdul@farm.in",  password: "farm1234",  role: "farmer",
       mobile: "9123456780",    phone: "9123456780",
-      location: "Srinagar, Kashmir", city: "Srinagar",
-      address: "Srinagar Valley",    status: "active",
+      location: "Nizamabad, Telangana", city: "Nizamabad",
+      address: "Nizamabad District, Telangana",    status: "active",
     });
 
     const agent1 = await User.create({
       name: "Priya Sharma", fullName: "Priya Sharma", username: "priyasharma",
       email: "priya@agent.in", password: "agent1234", role: "agent",
       mobile: "9988776655",    phone: "9988776655",
-      location: "Mumbai, Maharashtra", city: "Mumbai", status: "active",
+      location: "Medak, Telangana", city: "Medak", status: "active",
     });
 
     await User.create({
       name: "Test Customer", fullName: "Test Customer", username: "testcustomer",
       email: "customer@test.in", password: "cust1234", role: "customer",
       mobile: "9000000001",      phone: "9000000001",
-      location: "Hyderabad, Telangana", city: "Hyderabad", status: "active",
+      location: "Karimnagar, Telangana", city: "Karimnagar", status: "active",
     });
 
     await Partnership.create({ farmerId: farmer1._id, agentId: agent1._id, status: "accepted" });
