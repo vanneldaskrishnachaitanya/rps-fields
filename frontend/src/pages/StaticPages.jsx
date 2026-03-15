@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useTheme, TK } from "../context/ThemeContext";
 
 // ── About Page ────────────────────────────────────────────────────────────────
@@ -192,6 +193,7 @@ function StaticPage({ title, emoji, children, tk }) {
 export function NotFoundPage() {
   const { dark } = useTheme();
   const tk = TK(dark);
+  const navigate = useNavigate();
   return (
     <div style={{ background: tk.bg, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "80px 20px", minHeight: "100%" }}>
       <div style={{ fontSize: 80, marginBottom: 16 }}>🌿</div>
