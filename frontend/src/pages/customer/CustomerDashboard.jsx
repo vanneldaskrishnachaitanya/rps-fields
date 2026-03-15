@@ -17,7 +17,7 @@ export default function CustomerDashboard() {
       .then(d => { if (d.success) setOrders(d.orders); })
       .catch(() => {})
       .finally(() => setLoading(false));
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const recentOrders = [...orders].reverse().slice(0, 3);
   const totalSpent = orders.reduce((s, o) => s + o.total, 0);
