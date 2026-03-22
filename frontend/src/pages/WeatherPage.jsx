@@ -26,7 +26,6 @@ const WMO_CODES = {
 };
 
 const getWMO = code => WMO_CODES[code] || { label:"Unknown", emoji:"🌡️" };
-
 const DAYS   = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
@@ -59,20 +58,15 @@ export default function WeatherPage() {
     if (!cityName.trim()) return;
     setLoading(true); setError(""); setWeather(null);
     try {
-      // Step 1: Geocode city → coordinates (free, no key needed)
       const geoRes  = await fetch(
         `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cityName)}&count=1&language=en&format=json`
       );
       const geoData = await geoRes.json();
-
       if (!geoData.results?.length) {
         setError(`City "${cityName}" not found. Try a different spelling.`);
         setLoading(false); return;
       }
-
       const { latitude, longitude, name, country } = geoData.results[0];
-
-      // Step 2: Fetch live weather (free, no key needed)
       const wxRes  = await fetch(
         `https://api.open-meteo.com/v1/forecast?` +
         `latitude=${latitude}&longitude=${longitude}` +
@@ -82,7 +76,6 @@ export default function WeatherPage() {
         `&timezone=auto&forecast_days=7`
       );
       const wxData = await wxRes.json();
-
       setWeather({ ...wxData, cityName: name, country });
       setCity(name);
     } catch {
@@ -119,42 +112,28 @@ export default function WeatherPage() {
     sunset:  weather.daily.sunset[i],
   })) : [];
 
-  const card = {
-    background: dark ? "#1a2e1e" : "#1b4332",
-    borderRadius: 16, padding: "20px 22px",
-    border: "1px solid rgba(255,255,255,0.1)",
-  };
+  const card = { background: dark ? "#1a2e1e" : "#1b4332", borderRadius: 16, padding: "20px 22px", border: "1px solid rgba(255,255,255,0.1)" };
 
   return (
     <div style={{ background: tk.bg, minHeight: "100%" }}>
-      {/* Banner */}
       <div style={{ background: "linear-gradient(135deg,#1b4332,#2d6a4f,#40916c)", padding: "50px 20px", textAlign: "center" }}>
-        <h1 style={{ color: "#fff", fontSize: 38, fontFamily: "'Playfair Display',Georgia,serif", marginBottom: 8 }}>
-          🌤️ Weather Dashboard
-        </h1>
-        <p style={{ color: "rgba(255,255,255,0.75)", fontSize: 15 }}>
-          Real-time weather for any city — powered by Open-Meteo
-        </p>
+        <h1 style={{ color: "#fff", fontSize: 38, fontFamily: "'Playfair Display',Georgia,serif", marginBottom: 8 }}>🌤️ Weather Dashboard</h1>
+        <p style={{ color: "rgba(255,255,255,0.75)", fontSize: 15 }}>Real-time weather for any city — powered by Open-Meteo</p>
       </div>
 
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "36px 20px" }}>
 
-        {/* Search */}
         <div style={{ display: "flex", gap: 10, marginBottom: 16 }}>
-          <input
-            value={input}
-            onChange={e => setInput(e.target.value)}
+          <input value={input} onChange={e => setInput(e.target.value)}
             onKeyDown={e => e.key === "Enter" && fetchWeather(input)}
             placeholder="Search any city... e.g. Hyderabad, Warangal, Mumbai"
-            style={{ flex: 1, padding: "12px 18px", borderRadius: 12, border: `1.5px solid ${tk.border}`, background: tk.bgInput, color: tk.text, fontSize: 15, outline: "none", fontFamily: "inherit" }}
-          />
+            style={{ flex: 1, padding: "12px 18px", borderRadius: 12, border: `1.5px solid ${tk.border}`, background: tk.bgInput, color: tk.text, fontSize: 15, outline: "none", fontFamily: "inherit" }} />
           <button onClick={() => fetchWeather(input)} disabled={loading}
             style={{ padding: "12px 28px", background: "linear-gradient(135deg,#52b788,#40916c)", color: "#fff", border: "none", borderRadius: 12, cursor: loading ? "not-allowed" : "pointer", fontWeight: 700, fontSize: 15, fontFamily: "inherit" }}>
             {loading ? "..." : "Search"}
           </button>
         </div>
 
-        {/* Quick cities */}
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 28 }}>
           {QUICK_CITIES.map(c => (
             <button key={c} onClick={() => { setInput(c); fetchWeather(c); }}
@@ -164,14 +143,8 @@ export default function WeatherPage() {
           ))}
         </div>
 
-        {/* Error */}
-        {error && (
-          <div style={{ background: "#fff3cd", border: "1px solid #ffc107", borderRadius: 12, padding: "14px 18px", marginBottom: 24, color: "#856404", fontWeight: 600 }}>
-            ⚠ {error}
-          </div>
-        )}
+        {error && <div style={{ background: "#fff3cd", border: "1px solid #ffc107", borderRadius: 12, padding: "14px 18px", marginBottom: 24, color: "#856404", fontWeight: 600 }}>⚠ {error}</div>}
 
-        {/* Loading */}
         {loading && (
           <div style={{ textAlign: "center", padding: 60, color: tk.textLt }}>
             <div style={{ fontSize: 56, marginBottom: 12 }}>🌤️</div>
@@ -179,32 +152,17 @@ export default function WeatherPage() {
           </div>
         )}
 
-        {/* Current weather */}
         {weather && curr && !loading && (
           <>
             <div style={{ ...card, marginBottom: 20, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 20 }}>
               <div>
-                <div style={{ color: "rgba(255,255,255,0.6)", fontSize: 12, letterSpacing: "2px", textTransform: "uppercase", marginBottom: 6 }}>
-                  📍 {weather.cityName}, {weather.country}
-                </div>
-                <div style={{ fontSize: 72, fontWeight: 800, color: "#fff", lineHeight: 1 }}>
-                  {Math.round(curr.temperature_2m)}°C
-                </div>
-                <div style={{ fontSize: 22, marginTop: 6, color: "rgba(255,255,255,0.85)" }}>
-                  {wmo.emoji} {wmo.label}
-                </div>
-                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.55)", marginTop: 4 }}>
-                  Feels like {Math.round(curr.apparent_temperature)}°C
-                </div>
+                <div style={{ color: "rgba(255,255,255,0.6)", fontSize: 12, letterSpacing: "2px", textTransform: "uppercase", marginBottom: 6 }}>📍 {weather.cityName}, {weather.country}</div>
+                <div style={{ fontSize: 72, fontWeight: 800, color: "#fff", lineHeight: 1 }}>{Math.round(curr.temperature_2m)}°C</div>
+                <div style={{ fontSize: 22, marginTop: 6, color: "rgba(255,255,255,0.85)" }}>{wmo.emoji} {wmo.label}</div>
+                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.55)", marginTop: 4 }}>Feels like {Math.round(curr.apparent_temperature)}°C</div>
               </div>
-
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, minWidth: 260 }}>
-                {[
-                  ["💧", `${curr.relative_humidity_2m}%`,            "Humidity"],
-                  ["💨", `${curr.wind_speed_10m} km/h`,              "Wind Speed"],
-                  ["🌡️", `${Math.round(curr.apparent_temperature)}°C`, "Feels Like"],
-                  ["☀️", `${curr.uv_index}/11`,                       "UV Index"],
-                ].map(([icon, val, lbl]) => (
+                {[["💧", `${curr.relative_humidity_2m}%`, "Humidity"], ["💨", `${curr.wind_speed_10m} km/h`, "Wind Speed"], ["🌡️", `${Math.round(curr.apparent_temperature)}°C`, "Feels Like"], ["☀️", `${curr.uv_index}/11`, "UV Index"]].map(([icon, val, lbl]) => (
                   <div key={lbl} style={{ background: "rgba(255,255,255,0.07)", borderRadius: 12, padding: "14px 16px", textAlign: "center" }}>
                     <div style={{ fontSize: 24, marginBottom: 4 }}>{icon}</div>
                     <div style={{ fontSize: 20, fontWeight: 800, color: "#fff" }}>{val}</div>
@@ -214,7 +172,6 @@ export default function WeatherPage() {
               </div>
             </div>
 
-            {/* Tabs */}
             <div style={{ display: "flex", gap: 8, marginBottom: 20 }}>
               {[["hourly","🌡️ Hourly"], ["daily","📅 7-Day Forecast"], ["rain","🌧️ Rain Chance"]].map(([key, lbl]) => (
                 <button key={key} onClick={() => setTab(key)}
@@ -224,7 +181,6 @@ export default function WeatherPage() {
               ))}
             </div>
 
-            {/* Hourly tab */}
             {tab === "hourly" && (
               <div style={{ background: tk.bgCard, borderRadius: 16, border: `1px solid ${tk.border}`, padding: "20px 16px", overflowX: "auto" }}>
                 <div style={{ display: "flex", gap: 10, minWidth: "max-content" }}>
@@ -240,14 +196,11 @@ export default function WeatherPage() {
               </div>
             )}
 
-            {/* 7-Day tab */}
             {tab === "daily" && (
               <div style={{ background: tk.bgCard, borderRadius: 16, border: `1px solid ${tk.border}`, overflow: "hidden" }}>
                 {daily.map((d, i) => (
                   <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 22px", borderBottom: i < daily.length - 1 ? `1px solid ${tk.border}` : "none", background: i === 0 ? `${tk.green6}11` : "transparent", flexWrap: "wrap", gap: 10 }}>
-                    <div style={{ fontWeight: 700, color: tk.text, minWidth: 130 }}>
-                      {i === 0 ? "Today" : i === 1 ? "Tomorrow" : formatDay(d.date)}
-                    </div>
+                    <div style={{ fontWeight: 700, color: tk.text, minWidth: 130 }}>{i === 0 ? "Today" : i === 1 ? "Tomorrow" : formatDay(d.date)}</div>
                     <div style={{ fontSize: 24 }}>{getWMO(d.code).emoji}</div>
                     <div style={{ color: tk.textMid, fontSize: 13 }}>{getWMO(d.code).label}</div>
                     <div style={{ color: "#3b82f6", fontSize: 13 }}>💧 {d.rain}%</div>
@@ -255,20 +208,15 @@ export default function WeatherPage() {
                       <span style={{ fontWeight: 800, color: "#ef4444" }}>↑{Math.round(d.max)}°</span>
                       <span style={{ fontWeight: 600, color: "#60a5fa" }}>↓{Math.round(d.min)}°</span>
                     </div>
-                    <div style={{ fontSize: 11, color: tk.textLt }}>
-                      🌅{d.sunrise?.split("T")[1]?.slice(0, 5)} 🌇{d.sunset?.split("T")[1]?.slice(0, 5)}
-                    </div>
+                    <div style={{ fontSize: 11, color: tk.textLt }}>🌅{d.sunrise?.split("T")[1]?.slice(0, 5)} 🌇{d.sunset?.split("T")[1]?.slice(0, 5)}</div>
                   </div>
                 ))}
               </div>
             )}
 
-            {/* Rain tab */}
             {tab === "rain" && (
               <div style={{ background: tk.bgCard, borderRadius: 16, border: `1px solid ${tk.border}`, padding: "24px 22px" }}>
-                <h3 style={{ color: tk.text, fontWeight: 800, fontSize: 16, marginBottom: 20 }}>
-                  💧 Hourly Rain Probability (Next 24h)
-                </h3>
+                <h3 style={{ color: tk.text, fontWeight: 800, fontSize: 16, marginBottom: 20 }}>💧 Hourly Rain Probability (Next 24h)</h3>
                 {hourly.map((h, i) => (
                   <div key={i} style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 10 }}>
                     <span style={{ color: tk.textLt, fontSize: 12, width: 42, flexShrink: 0 }}>{i === 0 ? "Now" : formatTime(h.time)}</span>
