@@ -166,7 +166,6 @@ function RegistrationForm({ type }) {
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 16px" }}>
 
-          {/* 1. Full Name — full width */}
           <div style={{ marginBottom: 14, gridColumn: "1 / -1" }}>
             {lbl("Full Name")}
             <input type="text" style={inp(!!errors.fullName)} placeholder="Your full name"
@@ -174,7 +173,6 @@ function RegistrationForm({ type }) {
             {errMsg("fullName")}
           </div>
 
-          {/* 2. Username */}
           <div style={{ marginBottom: 14 }}>
             {lbl("Username")}
             <input type="text" style={inp(!!errors.username)} placeholder="Min 6 characters"
@@ -182,7 +180,6 @@ function RegistrationForm({ type }) {
             {errMsg("username")}
           </div>
 
-          {/* 3. Email */}
           <div style={{ marginBottom: 14 }}>
             {lbl("Email")}
             <input type="email" style={inp(!!errors.email)} placeholder="you@email.com"
@@ -190,7 +187,6 @@ function RegistrationForm({ type }) {
             {errMsg("email")}
           </div>
 
-          {/* 4. Mobile */}
           <div style={{ marginBottom: 14 }}>
             {lbl("Mobile Number")}
             <input type="tel" style={inp(!!errors.mobile)} placeholder="10-digit number"
@@ -200,7 +196,6 @@ function RegistrationForm({ type }) {
             {errMsg("mobile")}
           </div>
 
-          {/* 5. Location */}
           <div style={{ marginBottom: 14 }}>
             {lbl(cfg.locationLabel)}
             <input type="text" style={inp(!!errors.location)} placeholder={cfg.locationPlaceholder}
@@ -208,7 +203,6 @@ function RegistrationForm({ type }) {
             {errMsg("location")}
           </div>
 
-          {/* 6. Password */}
           <div style={{ marginBottom: 14 }}>
             {lbl("Password")}
             <input type="password" style={inp(!!errors.password)} placeholder="Min 6 characters"
@@ -216,7 +210,6 @@ function RegistrationForm({ type }) {
             {errMsg("password")}
           </div>
 
-          {/* 7. Confirm Password */}
           <div style={{ marginBottom: 14 }}>
             {lbl("Confirm Password")}
             <input type="password" style={inp(!!errors.confirmPassword)} placeholder="Repeat password"
@@ -224,7 +217,6 @@ function RegistrationForm({ type }) {
             {errMsg("confirmPassword")}
           </div>
 
-          {/* 8. Extra — full width, optional */}
           <div style={{ marginBottom: 24, gridColumn: "1 / -1" }}>
             {lbl(cfg.extraLabel, false)}
             <input type="text" style={inp(false)} placeholder={cfg.extraPlaceholder}
@@ -232,7 +224,6 @@ function RegistrationForm({ type }) {
           </div>
         </div>
 
-        {/* Validation summary */}
         {Object.keys(errors).length > 0 && (
           <div style={{ background: dark ? "#2a1010" : "#fff5f5", border: "1px solid #e74c3c44", borderRadius: 10, padding: "10px 14px", marginBottom: 16 }}>
             <div style={{ fontSize: 12, fontWeight: 700, color: "#e74c3c", marginBottom: 4 }}>Please fix the following:</div>
@@ -257,7 +248,6 @@ function RegistrationForm({ type }) {
           <span onClick={() => navigate("/login")} style={{ color: tk.green7, cursor: "pointer", fontWeight: 700 }}>Login here</span>
         </p>
 
-        {/* Requirements */}
         <div style={{ marginTop: 16, padding: "12px 16px", background: tk.bgMuted, borderRadius: 10, border: `1px solid ${tk.border}` }}>
           <div style={{ fontSize: 11, fontWeight: 700, color: tk.textMid, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 6 }}>Field Requirements</div>
           {[
