@@ -1,9 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useTheme, TK } from "../context/ThemeContext";
+import { Link } from "react-router-dom";
+import { useTheme } from "../context/ThemeContext";
 
 export default function Footer() {
   const { dark } = useTheme();
-  const tk = TK(dark);
 
   return (
     <footer style={{
