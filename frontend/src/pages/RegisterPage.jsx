@@ -60,7 +60,7 @@ export default function RegisterPage() {
             <p style={{ color:tk.textLt, fontSize:13, lineHeight:1.7, marginBottom:24, minHeight:54 }}>{opt.desc}</p>
 
             <button onClick={e => { e.stopPropagation(); navigate(opt.path); }}
-              style={{ background:opt.grad, color:"#fff", border:"none", width:"100%", padding:"12px 0", borderRadius:12, cursor:"pointer", fontWeight:800, fontSize:14, fontFamily:"inherit", boxShadow:`0 4px 16px ${opt.color}35`, transition:"all 0.2s" }}
+              style={{ background:opt.grad, color:"#fff", border:"none", width:"100%", padding:"12px 0", borderRadius:12, cursor:"pointer", fontWeight:800, fontSize:14, fontFamily:"'Inter',sans-serif", boxShadow:`0 4px 16px ${opt.color}35`, transition:"all 0.2s" }}
               onMouseEnter={e => { e.target.style.transform="translateY(-1px)"; e.target.style.boxShadow=`0 8px 24px ${opt.color}50`; }}
               onMouseLeave={e => { e.target.style.transform="none"; e.target.style.boxShadow=`0 4px 16px ${opt.color}35`; }}
             >{opt.btn} →</button>

@@ -50,7 +50,7 @@ export default function LoginPage() {
     border:`1.5px solid ${hasErr ? "#e74c3c" : tk.border}`,
     background: hasErr ? (dark?"#2a1010":"#fff0f0") : tk.bgInput,
     color:tk.text, fontSize:14, boxSizing:"border-box",
-    outline:"none", fontFamily:"inherit",
+    outline:"none", fontFamily:"'Inter',sans-serif",
     transition:"border-color 0.2s, box-shadow 0.2s",
   });
 
@@ -112,7 +112,7 @@ export default function LoginPage() {
             background: loading ? tk.border : "linear-gradient(135deg,#52b788,#2d6a4f)",
             color:"#fff", border:"none", width:"100%", padding:"14px",
             borderRadius:12, cursor: loading?"not-allowed":"pointer",
-            fontWeight:800, fontSize:15, fontFamily:"inherit",
+            fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif",
             boxShadow: loading?"none":"0 6px 20px rgba(82,183,136,0.35)",
             transition:"all 0.25s", opacity: loading?0.75:1,
           }}
@@ -131,7 +131,7 @@ export default function LoginPage() {
                   fontSize:11, padding:"7px 10px",
                   background: dark?"rgba(82,183,136,0.1)":"rgba(82,183,136,0.08)",
                   border:`1px solid ${tk.border}`, borderRadius:8,
-                  color:tk.textMid, cursor:"pointer", fontFamily:"inherit",
+                  color:tk.textMid, cursor:"pointer", fontFamily:"'Inter',sans-serif",
                   fontWeight:700, textAlign:"left", transition:"all 0.2s",
                 }}
                   onMouseEnter={e2 => { e2.target.style.background="rgba(82,183,136,0.2)"; e2.target.style.borderColor="#52b788"; e2.target.style.color=tk.text; }}

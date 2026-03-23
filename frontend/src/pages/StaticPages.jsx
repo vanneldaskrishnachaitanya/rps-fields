@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useTheme, TK } from "../context/ThemeContext";
 
 function Banner({ title, sub, emoji }) {
-  const { dark } = useTheme(); const tk = TK(dark); // eslint-disable-line no-unused-vars
+  const { dark } = useTheme();
   return (
     <div style={{ background:"linear-gradient(135deg,#0d2b1a,#1b4332,#2d6a4f)", padding:"56px 20px", textAlign:"center", position:"relative", overflow:"hidden" }}>
       <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(circle at 30% 50%,rgba(82,183,136,0.1),transparent 55%)", pointerEvents:"none" }} />
@@ -66,7 +66,7 @@ export function ContactPage() {
   const [sent, setSent] = useState(false);
   const [form, setForm] = useState({ name:"", email:"", subject:"", message:"" });
   const set = k => e => setForm(f=>({...f,[k]:e.target.value}));
-  const inp = { width:"100%", padding:"12px 16px", borderRadius:12, border:`1.5px solid ${tk.border}`, background:tk.bgInput, color:tk.text, fontSize:14, boxSizing:"border-box", outline:"none", fontFamily:"inherit", transition:"all 0.2s" };
+  const inp = { width:"100%", padding:"12px 16px", borderRadius:12, border:`1.5px solid ${tk.border}`, background:tk.bgInput, color:tk.text, fontSize:14, boxSizing:"border-box", outline:"none", fontFamily:"'Inter',sans-serif", transition:"all 0.2s" };
 
   return (
     <div style={{ background:tk.bg, minHeight:"100%" }}>
@@ -93,7 +93,7 @@ export function ContactPage() {
               <div style={{ fontSize:64, marginBottom:16, animation:"bounce 0.6s ease" }}>✅</div>
               <h3 style={{ fontSize:24, color:tk.text, marginBottom:8, fontFamily:"'Playfair Display',Georgia,serif" }}>Message Sent!</h3>
               <p style={{ color:tk.textLt, marginBottom:24 }}>We'll get back to you within 24 hours.</p>
-              <button onClick={()=>setSent(false)} style={{ background:"linear-gradient(135deg,#52b788,#2d6a4f)", color:"#fff", border:"none", padding:"12px 28px", borderRadius:50, cursor:"pointer", fontWeight:800, fontFamily:"inherit" }}>Send Another</button>
+              <button onClick={()=>setSent(false)} style={{ background:"linear-gradient(135deg,#52b788,#2d6a4f)", color:"#fff", border:"none", padding:"12px 28px", borderRadius:50, cursor:"pointer", fontWeight:800, fontFamily:"'Inter',sans-serif" }}>Send Another</button>
             </div>
           ) : (
             <div style={{ background:tk.bgCard, borderRadius:24, padding:36, border:`1px solid ${tk.border}`, animation:"slideRight 0.5s ease both" }}>
@@ -112,7 +112,7 @@ export function ContactPage() {
                 <textarea style={{ ...inp, minHeight:110, resize:"vertical" }} placeholder="Your message..." value={form.message} onChange={set("message")} onFocus={e=>{e.target.style.borderColor="#52b788";}} onBlur={e=>{e.target.style.borderColor=tk.border;}} />
               </div>
               <button onClick={()=>form.name&&form.email&&form.message&&setSent(true)}
-                style={{ background:"linear-gradient(135deg,#52b788,#2d6a4f)", color:"#fff", border:"none", width:"100%", padding:14, borderRadius:14, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"inherit", boxShadow:"0 6px 20px rgba(82,183,136,0.35)", transition:"all 0.2s" }}
+                style={{ background:"linear-gradient(135deg,#52b788,#2d6a4f)", color:"#fff", border:"none", width:"100%", padding:14, borderRadius:14, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", boxShadow:"0 6px 20px rgba(82,183,136,0.35)", transition:"all 0.2s" }}
                 onMouseEnter={e=>{e.target.style.transform="translateY(-1px)"; e.target.style.boxShadow="0 10px 28px rgba(82,183,136,0.5)";}}
                 onMouseLeave={e=>{e.target.style.transform="none"; e.target.style.boxShadow="0 6px 20px rgba(82,183,136,0.35)";}}>
                 Send Message →
@@ -183,7 +183,7 @@ export function NotFoundPage() {
       <div style={{ fontSize:88, marginBottom:16, animation:"float 3s ease-in-out infinite" }}>🌿</div>
       <h2 style={{ fontSize:32, color:tk.text, marginBottom:10, fontFamily:"'Playfair Display',Georgia,serif" }}>Page Not Found</h2>
       <p style={{ color:tk.textLt, marginBottom:32, fontSize:15 }}>The page you're looking for doesn't exist.</p>
-      <button onClick={()=>navigate("/")} style={{ background:"linear-gradient(135deg,#52b788,#2d6a4f)", color:"#fff", border:"none", padding:"14px 32px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"inherit", boxShadow:"0 6px 20px rgba(82,183,136,0.35)" }}>
+      <button onClick={()=>navigate("/")} style={{ background:"linear-gradient(135deg,#52b788,#2d6a4f)", color:"#fff", border:"none", padding:"14px 32px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", boxShadow:"0 6px 20px rgba(82,183,136,0.35)" }}>
         Back to Home →
       </button>
     </div>

@@ -55,7 +55,7 @@ export default function ProductDetailsPage() {
       <div style={{ fontSize:64, marginBottom:16 }}>🔍</div>
       <h2 style={{ fontSize:26, color:tk.text, marginBottom:8, fontFamily:"'Playfair Display',Georgia,serif" }}>Product Not Found</h2>
       <p style={{ color:tk.textLt, marginBottom:28 }}>{error}</p>
-      <button onClick={() => navigate("/catalog")} style={{ background:"linear-gradient(135deg,#52b788,#2d6a4f)", color:"#fff", border:"none", padding:"13px 30px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"inherit", boxShadow:"0 6px 20px rgba(82,183,136,0.35)" }}>
+      <button onClick={() => navigate("/catalog")} style={{ background:"linear-gradient(135deg,#52b788,#2d6a4f)", color:"#fff", border:"none", padding:"13px 30px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", boxShadow:"0 6px 20px rgba(82,183,136,0.35)" }}>
         ← Back to Catalog
       </button>
     </div>
@@ -159,10 +159,10 @@ export default function ProductDetailsPage() {
                 <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:16 }}>
                   <span style={{ fontSize:13, fontWeight:700, color:tk.textMid }}>Quantity (kg):</span>
                   <div style={{ display:"flex", alignItems:"center", gap:0, border:`1.5px solid ${tk.border}`, borderRadius:12, overflow:"hidden" }}>
-                    <button onClick={() => setQty(q => Math.max(1,q-1))} style={{ width:36, height:36, background:tk.bgMuted, border:"none", cursor:"pointer", fontSize:18, fontFamily:"inherit", color:tk.text, transition:"background 0.2s" }}
+                    <button onClick={() => setQty(q => Math.max(1,q-1))} style={{ width:36, height:36, background:tk.bgMuted, border:"none", cursor:"pointer", fontSize:18, fontFamily:"'Inter',sans-serif", color:tk.text, transition:"background 0.2s" }}
                       onMouseEnter={e=>e.target.style.background=tk.border} onMouseLeave={e=>e.target.style.background=tk.bgMuted}>−</button>
                     <span style={{ width:40, textAlign:"center", fontWeight:800, fontSize:15, color:tk.text }}>{qty}</span>
-                    <button onClick={() => setQty(q => Math.min(product.qty,q+1))} style={{ width:36, height:36, background:tk.bgMuted, border:"none", cursor:"pointer", fontSize:18, fontFamily:"inherit", color:tk.text, transition:"background 0.2s" }}
+                    <button onClick={() => setQty(q => Math.min(product.qty,q+1))} style={{ width:36, height:36, background:tk.bgMuted, border:"none", cursor:"pointer", fontSize:18, fontFamily:"'Inter',sans-serif", color:tk.text, transition:"background 0.2s" }}
                       onMouseEnter={e=>e.target.style.background=tk.border} onMouseLeave={e=>e.target.style.background=tk.bgMuted}>+</button>
                   </div>
                   <span style={{ fontSize:13, color:tk.textLt }}>= ₹{(product.price||product.pricePerKg) * qty}</span>
@@ -172,14 +172,14 @@ export default function ProductDetailsPage() {
                   <button onClick={handleAdd} style={{
                     flex:1, padding:"15px", fontSize:16, fontWeight:800,
                     background: added ? "linear-gradient(135deg,#10b981,#059669)" : "linear-gradient(135deg,#52b788,#2d6a4f)",
-                    color:"#fff", border:"none", borderRadius:14, cursor:"pointer", fontFamily:"inherit",
+                    color:"#fff", border:"none", borderRadius:14, cursor:"pointer", fontFamily:"'Inter',sans-serif",
                     boxShadow: added ? "0 6px 20px rgba(16,185,129,0.4)" : "0 6px 20px rgba(82,183,136,0.35)",
                     transition:"all 0.3s ease",
                     transform: added ? "scale(0.98)" : "scale(1)",
                   }}>
                     {added ? `✓ Added ${qty}kg to Cart!` : `🛒 Add to Cart`}
                   </button>
-                  <button onClick={() => navigate("/cart")} style={{ padding:"15px 20px", background:"transparent", border:`2px solid ${tk.green6}`, color:tk.green6, borderRadius:14, cursor:"pointer", fontWeight:700, fontSize:14, fontFamily:"inherit", transition:"all 0.2s" }}
+                  <button onClick={() => navigate("/cart")} style={{ padding:"15px 20px", background:"transparent", border:`2px solid ${tk.green6}`, color:tk.green6, borderRadius:14, cursor:"pointer", fontWeight:700, fontSize:14, fontFamily:"'Inter',sans-serif", transition:"all 0.2s" }}
                     onMouseEnter={e => { e.currentTarget.style.background=tk.green6; e.currentTarget.style.color="#fff"; }}
                     onMouseLeave={e => { e.currentTarget.style.background="transparent"; e.currentTarget.style.color=tk.green6; }}
                   >Cart →</button>

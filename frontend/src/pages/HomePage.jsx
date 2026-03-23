@@ -200,7 +200,7 @@ export default function HomePage() {
           {STATS.map((s, i) => (
             <div key={i} data-id={`stat-${i}`} style={{ textAlign:"center", padding:"22px 16px", borderRight: i < 3 ? "1px solid rgba(255,255,255,0.08)" : "none", ...reveal(`stat-${i}`, i * 0.08) }}>
               <div style={{ fontSize:22, marginBottom:4 }}>{s.icon}</div>
-              <div style={{ fontSize:26, fontWeight:900, color:"#74c69d", fontFamily:"'Playfair Display',Georgia,serif" }}>{s.num}</div>
+              <div style={{ fontSize:26, fontWeight:900, color:"#74c69d", fontFamily:"'Inter',sans-serif", fontFeatureSettings:'"tnum"' }}>{s.num}</div>
               <div style={{ fontSize:10, color:"rgba(255,255,255,0.55)", textTransform:"uppercase", letterSpacing:"1.2px", marginTop:2 }}>{s.label}</div>
             </div>
           ))}
@@ -242,7 +242,7 @@ export default function HomePage() {
       </section>
 
       {/* ─────────────── FEATURED PRODUCTS ─────────────── */}
-      <section style={{ padding:"20px 20px 80px", background: dark?"#0b1a10":"#f2faf4" }}>
+      <section style={{ padding:"20px 20px 56px", background: dark?"#080f09":"#eef7f0" }}>
         <div style={{ maxWidth:1280, margin:"0 auto" }}>
           <div data-id="feat-hd" style={{ textAlign:"center", marginBottom:48, ...reveal("feat-hd") }}>
             <span style={{ display:"inline-block", background: dark?"#1c3525":"#e8f5ee", color:"#40916c", borderRadius:20, padding:"4px 16px", fontSize:11, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", marginBottom:14 }}>Featured This Week</span>
@@ -269,7 +269,7 @@ export default function HomePage() {
             <button onClick={() => navigate("/catalog")} style={{
               background:"linear-gradient(135deg,#52b788,#2d6a4f)", color:"#fff",
               border:"none", padding:"14px 42px", borderRadius:50, cursor:"pointer",
-              fontWeight:800, fontSize:15, fontFamily:"inherit",
+              fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif",
               boxShadow:"0 6px 24px rgba(82,183,136,0.35)", transition:"all 0.25s",
             }}
               onMouseEnter={e => { e.target.style.transform="translateY(-2px)"; e.target.style.boxShadow="0 12px 36px rgba(82,183,136,0.5)"; }}
@@ -280,7 +280,7 @@ export default function HomePage() {
       </section>
 
       {/* ─────────────── TRUST BANNER ─────────────── */}
-      <div style={{ background:"linear-gradient(135deg,#1b4332,#2d6a4f,#1b4332)", padding:"68px 20px", position:"relative", overflow:"hidden" }}>
+      <div style={{ background:"linear-gradient(135deg,#1b4332,#2d6a4f,#1b4332)", padding:"52px 20px", position:"relative", overflow:"hidden" }}>
         <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(circle at 20% 50%,rgba(82,183,136,0.14),transparent 60%),radial-gradient(circle at 80% 50%,rgba(116,198,157,0.09),transparent 60%)", pointerEvents:"none" }} />
         <div style={{ maxWidth:860, margin:"0 auto", textAlign:"center", position:"relative" }}>
           <div data-id="trust" style={reveal("trust")}>
@@ -303,7 +303,7 @@ export default function HomePage() {
       </div>
 
       {/* ─────────────── WHY US ─────────────── */}
-      <section style={{ padding:"80px 20px", background:tk.bg }}>
+      <section style={{ padding:"56px 20px", background:tk.bg }}>
         <div style={{ maxWidth:1280, margin:"0 auto" }}>
           <div data-id="why-hd" style={{ textAlign:"center", marginBottom:52, ...reveal("why-hd") }}>
             <span style={{ display:"inline-block", background: dark?"#1c3525":"#e8f5ee", color:"#40916c", borderRadius:20, padding:"4px 16px", fontSize:11, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", marginBottom:14 }}>Why RPS Fields</span>
@@ -329,7 +329,7 @@ export default function HomePage() {
       </section>
 
       {/* ─────────────── JOIN CTA ─────────────── */}
-      <section style={{ padding:"80px 20px", background: dark?"#0b1a10":"#f2faf4", borderTop:`1px solid ${tk.border}` }}>
+      <section style={{ padding:"48px 20px 80px", background: dark?"#080f09":"#f0f7f2", borderTop:`1px solid ${tk.border}` }}>
         <div data-id="cta" style={{ maxWidth:680, margin:"0 auto", textAlign:"center", ...reveal("cta") }}>
           <div style={{ fontSize:48, marginBottom:16 }}>🌿</div>
           <h2 style={{ fontSize:"clamp(24px,3.5vw,36px)", fontFamily:"'Playfair Display',Georgia,serif", color:tk.text, marginBottom:14 }}>
@@ -339,11 +339,11 @@ export default function HomePage() {
             Join the RPS Fields network. List your produce, reach thousands of customers across Telangana, and earn more by cutting out the middleman.
           </p>
           <div style={{ display:"flex", gap:14, justifyContent:"center", flexWrap:"wrap" }}>
-            <button onClick={() => navigate("/register/farmer")} style={{ background:"linear-gradient(135deg,#2d6a4f,#1b4332)", color:"#fff", border:"none", padding:"14px 32px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"inherit", boxShadow:"0 6px 24px rgba(27,67,50,0.3)", transition:"all 0.25s" }}
+            <button onClick={() => navigate("/register/farmer")} style={{ background:"linear-gradient(135deg,#2d6a4f,#1b4332)", color:"#fff", border:"none", padding:"14px 32px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", boxShadow:"0 6px 24px rgba(27,67,50,0.3)", transition:"all 0.25s" }}
               onMouseEnter={e => e.target.style.transform="translateY(-2px)"}
               onMouseLeave={e => e.target.style.transform="none"}
             >🌾 Join as Farmer</button>
-            <button onClick={() => navigate("/register/agent")} style={{ background:"linear-gradient(135deg,#1e40af,#1e3a8a)", color:"#fff", border:"none", padding:"14px 32px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"inherit", boxShadow:"0 6px 24px rgba(30,64,175,0.3)", transition:"all 0.25s" }}
+            <button onClick={() => navigate("/register/agent")} style={{ background:"linear-gradient(135deg,#1e40af,#1e3a8a)", color:"#fff", border:"none", padding:"14px 32px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", boxShadow:"0 6px 24px rgba(30,64,175,0.3)", transition:"all 0.25s" }}
               onMouseEnter={e => e.target.style.transform="translateY(-2px)"}
               onMouseLeave={e => e.target.style.transform="none"}
             >🏢 Join as Agent</button>

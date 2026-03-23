@@ -3,30 +3,30 @@ import { useTheme } from "../context/ThemeContext";
 
 export default function Footer() {
   const { dark } = useTheme();
-
   return (
     <footer style={{
       position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 1000,
-      background: dark ? "rgba(6,15,9,0.97)" : "rgba(13,43,26,0.97)",
-      backdropFilter: "blur(16px)",
-      height: 50,
+      height: 48,
+      background: "rgba(3,10,5,0.90)",
+      backdropFilter: "blur(24px) saturate(200%)",
+      WebkitBackdropFilter: "blur(24px) saturate(200%)",
+      borderTop: "1px solid rgba(82,183,136,0.18)",
+      boxShadow: "0 -4px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05)",
       display: "flex", alignItems: "center",
-      borderTop: "1px solid rgba(82,183,136,0.25)",
     }}>
-      <div style={{ maxWidth:1320, margin:"0 auto", padding:"0 24px", width:"100%", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-        <div style={{ display:"flex", alignItems:"center", gap:16 }}>
+      <div style={{ maxWidth:1320, margin:"0 auto", padding:"0 22px", width:"100%", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+        <div style={{ display:"flex", alignItems:"center", gap:14 }}>
           <div style={{ display:"flex", alignItems:"center", gap:6 }}>
-            <span style={{ fontSize:14 }}>🌿</span>
-            <span style={{ color:"rgba(255,255,255,0.5)", fontSize:12, fontWeight:600 }}>© 2026 RPS Fields</span>
+            <span style={{ fontSize:13 }}>🌿</span>
+            <span style={{ color:"rgba(255,255,255,0.42)", fontSize:12, fontFamily:"'Inter',sans-serif", fontWeight:500 }}>© 2026 RPS Fields</span>
           </div>
-          <span style={{ color:"rgba(255,255,255,0.3)", fontSize:11 }}>📞 +91-9876543210</span>
-          <span style={{ color:"rgba(255,255,255,0.3)", fontSize:11, display:"none" }} className="hide-mobile">✉ hello@rpsfields.in</span>
+          <span style={{ color:"rgba(255,255,255,0.25)", fontSize:11 }}>📞 +91-9876543210</span>
         </div>
-        <div style={{ display:"flex", gap:14, alignItems:"center" }}>
-          {[["Contact","/contact"],["FAQ","/faq"],["Privacy","/privacy"],["Terms","/terms"],["About","/about"]].map(([l,to]) => (
-            <Link key={to} to={to} style={{ color:"rgba(255,255,255,0.4)", fontSize:12, fontWeight:600, textDecoration:"none", transition:"color 0.2s" }}
-              onMouseEnter={e => e.target.style.color="#74c69d"}
-              onMouseLeave={e => e.target.style.color="rgba(255,255,255,0.4)"}
+        <div style={{ display:"flex", gap:16, alignItems:"center" }}>
+          {[["Contact","/contact"],["FAQ","/faq"],["Privacy","/privacy"],["Terms","/terms"],["About","/about"]].map(([l,to])=>(
+            <Link key={to} to={to} style={{ color:"rgba(255,255,255,0.35)", fontSize:12, fontWeight:500, textDecoration:"none", fontFamily:"'Inter',sans-serif", transition:"color 0.2s" }}
+              onMouseEnter={e=>e.target.style.color="#74c69d"}
+              onMouseLeave={e=>e.target.style.color="rgba(255,255,255,0.35)"}
             >{l}</Link>
           ))}
         </div>

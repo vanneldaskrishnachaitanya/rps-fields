@@ -67,7 +67,7 @@ export default function CatalogPage() {
           <div style={{ position:"relative", flex:1, minWidth:220 }}>
             <span style={{ position:"absolute", left:13, top:"50%", transform:"translateY(-50%)", fontSize:15, pointerEvents:"none" }}>🔍</span>
             <input
-              style={{ width:"100%", padding:"10px 14px 10px 38px", borderRadius:12, border:`1.5px solid ${tk.border}`, background:tk.bgInput, color:tk.text, fontSize:14, outline:"none", fontFamily:"inherit", transition:"border-color 0.2s" }}
+              style={{ width:"100%", padding:"10px 14px 10px 38px", borderRadius:12, border:`1.5px solid ${tk.border}`, background:tk.bgInput, color:tk.text, fontSize:14, outline:"none", fontFamily:"'Inter',sans-serif", transition:"border-color 0.2s" }}
               placeholder="Search products or farmers..."
               value={search} onChange={e => handleSearch(e.target.value)}
               onFocus={e => e.target.style.borderColor="#52b788"}
@@ -81,7 +81,7 @@ export default function CatalogPage() {
                 border:`1.5px solid ${cat===c ? "#52b788" : tk.border}`,
                 background: cat===c ? "linear-gradient(135deg,#52b788,#40916c)" : "transparent",
                 color: cat===c ? "#fff" : tk.textMid,
-                cursor:"pointer", fontWeight:700, fontSize:13, fontFamily:"inherit",
+                cursor:"pointer", fontWeight:700, fontSize:13, fontFamily:"'Inter',sans-serif",
                 transition:"all 0.2s ease",
                 boxShadow: cat===c ? "0 4px 14px rgba(82,183,136,0.3)" : "none",
               }}>{c}</button>
@@ -117,7 +117,7 @@ export default function CatalogPage() {
             <div style={{ fontSize:64, marginBottom:16 }}>🔍</div>
             <h3 style={{ fontSize:22, color:tk.text, marginBottom:8, fontFamily:"'Playfair Display',Georgia,serif" }}>No products found</h3>
             <p>Try a different category or search term</p>
-            <button onClick={() => { setCat("All"); setSearch(""); setDSearch(""); }} style={{ marginTop:20, padding:"10px 24px", background:"linear-gradient(135deg,#52b788,#40916c)", color:"#fff", border:"none", borderRadius:20, cursor:"pointer", fontWeight:700, fontFamily:"inherit" }}>
+            <button onClick={() => { setCat("All"); setSearch(""); setDSearch(""); }} style={{ marginTop:20, padding:"10px 24px", background:"linear-gradient(135deg,#52b788,#40916c)", color:"#fff", border:"none", borderRadius:20, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>
               Show All Products
             </button>
           </div>

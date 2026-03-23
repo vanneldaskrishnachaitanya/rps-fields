@@ -34,7 +34,7 @@ export default function CustomerDashboard() {
   const QuickLink = ({ icon, label, to, primary }) => (
     <button onClick={()=>navigate(to)} style={{
       display:"flex", alignItems:"center", gap:12, padding:"14px 18px",
-      borderRadius:14, cursor:"pointer", fontFamily:"inherit", fontWeight:700, fontSize:14,
+      borderRadius:14, cursor:"pointer", fontFamily:"'Inter',sans-serif", fontWeight:700, fontSize:14,
       background: primary ? "linear-gradient(135deg,#52b788,#2d6a4f)" : tk.bgCard,
       color: primary ? "#fff" : tk.text,
       border: `1.5px solid ${primary?"transparent":tk.border}`,
@@ -95,7 +95,7 @@ export default function CustomerDashboard() {
               <div style={{ background:tk.bgCard, borderRadius:20, padding:"40px", textAlign:"center", border:`1px solid ${tk.border}` }}>
                 <div style={{ fontSize:48, marginBottom:14 }}>📦</div>
                 <p style={{ color:tk.textLt, marginBottom:20, fontSize:15 }}>No orders yet. Start shopping!</p>
-                <button onClick={()=>navigate("/catalog")} style={{ background:"linear-gradient(135deg,#52b788,#2d6a4f)", color:"#fff", border:"none", padding:"12px 28px", borderRadius:50, cursor:"pointer", fontWeight:800, fontFamily:"inherit", boxShadow:"0 4px 16px rgba(82,183,136,0.3)" }}>
+                <button onClick={()=>navigate("/catalog")} style={{ background:"linear-gradient(135deg,#52b788,#2d6a4f)", color:"#fff", border:"none", padding:"12px 28px", borderRadius:50, cursor:"pointer", fontWeight:800, fontFamily:"'Inter',sans-serif", boxShadow:"0 4px 16px rgba(82,183,136,0.3)" }}>
                   Browse Catalog →
                 </button>
               </div>

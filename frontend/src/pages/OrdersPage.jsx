@@ -49,7 +49,7 @@ export default function OrdersPage() {
             <div style={{ fontSize:64, marginBottom:18, animation:"float 3s ease-in-out infinite" }}>📦</div>
             <h2 style={{ color:tk.text, marginBottom:10, fontSize:24, fontFamily:"'Playfair Display',Georgia,serif" }}>No orders yet</h2>
             <p style={{ color:tk.textLt, marginBottom:28, fontSize:15 }}>Browse the catalog and make your first order!</p>
-            <button onClick={()=>navigate("/catalog")} style={{ background:"linear-gradient(135deg,#52b788,#2d6a4f)", color:"#fff", border:"none", padding:"14px 32px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"inherit", boxShadow:"0 6px 20px rgba(82,183,136,0.35)" }}>
+            <button onClick={()=>navigate("/catalog")} style={{ background:"linear-gradient(135deg,#52b788,#2d6a4f)", color:"#fff", border:"none", padding:"14px 32px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", boxShadow:"0 6px 20px rgba(82,183,136,0.35)" }}>
               Browse Catalog →
             </button>
           </div>
@@ -94,7 +94,7 @@ export default function OrdersPage() {
                     </div>
                     {ord.status==="delivered" && (
                       <button onClick={()=>setRateModal({item:{...item,productId:item.productId||item.id},orderId:ordId})}
-                        style={{ padding:"6px 14px", background:"rgba(212,160,23,0.15)", border:"1px solid rgba(212,160,23,0.4)", color:"#d4a017", borderRadius:20, cursor:"pointer", fontSize:12, fontWeight:700, fontFamily:"inherit", transition:"all 0.2s", flexShrink:0 }}
+                        style={{ padding:"6px 14px", background:"rgba(212,160,23,0.15)", border:"1px solid rgba(212,160,23,0.4)", color:"#d4a017", borderRadius:20, cursor:"pointer", fontSize:12, fontWeight:700, fontFamily:"'Inter',sans-serif", transition:"all 0.2s", flexShrink:0 }}
                         onMouseEnter={e=>{e.target.style.background="rgba(212,160,23,0.3)";}} onMouseLeave={e=>{e.target.style.background="rgba(212,160,23,0.15)";}}>
                         ⭐ Rate
                       </button>
