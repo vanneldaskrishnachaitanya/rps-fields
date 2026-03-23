@@ -50,7 +50,7 @@ export default function EditProductPage() {
     finally { setSaving(false); }
   };
 
-  const inp = (hasErr, extra={}) => ({ width:"100%", padding:"11px 14px", borderRadius:10, border:`1.5px solid ${hasErr?"#e74c3c":tk.border}`, background:hasErr?"#fff0f0":tk.bgInput, color:tk.text, fontSize:14, boxSizing:"border-box", outline:"none", fontFamily:"inherit", ...extra });
+  const inp = (hasErr, extra={}) => ({ width:"100%", padding:"11px 14px", borderRadius:10, border:`1.5px solid ${hasErr?"#e74c3c":tk.border}`, background:hasErr?"#fff0f0":tk.bgInput, color:tk.text, fontSize:14, boxSizing:"border-box", outline:"none", fontFamily:"'Inter',sans-serif", ...extra });
   const lbl = t => <label style={{ display:"block", fontWeight:700, fontSize:11, color:tk.textMid, marginBottom:5, textTransform:"uppercase" }}>{t}</label>;
 
   if (loading) return (
@@ -108,7 +108,7 @@ export default function EditProductPage() {
           </div>
 
           <div style={{ display:"flex", gap:12 }}>
-            <button onClick={handleSave} disabled={saving} style={{ flex:1, padding:14, background:"linear-gradient(135deg,#52b788,#40916c)", color:"#fff", border:"none", borderRadius:10, cursor:saving?"not-allowed":"pointer", fontWeight:700, fontSize:15, fontFamily:"inherit", opacity:saving?0.7:1 }}>
+            <button onClick={handleSave} disabled={saving} style={{ flex:1, padding:14, background:"linear-gradient(135deg,#52b788,#40916c)", color:"#fff", border:"none", borderRadius:10, cursor:saving?"not-allowed":"pointer", fontWeight:700, fontSize:15, fontFamily:"'Inter',sans-serif", opacity:saving?0.7:1 }}>
               {saving ? "Saving..." : "💾 Save Changes"}
             </button>
             <Link to="/farmer/products" style={{ flex:1, padding:14, background:"transparent", border:`1.5px solid ${tk.border}`, color:tk.textMid, borderRadius:10, fontWeight:700, textDecoration:"none", display:"flex", alignItems:"center", justifyContent:"center" }}>

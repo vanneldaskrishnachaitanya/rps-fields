@@ -74,7 +74,7 @@ export function AgentProductsPage() {
                   {p.avgRating > 0 && <div style={{ fontSize:12, color:tk.gold, marginBottom:10 }}>{"⭐".repeat(Math.round(p.avgRating))} {p.avgRating} ({p.totalRatings})</div>}
                   <div style={{ display:"flex", gap:8 }}>
                     <Link to={`/agent/edit-product/${p._id||p.id}`} style={{ flex:1, padding:"9px", background:"transparent", border:`1.5px solid #3b82f6`, color:"#3b82f6", borderRadius:8, fontWeight:700, fontSize:13, textDecoration:"none", textAlign:"center" }}>✏️ Edit</Link>
-                    <button onClick={() => handleDelete(p._id||p.id, p.name)} style={{ flex:1, padding:"9px", background:"transparent", border:"1.5px solid #ef4444", color:"#ef4444", borderRadius:8, cursor:"pointer", fontWeight:700, fontSize:13, fontFamily:"inherit" }}>🗑 Delete</button>
+                    <button onClick={() => handleDelete(p._id||p.id, p.name)} style={{ flex:1, padding:"9px", background:"transparent", border:"1.5px solid #ef4444", color:"#ef4444", borderRadius:8, cursor:"pointer", fontWeight:700, fontSize:13, fontFamily:"'Inter',sans-serif" }}>🗑 Delete</button>
                   </div>
                 </div>
               </div>
@@ -175,7 +175,7 @@ export function AgentFarmersPage() {
                   </div>
                 ))}
                 <button onClick={()=>navigate("/agent/add-product")}
-                  style={{ marginTop:14, width:"100%", padding:"10px", background:"linear-gradient(135deg,#3b82f6,#1e40af)", color:"#fff", border:"none", borderRadius:10, cursor:"pointer", fontWeight:700, fontFamily:"inherit" }}>
+                  style={{ marginTop:14, width:"100%", padding:"10px", background:"linear-gradient(135deg,#3b82f6,#1e40af)", color:"#fff", border:"none", borderRadius:10, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>
                   + Add Product for This Farmer
                 </button>
               </div>
@@ -243,11 +243,11 @@ export function AgentRequestsPage() {
               </div>
               <div style={{ display:"flex", gap:12 }}>
                 <button onClick={()=>respond(req._id,"accepted")} disabled={!!busy}
-                  style={{ flex:1, padding:"12px", background:"linear-gradient(135deg,#10b981,#059669)", color:"#fff", border:"none", borderRadius:10, cursor:busy?"not-allowed":"pointer", fontWeight:700, fontSize:14, fontFamily:"inherit", opacity:busy?0.7:1 }}>
+                  style={{ flex:1, padding:"12px", background:"linear-gradient(135deg,#10b981,#059669)", color:"#fff", border:"none", borderRadius:10, cursor:busy?"not-allowed":"pointer", fontWeight:700, fontSize:14, fontFamily:"'Inter',sans-serif", opacity:busy?0.7:1 }}>
                   {busy==="accepted" ? "Accepting..." : "✓ Accept Partnership"}
                 </button>
                 <button onClick={()=>respond(req._id,"rejected")} disabled={!!busy}
-                  style={{ flex:1, padding:"12px", background:"transparent", border:"1.5px solid #ef4444", color:"#ef4444", borderRadius:10, cursor:busy?"not-allowed":"pointer", fontWeight:700, fontSize:14, fontFamily:"inherit" }}>
+                  style={{ flex:1, padding:"12px", background:"transparent", border:"1.5px solid #ef4444", color:"#ef4444", borderRadius:10, cursor:busy?"not-allowed":"pointer", fontWeight:700, fontSize:14, fontFamily:"'Inter',sans-serif" }}>
                   {busy==="rejected" ? "Rejecting..." : "✕ Reject"}
                 </button>
               </div>
@@ -291,7 +291,7 @@ export function AgentEditProductPage() {
     finally { setSaving(false); }
   };
 
-  const inp = (extra={}) => ({ width:"100%", padding:"11px 14px", borderRadius:10, border:`1.5px solid ${tk.border}`, background:tk.bgInput, color:tk.text, fontSize:14, boxSizing:"border-box", outline:"none", fontFamily:"inherit", ...extra });
+  const inp = (extra={}) => ({ width:"100%", padding:"11px 14px", borderRadius:10, border:`1.5px solid ${tk.border}`, background:tk.bgInput, color:tk.text, fontSize:14, boxSizing:"border-box", outline:"none", fontFamily:"'Inter',sans-serif", ...extra });
   const lbl = t => <label style={{ display:"block", fontWeight:700, fontSize:11, color:tk.textMid, marginBottom:5, textTransform:"uppercase" }}>{t}</label>;
 
   if (loading) return <div style={{ background:tk.bg, minHeight:"100%", display:"flex", alignItems:"center", justifyContent:"center" }}><div style={{ textAlign:"center", color:tk.textLt }}><div style={{ fontSize:48, marginBottom:12 }}>🌿</div><p>Loading...</p></div></div>;
@@ -316,10 +316,10 @@ export function AgentEditProductPage() {
             {form.image && <img src={form.image} alt="" style={{ width:70, height:70, objectFit:"cover", borderRadius:10, marginTop:10, border:`1px solid ${tk.border}` }} onError={e=>e.target.style.display="none"} />}
           </div>
           <div style={{ display:"flex", gap:12 }}>
-            <button onClick={handleSave} disabled={saving} style={{ flex:1, padding:14, background:"linear-gradient(135deg,#3b82f6,#1e40af)", color:"#fff", border:"none", borderRadius:10, cursor:saving?"not-allowed":"pointer", fontWeight:700, fontSize:15, fontFamily:"inherit", opacity:saving?0.7:1 }}>
+            <button onClick={handleSave} disabled={saving} style={{ flex:1, padding:14, background:"linear-gradient(135deg,#3b82f6,#1e40af)", color:"#fff", border:"none", borderRadius:10, cursor:saving?"not-allowed":"pointer", fontWeight:700, fontSize:15, fontFamily:"'Inter',sans-serif", opacity:saving?0.7:1 }}>
               {saving ? "Saving..." : "💾 Save Changes"}
             </button>
-            <button onClick={()=>navigate("/agent/products")} style={{ flex:1, padding:14, background:"transparent", border:`1.5px solid ${tk.border}`, color:tk.textMid, borderRadius:10, cursor:"pointer", fontWeight:700, fontSize:15, fontFamily:"inherit" }}>Cancel</button>
+            <button onClick={()=>navigate("/agent/products")} style={{ flex:1, padding:14, background:"transparent", border:`1.5px solid ${tk.border}`, color:tk.textMid, borderRadius:10, cursor:"pointer", fontWeight:700, fontSize:15, fontFamily:"'Inter',sans-serif" }}>Cancel</button>
           </div>
         </div>
       </div>

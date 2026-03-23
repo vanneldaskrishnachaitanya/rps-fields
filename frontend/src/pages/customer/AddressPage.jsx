@@ -22,7 +22,7 @@ export default function AddressPage() {
     setShowForm(false);
   };
 
-  const inp = { width:"100%", padding:"10px 14px", borderRadius:10, border:`1.5px solid ${tk.border}`, background:tk.bgInput, color:tk.text, fontSize:13, boxSizing:"border-box", outline:"none", fontFamily:"inherit" };
+  const inp = { width:"100%", padding:"10px 14px", borderRadius:10, border:`1.5px solid ${tk.border}`, background:tk.bgInput, color:tk.text, fontSize:13, boxSizing:"border-box", outline:"none", fontFamily:"'Inter',sans-serif" };
 
   return (
     <div style={{ background:tk.bg, minHeight:"100%" }}>
@@ -33,7 +33,7 @@ export default function AddressPage() {
 
       <div style={{ maxWidth:680, margin:"0 auto", padding:"36px 20px" }}>
         <div style={{ display:"flex", justifyContent:"flex-end", marginBottom:20 }}>
-          <button onClick={() => setShowForm(s=>!s)} style={{ background:"linear-gradient(135deg,#52b788,#40916c)", color:"#fff", border:"none", padding:"10px 20px", borderRadius:10, cursor:"pointer", fontWeight:700, fontSize:13, fontFamily:"inherit" }}>
+          <button onClick={() => setShowForm(s=>!s)} style={{ background:"linear-gradient(135deg,#52b788,#40916c)", color:"#fff", border:"none", padding:"10px 20px", borderRadius:10, cursor:"pointer", fontWeight:700, fontSize:13, fontFamily:"'Inter',sans-serif" }}>
             + Add New Address
           </button>
         </div>
@@ -56,8 +56,8 @@ export default function AddressPage() {
               </div>
             ))}
             <div style={{ display:"flex", gap:10 }}>
-              <button onClick={addAddress} style={{ background:"linear-gradient(135deg,#52b788,#40916c)", color:"#fff", border:"none", padding:"10px 22px", borderRadius:10, cursor:"pointer", fontWeight:700, fontFamily:"inherit" }}>Save Address</button>
-              <button onClick={() => setShowForm(false)} style={{ background:"transparent", border:`1px solid ${tk.border}`, color:tk.textMid, padding:"10px 18px", borderRadius:10, cursor:"pointer", fontFamily:"inherit" }}>Cancel</button>
+              <button onClick={addAddress} style={{ background:"linear-gradient(135deg,#52b788,#40916c)", color:"#fff", border:"none", padding:"10px 22px", borderRadius:10, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>Save Address</button>
+              <button onClick={() => setShowForm(false)} style={{ background:"transparent", border:`1px solid ${tk.border}`, color:tk.textMid, padding:"10px 18px", borderRadius:10, cursor:"pointer", fontFamily:"'Inter',sans-serif" }}>Cancel</button>
             </div>
           </div>
         )}
@@ -76,14 +76,14 @@ export default function AddressPage() {
                 </div>
               </div>
               <div style={{ display:"flex", gap:8 }}>
-                <button style={{ background:"transparent", border:`1px solid ${tk.border}`, color:tk.textMid, padding:"6px 12px", borderRadius:8, cursor:"pointer", fontSize:12, fontFamily:"inherit" }}>Edit</button>
-                {!addr.default && <button onClick={() => setAddresses(a => a.filter(x=>x.id!==addr.id))} style={{ background:"transparent", border:"1px solid #e74c3c", color:"#e74c3c", padding:"6px 12px", borderRadius:8, cursor:"pointer", fontSize:12, fontFamily:"inherit" }}>Delete</button>}
+                <button style={{ background:"transparent", border:`1px solid ${tk.border}`, color:tk.textMid, padding:"6px 12px", borderRadius:8, cursor:"pointer", fontSize:12, fontFamily:"'Inter',sans-serif" }}>Edit</button>
+                {!addr.default && <button onClick={() => setAddresses(a => a.filter(x=>x.id!==addr.id))} style={{ background:"transparent", border:"1px solid #e74c3c", color:"#e74c3c", padding:"6px 12px", borderRadius:8, cursor:"pointer", fontSize:12, fontFamily:"'Inter',sans-serif" }}>Delete</button>}
               </div>
             </div>
           </div>
         ))}
 
-        <button onClick={() => navigate("/profile")} style={{ marginTop:8, background:"transparent", border:`1.5px solid ${tk.border}`, color:tk.textMid, padding:"10px 22px", borderRadius:10, cursor:"pointer", fontWeight:700, fontFamily:"inherit" }}>
+        <button onClick={() => navigate("/profile")} style={{ marginTop:8, background:"transparent", border:`1.5px solid ${tk.border}`, color:tk.textMid, padding:"10px 22px", borderRadius:10, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>
           ← Back to Profile
         </button>
       </div>

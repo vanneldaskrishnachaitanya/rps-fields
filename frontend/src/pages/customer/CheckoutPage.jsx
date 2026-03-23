@@ -42,7 +42,7 @@ export default function CheckoutPage() {
     finally { setLoading(false); }
   };
 
-  const inp = hasErr => ({ width:"100%", padding:"11px 14px", borderRadius:10, border:`1.5px solid ${hasErr?"#e74c3c":tk.border}`, background:hasErr?"#fff0f0":tk.bgInput, color:tk.text, fontSize:14, boxSizing:"border-box", outline:"none", fontFamily:"inherit" });
+  const inp = hasErr => ({ width:"100%", padding:"11px 14px", borderRadius:10, border:`1.5px solid ${hasErr?"#e74c3c":tk.border}`, background:hasErr?"#fff0f0":tk.bgInput, color:tk.text, fontSize:14, boxSizing:"border-box", outline:"none", fontFamily:"'Inter',sans-serif" });
   const lbl = text => <label style={{ display:"block", fontWeight:700, fontSize:11, color:tk.textMid, marginBottom:5, textTransform:"uppercase", letterSpacing:"0.4px" }}>{text}</label>;
 
   if (!cart.length && !order) {
@@ -50,7 +50,7 @@ export default function CheckoutPage() {
       <div style={{ background:tk.bg, minHeight:"100%", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:"80px 20px" }}>
         <div style={{ fontSize:72, marginBottom:16 }}>🛒</div>
         <h2 style={{ color:tk.text, marginBottom:8 }}>Your cart is empty</h2>
-        <button onClick={() => navigate("/catalog")} style={{ background:"linear-gradient(135deg,#52b788,#40916c)", color:"#fff", border:"none", padding:"12px 26px", borderRadius:10, cursor:"pointer", fontWeight:700, fontFamily:"inherit" }}>Browse Catalog</button>
+        <button onClick={() => navigate("/catalog")} style={{ background:"linear-gradient(135deg,#52b788,#40916c)", color:"#fff", border:"none", padding:"12px 26px", borderRadius:10, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>Browse Catalog</button>
       </div>
     );
   }
@@ -67,8 +67,8 @@ export default function CheckoutPage() {
         ))}
       </div>
       <div style={{ display:"flex", gap:12 }}>
-        <button onClick={() => navigate("/orders")} style={{ background:"linear-gradient(135deg,#52b788,#40916c)", color:"#fff", border:"none", padding:"12px 24px", borderRadius:10, cursor:"pointer", fontWeight:700, fontFamily:"inherit" }}>View Orders</button>
-        <button onClick={() => navigate("/catalog")} style={{ background:"transparent", border:`1.5px solid ${tk.green7}`, color:tk.green7, padding:"12px 24px", borderRadius:10, cursor:"pointer", fontWeight:700, fontFamily:"inherit" }}>Continue Shopping</button>
+        <button onClick={() => navigate("/orders")} style={{ background:"linear-gradient(135deg,#52b788,#40916c)", color:"#fff", border:"none", padding:"12px 24px", borderRadius:10, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>View Orders</button>
+        <button onClick={() => navigate("/catalog")} style={{ background:"transparent", border:`1.5px solid ${tk.green7}`, color:tk.green7, padding:"12px 24px", borderRadius:10, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>Continue Shopping</button>
       </div>
     </div>
   );
@@ -114,10 +114,10 @@ export default function CheckoutPage() {
                 </div>
               </div>
               <button onClick={handlePlace} disabled={loading}
-                style={{ background:"linear-gradient(135deg,#d4a017,#c49010)", color:"#1b4332", border:"none", width:"100%", padding:14, borderRadius:10, cursor:loading?"not-allowed":"pointer", fontWeight:800, fontSize:15, fontFamily:"inherit", opacity:loading?0.7:1 }}>
+                style={{ background:"linear-gradient(135deg,#d4a017,#c49010)", color:"#1b4332", border:"none", width:"100%", padding:14, borderRadius:10, cursor:loading?"not-allowed":"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", opacity:loading?0.7:1 }}>
                 {loading ? "Placing Order..." : `✓ Place Order · ₹${total}`}
               </button>
-              <button onClick={() => navigate("/cart")} style={{ background:"transparent", border:`1px solid ${tk.border}`, color:tk.textMid, width:"100%", padding:9, borderRadius:8, cursor:"pointer", fontSize:13, fontFamily:"inherit", marginTop:10, boxSizing:"border-box" }}>
+              <button onClick={() => navigate("/cart")} style={{ background:"transparent", border:`1px solid ${tk.border}`, color:tk.textMid, width:"100%", padding:9, borderRadius:8, cursor:"pointer", fontSize:13, fontFamily:"'Inter',sans-serif", marginTop:10, boxSizing:"border-box" }}>
                 ← Back to Cart
               </button>
             </div>

@@ -70,7 +70,7 @@ export default function AgentAddProductPage() {
     width:"100%", padding:"11px 14px", borderRadius:10,
     border:`1.5px solid ${hasErr?"#e74c3c":tk.border}`,
     background:hasErr?"#fff0f0":tk.bgInput,
-    color:tk.text, fontSize:14, boxSizing:"border-box", outline:"none", fontFamily:"inherit",
+    color:tk.text, fontSize:14, boxSizing:"border-box", outline:"none", fontFamily:"'Inter',sans-serif",
     ...extra,
   });
   const lbl = t => <label style={{ display:"block", fontWeight:700, fontSize:11, color:tk.textMid, marginBottom:5, textTransform:"uppercase", letterSpacing:"0.4px" }}>{t}</label>;
@@ -147,7 +147,7 @@ export default function AgentAddProductPage() {
               <span style={{ fontSize:11, color:tk.textMid, marginRight:8 }}>Quick pick:</span>
               {QUICK_IMGS.map(([lbl2, url]) => (
                 <button key={lbl2} onClick={() => setForm(f=>({...f,image:url}))}
-                  style={{ marginRight:6, marginTop:4, padding:"3px 10px", borderRadius:6, border:`1px solid ${tk.border}`, background:form.image===url?tk.green6:tk.bgMuted, color:form.image===url?"#fff":tk.textMid, cursor:"pointer", fontSize:12, fontFamily:"inherit" }}>
+                  style={{ marginRight:6, marginTop:4, padding:"3px 10px", borderRadius:6, border:`1px solid ${tk.border}`, background:form.image===url?tk.green6:tk.bgMuted, color:form.image===url?"#fff":tk.textMid, cursor:"pointer", fontSize:12, fontFamily:"'Inter',sans-serif" }}>
                   {lbl2}
                 </button>
               ))}
@@ -156,11 +156,11 @@ export default function AgentAddProductPage() {
 
           <div style={{ display:"flex", gap:12 }}>
             <button onClick={handleSubmit} disabled={saving || farmers.length===0}
-              style={{ flex:1, padding:14, background:"linear-gradient(135deg,#3b82f6,#1e40af)", color:"#fff", border:"none", borderRadius:10, cursor:(saving||farmers.length===0)?"not-allowed":"pointer", fontWeight:700, fontSize:15, fontFamily:"inherit", opacity:saving?0.7:1 }}>
+              style={{ flex:1, padding:14, background:"linear-gradient(135deg,#3b82f6,#1e40af)", color:"#fff", border:"none", borderRadius:10, cursor:(saving||farmers.length===0)?"not-allowed":"pointer", fontWeight:700, fontSize:15, fontFamily:"'Inter',sans-serif", opacity:saving?0.7:1 }}>
               {saving ? "Adding..." : "✅ Add Product to Catalog"}
             </button>
             <button onClick={()=>navigate("/agent/products")}
-              style={{ flex:1, padding:14, background:"transparent", border:`1.5px solid ${tk.border}`, color:tk.textMid, borderRadius:10, cursor:"pointer", fontWeight:700, fontSize:15, fontFamily:"inherit" }}>
+              style={{ flex:1, padding:14, background:"transparent", border:`1.5px solid ${tk.border}`, color:tk.textMid, borderRadius:10, cursor:"pointer", fontWeight:700, fontSize:15, fontFamily:"'Inter',sans-serif" }}>
               Cancel
             </button>
           </div>

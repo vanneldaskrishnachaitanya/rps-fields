@@ -44,7 +44,7 @@ export default function AddProductPage() {
     finally { setSaving(false); }
   };
 
-  const inp = (hasErr, extra={}) => ({ width:"100%", padding:"11px 14px", borderRadius:10, border:`1.5px solid ${hasErr?"#e74c3c":tk.border}`, background:hasErr?"#fff0f0":tk.bgInput, color:tk.text, fontSize:14, boxSizing:"border-box", outline:"none", fontFamily:"inherit", ...extra });
+  const inp = (hasErr, extra={}) => ({ width:"100%", padding:"11px 14px", borderRadius:10, border:`1.5px solid ${hasErr?"#e74c3c":tk.border}`, background:hasErr?"#fff0f0":tk.bgInput, color:tk.text, fontSize:14, boxSizing:"border-box", outline:"none", fontFamily:"'Inter',sans-serif", ...extra });
   const lbl = t => <label style={{ display:"block", fontWeight:700, fontSize:11, color:tk.textMid, marginBottom:5, textTransform:"uppercase", letterSpacing:"0.4px" }}>{t}</label>;
 
   return (
@@ -99,14 +99,14 @@ export default function AddProductPage() {
               <div style={{ fontSize:11, color:tk.textMid, marginBottom:6 }}>Quick pick:</div>
               <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
                 {QUICK_IMGS.map(([lbl,url]) => (
-                  <button key={lbl} onClick={() => setForm(f=>({...f,img:url}))} style={{ padding:"4px 10px", borderRadius:6, border:`1px solid ${tk.border}`, background:form.img===url?tk.green6:tk.bgMuted, color:form.img===url?"#fff":tk.textMid, cursor:"pointer", fontSize:12, fontFamily:"inherit" }}>{lbl}</button>
+                  <button key={lbl} onClick={() => setForm(f=>({...f,img:url}))} style={{ padding:"4px 10px", borderRadius:6, border:`1px solid ${tk.border}`, background:form.img===url?tk.green6:tk.bgMuted, color:form.img===url?"#fff":tk.textMid, cursor:"pointer", fontSize:12, fontFamily:"'Inter',sans-serif" }}>{lbl}</button>
                 ))}
               </div>
             </div>
           </div>
 
           <div style={{ display:"flex", gap:12 }}>
-            <button onClick={handleSubmit} disabled={saving} style={{ flex:1, padding:14, background:"linear-gradient(135deg,#52b788,#40916c)", color:"#fff", border:"none", borderRadius:10, cursor:saving?"not-allowed":"pointer", fontWeight:700, fontSize:15, fontFamily:"inherit", opacity:saving?0.7:1 }}>
+            <button onClick={handleSubmit} disabled={saving} style={{ flex:1, padding:14, background:"linear-gradient(135deg,#52b788,#40916c)", color:"#fff", border:"none", borderRadius:10, cursor:saving?"not-allowed":"pointer", fontWeight:700, fontSize:15, fontFamily:"'Inter',sans-serif", opacity:saving?0.7:1 }}>
               {saving ? "Adding..." : "✅ Add Product"}
             </button>
             <Link to="/farmer/products" style={{ flex:1, padding:14, background:"transparent", border:`1.5px solid ${tk.border}`, color:tk.textMid, borderRadius:10, fontWeight:700, fontSize:15, textDecoration:"none", display:"flex", alignItems:"center", justifyContent:"center" }}>

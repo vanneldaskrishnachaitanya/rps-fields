@@ -24,7 +24,7 @@ export default function ProfileEditPage() {
     setTimeout(() => { setSaved(false); navigate("/profile"); }, 1500);
   };
 
-  const inp = { width:"100%", padding:"11px 14px", borderRadius:10, border:`1.5px solid ${tk.border}`, background:tk.bgInput, color:tk.text, fontSize:14, boxSizing:"border-box", outline:"none", fontFamily:"inherit" };
+  const inp = { width:"100%", padding:"11px 14px", borderRadius:10, border:`1.5px solid ${tk.border}`, background:tk.bgInput, color:tk.text, fontSize:14, boxSizing:"border-box", outline:"none", fontFamily:"'Inter',sans-serif" };
   const lbl = t => <label style={{ display:"block", fontWeight:700, fontSize:11, color:tk.textMid, marginBottom:5, textTransform:"uppercase", letterSpacing:"0.4px" }}>{t}</label>;
 
   return (
@@ -43,10 +43,10 @@ export default function ProfileEditPage() {
             </div>
           ))}
           <div style={{ display:"flex", gap:12, marginTop:8 }}>
-            <button type="submit" style={{ flex:1, padding:13, background:"linear-gradient(135deg,#52b788,#40916c)", color:"#fff", border:"none", borderRadius:10, cursor:"pointer", fontWeight:700, fontSize:15, fontFamily:"inherit" }}>
+            <button type="submit" style={{ flex:1, padding:13, background:"linear-gradient(135deg,#52b788,#40916c)", color:"#fff", border:"none", borderRadius:10, cursor:"pointer", fontWeight:700, fontSize:15, fontFamily:"'Inter',sans-serif" }}>
               Save Changes
             </button>
-            <button type="button" onClick={() => navigate("/profile")} style={{ flex:1, padding:13, background:"transparent", border:`1.5px solid ${tk.border}`, color:tk.textMid, borderRadius:10, cursor:"pointer", fontWeight:700, fontFamily:"inherit" }}>
+            <button type="button" onClick={() => navigate("/profile")} style={{ flex:1, padding:13, background:"transparent", border:`1.5px solid ${tk.border}`, color:tk.textMid, borderRadius:10, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>
               Cancel
             </button>
           </div>
