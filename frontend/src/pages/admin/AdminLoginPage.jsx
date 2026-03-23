@@ -19,7 +19,6 @@ const adminFetch = (path, opts={}) =>
 
 // ── Liquid Glass sidebar ──────────────────────────────────────────────────────
 function AdminSidebar() {
-  const navigate = useNavigate();
   const links = [["📊","Dashboard","/admin/dashboard"],["👥","Users","/admin/users"],["🌾","Farmers","/admin/farmers"],["🏢","Agents","/admin/agents"],["📦","Products","/admin/products"],["🛒","Orders","/admin/orders"]];
   return (
     <aside style={{
