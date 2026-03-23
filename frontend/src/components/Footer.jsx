@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 
 export default function Footer() {
-  const { dark } = useTheme();
+  useTheme();
   return (
     <footer style={{
       position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 1000,

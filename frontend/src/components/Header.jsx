@@ -10,7 +10,6 @@ export default function Header() {
   const { itemCount } = useCart();
   const { dark, toggle } = useTheme();
   const { user, logout } = useAuth();
-  const tk = TK(dark);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef(null);
