@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, NavLink, useLocation } from "react-router-dom";
 import { useCart } from "../context/CartContext";
-import { useTheme, TK } from "../context/ThemeContext";
+import { useTheme } from "../context/ThemeContext";
 import { useAuth } from "../context/AuthContext";
 
 export default function Header() {
