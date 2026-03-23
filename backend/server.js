@@ -9,14 +9,10 @@ const app = express();
 connectDB();
 
 // ── Middleware ────────────────────────────────────────────────────────────────
+// Allow ALL origins — fixes CORS blocking from Vercel
 app.use(cors({
-  origin: [
-    "http://localhost:3000",
-    "https://your-vercel-app.vercel.app",   // ← your actual Vercel URL
-    /\.vercel\.app$/,                        // allows all vercel preview URLs
-  ],
+  origin: "*",
   methods: ["GET","POST","PUT","DELETE","OPTIONS"],
-  credentials: true,
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -66,4 +62,11 @@ app.listen(PORT, () => {
   console.log("   PUT   /api/partnerships/:id/respond  (agent)");
   console.log("   POST  /api/ratings");
   console.log("   GET   /api/admin/stats");
+
+  // ── Keep-alive ping every 14 min (prevents Render free tier from sleeping) ─
+  setInterval(() => {
+    fetch("https://rps-fields-3.onrender.com/api/health")
+      .then(() => console.log("🟢 Keep-alive ping OK"))
+      .catch(() => console.log("⚠ Keep-alive ping failed"));
+  }, 14 * 60 * 1000);
 });
