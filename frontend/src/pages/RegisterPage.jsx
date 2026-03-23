@@ -2,48 +2,75 @@ import { useNavigate } from "react-router-dom";
 import { useTheme, TK } from "../context/ThemeContext";
 
 const OPTIONS = [
-  { icon:"🛒", title:"I'm a Customer",  desc:"Buy fresh produce directly from verified farmers. Farm-fresh quality at fair prices.", btn:"Register as Customer", path:"/register/customer", color:"#40916c", badge:null },
-  { icon:"🌾", title:"I'm a Farmer",    desc:"List your produce and connect with agents. Reach thousands of customers without middlemen.", btn:"Register as Farmer",   path:"/register/farmer",   color:"#2d6a4f", badge:null },
-  { icon:"🏢", title:"I'm an Agent",    desc:"Partner with farmers, add products to the catalog and manage sales on their behalf.", btn:"Register as Agent",    path:"/register/agent",    color:"#1e40af", badge:null },
-  { icon:"🛡", title:"Admin Access",    desc:"Platform management for RPS Fields staff only.", btn:"Go to Admin Login", path:"/admin/login", color:"#1a3a5c", badge:"Staff Only" },
+  { icon:"🛒", title:"I'm a Customer",  desc:"Buy fresh produce directly from verified farmers. Farm-fresh quality at fair prices.", btn:"Register as Customer", path:"/register/customer", color:"#40916c", grad:"linear-gradient(135deg,#40916c,#2d6a4f)" },
+  { icon:"🌾", title:"I'm a Farmer",    desc:"List your produce and connect with agents. Reach thousands of customers without middlemen.", btn:"Register as Farmer",   path:"/register/farmer",   color:"#d4a017", grad:"linear-gradient(135deg,#d4a017,#b8860b)" },
+  { icon:"🏢", title:"I'm an Agent",    desc:"Partner with farmers, add products to the catalog and manage sales on their behalf.", btn:"Register as Agent",    path:"/register/agent",    color:"#3b82f6", grad:"linear-gradient(135deg,#3b82f6,#1e40af)" },
+  { icon:"🛡", title:"Admin Access",    desc:"Platform management for RPS Fields staff only. Restricted access.", btn:"Admin Login", path:"/admin/login", color:"#8b5cf6", grad:"linear-gradient(135deg,#8b5cf6,#6d28d9)", badge:"Staff Only" },
 ];
 
 export default function RegisterPage() {
   const navigate = useNavigate();
-  const { dark } = useTheme();
-  const tk = TK(dark);
+  const { dark } = useTheme(); const tk = TK(dark);
 
   return (
-    <div style={{ background:tk.bg, minHeight:"100%", padding:"60px 20px", textAlign:"center" }}>
-      <div style={{ marginBottom:48 }}>
-        <div style={{ fontSize:52, marginBottom:14 }}>🌿</div>
-        <h1 style={{ fontSize:36, fontFamily:"'Playfair Display',Georgia,serif", color:tk.text, marginBottom:10 }}>Join RPS Fields</h1>
-        <p style={{ color:tk.textLt, fontSize:15, maxWidth:440, margin:"0 auto" }}>Choose how you'd like to use the platform</p>
+    <div style={{ background:tk.bg, minHeight:"100%", padding:"60px 20px 100px" }}>
+      {/* Header */}
+      <div style={{ textAlign:"center", marginBottom:52, animation:"fadeUp 0.5s ease both" }}>
+        <div style={{ display:"inline-flex", alignItems:"center", gap:8, background: dark?"#162b1d":"#e8f5ee", color:"#40916c", borderRadius:20, padding:"5px 18px", fontSize:11, fontWeight:700, letterSpacing:"1.5px", textTransform:"uppercase", marginBottom:18 }}>
+          <span style={{ width:6, height:6, borderRadius:"50%", background:"#52b788", display:"inline-block", animation:"pulse 2s infinite" }} />
+          Join the Platform
+        </div>
+        <h1 style={{ fontSize:"clamp(30px,5vw,46px)", fontFamily:"'Playfair Display',Georgia,serif", color:tk.text, marginBottom:12, fontWeight:700 }}>
+          Welcome to RPS Fields
+        </h1>
+        <p style={{ color:tk.textLt, fontSize:16, maxWidth:460, margin:"0 auto" }}>
+          Choose your role and start connecting farmers, agents and customers
+        </p>
       </div>
 
-      <div style={{ display:"flex", gap:22, justifyContent:"center", flexWrap:"wrap", maxWidth:1100, margin:"0 auto" }}>
-        {OPTIONS.map(opt => (
+      {/* Cards */}
+      <div style={{ display:"flex", gap:24, justifyContent:"center", flexWrap:"wrap", maxWidth:1100, margin:"0 auto" }}>
+        {OPTIONS.map((opt, i) => (
           <div key={opt.title} onClick={() => navigate(opt.path)}
-            style={{ background:tk.bgCard, borderRadius:20, padding:"34px 28px", width:245, boxShadow:tk.shadowLg, border:`2px solid ${opt.color}40`, transition:"transform 0.2s, box-shadow 0.2s, border-color 0.2s", cursor:"pointer", position:"relative", textAlign:"center" }}
-            onMouseEnter={e => { e.currentTarget.style.transform="translateY(-7px)"; e.currentTarget.style.borderColor=opt.color; }}
-            onMouseLeave={e => { e.currentTarget.style.transform="none"; e.currentTarget.style.borderColor=`${opt.color}40`; }}>
+            style={{
+              background:tk.bgCard, borderRadius:24, padding:"36px 30px",
+              width:256, cursor:"pointer", position:"relative", textAlign:"center",
+              border:`1px solid ${tk.border}`,
+              boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
+              transition:"all 0.3s cubic-bezier(0.34,1.56,0.64,1)",
+              animation:`fadeUp 0.55s ease ${i*0.1}s both`,
+            }}
+            onMouseEnter={e => { e.currentTarget.style.transform="translateY(-10px) scale(1.01)"; e.currentTarget.style.boxShadow=`0 20px 48px ${opt.color}25`; e.currentTarget.style.borderColor=opt.color; }}
+            onMouseLeave={e => { e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow="0 4px 24px rgba(0,0,0,0.06)"; e.currentTarget.style.borderColor=tk.border; }}
+          >
             {opt.badge && (
-              <div style={{ position:"absolute", top:-12, left:"50%", transform:"translateX(-50%)", background:"#1a3a5c", color:"#7eb8f7", borderRadius:20, padding:"3px 14px", fontSize:10, fontWeight:800, letterSpacing:"1.5px", textTransform:"uppercase", border:"1px solid #2a5a8c" }}>{opt.badge}</div>
+              <div style={{ position:"absolute", top:-13, left:"50%", transform:"translateX(-50%)", background:"#1a1a2e", color:"#a78bfa", borderRadius:20, padding:"3px 14px", fontSize:10, fontWeight:800, letterSpacing:"1px", textTransform:"uppercase", border:"1px solid rgba(139,92,246,0.4)", whiteSpace:"nowrap" }}>
+                {opt.badge}
+              </div>
             )}
-            <div style={{ fontSize:52, marginBottom:14 }}>{opt.icon}</div>
-            <h3 style={{ fontSize:18, fontWeight:800, color:tk.text, marginBottom:8 }}>{opt.title}</h3>
-            <p style={{ color:tk.textLt, fontSize:13, lineHeight:1.7, marginBottom:24, minHeight:60 }}>{opt.desc}</p>
+
+            <div style={{
+              width:64, height:64, borderRadius:18, background:opt.grad,
+              display:"flex", alignItems:"center", justifyContent:"center",
+              fontSize:28, margin:"0 auto 18px",
+              boxShadow:`0 8px 24px ${opt.color}30`,
+            }}>{opt.icon}</div>
+
+            <h3 style={{ fontSize:18, fontWeight:800, color:tk.text, marginBottom:10 }}>{opt.title}</h3>
+            <p style={{ color:tk.textLt, fontSize:13, lineHeight:1.7, marginBottom:24, minHeight:54 }}>{opt.desc}</p>
+
             <button onClick={e => { e.stopPropagation(); navigate(opt.path); }}
-              style={{ background:`linear-gradient(135deg,${opt.color},${opt.color}cc)`, color:"#fff", border:"none", width:"100%", padding:"11px 0", borderRadius:10, cursor:"pointer", fontWeight:700, fontSize:13, fontFamily:"inherit" }}>
-              {opt.btn} →
-            </button>
+              style={{ background:opt.grad, color:"#fff", border:"none", width:"100%", padding:"12px 0", borderRadius:12, cursor:"pointer", fontWeight:800, fontSize:14, fontFamily:"inherit", boxShadow:`0 4px 16px ${opt.color}35`, transition:"all 0.2s" }}
+              onMouseEnter={e => { e.target.style.transform="translateY(-1px)"; e.target.style.boxShadow=`0 8px 24px ${opt.color}50`; }}
+              onMouseLeave={e => { e.target.style.transform="none"; e.target.style.boxShadow=`0 4px 16px ${opt.color}35`; }}
+            >{opt.btn} →</button>
           </div>
         ))}
       </div>
 
-      <p style={{ marginTop:40, fontSize:14, color:tk.textLt }}>
+      <p style={{ textAlign:"center", marginTop:44, fontSize:14, color:tk.textLt, animation:"fadeIn 0.6s ease 0.4s both" }}>
         Already have an account?{" "}
-        <span onClick={() => navigate("/login")} style={{ color:tk.green7, cursor:"pointer", fontWeight:700 }}>Login here</span>
+        <span onClick={() => navigate("/login")} style={{ color:"#52b788", cursor:"pointer", fontWeight:800, textDecoration:"underline", textUnderlineOffset:3 }}>Sign in here</span>
       </p>
     </div>
   );
