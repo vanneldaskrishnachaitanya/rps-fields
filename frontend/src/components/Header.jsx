@@ -11,7 +11,6 @@ export default function Header() {
   const { user, logout } = useAuth();
   const tk = TK(dark);
 
-  // ── Mobile menu state (new) ──────────────────────────────────────────────
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
@@ -31,9 +30,7 @@ export default function Header() {
 
   const goTo = (path) => { setMenuOpen(false); navigate(path); };
   const mobileLogout = () => { setMenuOpen(false); logout(); navigate("/"); };
-  // ────────────────────────────────────────────────────────────────────────
 
-  // ── YOUR ORIGINAL CODE — not changed at all ──────────────────────────────
   const handleLogout = () => { logout(); navigate("/"); };
 
   const nb = (isActive, override = {}) => ({
@@ -54,9 +51,7 @@ export default function Header() {
     if (user.role === "admin")    return "/admin/dashboard";
     return "/";
   };
-  // ────────────────────────────────────────────────────────────────────────
 
-  // Mobile dropdown link style
   const ml = (color = "#fff") => ({
     display: "block", width: "100%", padding: "13px 20px",
     color, fontSize: 15, fontWeight: 700, cursor: "pointer",
@@ -68,7 +63,6 @@ export default function Header() {
 
   return (
     <>
-      {/* Responsive CSS — only thing added to make mobile work */}
       <style>{`
         .rps-nav   { display: flex !important; }
         .rps-hamburger { display: none !important; }
@@ -89,7 +83,7 @@ export default function Header() {
           display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8,
         }}>
 
-          {/* Logo — UNCHANGED */}
+          {/* Logo */}
           <div style={{ display:"flex", alignItems:"center", gap:10, cursor:"pointer", flexShrink:0 }}
             onClick={() => navigate("/")}>
             <span style={{ fontSize: 26 }}>🌿</span>
@@ -99,10 +93,11 @@ export default function Header() {
             </div>
           </div>
 
-          {/* ── Desktop Nav — YOUR ORIGINAL CODE, just hidden on mobile ── */}
+          {/* Desktop Nav */}
           <nav className="rps-nav" style={{ alignItems:"center", gap:4, flexWrap:"wrap" }}>
             <NavLink to="/"        end style={({ isActive }) => nb(isActive)}>🏠 Home</NavLink>
             <NavLink to="/catalog"     style={({ isActive }) => nb(isActive)}>🛒 Catalog</NavLink>
+            <NavLink to="/weather"     style={({ isActive }) => nb(isActive, { background: isActive ? "rgba(116,198,157,0.3)" : "rgba(116,198,157,0.12)", border:"1px solid rgba(116,198,157,0.4)" })}>🌤 Weather</NavLink>
 
             {user?.role === "farmer" && (<>
               <NavLink to="/farmer/dashboard"   style={({ isActive }) => nb(isActive, { background: isActive ? "rgba(212,160,23,0.4)" : "rgba(212,160,23,0.2)", border:"1px solid rgba(212,160,23,0.6)" })}>🌾 My Farm</NavLink>
@@ -151,11 +146,10 @@ export default function Header() {
             </button>
           </nav>
 
-          {/* ── Mobile: Cart + Theme + Hamburger (only visible ≤768px) ── */}
+          {/* Mobile Controls */}
           <div className="rps-hamburger" ref={menuRef}
             style={{ alignItems:"center", gap:8, position:"relative" }}>
 
-            {/* Cart */}
             {(!user || user.role === "customer") && (
               <button onClick={() => goTo("/cart")}
                 style={{ background:tk.gold, border:"none", color:"#1b4332", fontWeight:800, padding:"7px 10px", borderRadius:8, cursor:"pointer", fontSize:14, fontFamily:"inherit", display:"flex", alignItems:"center", gap:4 }}>
@@ -163,13 +157,11 @@ export default function Header() {
               </button>
             )}
 
-            {/* Theme */}
             <button onClick={toggle}
               style={{ background:"rgba(255,255,255,0.1)", border:"1px solid rgba(255,255,255,0.25)", color:"#fff", width:36, height:36, borderRadius:"50%", cursor:"pointer", fontSize:15, display:"flex", alignItems:"center", justifyContent:"center", fontFamily:"inherit" }}>
               {dark ? "☀️" : "🌙"}
             </button>
 
-            {/* Hamburger ≡ / ✕ */}
             <button onClick={() => setMenuOpen(o => !o)} aria-label="Menu"
               style={{ background:"rgba(255,255,255,0.1)", border:"1px solid rgba(255,255,255,0.25)", width:40, height:40, borderRadius:8, cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:5, padding:0 }}>
               <span style={{ width:18, height:2, background:"#fff", borderRadius:2, transition:"all 0.25s", display:"block", transform: menuOpen ? "rotate(45deg) translate(5px,5px)"  : "none" }} />
@@ -177,7 +169,6 @@ export default function Header() {
               <span style={{ width:18, height:2, background:"#fff", borderRadius:2, transition:"all 0.25s", display:"block", transform: menuOpen ? "rotate(-45deg) translate(5px,-5px)" : "none" }} />
             </button>
 
-            {/* Dropdown menu */}
             {menuOpen && (
               <div style={{
                 position:"absolute", top:"calc(100% + 10px)", right:0, width:255,
@@ -186,7 +177,6 @@ export default function Header() {
                 boxShadow:"0 8px 32px rgba(0,0,0,0.5)",
                 border:"1px solid rgba(255,255,255,0.12)", zIndex:2000,
               }}>
-                {/* User info */}
                 {user && (
                   <div style={{ padding:"13px 20px", borderBottom:"1px solid rgba(255,255,255,0.12)", background:"rgba(255,255,255,0.06)" }}>
                     <div style={{ color:"#fff", fontWeight:800, fontSize:14 }}>
@@ -198,6 +188,7 @@ export default function Header() {
 
                 <button onClick={() => goTo("/")}        style={ml()}>🏠 Home</button>
                 <button onClick={() => goTo("/catalog")} style={ml()}>🛒 Catalog</button>
+                <button onClick={() => goTo("/weather")} style={ml()}>🌤 Weather</button>
 
                 {user?.role === "farmer" && (<>
                   <button onClick={() => goTo("/farmer/dashboard")}   style={ml("#fcd34d")}>🌾 My Farm</button>
