@@ -141,7 +141,7 @@ export default function Header() {
                   onMouseEnter={e=>e.currentTarget.style.background="rgba(255,255,255,0.16)"}
                   onMouseLeave={e=>e.currentTarget.style.background="rgba(255,255,255,0.08)"}
                 >
-                  <div style={{ width:22, height:22, borderRadius:"50%", background:"linear-gradient(135deg,rgba(82,183,136,0.28),#1b4332)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, flexShrink:0 }}>
+                  <div style={{ width:22, height:22, borderRadius:"50%", background:"rgba(82,183,136,0.28)",#1b4332)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:11, flexShrink:0 }}>
                     {user.role==="farmer"?"🌾":user.role==="agent"?"🏢":user.role==="admin"?"🛡":"👤"}
                   </div>
                   {(user.fullName||user.name)?.split(" ")[0]}
@@ -152,7 +152,8 @@ export default function Header() {
 
             {(!user||user.role==="customer") && (
               <button onClick={()=>navigate("/cart")} style={{
-                background:"rgba(200,150,12,0.32)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"none", color:"#fff", fontWeight:700, fontFamily:"'Inter',sans-serif",
+                background:"rgba(200,150,12,0.32)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)",
+                border:"none", color:"#fff", fontWeight:700, fontFamily:"'Inter',sans-serif",
                 padding:"7px 14px", borderRadius:20, cursor:"pointer", fontSize:13,
                 display:"flex", alignItems:"center", gap:5,
                 boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)",
@@ -200,7 +201,7 @@ export default function Header() {
                 {user && (
                   <div style={{ padding:"14px 18px", borderBottom:"1px solid rgba(255,255,255,0.08)", background:"rgba(82,183,136,0.08)" }}>
                     <div style={{ display:"flex", alignItems:"center", gap:9 }}>
-                      <div style={{ width:36, height:36, borderRadius:"50%", background:"linear-gradient(135deg,rgba(82,183,136,0.28),#1b4332)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:15, flexShrink:0 }}>{user.role==="farmer"?"🌾":user.role==="agent"?"🏢":user.role==="admin"?"🛡":"👤"}</div>
+                      <div style={{ width:36, height:36, borderRadius:"50%", background:"rgba(82,183,136,0.28)",#1b4332)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:15, flexShrink:0 }}>{user.role==="farmer"?"🌾":user.role==="agent"?"🏢":user.role==="admin"?"🛡":"👤"}</div>
                       <div>
                         <div style={{ color:"#fff", fontWeight:700, fontSize:13 }}>{user.fullName||user.name}</div>
                         <div style={{ color:"rgba(255,255,255,0.45)", fontSize:11, textTransform:"capitalize" }}>{user.role}</div>

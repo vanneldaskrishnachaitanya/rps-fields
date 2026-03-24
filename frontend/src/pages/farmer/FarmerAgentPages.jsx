@@ -136,7 +136,7 @@ export function FindAgentsPage() {
                   onMouseLeave={e=>{e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow=dark?"0 4px 24px rgba(0,0,0,0.4)":"0 4px 24px rgba(0,0,0,0.08)";}}
                 >
                   <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:16 }}>
-                    <div style={{ width:48, height:48, borderRadius:14, background:"rgba(59,130,246,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, boxShadow:"0 4px 14px rgba(59,130,246,0.3)", flexShrink:0 }}>🏢</div>
+                    <div style={{ width:48, height:48, borderRadius:14, background:"rgba(59,130,246,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, boxShadow:"0 4px 14px rgba(59,130,246,0.3)", flexShrink:0 }}>🏢</div>
                     <div>
                       <div style={{ fontWeight:700, fontSize:15, color:tk.text }}>{a.fullName||a.name}</div>
                       <div style={{ fontSize:11, color:tk.textLt, marginTop:2 }}>Agent · {(aid?.slice(-8)).toUpperCase()}</div>
@@ -213,7 +213,7 @@ export function PartneredAgentsPage() {
                 onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-5px)"; e.currentTarget.style.boxShadow=dark?"0 12px 36px rgba(0,0,0,0.5)":"0 12px 36px rgba(0,0,0,0.12)";}}
                 onMouseLeave={e=>{e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow=dark?"0 4px 24px rgba(0,0,0,0.4)":"0 4px 24px rgba(0,0,0,0.08)";}}
               >
-                <div style={{ width:56, height:56, borderRadius:16, background:"rgba(59,130,246,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:24, margin:"0 auto 12px", boxShadow:"0 6px 18px rgba(59,130,246,0.3)" }}>🏢</div>
+                <div style={{ width:56, height:56, borderRadius:16, background:"rgba(59,130,246,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:24, margin:"0 auto 12px", boxShadow:"0 6px 18px rgba(59,130,246,0.3)" }}>🏢</div>
                 <div style={{ fontWeight:700, fontSize:16, color:tk.text, marginBottom:4 }}>{a.fullName||a.name}</div>
                 <div style={{ fontSize:11, color:tk.textLt, marginBottom:14 }}>Agent Partner</div>
                 <div style={{ display:"flex", flexDirection:"column", gap:6 }}>

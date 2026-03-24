@@ -32,7 +32,7 @@ function AdminSidebar() {
       {/* Logo */}
       <div style={{ padding:"26px 20px 22px", borderBottom:"1px solid rgba(82,183,136,0.1)" }}>
         <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:4 }}>
-          <div style={{ width:34, height:34, borderRadius:9,background:"linear-gradient(135deg,rgba(82,183,136,0.28),#1b4332)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:16, boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)" }}>🌿</div>
+          <div style={{ width:34, height:34, borderRadius:9, background:"rgba(82,183,136,0.28)",#1b4332)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:16, boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)" }}>🌿</div>
           <span style={{ color:"#fff", fontFamily:"'Playfair Display',Georgia,serif", fontWeight:700, fontSize:18 }}>RPS Admin</span>
         </div>
         <div style={{ fontSize:9, color:A.textLt, letterSpacing:"2.5px", textTransform:"uppercase", marginLeft:44 }}>Control Panel</div>
@@ -163,7 +163,7 @@ export function AdminLoginPage() {
       <div style={{ width:"100%", maxWidth:420, animation:"scaleIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both" }}>
         <div style={{ background:"rgba(8,18,10,0.88)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", borderRadius:24, padding:"44px 40px", border:"1px solid rgba(82,183,136,0.15)", boxShadow:"0 24px 64px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.05)", marginBottom:16 }}>
           <div style={{ textAlign:"center", marginBottom:32 }}>
-            <div style={{ width:68, height:68, borderRadius:18, background:"linear-gradient(135deg,rgba(82,183,136,0.28),#1b4332)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:30, margin:"0 auto 18px", boxShadow:"0 10px 30px rgba(82,183,136,0.4)", animation:"anim-glow 2s ease-in-out infinite" }}>🛡</div>
+            <div style={{ width:68, height:68, borderRadius:18, background:"rgba(82,183,136,0.28)",#1b4332)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:30, margin:"0 auto 18px", boxShadow:"0 10px 30px rgba(82,183,136,0.4)", animation:"anim-glow 2s ease-in-out infinite" }}>🛡</div>
             <h1 style={{ fontSize:26, fontFamily:"'Playfair Display',Georgia,serif", color:"#fff", margin:"0 0 6px" }}>Admin Login</h1>
             <p style={{ color:A.textLt, fontSize:13, margin:0 }}>RPS Fields — Staff Access Only</p>
           </div>
@@ -199,7 +199,7 @@ export function AdminLoginPage() {
                 <div>🔑 admin123</div>
               </div>
               <button onClick={()=>{ setEmail("admin@rpsfields.in"); setPassword("admin123"); setError(""); }}
-                style={{ padding:"7px 14px", background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", borderRadius:20, cursor:"pointer", fontSize:12, fontWeight:700, fontFamily:"'Inter',sans-serif", boxShadow:"0 3px 10px rgba(82,183,136,0.3)", transition:"all 0.2s" }}
+                style={{ padding:"7px 14px", background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", borderRadius:20, cursor:"pointer", fontSize:12, fontWeight:700, fontFamily:"'Inter',sans-serif", boxShadow:"0 3px 10px rgba(82,183,136,0.3)", transition:"all 0.2s" }}
                 onMouseEnter={e=>e.currentTarget.style.transform="translateY(-1px)"} onMouseLeave={e=>e.currentTarget.style.transform="none"}>
                 Fill →
               </button>
