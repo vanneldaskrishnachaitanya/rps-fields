@@ -55,7 +55,7 @@ export default function FarmerDashboard() {
           <div style={{ display:"flex", alignItems:"center", gap:16, flexWrap:"wrap" }}>
             <div style={{
               width:58, height:58, borderRadius:16,
-              background:"linear-gradient(135deg,rgba(82,183,136,0.28),#1b4332)",
+              background:"rgba(82,183,136,0.28)",#1b4332)",
               display:"flex", alignItems:"center", justifyContent:"center",
               fontSize:26, boxShadow:"0 8px 24px rgba(82,183,136,0.35)", flexShrink:0,
             }}>🌾</div>
@@ -164,7 +164,7 @@ export default function FarmerDashboard() {
               </div>
             </div>
             <div style={{ display:"flex", gap:8 }}>
-              <button onClick={()=>navigate("/farmer/find-agents")} style={{ padding:"10px 18px", background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", borderRadius:50, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif", fontSize:13, boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", transition:"all 0.2s" }}
+              <button onClick={()=>navigate("/farmer/find-agents")} style={{ padding:"10px 18px", background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", borderRadius:50, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif", fontSize:13, transition:"all 0.2s" }}
                 onMouseEnter={e=>e.currentTarget.style.transform="translateY(-1px)"}
                 onMouseLeave={e=>e.currentTarget.style.transform="none"}
               >🤝 Find Agents</button>
@@ -192,7 +192,7 @@ export default function FarmerDashboard() {
               <div style={{ fontSize:52, marginBottom:16, animation:"float 3s ease-in-out infinite" }}>📦</div>
               <h3 style={{ color:tk.text, marginBottom:8, fontSize:18, fontFamily:"'Playfair Display',Georgia,serif" }}>No products yet</h3>
               <p style={{ color:tk.textLt, marginBottom:22, fontSize:14 }}>Connect with an agent to start listing your produce.</p>
-              <button onClick={()=>navigate("/farmer/find-agents")} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"12px 28px", borderRadius:50, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)" }}>
+              <button onClick={()=>navigate("/farmer/find-agents")} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"12px 28px", borderRadius:50, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>
                 Find Agents →
               </button>
             </div>
