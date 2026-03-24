@@ -200,7 +200,7 @@ export default function Header() {
                 {user && (
                   <div style={{ padding:"14px 18px", borderBottom:"1px solid rgba(255,255,255,0.08)", background:"rgba(82,183,136,0.08)" }}>
                     <div style={{ display:"flex", alignItems:"center", gap:9 }}>
-                      <div style={{ width:36, height:36, borderRadius:"50%", background:"rgba(82,183,136,0.28)",#1b4332)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:15, flexShrink:0 }}>{user.role==="farmer"?"🌾":user.role==="agent"?"🏢":user.role==="admin"?"🛡":"👤"}</div>
+                      <div style={{ width:36, height:36, borderRadius:"50%", background:"linear-gradient(135deg,rgba(82,183,136,0.28),#1b4332)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:15, flexShrink:0 }}>{user.role==="farmer"?"🌾":user.role==="agent"?"🏢":user.role==="admin"?"🛡":"👤"}</div>
                       <div>
                         <div style={{ color:"#fff", fontWeight:700, fontSize:13 }}>{user.fullName||user.name}</div>
                         <div style={{ color:"rgba(255,255,255,0.45)", fontSize:11, textTransform:"capitalize" }}>{user.role}</div>
