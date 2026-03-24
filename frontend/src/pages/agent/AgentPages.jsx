@@ -47,14 +47,14 @@ export function AgentProductsPage() {
         <AgentNav active="/agent/products" />
         {msg && <div style={{ background:"#d4edda", border:"1px solid #28a745", borderRadius:10, padding:"10px 16px", marginBottom:18, color:"#155724", fontWeight:700 }}>{msg}</div>}
         <div style={{ display:"flex", justifyContent:"flex-end", marginBottom:20 }}>
-          <Link to="/agent/add-product" style={{ background:"linear-gradient(135deg,#3b82f6,#1e40af)", color:"#fff", padding:"11px 22px", borderRadius:10, fontWeight:700, fontSize:14, textDecoration:"none" }}>+ Add Product</Link>
+          <Link to="/agent/add-product" style={{ background:"rgba(59,130,246,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", color:"#fff", padding:"11px 22px", borderRadius:10, fontWeight:700, fontSize:14, textDecoration:"none" }}>+ Add Product</Link>
         </div>
         {loading ? <div style={{ textAlign:"center", padding:60, color:tk.textLt }}>Loading...</div>
         : products.length===0 ? (
           <div style={{ textAlign:"center", padding:60, background:tk.bgCard, borderRadius:16, border:`1px solid ${tk.border}` }}>
             <div style={{ fontSize:52, marginBottom:12 }}>📦</div>
             <h3 style={{ color:tk.text }}>No products yet</h3>
-            <Link to="/agent/add-product" style={{ display:"inline-block", marginTop:14, background:"#3b82f6", color:"#fff", padding:"11px 22px", borderRadius:10, fontWeight:700, textDecoration:"none" }}>Add First Product</Link>
+            <Link to="/agent/add-product" style={{ display:"inline-block", marginTop:14, background:"rgba(59,130,246,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", color:"#fff", padding:"11px 22px", borderRadius:10, fontWeight:700, textDecoration:"none" }}>Add First Product</Link>
           </div>
         ) : (
           <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(290px,1fr))", gap:18 }}>
@@ -175,7 +175,7 @@ export function AgentFarmersPage() {
                   </div>
                 ))}
                 <button onClick={()=>navigate("/agent/add-product")}
-                  style={{ marginTop:14, width:"100%", padding:"10px", background:"linear-gradient(135deg,#3b82f6,#1e40af)", color:"#fff", border:"none", borderRadius:10, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>
+                  style={{ marginTop:14, width:"100%", padding:"10px", background:"rgba(59,130,246,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.28)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", borderRadius:10, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>
                   + Add Product for This Farmer
                 </button>
               </div>
@@ -243,7 +243,7 @@ export function AgentRequestsPage() {
               </div>
               <div style={{ display:"flex", gap:12 }}>
                 <button onClick={()=>respond(req._id,"accepted")} disabled={!!busy}
-                  style={{ flex:1, padding:"12px", background:"linear-gradient(135deg,#10b981,#059669)", color:"#fff", border:"none", borderRadius:10, cursor:busy?"not-allowed":"pointer", fontWeight:700, fontSize:14, fontFamily:"'Inter',sans-serif", opacity:busy?0.7:1 }}>
+                  style={{ flex:1, padding:"12px", background:"rgba(16,185,129,0.25)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", color:"#fff", border:"none", borderRadius:10, cursor:busy?"not-allowed":"pointer", fontWeight:700, fontSize:14, fontFamily:"'Inter',sans-serif", opacity:busy?0.7:1 }}>
                   {busy==="accepted" ? "Accepting..." : "✓ Accept Partnership"}
                 </button>
                 <button onClick={()=>respond(req._id,"rejected")} disabled={!!busy}
@@ -316,7 +316,7 @@ export function AgentEditProductPage() {
             {form.image && <img src={form.image} alt="" style={{ width:70, height:70, objectFit:"cover", borderRadius:10, marginTop:10, border:`1px solid ${tk.border}` }} onError={e=>e.target.style.display="none"} />}
           </div>
           <div style={{ display:"flex", gap:12 }}>
-            <button onClick={handleSave} disabled={saving} style={{ flex:1, padding:14, background:"linear-gradient(135deg,#3b82f6,#1e40af)", color:"#fff", border:"none", borderRadius:10, cursor:saving?"not-allowed":"pointer", fontWeight:700, fontSize:15, fontFamily:"'Inter',sans-serif", opacity:saving?0.7:1 }}>
+            <button onClick={handleSave} disabled={saving} style={{ flex:1, padding:14, background:"rgba(59,130,246,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.28)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", borderRadius:10, cursor:saving?"not-allowed":"pointer", fontWeight:700, fontSize:15, fontFamily:"'Inter',sans-serif", opacity:saving?0.7:1 }}>
               {saving ? "Saving..." : "💾 Save Changes"}
             </button>
             <button onClick={()=>navigate("/agent/products")} style={{ flex:1, padding:14, background:"transparent", border:`1.5px solid ${tk.border}`, color:tk.textMid, borderRadius:10, cursor:"pointer", fontWeight:700, fontSize:15, fontFamily:"'Inter',sans-serif" }}>Cancel</button>

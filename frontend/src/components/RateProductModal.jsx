@@ -76,7 +76,7 @@ export default function RateProductModal({ item, orderId, onClose, onDone }) {
 
             <div style={{ display:"flex", gap:10 }}>
               <button onClick={handleSubmit} disabled={loading}
-                style={{ flex:1, padding:"12px", background:"linear-gradient(135deg,#f59e0b,#d97706)", color:"#fff", border:"none", borderRadius:10, cursor:loading?"not-allowed":"pointer", fontWeight:700, fontSize:14, fontFamily:"inherit", opacity:loading?0.7:1 }}>
+                style={{ flex:1, padding:"12px", background:"rgba(245,158,11,0.30)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", color:"#fff", border:"none", borderRadius:10, cursor:loading?"not-allowed":"pointer", fontWeight:700, fontSize:14, fontFamily:"inherit", opacity:loading?0.7:1 }}>
                 {loading ? "Submitting..." : "Submit Review ⭐"}
               </button>
               <button onClick={onClose}

@@ -56,7 +56,7 @@ export default function FaqPage() {
           <p style={{ color: "rgba(255,255,255,0.72)", marginBottom: 20, fontSize: 14 }}>
             Our support team is available Mon–Sat, 9am–6pm IST
           </p>
-          <a href="/contact" style={{ background: "linear-gradient(135deg,#d4a017,#c49010)", color: "#1b4332", padding: "12px 28px", borderRadius: 10, fontWeight: 800, fontSize: 14, textDecoration: "none", display: "inline-block" }}>
+          <a href="/contact" style={{ background: "rgba(200,150,12,0.32)", color: "#1b4332", padding: "12px 28px", borderRadius: 10, fontWeight: 800, fontSize: 14, textDecoration: "none", display: "inline-block" }}>
             Contact Support →
           </a>
         </div>

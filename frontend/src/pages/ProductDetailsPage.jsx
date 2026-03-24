@@ -55,7 +55,7 @@ export default function ProductDetailsPage() {
       <div style={{ fontSize:64, marginBottom:16 }}>🔍</div>
       <h2 style={{ fontSize:26, color:tk.text, marginBottom:8, fontFamily:"'Playfair Display',Georgia,serif" }}>Product Not Found</h2>
       <p style={{ color:tk.textLt, marginBottom:28 }}>{error}</p>
-      <button onClick={() => navigate("/catalog")} style={{ background:"linear-gradient(135deg,#52b788,#2d6a4f)", color:"#fff", border:"none", padding:"13px 30px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", boxShadow:"0 6px 20px rgba(82,183,136,0.35)" }}>
+      <button onClick={() => navigate("/catalog")} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"13px 30px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)" }}>
         ← Back to Catalog
       </button>
     </div>
@@ -171,7 +171,7 @@ export default function ProductDetailsPage() {
                 <div style={{ display:"flex", gap:12 }}>
                   <button onClick={handleAdd} style={{
                     flex:1, padding:"15px", fontSize:16, fontWeight:800,
-                    background: added ? "linear-gradient(135deg,#10b981,#059669)" : "linear-gradient(135deg,#52b788,#2d6a4f)",
+                    background: added ? "linear-gradient(135deg,#10b981,#059669)" : "rgba(82,183,136,0.28)",
                     color:"#fff", border:"none", borderRadius:14, cursor:"pointer", fontFamily:"'Inter',sans-serif",
                     boxShadow: added ? "0 6px 20px rgba(16,185,129,0.4)" : "0 6px 20px rgba(82,183,136,0.35)",
                     transition:"all 0.3s ease",

@@ -156,7 +156,7 @@ export default function AgentAddProductPage() {
 
           <div style={{ display:"flex", gap:12 }}>
             <button onClick={handleSubmit} disabled={saving || farmers.length===0}
-              style={{ flex:1, padding:14, background:"linear-gradient(135deg,#3b82f6,#1e40af)", color:"#fff", border:"none", borderRadius:10, cursor:(saving||farmers.length===0)?"not-allowed":"pointer", fontWeight:700, fontSize:15, fontFamily:"'Inter',sans-serif", opacity:saving?0.7:1 }}>
+              style={{ flex:1, padding:14, background:"rgba(59,130,246,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.28)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", borderRadius:10, cursor:(saving||farmers.length===0)?"not-allowed":"pointer", fontWeight:700, fontSize:15, fontFamily:"'Inter',sans-serif", opacity:saving?0.7:1 }}>
               {saving ? "Adding..." : "✅ Add Product to Catalog"}
             </button>
             <button onClick={()=>navigate("/agent/products")}

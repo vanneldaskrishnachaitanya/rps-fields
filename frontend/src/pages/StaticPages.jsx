@@ -93,7 +93,7 @@ export function ContactPage() {
               <div style={{ fontSize:64, marginBottom:16, animation:"bounce 0.6s ease" }}>✅</div>
               <h3 style={{ fontSize:24, color:tk.text, marginBottom:8, fontFamily:"'Playfair Display',Georgia,serif" }}>Message Sent!</h3>
               <p style={{ color:tk.textLt, marginBottom:24 }}>We'll get back to you within 24 hours.</p>
-              <button onClick={()=>setSent(false)} style={{ background:"linear-gradient(135deg,#52b788,#2d6a4f)", color:"#fff", border:"none", padding:"12px 28px", borderRadius:50, cursor:"pointer", fontWeight:800, fontFamily:"'Inter',sans-serif" }}>Send Another</button>
+              <button onClick={()=>setSent(false)} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"12px 28px", borderRadius:50, cursor:"pointer", fontWeight:800, fontFamily:"'Inter',sans-serif" }}>Send Another</button>
             </div>
           ) : (
             <div style={{ background:tk.bgCard, borderRadius:24, padding:36, border:`1px solid ${tk.border}`, animation:"slideRight 0.5s ease both" }}>
@@ -112,7 +112,7 @@ export function ContactPage() {
                 <textarea style={{ ...inp, minHeight:110, resize:"vertical" }} placeholder="Your message..." value={form.message} onChange={set("message")} onFocus={e=>{e.target.style.borderColor="#52b788";}} onBlur={e=>{e.target.style.borderColor=tk.border;}} />
               </div>
               <button onClick={()=>form.name&&form.email&&form.message&&setSent(true)}
-                style={{ background:"linear-gradient(135deg,#52b788,#2d6a4f)", color:"#fff", border:"none", width:"100%", padding:14, borderRadius:14, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", boxShadow:"0 6px 20px rgba(82,183,136,0.35)", transition:"all 0.2s" }}
+                style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", width:"100%", padding:14, borderRadius:14, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", transition:"all 0.2s" }}
                 onMouseEnter={e=>{e.target.style.transform="translateY(-1px)"; e.target.style.boxShadow="0 10px 28px rgba(82,183,136,0.5)";}}
                 onMouseLeave={e=>{e.target.style.transform="none"; e.target.style.boxShadow="0 6px 20px rgba(82,183,136,0.35)";}}>
                 Send Message →
@@ -183,7 +183,7 @@ export function NotFoundPage() {
       <div style={{ fontSize:88, marginBottom:16, animation:"float 3s ease-in-out infinite" }}>🌿</div>
       <h2 style={{ fontSize:32, color:tk.text, marginBottom:10, fontFamily:"'Playfair Display',Georgia,serif" }}>Page Not Found</h2>
       <p style={{ color:tk.textLt, marginBottom:32, fontSize:15 }}>The page you're looking for doesn't exist.</p>
-      <button onClick={()=>navigate("/")} style={{ background:"linear-gradient(135deg,#52b788,#2d6a4f)", color:"#fff", border:"none", padding:"14px 32px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", boxShadow:"0 6px 20px rgba(82,183,136,0.35)" }}>
+      <button onClick={()=>navigate("/")} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"14px 32px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)" }}>
         Back to Home →
       </button>
     </div>

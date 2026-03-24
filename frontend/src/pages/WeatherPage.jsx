@@ -156,7 +156,7 @@ export default function WeatherPage() {
             placeholder="Search any city... e.g. Hyderabad, Warangal, Mumbai"
             style={{ flex: 1, padding: "12px 18px", borderRadius: 12, border: `1.5px solid ${tk.border}`, background: tk.bgInput, color: tk.text, fontSize: 15, outline: "none", fontFamily: "inherit" }} />
           <button onClick={() => fetchWeather(input)} disabled={loading}
-            style={{ padding: "12px 28px", background: "linear-gradient(135deg,#52b788,#40916c)", color: "#fff", border: "none", borderRadius: 12, cursor: loading ? "not-allowed" : "pointer", fontWeight: 700, fontSize: 15, fontFamily: "inherit" }}>
+            style={{ padding: "12px 28px", background: "rgba(82,183,136,0.28)", color: "#fff", border: "none", borderRadius: 12, cursor: loading ? "not-allowed" : "pointer", fontWeight: 700, fontSize: 15, fontFamily: "inherit" }}>
             {loading ? "..." : "Search"}
           </button>
         </div>

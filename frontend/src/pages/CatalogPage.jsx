@@ -79,7 +79,7 @@ export default function CatalogPage() {
               <button key={c} onClick={() => setCat(c)} style={{
                 padding:"8px 16px", borderRadius:20,
                 border:`1.5px solid ${cat===c ? "#52b788" : tk.border}`,
-                background: cat===c ? "linear-gradient(135deg,#52b788,#40916c)" : "transparent",
+                background: cat===c ? "rgba(82,183,136,0.28)" : "transparent",
                 color: cat===c ? "#fff" : tk.textMid,
                 cursor:"pointer", fontWeight:700, fontSize:13, fontFamily:"'Inter',sans-serif",
                 transition:"all 0.2s ease",
@@ -117,7 +117,7 @@ export default function CatalogPage() {
             <div style={{ fontSize:64, marginBottom:16 }}>🔍</div>
             <h3 style={{ fontSize:22, color:tk.text, marginBottom:8, fontFamily:"'Playfair Display',Georgia,serif" }}>No products found</h3>
             <p>Try a different category or search term</p>
-            <button onClick={() => { setCat("All"); setSearch(""); setDSearch(""); }} style={{ marginTop:20, padding:"10px 24px", background:"linear-gradient(135deg,#52b788,#40916c)", color:"#fff", border:"none", borderRadius:20, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>
+            <button onClick={() => { setCat("All"); setSearch(""); setDSearch(""); }} style={{ marginTop:20, padding:"10px 24px", background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", borderRadius:20, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>
               Show All Products
             </button>
           </div>

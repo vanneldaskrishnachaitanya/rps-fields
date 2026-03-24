@@ -66,7 +66,7 @@ export default function FarmerProductsPage() {
             <div style={{ fontSize:56, marginBottom:16, animation:"float 3s ease-in-out infinite" }}>🌾</div>
             <h3 style={{ color:tk.text, fontSize:22, fontFamily:"'Playfair Display',Georgia,serif", marginBottom:8 }}>No products listed yet</h3>
             <p style={{ color:tk.textLt, marginBottom:24, fontSize:15 }}>Products are added by agents on your behalf. Connect with an agent to get started.</p>
-            <Link to="/farmer/find-agents" style={{ display:"inline-block", background:"linear-gradient(135deg,#52b788,#2d6a4f)", color:"#fff", padding:"12px 28px", borderRadius:50, fontWeight:700, textDecoration:"none", boxShadow:"0 6px 20px rgba(82,183,136,0.3)" }}>
+            <Link to="/farmer/find-agents" style={{ display:"inline-block", background:"rgba(82,183,136,0.28)", color:"#fff", padding:"12px 28px", borderRadius:50, fontWeight:700, textDecoration:"none", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)" }}>
               🤝 Find an Agent →
             </Link>
           </div>

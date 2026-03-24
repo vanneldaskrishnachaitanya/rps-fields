@@ -109,7 +109,7 @@ export default function LoginPage() {
           </div>
 
           <button onClick={handleLogin} disabled={loading} style={{
-            background: loading ? tk.border : "linear-gradient(135deg,#52b788,#2d6a4f)",
+            background: loading ? tk.border : "rgba(82,183,136,0.28)",
             color:"#fff", border:"none", width:"100%", padding:"14px",
             borderRadius:12, cursor: loading?"not-allowed":"pointer",
             fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif",

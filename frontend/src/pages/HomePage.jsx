@@ -149,7 +149,7 @@ export default function HomePage() {
               transition: "all 0.5s ease 0.34s",
             }}>
               <button onClick={() => navigate("/catalog")} style={{
-                background: "linear-gradient(135deg,#d4a017,#b8860b)", color: "#1b2e10",
+                background: "rgba(200,150,12,0.32)", color: "#1b2e10",
                 border: "none", padding: "14px 34px", borderRadius: 50,
                 cursor: "pointer", fontWeight: 800, fontSize: 15, fontFamily: "inherit",
                 boxShadow: "0 6px 24px rgba(212,160,23,0.4)", letterSpacing: "0.2px",
@@ -267,7 +267,7 @@ export default function HomePage() {
 
           <div data-id="view-all" style={{ textAlign:"center", marginTop:48, ...reveal("view-all") }}>
             <button onClick={() => navigate("/catalog")} style={{
-              background:"linear-gradient(135deg,#52b788,#2d6a4f)", color:"#fff",
+              background:"rgba(82,183,136,0.28)", color:"#fff",
               border:"none", padding:"14px 42px", borderRadius:50, cursor:"pointer",
               fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif",
               boxShadow:"0 6px 24px rgba(82,183,136,0.35)", transition:"all 0.25s",
@@ -339,11 +339,11 @@ export default function HomePage() {
             Join the RPS Fields network. List your produce, reach thousands of customers across Telangana, and earn more by cutting out the middleman.
           </p>
           <div style={{ display:"flex", gap:14, justifyContent:"center", flexWrap:"wrap" }}>
-            <button onClick={() => navigate("/register/farmer")} style={{ background:"linear-gradient(135deg,#2d6a4f,#1b4332)", color:"#fff", border:"none", padding:"14px 32px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", boxShadow:"0 6px 24px rgba(27,67,50,0.3)", transition:"all 0.25s" }}
+            <button onClick={() => navigate("/register/farmer")} style={{ background:"rgba(82,183,136,0.25)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", border:"1px solid rgba(255,255,255,0.28)", color:"#fff", padding:"14px 32px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", boxShadow:"0 6px 24px rgba(27,67,50,0.3)", transition:"all 0.25s" }}
               onMouseEnter={e => e.target.style.transform="translateY(-2px)"}
               onMouseLeave={e => e.target.style.transform="none"}
             >🌾 Join as Farmer</button>
-            <button onClick={() => navigate("/register/agent")} style={{ background:"linear-gradient(135deg,#1e40af,#1e3a8a)", color:"#fff", border:"none", padding:"14px 32px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", boxShadow:"0 6px 24px rgba(30,64,175,0.3)", transition:"all 0.25s" }}
+            <button onClick={() => navigate("/register/agent")} style={{ background:"rgba(59,130,246,0.25)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"14px 32px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", boxShadow:"0 6px 24px rgba(30,64,175,0.3)", transition:"all 0.25s" }}
               onMouseEnter={e => e.target.style.transform="translateY(-2px)"}
               onMouseLeave={e => e.target.style.transform="none"}
             >🏢 Join as Agent</button>

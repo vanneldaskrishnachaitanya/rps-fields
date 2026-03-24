@@ -35,7 +35,7 @@ export default function CustomerDashboard() {
     <button onClick={()=>navigate(to)} style={{
       display:"flex", alignItems:"center", gap:12, padding:"14px 18px",
       borderRadius:14, cursor:"pointer", fontFamily:"'Inter',sans-serif", fontWeight:700, fontSize:14,
-      background: primary ? "linear-gradient(135deg,#52b788,#2d6a4f)" : tk.bgCard,
+      background: primary ? "rgba(82,183,136,0.28)" : tk.bgCard,
       color: primary ? "#fff" : tk.text,
       border: `1.5px solid ${primary?"transparent":tk.border}`,
       boxShadow: primary ? "0 4px 16px rgba(82,183,136,0.3)" : "none",
@@ -56,7 +56,7 @@ export default function CustomerDashboard() {
         <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(circle at 80% 50%,rgba(82,183,136,0.12),transparent 55%)", pointerEvents:"none" }} />
         <div style={{ maxWidth:1100, margin:"0 auto", position:"relative" }}>
           <div style={{ display:"flex", alignItems:"center", gap:16, flexWrap:"wrap" }}>
-            <div style={{ width:60, height:60, borderRadius:"50%", background:"linear-gradient(135deg,#52b788,#2d6a4f)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:26, boxShadow:"0 8px 24px rgba(82,183,136,0.3)", flexShrink:0 }}>👤</div>
+            <div style={{ width:60, height:60, borderRadius:"50%", background:"rgba(82,183,136,0.28)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:26, boxShadow:"0 8px 24px rgba(82,183,136,0.3)", flexShrink:0 }}>👤</div>
             <div>
               <div style={{ color:"rgba(255,255,255,0.6)", fontSize:12, letterSpacing:"1.5px", textTransform:"uppercase", marginBottom:4 }}>Customer Dashboard</div>
               <h1 style={{ color:"#fff", fontSize:"clamp(22px,3.5vw,32px)", fontFamily:"'Playfair Display',Georgia,serif", margin:"0 0 4px" }}>
@@ -95,7 +95,7 @@ export default function CustomerDashboard() {
               <div style={{ background:tk.bgCard, borderRadius:20, padding:"40px", textAlign:"center", border:`1px solid ${tk.border}` }}>
                 <div style={{ fontSize:48, marginBottom:14 }}>📦</div>
                 <p style={{ color:tk.textLt, marginBottom:20, fontSize:15 }}>No orders yet. Start shopping!</p>
-                <button onClick={()=>navigate("/catalog")} style={{ background:"linear-gradient(135deg,#52b788,#2d6a4f)", color:"#fff", border:"none", padding:"12px 28px", borderRadius:50, cursor:"pointer", fontWeight:800, fontFamily:"'Inter',sans-serif", boxShadow:"0 4px 16px rgba(82,183,136,0.3)" }}>
+                <button onClick={()=>navigate("/catalog")} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"12px 28px", borderRadius:50, cursor:"pointer", fontWeight:800, fontFamily:"'Inter',sans-serif", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)" }}>
                   Browse Catalog →
                 </button>
               </div>

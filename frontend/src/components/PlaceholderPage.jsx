@@ -48,7 +48,7 @@ export default function PlaceholderPage({
           {links.map(({ label, to, primary }) => (
             <button key={to} onClick={() => navigate(to)}
               style={{
-                background: primary ? "linear-gradient(135deg,#52b788,#40916c)" : "transparent",
+                background: primary ? "rgba(82,183,136,0.28)" : "transparent",
                 border: `1.5px solid ${primary ? "transparent" : tk.green7}`,
                 color: primary ? "#fff" : tk.green7,
                 padding: "10px 22px", borderRadius: 10,

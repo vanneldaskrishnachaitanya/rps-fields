@@ -2,9 +2,9 @@ import { useNavigate } from "react-router-dom";
 import { useTheme, TK } from "../context/ThemeContext";
 
 const OPTIONS = [
-  { icon:"🛒", title:"I'm a Customer",  desc:"Buy fresh produce directly from verified farmers. Farm-fresh quality at fair prices.", btn:"Register as Customer", path:"/register/customer", color:"#40916c", grad:"linear-gradient(135deg,#40916c,#2d6a4f)" },
-  { icon:"🌾", title:"I'm a Farmer",    desc:"List your produce and connect with agents. Reach thousands of customers without middlemen.", btn:"Register as Farmer",   path:"/register/farmer",   color:"#d4a017", grad:"linear-gradient(135deg,#d4a017,#b8860b)" },
-  { icon:"🏢", title:"I'm an Agent",    desc:"Partner with farmers, add products to the catalog and manage sales on their behalf.", btn:"Register as Agent",    path:"/register/agent",    color:"#3b82f6", grad:"linear-gradient(135deg,#3b82f6,#1e40af)" },
+  { icon:"🛒", title:"I'm a Customer",  desc:"Buy fresh produce directly from verified farmers. Farm-fresh quality at fair prices.", btn:"Register as Customer", path:"/register/customer", color:"#40916c", grad:"rgba(82,183,136,0.28)" },
+  { icon:"🌾", title:"I'm a Farmer",    desc:"List your produce and connect with agents. Reach thousands of customers without middlemen.", btn:"Register as Farmer",   path:"/register/farmer",   color:"#d4a017", grad:"rgba(200,150,12,0.32)" },
+  { icon:"🏢", title:"I'm an Agent",    desc:"Partner with farmers, add products to the catalog and manage sales on their behalf.", btn:"Register as Agent",    path:"/register/agent",    color:"#3b82f6", grad:"rgba(59,130,246,0.28)" },
   { icon:"🛡", title:"Admin Access",    desc:"Platform management for RPS Fields staff only. Restricted access.", btn:"Admin Login", path:"/admin/login", color:"#8b5cf6", grad:"linear-gradient(135deg,#8b5cf6,#6d28d9)", badge:"Staff Only" },
 ];
 
@@ -60,7 +60,7 @@ export default function RegisterPage() {
             <p style={{ color:tk.textLt, fontSize:13, lineHeight:1.7, marginBottom:24, minHeight:54 }}>{opt.desc}</p>
 
             <button onClick={e => { e.stopPropagation(); navigate(opt.path); }}
-              style={{ background:opt.grad, color:"#fff", border:"none", width:"100%", padding:"12px 0", borderRadius:12, cursor:"pointer", fontWeight:800, fontSize:14, fontFamily:"'Inter',sans-serif", boxShadow:`0 4px 16px ${opt.color}35`, transition:"all 0.2s" }}
+              style={{ background:opt.grad, backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", color:"#fff", border:"1px solid rgba(255,255,255,0.28)", width:"100%", padding:"12px 0", borderRadius:50, boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.5),inset 0 -1px 0 rgba(0,0,0,0.12),0 6px 20px rgba(0,0,0,0.2)", cursor:"pointer", fontWeight:800, fontSize:14, fontFamily:"'Inter',sans-serif", boxShadow:`0 4px 16px ${opt.color}35`, transition:"all 0.2s" }}
               onMouseEnter={e => { e.target.style.transform="translateY(-1px)"; e.target.style.boxShadow=`0 8px 24px ${opt.color}50`; }}
               onMouseLeave={e => { e.target.style.transform="none"; e.target.style.boxShadow=`0 4px 16px ${opt.color}35`; }}
             >{opt.btn} →</button>
