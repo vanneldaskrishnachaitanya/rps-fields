@@ -32,7 +32,7 @@ function AdminSidebar() {
       {/* Logo */}
       <div style={{ padding:"26px 20px 22px", borderBottom:"1px solid rgba(82,183,136,0.1)" }}>
         <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:4 }}>
-          <div style={{ width:34, height:34, borderRadius:9, background:"rgba(82,183,136,0.28)",#1b4332)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:16, boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)" }}>🌿</div>
+          <div style={{ width:34, height:34, borderRadius:9,background:"linear-gradient(135deg,rgba(82,183,136,0.28),#1b4332)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:16, boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)" }}>🌿</div>
           <span style={{ color:"#fff", fontFamily:"'Playfair Display',Georgia,serif", fontWeight:700, fontSize:18 }}>RPS Admin</span>
         </div>
         <div style={{ fontSize:9, color:A.textLt, letterSpacing:"2.5px", textTransform:"uppercase", marginLeft:44 }}>Control Panel</div>
