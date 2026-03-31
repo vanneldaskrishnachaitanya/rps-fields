@@ -9,12 +9,14 @@ body {
   overflow-x: hidden;
 }
 
-/* ── Numbers & Rupee — crisp tabular ── */
-.rupee, .num {
-  font-family: 'Inter', sans-serif;
-  font-feature-settings: "tnum";
-  font-variant-numeric: tabular-nums;
-  font-weight: 800;
+/* ── Rupee — always Inter, NEVER Playfair ── */
+.rupee, .num,
+[style*="₹"],
+span:has(> .rupee) {
+  font-family: 'Inter', sans-serif !important;
+  font-feature-settings: "tnum" !important;
+  font-variant-numeric: tabular-nums !important;
+  font-weight: 800 !important;
 }
 
 /* ── Scrollbar ── */
@@ -22,174 +24,293 @@ body {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: linear-gradient(#52b788,#2d6a4f); border-radius: 3px; }
 
-/* ═══════════════════════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════════════
    APPLE iOS DOCK — LIQUID GLASS BUTTONS
-   Exactly like Image 2: frosted glass, blurred background
-   shows through, white specular highlight on top edge,
-   deep shadow below, rounded rectangle shape.
-═══════════════════════════════════════════════════════════ */
+   
+   KEY FIX: The ::before overlay that was covering button text
+   is now properly z-indexed UNDER the text (z-index: 0 on overlay,
+   z-index: 1 on text via position:relative on button children).
+   
+   Also: buttons on LIGHT backgrounds need darker tint so text
+   is readable. We use TWO modes: dark-bg (on banners) and
+   light-bg (on white/light card surfaces).
+══════════════════════════════════════════════════════════════════ */
 
-/* PRIMARY — coloured glass tint (green, for main CTAs) */
+/* ── BASE iOS button — used on dark/image backgrounds ── */
 .ios-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   padding: 13px 28px;
-  border-radius: 18px;          /* iOS dock rounded-rect */
+  border-radius: 18px;
   font-family: 'Inter', sans-serif;
   font-weight: 700;
   font-size: 15px;
   cursor: pointer;
-  border: none;
   outline: none;
   position: relative;
   overflow: hidden;
-  /* GLASS CORE — shows what's behind */
-  background: rgba(82, 183, 136, 0.28);
-  backdrop-filter: blur(28px) saturate(200%);
-  -webkit-backdrop-filter: blur(28px) saturate(200%);
-  /* WHITE SPECULAR on top edge — key to iOS look */
-  box-shadow:
-    inset 0 1.5px 0 rgba(255,255,255,0.55),
-    inset 0 -1px 0 rgba(0,0,0,0.12),
-    0 8px 32px rgba(0,0,0,0.22),
-    0 2px 8px rgba(0,0,0,0.14);
-  /* Outer border — slightly frosted */
-  border: 1px solid rgba(255,255,255,0.30);
+  isolation: isolate;           /* NEW: creates stacking context so ::before stays below text */
+  background: rgba(82,183,136,0.88);   /* FIXED: was 0.28 — too transparent on light bg */
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.35);
   color: #fff;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,255,255,0.45),
+    inset 0 -1.5px 0 rgba(0,0,0,0.15),
+    0 4px 16px rgba(45,106,79,0.35),
+    0 1px 4px rgba(0,0,0,0.12);
   transition: all 0.22s cubic-bezier(0.34,1.56,0.64,1);
-  letter-spacing: -0.1px;
+  letter-spacing: 0px;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
+  text-decoration: none;
 }
+
+/* Specular sheen — z-index 0 so it NEVER covers text */
 .ios-btn::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 55%);
+  background: linear-gradient(180deg,
+    rgba(255,255,255,0.22) 0%,
+    rgba(255,255,255,0.06) 40%,
+    rgba(255,255,255,0) 100%);
   border-radius: inherit;
   pointer-events: none;
+  z-index: 0;                  /* FIXED: was z-index:1 which covered text */
 }
+
+/* All direct children of ios-btn sit above the sheen */
+.ios-btn > * { position: relative; z-index: 1; }
+
 .ios-btn:hover {
-  transform: scale(1.04) translateY(-2px);
-  background: rgba(82,183,136,0.38);
+  background: rgba(82,183,136,0.98);
+  transform: scale(1.03) translateY(-2px);
   box-shadow:
-    inset 0 1.5px 0 rgba(255,255,255,0.6),
-    inset 0 -1px 0 rgba(0,0,0,0.1),
-    0 16px 40px rgba(0,0,0,0.28),
-    0 4px 12px rgba(82,183,136,0.25);
+    inset 0 1.5px 0 rgba(255,255,255,0.5),
+    inset 0 -1.5px 0 rgba(0,0,0,0.12),
+    0 10px 32px rgba(45,106,79,0.4),
+    0 3px 8px rgba(0,0,0,0.15);
 }
 .ios-btn:active {
   transform: scale(0.97);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.4),
-    0 4px 12px rgba(0,0,0,0.2);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 2px 8px rgba(0,0,0,0.2);
 }
 
-/* GOLD variant — for checkout, cart */
+/* ── GOLD — for cart, checkout, order ── */
 .ios-btn-gold {
-  background: rgba(200,150,12,0.32);
-  border-color: rgba(255,255,255,0.28);
+  background: rgba(180,120,0,0.88);
+  border-color: rgba(255,220,80,0.4);
   color: #fff;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.35);
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,220,80,0.5),
+    inset 0 -1.5px 0 rgba(0,0,0,0.18),
+    0 4px 16px rgba(180,120,0,0.35);
 }
 .ios-btn-gold:hover {
-  background: rgba(200,150,12,0.45);
+  background: rgba(200,140,0,0.96);
   box-shadow:
-    inset 0 1.5px 0 rgba(255,255,255,0.6),
-    inset 0 -1px 0 rgba(0,0,0,0.1),
-    0 16px 40px rgba(0,0,0,0.28),
-    0 4px 12px rgba(200,150,12,0.3);
+    inset 0 1.5px 0 rgba(255,220,80,0.55),
+    inset 0 -1.5px 0 rgba(0,0,0,0.15),
+    0 10px 28px rgba(180,120,0,0.45);
 }
 
-/* BLUE variant — agent pages */
+/* ── BLUE — for agent pages ── */
 .ios-btn-blue {
-  background: rgba(59,130,246,0.28);
-  border-color: rgba(255,255,255,0.28);
+  background: rgba(37,99,235,0.88);
+  border-color: rgba(147,197,253,0.4);
+  color: #fff;
+  box-shadow:
+    inset 0 1.5px 0 rgba(147,197,253,0.4),
+    inset 0 -1.5px 0 rgba(0,0,0,0.15),
+    0 4px 16px rgba(37,99,235,0.3);
 }
 .ios-btn-blue:hover {
-  background: rgba(59,130,246,0.4);
+  background: rgba(37,99,235,0.98);
   box-shadow:
-    inset 0 1.5px 0 rgba(255,255,255,0.6),
-    inset 0 -1px 0 rgba(0,0,0,0.1),
-    0 16px 40px rgba(0,0,0,0.28),
-    0 4px 12px rgba(59,130,246,0.25);
+    inset 0 1.5px 0 rgba(147,197,253,0.5),
+    0 10px 28px rgba(37,99,235,0.4);
 }
 
-/* RED/DANGER variant */
+/* ── RED/DANGER ── */
 .ios-btn-danger {
-  background: rgba(220,38,38,0.22);
-  border-color: rgba(255,120,120,0.3);
-  color: #ffb3b3;
+  background: rgba(185,28,28,0.82);
+  border-color: rgba(252,165,165,0.35);
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,180,180,0.4),
+    inset 0 -1.5px 0 rgba(0,0,0,0.15),
+    0 4px 14px rgba(185,28,28,0.3);
 }
 .ios-btn-danger:hover {
-  background: rgba(220,38,38,0.35);
+  background: rgba(220,38,38,0.95);
+  box-shadow: inset 0 1.5px 0 rgba(255,180,180,0.5), 0 8px 24px rgba(185,28,28,0.4);
 }
 
-/* GHOST/SECONDARY — neutral frosted glass */
+/* ── GHOST — white glass, for use ON dark/image backgrounds ── */
 .ios-btn-ghost {
-  background: rgba(255,255,255,0.12);
-  border-color: rgba(255,255,255,0.22);
-  color: rgba(255,255,255,0.88);
-  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-}
-.ios-btn-ghost:hover {
-  background: rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.18);
+  border-color: rgba(255,255,255,0.4);
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.25);
   box-shadow:
     inset 0 1.5px 0 rgba(255,255,255,0.55),
-    0 12px 32px rgba(0,0,0,0.22);
+    inset 0 -1px 0 rgba(0,0,0,0.08),
+    0 4px 14px rgba(0,0,0,0.18);
+}
+.ios-btn-ghost:hover {
+  background: rgba(255,255,255,0.28);
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,255,255,0.6),
+    0 10px 28px rgba(0,0,0,0.22);
 }
 
-/* DARK-MODE ghost — on light backgrounds */
+/* ── GHOST DARK — for use on white/light card backgrounds ── */
 .ios-btn-ghost-dark {
-  background: rgba(0,0,0,0.10);
-  border-color: rgba(0,0,0,0.15);
-  color: #1a3325;
+  background: rgba(27,67,50,0.10);
+  border-color: rgba(27,67,50,0.25);
+  color: #1b4332;
   text-shadow: none;
   box-shadow:
-    inset 0 1.5px 0 rgba(255,255,255,0.7),
-    inset 0 -1px 0 rgba(0,0,0,0.08),
-    0 4px 16px rgba(0,0,0,0.1);
+    inset 0 1.5px 0 rgba(255,255,255,0.8),
+    inset 0 -1px 0 rgba(0,0,0,0.06),
+    0 2px 8px rgba(0,0,0,0.08);
 }
 .ios-btn-ghost-dark:hover {
-  background: rgba(0,0,0,0.16);
+  background: rgba(27,67,50,0.16);
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,255,255,0.8),
+    0 6px 18px rgba(0,0,0,0.12);
 }
 
-/* SMALL size */
-.ios-btn-sm {
-  padding: 8px 18px;
-  font-size: 13px;
-  border-radius: 14px;
-  gap: 5px;
-}
-
-/* LARGE size */
-.ios-btn-lg {
-  padding: 16px 38px;
-  font-size: 17px;
-  border-radius: 22px;
-  gap: 10px;
-}
-
-/* FULL WIDTH */
+/* ── SIZES ── */
+.ios-btn-sm  { padding: 8px 18px; font-size: 13px; border-radius: 14px; gap: 5px; }
+.ios-btn-lg  { padding: 16px 38px; font-size: 17px; border-radius: 22px; gap: 10px; }
 .ios-btn-full { width: 100%; }
+.ios-btn-pill { border-radius: 50px !important; }
 
-/* PILL shape — for nav/tag buttons */
-.ios-btn-pill {
-  border-radius: 50px;
-}
-
-/* DISABLED */
-.ios-btn:disabled,
-.ios-btn[disabled] {
-  opacity: 0.45;
+/* ── DISABLED ── */
+.ios-btn:disabled, .ios-btn[disabled] {
+  opacity: 0.42;
   cursor: not-allowed;
   transform: none !important;
+  pointer-events: none;
 }
 
-/* ── LIQUID GLASS SURFACES (cards, panels) ── */
+/* ══════════════════════════════════════════════════════════════════
+   CRITICAL FIX: Inline-style glass buttons on LIGHT backgrounds
+   
+   The problem: rgba(82,183,136,0.28) on a white card = invisible
+   The fix: detect buttons with our glass styles and boost opacity
+   Also: remove the ::before overlay that was covering button text
+══════════════════════════════════════════════════════════════════ */
+
+/* Boost visibility of inline glass buttons — green */
+button[style*="rgba(82,183,136,0.28)"],
+button[style*="rgba(82,183,136,0.26)"],
+button[style*="rgba(82,183,136,0.32)"] {
+  background: rgba(45,106,79,0.85) !important;
+  color: #fff !important;
+  border-color: rgba(255,255,255,0.3) !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.25) !important;
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,255,255,0.45),
+    inset 0 -1.5px 0 rgba(0,0,0,0.12),
+    0 4px 14px rgba(27,67,50,0.3) !important;
+}
+
+/* Boost — gold */
+button[style*="rgba(200,150,12,0.28)"],
+button[style*="rgba(200,150,12,0.32)"] {
+  background: rgba(160,100,0,0.88) !important;
+  color: #fff !important;
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,220,80,0.45),
+    0 4px 14px rgba(160,100,0,0.3) !important;
+}
+
+/* Boost — blue */
+button[style*="rgba(59,130,246,0.28)"],
+button[style*="rgba(59,130,246,0.25)"] {
+  background: rgba(37,99,235,0.88) !important;
+  color: #fff !important;
+  box-shadow:
+    inset 0 1.5px 0 rgba(147,197,253,0.4),
+    0 4px 14px rgba(37,99,235,0.3) !important;
+}
+
+/* Boost — danger/red */
+button[style*="rgba(220,38,38,0.1"],
+button[style*="rgba(220,38,38,0.18)"],
+button[style*="rgba(220,38,38,0.12)"] {
+  background: rgba(185,28,28,0.82) !important;
+  color: #fff !important;
+  border-color: rgba(252,165,165,0.4) !important;
+}
+
+/* Green confirm/accept buttons */
+button[style*="rgba(16,185,129,0.25)"],
+button[style*="rgba(5,150,105,0.28)"] {
+  background: rgba(5,120,80,0.88) !important;
+  color: #fff !important;
+}
+
+/* Gold add-to-cart small */
+button[style*="rgba(200,150,12,0.28)"] {
+  background: rgba(160,110,0,0.88) !important;
+  color: #fff !important;
+}
+
+/* Added! state */
+button[style*="rgba(16,185,129,0.35)"] {
+  background: rgba(5,150,105,0.92) !important;
+  color: #fff !important;
+}
+
+/* REMOVE the ::before overlay from ALL inline glass buttons
+   (it was covering text on buttons in cards) */
+button[style*="blur(28px)"]::before,
+button[style*="blur(20px)"]::before,
+a[style*="blur(28px)"]::before,
+a[style*="blur(20px)"]::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* Hover lift for ALL glass buttons */
+button[style*="blur(28px)"]:not(:disabled):hover,
+button[style*="blur(20px)"]:not(:disabled):hover {
+  transform: scale(1.03) translateY(-2px) !important;
+  filter: brightness(1.08);
+}
+button[style*="blur(28px)"]:active,
+button[style*="blur(20px)"]:active {
+  transform: scale(0.97) !important;
+}
+
+/* Border radius — rounded rect for all glass buttons */
+button[style*="blur(28px)"],
+button[style*="blur(20px)"] {
+  border-radius: 14px !important;
+  transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), filter 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+/* Pill override */
+button[style*="borderRadius:50"],
+button[style*="border-radius: 50px"],
+a[style*="borderRadius:50"] {
+  border-radius: 50px !important;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   LIQUID GLASS SURFACES (cards, panels)
+══════════════════════════════════════════════════════════════════ */
 .liquid-glass {
   background: rgba(255,255,255,0.09);
   backdrop-filter: blur(24px) saturate(180%);
@@ -226,6 +347,7 @@ body {
 @keyframes glow       { 0%,100%{box-shadow:0 0 20px rgba(82,183,136,0.35);} 50%{box-shadow:0 0 44px rgba(82,183,136,0.65);} }
 @keyframes liquidFlow { 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
 @keyframes iosPop     { 0%{transform:scale(1);} 40%{transform:scale(1.12);} 70%{transform:scale(0.96);} 100%{transform:scale(1);} }
+@keyframes fadeInUp   { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:none;} }
 
 /* ── Animation helpers ── */
 .anim-fade-up    { animation: fadeUp  0.6s cubic-bezier(0.22,1,0.36,1) both; }
@@ -244,7 +366,7 @@ body {
 .d4{animation-delay:.24s;} .d5{animation-delay:.30s;} .d6{animation-delay:.36s;}
 .d7{animation-delay:.42s;} .d8{animation-delay:.48s;}
 
-/* ── Skeleton shimmer ── */
+/* ── Skeleton ── */
 .skeleton      { background:linear-gradient(90deg,#e2f0e5 25%,#cbdecf 50%,#e2f0e5 75%); background-size:600px 100%; animation:shimmer 1.5s ease infinite; border-radius:10px; }
 .skeleton-dark { background:linear-gradient(90deg,#0f1e12 25%,#162b1d 50%,#0f1e12 75%); background-size:600px 100%; animation:shimmer 1.5s ease infinite; border-radius:10px; }
 
@@ -285,176 +407,99 @@ img { display: block; }
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 4px 12px rgba(82,183,136,0.2) !important;
 }
 
-/* ══════════════════════════════════════════════════════════
-   GLOBAL iOS DOCK EFFECT — catches ALL glass buttons
-   regardless of how they were written
-══════════════════════════════════════════════════════════ */
-
-/* Any button/a with backdropFilter gets iOS dock treatment */
-button[style*="blur(28px)"],
-button[style*="blur(20px)"],
-a[style*="blur(28px)"],
-a[style*="blur(20px)"] {
-  border-radius: 18px !important;
-  transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1),
-              background 0.22s ease,
-              box-shadow 0.22s ease !important;
-  position: relative;
-  overflow: hidden;
+/* ── Global font enforcement ── */
+button, input, select, textarea, a {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
 }
 
-button[style*="blur(28px)"]::before,
-button[style*="blur(20px)"]::before,
-a[style*="blur(28px)"]::before,
-a[style*="blur(20px)"]::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 55%;
-  background: linear-gradient(180deg, rgba(255,255,255,0.20) 0%, rgba(255,255,255,0) 100%);
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: 1;
-}
-
-button[style*="blur(28px)"]:hover,
-button[style*="blur(20px)"]:hover,
-a[style*="blur(28px)"]:hover,
-a[style*="blur(20px)"]:hover {
-  transform: scale(1.05) translateY(-2px) !important;
-}
-
-button[style*="blur(28px)"]:active,
-button[style*="blur(20px)"]:active {
-  transform: scale(0.97) !important;
-}
-
-/* Pill/round buttons get more pill radius */
-button[style*="borderRadius:50"],
-a[style*="borderRadius:50"] {
-  border-radius: 50px !important;
-}
-
-/* All buttons inherit Inter */
-button, a[role="button"] {
-  font-family: 'Inter', sans-serif !important;
-}
-
-/* iOS-style focus ring */
+/* ── iOS-style focus ring ── */
 button:focus-visible {
   outline: 2px solid rgba(82,183,136,0.6) !important;
   outline-offset: 3px !important;
 }
 
-/* ═══════════════════════════════════════════════
-   MOBILE RESPONSIVE — RPS Fields
-═══════════════════════════════════════════════ */
-
-/* Prevent overflow */
+/* ══════════════════════════════════════════════════════════════════
+   MOBILE RESPONSIVE
+══════════════════════════════════════════════════════════════════ */
 html, body { overflow-x: hidden; max-width: 100vw; }
 
-/* ── Hero / Slider ── */
 @media (max-width: 768px) {
-  /* Hero content full width */
-  [data-hero-content] {
-    padding: 0 16px !important;
-    max-width: 100% !important;
-  }
+  /* Mobile nav already handled by .rps-nav/.rps-hamburger */
 
-  /* Stats bar single row scroll */
-  .stats-bar {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-
-  /* Hero CTA buttons stack */
-  .hero-btns {
-    flex-direction: column !important;
-    gap: 10px !important;
-  }
-  .hero-btns button {
-    width: 100% !important;
-    justify-content: center !important;
-  }
-
-  /* Catalog grid - 2 cols on tablet, 1 on phone */
+  /* Product grid */
   .product-grid {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)) !important;
     gap: 14px !important;
   }
 
-  /* Footer hide some items */
-  .footer-hide-mobile {
-    display: none !important;
-  }
-
   /* Weather page stack */
-  .weather-current {
-    flex-direction: column !important;
-  }
-  .weather-stats-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-}
+  .weather-current    { flex-direction: column !important; }
+  .weather-stats-grid { grid-template-columns: repeat(2,1fr) !important; }
 
-/* ── Phone only (< 480px) ── */
-@media (max-width: 480px) {
-  /* Header logo size */
-  .rps-logo-text { font-size: 16px !important; }
+  /* Footer */
+  .footer-hide-mobile { display: none !important; }
 
-  /* Page banners reduce padding */
-  [class*="banner"] { padding: 36px 16px 28px !important; }
+  /* Stats bar 2-col */
+  .stats-bar { grid-template-columns: repeat(2,1fr) !important; }
 
-  /* Catalog filter pills scroll */
-  .filter-pills { overflow-x: auto; flex-wrap: nowrap !important; padding-bottom: 6px; }
-  .filter-pills::-webkit-scrollbar { height: 0; }
+  /* Sticky catalog filter bar offset */
+  .sticky-filter { top: 60px !important; }
 
-  /* Product cards in catalog */
-  .product-grid {
-    grid-template-columns: 1fr 1fr !important;
-    gap: 12px !important;
-  }
-
-  /* Cart/checkout stack columns */
-  .cart-grid, .checkout-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  /* Dashboard stat cards 2x2 */
-  .stat-grid {
-    grid-template-columns: 1fr 1fr !important;
-  }
-}
-
-/* ── General touch improvements ── */
-@media (hover: none) {
-  /* Disable hover effects on touch devices */
-  .hover-lift:hover { transform: none !important; }
-
-  /* Bigger tap targets */
-  button, a { min-height: 40px; }
-
-  /* No hover scale on product cards */
-  [class*="product-card"]:hover {
-    transform: none !important;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.06) !important;
-  }
-}
-
-/* ── Scrollbar hidden on mobile ── */
-@media (max-width: 768px) {
+  /* Hide scrollbar */
   ::-webkit-scrollbar { display: none; }
   * { scrollbar-width: none; }
 }
 
-/* ── Sticky nav on mobile ── */
-@media (max-width: 768px) {
-  .sticky-filter { top: 60px !important; }
+@media (max-width: 480px) {
+  .rps-logo-text { font-size: 16px !important; }
+
+  .product-grid  { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
+  .cart-grid, .checkout-grid { grid-template-columns: 1fr !important; }
+  .stat-grid     { grid-template-columns: 1fr 1fr !important; }
+
+  /* Catalog filter pills horizontal scroll */
+  .filter-pills  { overflow-x: auto; flex-wrap: nowrap !important; padding-bottom: 6px; }
+  .filter-pills::-webkit-scrollbar { height: 0; }
 }
 
-/* ── Better touch scroll for horizontal ── */
+/* Touch: disable hover on touch devices */
+@media (hover: none) {
+  .hover-lift:hover { transform: none !important; }
+  button, a { min-height: 40px; }
+}
+
+/* Horizontal scroll helper */
 .scroll-x {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  scroll-snap-type: x mandatory;
 }
-.scroll-x > * { scroll-snap-align: start; }
+
+/* ══════════════════════════════════════════════════════════════════
+   PAGE-SPECIFIC FIXES FROM SCREENSHOTS
+══════════════════════════════════════════════════════════════════ */
+
+/* FIX: Login page "Sign In" button — was invisible on white card */
+/* FIX: Product card "View Details" — was too transparent */
+/* These are caught by the button[style*="rgba(82,183,136,0.28)"] rule above */
+
+/* FIX: Product details page Add to Cart button text visibility */
+button[style*="rgba(82,183,136"], button[style*="rgba(45,106"] {
+  color: #fff !important;
+}
+
+/* FIX: Make sure "Cart →" secondary button is visible */
+button[style*="transparent"][style*="green"],
+button[style*="transparent"][style*="#52b788"],
+button[style*="transparent"][style*="green7"] {
+  border-color: #40916c !important;
+  color: #1b4332 !important;
+}
+
+/* FIX: Rupee ₹ symbol — force Inter on ALL elements containing it */
+*:not(h1):not(h2):not(h3) {
+  /* Don't override headings, only number-containing elements */
+}
+.price-tag, [class*="price"], [class*="Price"] {
+  font-family: 'Inter', sans-serif !important;
+  font-feature-settings: "tnum" !important;
+}
