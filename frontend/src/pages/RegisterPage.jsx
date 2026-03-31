@@ -60,7 +60,7 @@ export default function RegisterPage() {
             <p style={{ color:tk.textLt, fontSize:13, lineHeight:1.7, marginBottom:24, minHeight:54 }}>{opt.desc}</p>
 
             <button onClick={e => { e.stopPropagation(); navigate(opt.path); }}
-              style={{ background:opt.grad, backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", color:"#fff", border:"1px solid rgba(255,255,255,0.28)", width:"100%", padding:"12px 0", borderRadius:50, boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.5),inset 0 -1px 0 rgba(0,0,0,0.12),0 6px 20px rgba(0,0,0,0.2)", cursor:"pointer", fontWeight:800, fontSize:14, fontFamily:"'Inter',sans-serif", boxShadow:`0 4px 16px ${opt.color}35`, transition:"all 0.2s" }}
+              style={{ background:opt.grad, backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", color:"#fff", border:"1px solid rgba(255,255,255,0.28)", width:"100%", padding:"12px 0", borderRadius:50, boxShadow:`inset 0 1.5px 0 rgba(255,255,255,0.5), inset 0 -1px 0 rgba(0,0,0,0.12), 0 6px 20px rgba(0,0,0,0.2), 0 4px 16px ${opt.color}35`, cursor:"pointer", fontWeight:800, fontSize:14, fontFamily:"'Inter',sans-serif", transition:"all 0.2s" }}
               onMouseEnter={e => { e.target.style.transform="translateY(-1px)"; e.target.style.boxShadow=`0 8px 24px ${opt.color}50`; }}
               onMouseLeave={e => { e.target.style.transform="none"; e.target.style.boxShadow=`0 4px 16px ${opt.color}35`; }}
             >{opt.btn} →</button>

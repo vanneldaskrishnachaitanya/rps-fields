@@ -26,7 +26,7 @@ const shortDay  = iso => DAYS[new Date(iso).getDay()];
 
 const QUICK_CITIES = ["Hyderabad","Warangal","Nizamabad","Karimnagar","Khammam","Vijayawada","Chennai","Bangalore","Mumbai","Delhi"];
 
-const Tooltip_ = ({ active, payload, label, unit="", dark }) => {
+const WeatherTooltip = ({ active, payload, label, unit="", dark }) => {
   if (!active||!payload?.length) return null;
   return (
     <div style={{ background: dark?"rgba(8,18,10,0.92)":"rgba(27,67,50,0.92)", backdropFilter:"blur(12px)", border:"1px solid rgba(82,183,136,0.25)", borderRadius:12, padding:"10px 14px", fontSize:13 }}>
@@ -261,7 +261,7 @@ export default function WeatherPage() {
                   <CartesianGrid strokeDasharray="3 3" stroke={dark?"#1a3320":"#e0ebe4"} />
                   <XAxis dataKey="time" tick={{fill:tk.textLt,fontSize:11}} tickLine={false} interval={2} />
                   <YAxis tick={{fill:tk.textLt,fontSize:11}} tickLine={false} axisLine={false} tickFormatter={v=>`${v}°`} />
-                  <Tooltip content={<Tooltip_ unit="°C" dark={dark} />} />
+                  <Tooltip content={<WeatherTooltip unit="°C" dark={dark} />} />
                   <Area type="monotone" dataKey="temp" name="Temperature" stroke="#52b788" strokeWidth={2.5} fill="url(#tGrad)" dot={false} activeDot={{r:5,fill:"#52b788"}} />
                 </AreaChart>
               </ResponsiveContainer>
@@ -294,7 +294,7 @@ export default function WeatherPage() {
                   <CartesianGrid strokeDasharray="3 3" stroke={dark?"#1a3320":"#e0ebe4"} />
                   <XAxis dataKey="time" tick={{fill:tk.textLt,fontSize:11}} tickLine={false} interval={2} />
                   <YAxis tick={{fill:tk.textLt,fontSize:11}} tickLine={false} axisLine={false} tickFormatter={v=>`${v}%`} domain={[0,100]} />
-                  <Tooltip content={<Tooltip_ unit="%" dark={dark} />} />
+                  <Tooltip content={<WeatherTooltip unit="%" dark={dark} />} />
                   <Bar dataKey="rain" name="Rain Chance" radius={[6,6,0,0]} fill="rgba(59,130,246,0.75)" />
                 </BarChart>
               </ResponsiveContainer>
@@ -325,7 +325,7 @@ export default function WeatherPage() {
                   <CartesianGrid strokeDasharray="3 3" stroke={dark?"#1a3320":"#e0ebe4"} />
                   <XAxis dataKey="time" tick={{fill:tk.textLt,fontSize:11}} tickLine={false} interval={2} />
                   <YAxis tick={{fill:tk.textLt,fontSize:11}} tickLine={false} axisLine={false} />
-                  <Tooltip content={<Tooltip_ unit=" km/h" dark={dark} />} />
+                  <Tooltip content={<WeatherTooltip unit=" km/h" dark={dark} />} />
                   <Line type="monotone" dataKey="wind" name="Wind Speed" stroke="#f59e0b" strokeWidth={2.5} dot={false} activeDot={{r:5,fill:"#f59e0b"}} />
                 </LineChart>
               </ResponsiveContainer>
@@ -364,7 +364,7 @@ export default function WeatherPage() {
                     <CartesianGrid strokeDasharray="3 3" stroke={dark?"#1a3320":"#e0ebe4"} />
                     <XAxis dataKey="day" tick={{fill:tk.textLt,fontSize:12}} tickLine={false} />
                     <YAxis tick={{fill:tk.textLt,fontSize:11}} tickLine={false} axisLine={false} tickFormatter={v=>`${v}°`} />
-                    <Tooltip content={<Tooltip_ unit="°C" dark={dark} />} />
+                    <Tooltip content={<WeatherTooltip unit="°C" dark={dark} />} />
                     <Legend wrapperStyle={{color:tk.textMid,fontSize:12,paddingTop:8}} />
                     <Area type="monotone" dataKey="max" name="Max" stroke="#ef4444" strokeWidth={2} fill="url(#maxG)" dot={{fill:"#ef4444",r:4}} />
                     <Area type="monotone" dataKey="min" name="Min" stroke="#60a5fa" strokeWidth={2} fill="url(#minG)" dot={{fill:"#60a5fa",r:4}} />

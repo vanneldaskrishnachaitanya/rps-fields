@@ -156,7 +156,6 @@ export default function Header() {
                 border:"none", color:"#fff", fontWeight:700, fontFamily:"'Inter',sans-serif",
                 padding:"7px 14px", borderRadius:20, cursor:"pointer", fontSize:13,
                 display:"flex", alignItems:"center", gap:5,
-                boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)",
                 transition:"all 0.2s",
               }}
                 onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-1px)"; e.currentTarget.style.boxShadow="0 6px 18px rgba(200,150,12,0.5)";}}
