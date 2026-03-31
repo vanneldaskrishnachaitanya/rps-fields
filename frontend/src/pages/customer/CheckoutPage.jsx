@@ -79,7 +79,7 @@ export default function CheckoutPage() {
         <h1 style={{ color:"#fff", fontSize:34, fontFamily:"'Playfair Display',Georgia,serif" }}>🧾 Checkout</h1>
       </div>
       <div style={{ maxWidth:960, margin:"0 auto", padding:"40px 20px" }}>
-        <div style={{ display:"grid", gridTemplateColumns:"1fr 320px", gap:28 }}>
+        <div className="checkout-grid" style={{ display:"grid", gridTemplateColumns:"1fr 320px", gap:28 }}>
           {/* Delivery form */}
           <div style={{ background:tk.bgCard, borderRadius:20, padding:32, boxShadow:tk.shadow, border:`1px solid ${tk.border}` }}>
             <h2 style={{ fontSize:18, fontWeight:800, color:tk.text, marginBottom:22 }}>📦 Delivery Details</h2>

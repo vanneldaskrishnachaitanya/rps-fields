@@ -166,7 +166,7 @@ export default function WeatherPage() {
         </div>
 
         {/* ── Quick city pills ── */}
-        <div style={{ display:"flex", gap:8, flexWrap:"wrap", marginBottom:28 }}>
+        <div className="filter-pills" style={{ display:"flex", gap:8, flexWrap:"wrap", marginBottom:28 }}>
           {QUICK_CITIES.map(c=>(
             <button key={c} onClick={()=>{setInput(c); fetchWeather(c);}} style={{
               padding:"7px 16px", borderRadius:50, cursor:"pointer",
@@ -202,7 +202,7 @@ export default function WeatherPage() {
             <div style={{ position:"absolute", top:"-30%", right:"-5%", width:250, height:250, borderRadius:"50%", background:"rgba(82,183,136,0.06)", pointerEvents:"none" }} />
             <div style={{ position:"absolute", bottom:"-20%", left:"20%", width:180, height:180, borderRadius:"50%", background:"rgba(82,183,136,0.04)", pointerEvents:"none" }} />
 
-            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", flexWrap:"wrap", gap:20, position:"relative" }}>
+            <div className="weather-current" style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", flexWrap:"wrap", gap:20, position:"relative" }}>
               <div>
                 <div style={{ display:"inline-flex", alignItems:"center", gap:6, background:"rgba(82,183,136,0.18)", backdropFilter:"blur(8px)", border:"1px solid rgba(82,183,136,0.25)", borderRadius:20, padding:"4px 14px", fontSize:11, fontWeight:700, letterSpacing:"1px", textTransform:"uppercase", color:"#74c69d", marginBottom:16 }}>
                   <span style={{ width:6, height:6, borderRadius:"50%", background:"#52b788", display:"inline-block", animation:"pulse 2s infinite" }} />
@@ -218,7 +218,7 @@ export default function WeatherPage() {
               </div>
 
               {/* Stat grid */}
-              <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, minWidth:240 }}>
+              <div className="weather-stats-grid" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, minWidth:240 }}>
                 {[
                   ["💧",`${curr.relative_humidity_2m}%`,"Humidity","#60a5fa"],
                   ["💨",`${curr.wind_speed_10m} km/h`,"Wind Speed","#a3e635"],
@@ -236,7 +236,7 @@ export default function WeatherPage() {
           </div>
 
           {/* ── Chart tabs ── */}
-          <div style={{ display:"flex", gap:8, marginBottom:22, flexWrap:"wrap" }}>
+          <div className="weather-tab-row" style={{ display:"flex", gap:8, marginBottom:22, flexWrap:"wrap" }}>
             {tabBtn("hourly","🌡️ Hourly Temp")}
             {tabBtn("rain","🌧️ Rain Chart")}
             {tabBtn("wind","💨 Wind Chart")}
@@ -298,7 +298,7 @@ export default function WeatherPage() {
                   <Bar dataKey="rain" name="Rain Chance" radius={[6,6,0,0]} fill="rgba(59,130,246,0.75)" />
                 </BarChart>
               </ResponsiveContainer>
-              <div style={{ marginTop:20, display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:12 }}>
+              <div className="stat-grid" style={{ marginTop:20, display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:12 }}>
                 {[
                   {label:"Max Rain Chance",value:`${Math.max(...hourlyData.map(h=>h.rain))}%`,color:"#3b82f6"},
                   {label:"Avg Rain Chance",value:`${Math.round(hourlyData.reduce((s,h)=>s+h.rain,0)/hourlyData.length)}%`,color:"#60a5fa"},
@@ -329,7 +329,7 @@ export default function WeatherPage() {
                   <Line type="monotone" dataKey="wind" name="Wind Speed" stroke="#f59e0b" strokeWidth={2.5} dot={false} activeDot={{r:5,fill:"#f59e0b"}} />
                 </LineChart>
               </ResponsiveContainer>
-              <div style={{ marginTop:20, display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:12 }}>
+              <div className="stat-grid" style={{ marginTop:20, display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:12 }}>
                 {[
                   {label:"Max Wind",value:`${Math.max(...hourlyData.map(h=>h.wind))} km/h`,color:"#f59e0b"},
                   {label:"Avg Wind",value:`${Math.round(hourlyData.reduce((s,h)=>s+h.wind,0)/hourlyData.length)} km/h`,color:"#fcd34d"},

@@ -75,7 +75,7 @@ export default function ProductDetailsPage() {
         </div>
 
         {/* Main product card */}
-        <div style={{
+        <div className="detail-hero-grid" style={{
           display:"grid", gridTemplateColumns:"1fr 1.15fr", gap:0,
           background:tk.bgCard, borderRadius:24, overflow:"hidden",
           boxShadow:tk.shadowLg, border:`1px solid ${tk.border}`,
@@ -126,7 +126,9 @@ export default function ProductDetailsPage() {
             </div>
 
             <div style={{ display:"flex", alignItems:"baseline", gap:6, marginBottom:8 }}>
-              <span style={{ fontSize:52, fontWeight:900, color:tk.green6, fontFamily:"'Playfair Display',Georgia,serif", lineHeight:1 }}>₹{product.price||product.pricePerKg}</span>
+              <span className="price-value" style={{ fontSize:52, fontWeight:900, color:tk.green6, fontFamily:"'Inter',sans-serif", lineHeight:1 }}>
+                ₹{Number(product.price || product.pricePerKg || 0).toLocaleString("en-IN")}
+              </span>
               <span style={{ fontSize:16, color:tk.textLt, fontWeight:400 }}>per kg</span>
             </div>
 
@@ -165,7 +167,9 @@ export default function ProductDetailsPage() {
                     <button onClick={() => setQty(q => Math.min(product.qty,q+1))} style={{ width:36, height:36, background:tk.bgMuted, border:"none", cursor:"pointer", fontSize:18, fontFamily:"'Inter',sans-serif", color:tk.text, transition:"background 0.2s" }}
                       onMouseEnter={e=>e.target.style.background=tk.border} onMouseLeave={e=>e.target.style.background=tk.bgMuted}>+</button>
                   </div>
-                  <span style={{ fontSize:13, color:tk.textLt }}>= ₹{(product.price||product.pricePerKg) * qty}</span>
+                  <span className="num" style={{ fontSize:13, color:tk.textLt }}>
+                    = ₹{Number((product.price || product.pricePerKg || 0) * qty).toLocaleString("en-IN")}
+                  </span>
                 </div>
 
                 <div style={{ display:"flex", gap:12 }}>

@@ -95,7 +95,7 @@ export default function CartPage() {
       </div>
 
       <div style={{ maxWidth:1200, margin:"0 auto", padding:"36px 20px 100px" }}>
-        <div style={{ display:"grid", gridTemplateColumns:"1fr 360px", gap:28 }}>
+        <div className="cart-grid" style={{ display:"grid", gridTemplateColumns:"1fr 360px", gap:28 }}>
           {/* Items */}
           <div>
             {cart.map((item,i) => (

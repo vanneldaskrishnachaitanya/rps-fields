@@ -107,8 +107,8 @@ export default function ProductCard({ product }) {
 
           {/* Price — Inter font, tabular numbers */}
           <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 12 }}>
-            <span style={{ fontSize: 22, fontWeight: 900, color: tk.green5, fontFamily: "'Inter',sans-serif", fontFeatureSettings: '"tnum"', letterSpacing: "-0.5px" }}>
-              ₹{price}
+            <span className="price-value" style={{ fontSize: 22, fontWeight: 900, color: tk.green5, fontFamily: "'Inter',sans-serif", fontFeatureSettings: '"tnum"', letterSpacing: "-0.5px" }}>
+              ₹{Number(price).toLocaleString("en-IN")}
             </span>
             <span style={{ fontSize: 12, color: tk.textLt, fontFamily: "'Inter',sans-serif" }}>/{unit}</span>
           </div>

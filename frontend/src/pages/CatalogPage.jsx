@@ -92,7 +92,7 @@ export default function CatalogPage() {
       </div>
 
       {/* ── STEP 1: Location selector ── */}
-      <div style={{ background: dark ? "rgba(4,13,6,0.95)" : "rgba(255,255,255,0.95)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderBottom: `1px solid ${tk.border}`, padding: "18px 0", position: "sticky", top: 64, zIndex: 900 }}>
+      <div className="sticky-filter" style={{ background: dark ? "rgba(4,13,6,0.95)" : "rgba(255,255,255,0.95)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderBottom: `1px solid ${tk.border}`, padding: "18px 0", position: "sticky", top: 64, zIndex: 900 }}>
         <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px" }}>
 
           {/* Step label */}
@@ -110,7 +110,7 @@ export default function CatalogPage() {
 
           {/* Location pills — scrollable */}
           <div style={{ overflowX: "auto", paddingBottom: 4 }}>
-            <div style={{ display: "flex", gap: 8, minWidth: "max-content" }}>
+            <div className="filter-pills" style={{ display: "flex", gap: 8, minWidth: "max-content" }}>
               {LOCATIONS.map(l => {
                 const isActive = loc === l;
                 return (
@@ -149,7 +149,7 @@ export default function CatalogPage() {
           </div>
 
           {/* Category pills */}
-          <div style={{ display: "flex", gap: 7, flexWrap: "wrap", flex: 1 }}>
+          <div className="filter-pills" style={{ display: "flex", gap: 7, flexWrap: "wrap", flex: 1 }}>
             {CATEGORIES.map(c => {
               const isActive = cat === c;
               return (
@@ -239,7 +239,7 @@ export default function CatalogPage() {
         )}
 
         {loading ? (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(260px,1fr))", gap: 22 }}>
+          <div className="product-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(260px,1fr))", gap: 22 }}>
             {[1,2,3,4,5,6,7,8].map(i => (
               <div key={i} style={{ borderRadius: 20, overflow: "hidden", background: tk.bgCard, border: `1px solid ${tk.border}` }}>
                 <div style={{ height: 200, background: `linear-gradient(90deg,${tk.bgMuted} 25%,${tk.border} 50%,${tk.bgMuted} 75%)`, backgroundSize: "400px 100%", animation: "shimmer 1.4s ease infinite" }} />
@@ -263,7 +263,7 @@ export default function CatalogPage() {
             </button>
           </div>
         ) : (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(260px,1fr))", gap: 22 }}>
+          <div className="product-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(260px,1fr))", gap: 22 }}>
             {products.map((p, i) => (
               <div key={p.id || p._id} style={{ animation: `fadeUp 0.5s ease ${Math.min(i,8)*0.06}s both` }}>
                 <ProductCard product={p} />
