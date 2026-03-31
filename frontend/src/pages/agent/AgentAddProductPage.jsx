@@ -4,7 +4,7 @@ import { useTheme, TK } from "../../context/ThemeContext";
 import { useAuth } from "../../context/AuthContext";
 import { AgentNav } from "./AgentDashboard";
 
-const CATEGORIES = ["Vegetables","Fruits","Dairy","Dry Fruits","Grains","Spices","Other"];
+const CATEGORIES = ["Vegetables","Fruits","Dairy","Dry Fruits","Grains","Spices"];
 const QUICK_IMGS = [
   ["Vegetables","https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&q=80"],
   ["Fruits","https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=400&q=80"],
@@ -19,7 +19,7 @@ export default function AgentAddProductPage() {
   const { dark } = useTheme(); const tk = TK(dark);
   const { authFetch } = useAuth();
 
-  const [form, setForm] = useState({ name:"", category:"Vegetables", pricePerKg:"", quantity:"", description:"", farmerId:"", image:"" });
+  const [form, setForm] = useState({ name:"", category:"Vegetables", unit:"kg", pricePerKg:"", quantity:"", description:"", farmerId:"", image:"" });
   const [errors, setErrors] = useState({});
   const [saving, setSaving] = useState(false);
   const [apiError, setApiError] = useState("");
@@ -122,12 +122,19 @@ export default function AgentAddProductPage() {
               </select>
             </div>
             <div style={{ marginBottom:16 }}>
-              {lbl("Price per KG (₹) *")}
+              {lbl("Unit of Measurement *")}
+              <select style={inp(false)} value={form.unit||"kg"} onChange={set("unit")}>
+                {[["kg","🏋 kg — for produce sold by weight"],["litre","🥛 litre — for milk, oil, juice"],["piece","🥥 piece — per individual item"],["dozen","📦 dozen — 12 items"],["gram","⚖ gram — for spices (per 100g)"],["pack","📦 pack — sealed packs"]].map(([v,l]) => <option key={v} value={v}>{l}</option>)}
+              </select>
+              <div style={{ fontSize:11, color:tk.textLt, marginTop:4, fontStyle:"italic" }}>Tip: Use "litre" for milk/oil, "piece" for coconuts, "gram" for spices</div>
+            </div>
+            <div style={{ marginBottom:16 }}>
+              {lbl(`Price per ${form.unit||"kg"} (₹) *`)}
               <input type="number" style={inp(!!errors.pricePerKg)} placeholder="e.g. 45" min="1" value={form.pricePerKg} onChange={set("pricePerKg")} />
               {errors.pricePerKg && <div style={{ color:"#e74c3c", fontSize:11, marginTop:3 }}>⚠ {errors.pricePerKg}</div>}
             </div>
             <div style={{ marginBottom:16 }}>
-              {lbl("Available Quantity (KG) *")}
+              {lbl(`Available Quantity (${form.unit||"kg"}) *`)}
               <input type="number" style={inp(!!errors.quantity)} placeholder="e.g. 100" min="1" value={form.quantity} onChange={set("quantity")} />
               {errors.quantity && <div style={{ color:"#e74c3c", fontSize:11, marginTop:3 }}>⚠ {errors.quantity}</div>}
             </div>

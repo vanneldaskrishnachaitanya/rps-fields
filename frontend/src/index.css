@@ -345,3 +345,116 @@ button:focus-visible {
   outline: 2px solid rgba(82,183,136,0.6) !important;
   outline-offset: 3px !important;
 }
+
+/* ═══════════════════════════════════════════════
+   MOBILE RESPONSIVE — RPS Fields
+═══════════════════════════════════════════════ */
+
+/* Prevent overflow */
+html, body { overflow-x: hidden; max-width: 100vw; }
+
+/* ── Hero / Slider ── */
+@media (max-width: 768px) {
+  /* Hero content full width */
+  [data-hero-content] {
+    padding: 0 16px !important;
+    max-width: 100% !important;
+  }
+
+  /* Stats bar single row scroll */
+  .stats-bar {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Hero CTA buttons stack */
+  .hero-btns {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+  .hero-btns button {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  /* Catalog grid - 2 cols on tablet, 1 on phone */
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)) !important;
+    gap: 14px !important;
+  }
+
+  /* Footer hide some items */
+  .footer-hide-mobile {
+    display: none !important;
+  }
+
+  /* Weather page stack */
+  .weather-current {
+    flex-direction: column !important;
+  }
+  .weather-stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* ── Phone only (< 480px) ── */
+@media (max-width: 480px) {
+  /* Header logo size */
+  .rps-logo-text { font-size: 16px !important; }
+
+  /* Page banners reduce padding */
+  [class*="banner"] { padding: 36px 16px 28px !important; }
+
+  /* Catalog filter pills scroll */
+  .filter-pills { overflow-x: auto; flex-wrap: nowrap !important; padding-bottom: 6px; }
+  .filter-pills::-webkit-scrollbar { height: 0; }
+
+  /* Product cards in catalog */
+  .product-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* Cart/checkout stack columns */
+  .cart-grid, .checkout-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Dashboard stat cards 2x2 */
+  .stat-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+/* ── General touch improvements ── */
+@media (hover: none) {
+  /* Disable hover effects on touch devices */
+  .hover-lift:hover { transform: none !important; }
+
+  /* Bigger tap targets */
+  button, a { min-height: 40px; }
+
+  /* No hover scale on product cards */
+  [class*="product-card"]:hover {
+    transform: none !important;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06) !important;
+  }
+}
+
+/* ── Scrollbar hidden on mobile ── */
+@media (max-width: 768px) {
+  ::-webkit-scrollbar { display: none; }
+  * { scrollbar-width: none; }
+}
+
+/* ── Sticky nav on mobile ── */
+@media (max-width: 768px) {
+  .sticky-filter { top: 60px !important; }
+}
+
+/* ── Better touch scroll for horizontal ── */
+.scroll-x {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+}
+.scroll-x > * { scroll-snap-align: start; }

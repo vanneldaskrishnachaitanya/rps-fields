@@ -103,7 +103,7 @@ export default function HomePage() {
     <div style={{ background: tk.bg, overflowX: "hidden" }}>
 
       {/* ─────────────── HERO SLIDER ─────────────── */}
-      <section style={{ position: "relative", height: "88vh", minHeight: 520, maxHeight: 780, overflow: "hidden" }}>
+      <section style={{ position: "relative", height: "clamp(420px,88vh,780px)", minHeight: 520, maxHeight: 780, overflow: "hidden" }}>
         <div style={{
           position: "absolute", inset: 0,
           backgroundImage: `url(${cur.img})`,
@@ -114,7 +114,7 @@ export default function HomePage() {
         }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(100deg,rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.3) 55%,rgba(0,0,0,0.05) 100%)" }} />
 
-        <div style={{ position: "relative", zIndex: 2, height: "100%", display: "flex", alignItems: "center", maxWidth: 1280, margin: "0 auto", padding: "0 40px" }}>
+        <div style={{ position: "relative", zIndex: 2, height: "100%", display: "flex", alignItems: "center", maxWidth: 1280, margin: "0 auto", padding: "0 20px" }}>
           <div style={{ maxWidth: 580 }}>
             <div style={{
               display: "inline-flex", alignItems: "center", gap: 7,
@@ -129,7 +129,7 @@ export default function HomePage() {
             </div>
 
             <h1 style={{
-              color: "#fff", fontSize: "clamp(34px, 5.2vw, 60px)",
+              color: "#fff", fontSize: "clamp(28px, 5.2vw, 60px)",
               fontFamily: "'Playfair Display',Georgia,serif",
               fontWeight: 700, lineHeight: 1.1, marginBottom: 20,
               opacity: animating ? 0 : 1, transform: animating ? "translateY(18px)" : "none",
@@ -144,7 +144,7 @@ export default function HomePage() {
             }}>{cur.sub}</p>
 
             <div style={{
-              display: "flex", gap: 12, flexWrap: "wrap",
+              display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "flex-start",
               opacity: animating ? 0 : 1, transform: animating ? "translateY(18px)" : "none",
               transition: "all 0.5s ease 0.34s",
             }}>
@@ -196,7 +196,7 @@ export default function HomePage() {
 
       {/* ─────────────── STATS BAR ─────────────── */}
       <div style={{ background: dark ? "#0f2018" : "#1b4332", borderBottom: "3px solid #52b788" }}>
-        <div style={{ maxWidth: 960, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4,1fr)" }}>
+        <div style={{ maxWidth: 960, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(140px,1fr))" }}>
           {STATS.map((s, i) => (
             <div key={i} data-id={`stat-${i}`} style={{ textAlign:"center", padding:"22px 16px", borderRight: i < 3 ? "1px solid rgba(255,255,255,0.08)" : "none", ...reveal(`stat-${i}`, i * 0.08) }}>
               <div style={{ fontSize:22, marginBottom:4 }}>{s.icon}</div>

@@ -3,14 +3,14 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import { useTheme, TK } from "../../context/ThemeContext";
 import { useAuth } from "../../context/AuthContext";
 
-const CATEGORIES = ["Vegetables","Fruits","Dairy","Dry Fruits","Grains"];
+const CATEGORIES = ["Vegetables","Fruits","Dairy","Dry Fruits","Grains","Spices"];
 
 export default function EditProductPage() {
   const navigate = useNavigate();
   const { id } = useParams();
   const { dark } = useTheme(); const tk = TK(dark);
   const { authFetch } = useAuth();
-  const [form, setForm] = useState({ name:"", category:"Vegetables", price:"", qty:"", description:"", img:"" });
+  const [form, setForm] = useState({ name:"", category:"Vegetables", unit:"kg", price:"", qty:"", description:"", img:"" });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState({});
@@ -43,7 +43,7 @@ export default function EditProductPage() {
     if (!validate()) return;
     setSaving(true); setApiError("");
     try {
-      const d = await authFetch(`/products/${id}`, { method:"PUT", body:JSON.stringify({ ...form, price:parseFloat(form.price), qty:parseInt(form.qty) }) });
+      const d = await authFetch(`/products/${id}`, { method:"PUT", body:JSON.stringify({ ...form, unit:form.unit||"kg", price:parseFloat(form.price), qty:parseInt(form.qty) }) });
       if (!d.success) throw new Error(d.error);
       navigate("/farmer/products");
     } catch(e) { setApiError(e.message); }
@@ -86,12 +86,19 @@ export default function EditProductPage() {
               </select>
             </div>
             <div style={{ marginBottom:16 }}>
-              {lbl("Price per kg (₹) *")}
+              {lbl("Unit of Measurement *")}
+              <select style={inp(false)} value={form.unit||"kg"} onChange={set("unit")}>
+                {[["kg","🏋 kg — for produce sold by weight"],["litre","🥛 litre — for milk, oil, juice"],["piece","🥥 piece — per individual item"],["dozen","📦 dozen — 12 items"],["gram","⚖ gram — for spices (per 100g)"],["pack","📦 pack — sealed packs"]].map(([v,l]) => <option key={v} value={v}>{l}</option>)}
+              </select>
+              <div style={{ fontSize:11, color:tk.textLt, marginTop:4, fontStyle:"italic" }}>Tip: Use "litre" for milk/oil, "piece" for coconuts, "gram" for spices</div>
+            </div>
+            <div style={{ marginBottom:16 }}>
+              {lbl(`Price per ${form.unit||"kg"} (₹) *`)}
               <input type="number" style={inp(!!errors.price)} min="1" value={form.price} onChange={set("price")} />
               {errors.price && <div style={{ color:"#e74c3c", fontSize:11, marginTop:3 }}>⚠ {errors.price}</div>}
             </div>
             <div style={{ marginBottom:16 }}>
-              {lbl("Available Quantity (kg) *")}
+              {lbl(`Available Quantity (${form.unit||"kg"}) *`)}
               <input type="number" style={inp(!!errors.qty)} min="0" value={form.qty} onChange={set("qty")} />
               {errors.qty && <div style={{ color:"#e74c3c", fontSize:11, marginTop:3 }}>⚠ {errors.qty}</div>}
             </div>
