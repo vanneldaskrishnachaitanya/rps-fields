@@ -55,7 +55,7 @@ export default function FarmerDashboard() {
           <div style={{ display:"flex", alignItems:"center", gap:16, flexWrap:"wrap" }}>
             <div style={{
               width:58, height:58, borderRadius:16,
-              background:"rgba(82,183,136,0.28)",#1b4332)",
+              background:"rgba(82,183,136,0.28)",
               display:"flex", alignItems:"center", justifyContent:"center",
               fontSize:26, boxShadow:"0 8px 24px rgba(82,183,136,0.35)", flexShrink:0,
             }}>🌾</div>

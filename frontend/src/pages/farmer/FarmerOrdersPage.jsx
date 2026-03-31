@@ -104,7 +104,7 @@ export function FarmerProfilePage() {
       <div style={{ background:"linear-gradient(135deg,#040d06,#0d2b1a,#1b4332)", padding:"60px 20px", textAlign:"center", position:"relative", overflow:"hidden" }}>
         <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(circle at 50% 80%,rgba(82,183,136,0.12),transparent 55%)", pointerEvents:"none" }} />
         <div style={{ position:"relative", animation:"fadeUp 0.5s ease both" }}>
-          <div style={{ width:80, height:80, borderRadius:"50%", background:"rgba(82,183,136,0.28)",#1b4332)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:34, margin:"0 auto 16px", boxShadow:"0 12px 36px rgba(82,183,136,0.35)" }}>🌾</div>
+          <div style={{ width:80, height:80, borderRadius:"50%", background:"rgba(82,183,136,0.28)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:34, margin:"0 auto 16px", boxShadow:"0 12px 36px rgba(82,183,136,0.35)" }}>🌾</div>
           <h1 style={{ color:"#fff", fontSize:28, fontFamily:"'Playfair Display',Georgia,serif", margin:"0 0 6px" }}>{user?.fullName}</h1>
           <p style={{ color:"rgba(255,255,255,0.55)", fontSize:14 }}>Verified Farmer · {user?.city}</p>
         </div>
