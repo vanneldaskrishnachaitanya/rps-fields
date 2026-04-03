@@ -63,7 +63,7 @@ export default function LoginPage() {
       <div style={{ width:"100%", maxWidth:460, animation:"fadeInUp 0.5s ease both" }}>
 
         {/* Card */}
-        <div style={{
+        <div data-tilt style={{
           background:tk.bgCard, borderRadius:24, padding:"44px 40px",
           boxShadow: dark?"0 20px 60px rgba(0,0,0,0.5)":"0 20px 60px rgba(27,67,50,0.12)",
           border:`1px solid ${tk.border}`, marginBottom:16,
@@ -108,7 +108,7 @@ export default function LoginPage() {
             {errors.password && <div style={{ color:"#e74c3c", fontSize:11, marginTop:4, fontWeight:600 }}>⚠ {errors.password}</div>}
           </div>
 
-          <button onClick={handleLogin} disabled={loading} style={{
+          <button data-magnetic onClick={handleLogin} disabled={loading} style={{
             background: loading ? tk.border : "rgba(82,183,136,0.28)",
             color:"#fff", border:"none", width:"100%", padding:"14px",
             borderRadius:12, cursor: loading?"not-allowed":"pointer",
@@ -148,7 +148,7 @@ export default function LoginPage() {
         </div>
 
         {/* Admin */}
-        <div onClick={() => navigate("/admin/login")} style={{
+        <div data-tilt onClick={() => navigate("/admin/login")} style={{
           background: dark?"#0f1f14":"#1a3a5c", borderRadius:16, padding:"16px 22px",
           border:"1px solid #2a5a8c", cursor:"pointer",
           display:"flex", alignItems:"center", justifyContent:"space-between",

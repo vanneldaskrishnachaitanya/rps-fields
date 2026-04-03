@@ -70,7 +70,7 @@ export default function AgentDashboard() {
             { icon:"🌾", val:stats.farmers,  lbl:"Farmers",  color:"#c8960c", grad:"linear-gradient(135deg,#c8960c22,#a3700911)", to:"/agent/farmers" },
             { icon:"💰", val:`₹${stats.revenue.toLocaleString("en-IN")}`, lbl:"Revenue", color:"#7c3aed", grad:"linear-gradient(135deg,#7c3aed22,#6d28d911)", to:"/agent/orders" },
           ].map(({icon,val,lbl,color,grad,to},i)=>(
-            <div key={lbl} onClick={()=>navigate(to)} style={{
+            <div key={lbl} data-tilt onClick={()=>navigate(to)} style={{
               background: dark?`${grad},rgba(12,22,15,0.85)`:`${grad},rgba(255,255,255,0.85)`,
               backdropFilter:"blur(24px) saturate(180%)", WebkitBackdropFilter:"blur(24px) saturate(180%)",
               border:`1px solid ${color}25`, borderRadius:20, padding:"22px 18px", textAlign:"center", cursor:"pointer",

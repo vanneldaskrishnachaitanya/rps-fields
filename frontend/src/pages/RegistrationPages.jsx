@@ -150,7 +150,7 @@ function RegistrationForm({ type }) {
 
   return (
     <div style={{ background: tk.bg, minHeight: "100%", padding: "50px 20px" }}>
-      <div style={{ maxWidth: 560, margin: "0 auto", background: tk.bgCard, borderRadius: 20, padding: "40px 40px 36px", boxShadow: tk.shadowLg, border: `2px solid ${cfg.color}40` }}>
+      <div style={{ maxWidth: 560, margin: "0 auto", background: tk.bgCard, borderRadius: 20, padding: "40px 40px 36px", boxShadow: tk.shadowLg, border: `2px solid ${cfg.color}40` }} data-tilt>
 
         <div style={{ textAlign: "center", marginBottom: 28 }}>
           <div style={{ fontSize: 46, marginBottom: 10 }}>{cfg.icon}</div>

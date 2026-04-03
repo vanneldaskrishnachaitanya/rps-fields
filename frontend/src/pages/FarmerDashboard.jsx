@@ -106,7 +106,7 @@ export default function FarmerDashboard() {
             { icon:"💰", val:`₹${totalRevenue.toLocaleString("en-IN")}`, lbl:"Revenue", color:"#7c3aed", grad:"linear-gradient(135deg,#7c3aed22,#6d28d911)", to:"/farmer/revenue" },
             { icon:"📊", val:`${totalQty.toLocaleString("en-IN")} kg`, lbl:"Stock",   color:"#c8960c", grad:"linear-gradient(135deg,#c8960c22,#a3700911)", to:"/farmer/products" },
           ].map(({ icon,val,lbl,color,grad,to },i)=>(
-            <div key={lbl} onClick={()=>navigate(to)} style={{
+            <div key={lbl} data-tilt onClick={()=>navigate(to)} style={{
               background: dark ? `${grad}, rgba(12,26,15,0.95)` : `${grad}, rgba(255,255,255,0.95)`,
               borderRadius:18, padding:"22px 20px",
               border:`1px solid ${color}30`,
@@ -164,7 +164,7 @@ export default function FarmerDashboard() {
               </div>
             </div>
             <div style={{ display:"flex", gap:8 }}>
-              <button onClick={()=>navigate("/farmer/find-agents")} style={{ padding:"10px 18px", background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", borderRadius:50, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif", fontSize:13, transition:"all 0.2s" }}
+              <button data-magnetic onClick={()=>navigate("/farmer/find-agents")} style={{ padding:"10px 18px", background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", borderRadius:50, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif", fontSize:13, transition:"all 0.2s" }}
                 onMouseEnter={e=>e.currentTarget.style.transform="translateY(-1px)"}
                 onMouseLeave={e=>e.currentTarget.style.transform="none"}
               >🤝 Find Agents</button>

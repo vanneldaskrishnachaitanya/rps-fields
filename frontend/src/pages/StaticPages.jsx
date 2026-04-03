@@ -22,7 +22,7 @@ export function AboutPage() {
     <div style={{ background:tk.bg, minHeight:"100%" }}>
       <Banner title="About RPS Fields" sub="Bridging the gap between Indian farmers and consumers since 2023" emoji="🌾" />
       <div style={{ maxWidth:860, margin:"0 auto", padding:"60px 20px 100px" }}>
-        <div style={{ background:tk.bgCard, borderRadius:24, padding:40, border:`1px solid ${tk.border}`, marginBottom:24, animation:"fadeUp 0.5s ease both" }}>
+        <div data-tilt style={{ background:tk.bgCard, borderRadius:24, padding:40, border:`1px solid ${tk.border}`, marginBottom:24, animation:"fadeUp 0.5s ease both" }}>
           <h2 style={{ fontSize:22, fontFamily:"'Playfair Display',Georgia,serif", color:tk.text, marginBottom:14 }}>🌱 Our Mission</h2>
           <p style={{ color:tk.textMid, lineHeight:1.9, fontSize:15 }}>
             RPS Fields was created to eliminate the lengthy supply chain between Indian farmers and end consumers. By connecting them directly, we ensure farmers receive fairer prices while consumers get fresher, more nutritious produce at better rates — a genuine win for everyone.
@@ -33,7 +33,7 @@ export function AboutPage() {
           {[["🌾","For Farmers",["List unlimited products","Set your own prices","Access thousands of customers","Weekly payment settlements"]],
             ["🛒","For Customers",["Farm-fresh quality guaranteed","Direct pricing, no markup","Know your farmer personally","Seasonal & organic options"]]
           ].map(([icon,title,pts])=>(
-            <div key={title} style={{ background:tk.bgCard, borderRadius:20, padding:28, border:`1px solid ${tk.border}`, animation:"fadeUp 0.5s ease 0.1s both" }}>
+            <div key={title} data-tilt style={{ background:tk.bgCard, borderRadius:20, padding:28, border:`1px solid ${tk.border}`, animation:"fadeUp 0.5s ease 0.1s both" }}>
               <div style={{ width:52, height:52, borderRadius:14, background: dark?"#1c3525":"#e8f5ee", display:"flex", alignItems:"center", justifyContent:"center", fontSize:24, marginBottom:16 }}>{icon}</div>
               <h3 style={{ fontSize:18, fontWeight:800, color:tk.text, marginBottom:14 }}>{title}</h3>
               {pts.map(pt=>(
@@ -76,7 +76,7 @@ export function ContactPage() {
           <div style={{ animation:"slideLeft 0.5s ease both" }}>
             <h3 style={{ fontSize:20, fontWeight:800, color:tk.text, marginBottom:24 }}>Get in Touch</h3>
             {[["📧","Email","support@rpsfields.in"],["📞","Phone","+91 98765 43210"],["📍","Address","Hyderabad, Telangana, India"],["🕘","Hours","Mon–Sat, 9am–6pm IST"]].map(([icon,lbl,val])=>(
-              <div key={lbl} style={{ display:"flex", gap:16, marginBottom:24, padding:"16px 18px", background:tk.bgCard, borderRadius:16, border:`1px solid ${tk.border}`, transition:"all 0.2s" }}
+              <div key={lbl} data-tilt style={{ display:"flex", gap:16, marginBottom:24, padding:"16px 18px", background:tk.bgCard, borderRadius:16, border:`1px solid ${tk.border}`, transition:"all 0.2s" }}
                 onMouseEnter={e=>{e.currentTarget.style.borderColor="#52b788"; e.currentTarget.style.boxShadow=tk.shadow;}}
                 onMouseLeave={e=>{e.currentTarget.style.borderColor=tk.border; e.currentTarget.style.boxShadow="none";}}>
                 <div style={{ fontSize:22, flexShrink:0 }}>{icon}</div>
@@ -96,7 +96,7 @@ export function ContactPage() {
               <button onClick={()=>setSent(false)} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"12px 28px", borderRadius:50, cursor:"pointer", fontWeight:800, fontFamily:"'Inter',sans-serif" }}>Send Another</button>
             </div>
           ) : (
-            <div style={{ background:tk.bgCard, borderRadius:24, padding:36, border:`1px solid ${tk.border}`, animation:"slideRight 0.5s ease both" }}>
+            <div data-tilt style={{ background:tk.bgCard, borderRadius:24, padding:36, border:`1px solid ${tk.border}`, animation:"slideRight 0.5s ease both" }}>
               <h3 style={{ fontSize:18, fontWeight:800, color:tk.text, marginBottom:24 }}>Send a Message</h3>
               {[["name","Name","text","Your full name"],["email","Email","email","you@email.com"],["subject","Subject","text","How can we help?"]].map(([k,l,t,ph])=>(
                 <div key={k} style={{ marginBottom:16 }}>
@@ -111,7 +111,7 @@ export function ContactPage() {
                 <label style={{ display:"block", fontWeight:700, fontSize:11, color:tk.textMid, marginBottom:6, textTransform:"uppercase", letterSpacing:"0.5px" }}>Message</label>
                 <textarea style={{ ...inp, minHeight:110, resize:"vertical" }} placeholder="Your message..." value={form.message} onChange={set("message")} onFocus={e=>{e.target.style.borderColor="#52b788";}} onBlur={e=>{e.target.style.borderColor=tk.border;}} />
               </div>
-              <button onClick={()=>form.name&&form.email&&form.message&&setSent(true)}
+              <button data-magnetic onClick={()=>form.name&&form.email&&form.message&&setSent(true)}
                 style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", width:"100%", padding:14, borderRadius:14, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", transition:"all 0.2s" }}
                 onMouseEnter={e=>{e.target.style.transform="translateY(-1px)"; e.target.style.boxShadow="0 10px 28px rgba(82,183,136,0.5)";}}
                 onMouseLeave={e=>{e.target.style.transform="none"; e.target.style.boxShadow="0 6px 20px rgba(82,183,136,0.35)";}}>
@@ -131,7 +131,7 @@ function StaticDoc({ title, emoji, children }) {
     <div style={{ background:tk.bg, minHeight:"100%" }}>
       <Banner title={title} emoji={emoji} />
       <div style={{ maxWidth:780, margin:"0 auto", padding:"56px 20px 100px" }}>
-        <div style={{ background:tk.bgCard, borderRadius:24, padding:44, border:`1px solid ${tk.border}`, color:tk.textMid, lineHeight:2, fontSize:15, animation:"fadeUp 0.5s ease both" }}>
+        <div data-tilt style={{ background:tk.bgCard, borderRadius:24, padding:44, border:`1px solid ${tk.border}`, color:tk.textMid, lineHeight:2, fontSize:15, animation:"fadeUp 0.5s ease both" }}>
           {children}
         </div>
       </div>

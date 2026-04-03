@@ -57,7 +57,7 @@ export default function OrdersPage() {
           const ordId = ord._id||ord.id;
           const ss = STATUS_STYLE[ord.status] || STATUS_STYLE.pending;
           return (
-            <div key={ordId} style={{ background:tk.bgCard, borderRadius:22, padding:28, marginBottom:18, border:`1px solid ${tk.border}`, animation:`fadeUp 0.5s ease ${i*0.07}s both`, transition:"all 0.2s" }}
+            <div key={ordId} data-tilt style={{ background:tk.bgCard, borderRadius:22, padding:28, marginBottom:18, border:`1px solid ${tk.border}`, animation:`fadeUp 0.5s ease ${i*0.07}s both`, transition:"all 0.2s" }}
               onMouseEnter={e=>{e.currentTarget.style.boxShadow=tk.shadowMd; e.currentTarget.style.borderColor="#52b78833";}}
               onMouseLeave={e=>{e.currentTarget.style.boxShadow="none"; e.currentTarget.style.borderColor=tk.border;}}
             >

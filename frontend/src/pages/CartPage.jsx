@@ -53,7 +53,7 @@ export default function CartPage() {
       <div style={{ width:80, height:80, borderRadius:"50%", background:"rgba(82,183,136,0.28)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:36, marginBottom:20, boxShadow:"0 12px 36px rgba(82,183,136,0.4)", animation:"bounce 0.6s ease" }}>🎉</div>
       <h2 style={{ fontSize:32, color:tk.text, marginBottom:8, fontFamily:"'Playfair Display',Georgia,serif" }}>Order Placed!</h2>
       <p style={{ color:tk.textLt, marginBottom:28, fontSize:15 }}>Your fresh produce is on its way 🌿</p>
-      <div style={{ background:tk.bgCard, borderRadius:20, padding:28, maxWidth:420, width:"100%", boxShadow:tk.shadowLg, border:`1px solid ${tk.border}`, marginBottom:28 }}>
+      <div data-tilt style={{ background:tk.bgCard, borderRadius:20, padding:28, maxWidth:420, width:"100%", boxShadow:tk.shadowLg, border:`1px solid ${tk.border}`, marginBottom:28 }}>
         {[["Order ID", order.id],["Status","✓ " + order.status, "#52b788"],["Total","₹" + order.total, tk.green6],["Delivery","~24 hours",""]].map(([l,v,c])=>(
           <div key={l} style={{ display:"flex", justifyContent:"space-between", padding:"10px 0", borderBottom:`1px solid ${tk.border}`, fontSize:14 }}>
             <span style={{ color:tk.textLt }}>{l}</span>
@@ -63,7 +63,7 @@ export default function CartPage() {
         <div style={{ paddingTop:14, fontSize:13, color:tk.textMid }}>📦 Delivering to {order.city} · 📞 {order.phone}</div>
       </div>
       <div style={{ display:"flex", gap:12, flexWrap:"wrap", justifyContent:"center" }}>
-        <button onClick={()=>navigate("/catalog")} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"13px 28px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif" }}>
+        <button data-magnetic onClick={()=>navigate("/catalog")} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"13px 28px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif" }}>
           Continue Shopping
         </button>
         <button onClick={()=>navigate("/orders")} style={{ background:"transparent", border:`2px solid ${tk.green6}`, color:tk.green6, padding:"13px 28px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif" }}>
@@ -132,7 +132,7 @@ export default function CartPage() {
 
           {/* Summary */}
           <div>
-            <div style={{ background:tk.bgCard, borderRadius:20, padding:26, border:`1px solid ${tk.border}`, position:"sticky", top:84, boxShadow:tk.shadowMd }}>
+            <div data-tilt style={{ background:tk.bgCard, borderRadius:20, padding:26, border:`1px solid ${tk.border}`, position:"sticky", top:84, boxShadow:tk.shadowMd }}>
               <h3 style={{ fontSize:18, fontWeight:800, color:tk.text, marginBottom:18, paddingBottom:14, borderBottom:`1px solid ${tk.border}` }}>Order Summary</h3>
               {cart.map(item=>(
                 <div key={item.id} style={{ display:"flex", justifyContent:"space-between", marginBottom:8, fontSize:13, color:tk.textMid }}>

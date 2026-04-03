@@ -41,6 +41,7 @@ export default function ProductCard({ product }) {
 
   return (
     <div
+      data-tilt
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{

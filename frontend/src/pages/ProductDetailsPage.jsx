@@ -75,7 +75,7 @@ export default function ProductDetailsPage() {
         </div>
 
         {/* Main product card */}
-        <div className="detail-hero-grid" style={{
+        <div className="detail-hero-grid" data-tilt style={{
           display:"grid", gridTemplateColumns:"1fr 1.15fr", gap:0,
           background:tk.bgCard, borderRadius:24, overflow:"hidden",
           boxShadow:tk.shadowLg, border:`1px solid ${tk.border}`,
@@ -173,7 +173,7 @@ export default function ProductDetailsPage() {
                 </div>
 
                 <div style={{ display:"flex", gap:12 }}>
-                  <button onClick={handleAdd} style={{
+                  <button data-magnetic onClick={handleAdd} style={{
                     flex:1, padding:"15px", fontSize:16, fontWeight:800,
                     background: added ? "linear-gradient(135deg,#10b981,#059669)" : "rgba(82,183,136,0.28)",
                     color:"#fff", border:"none", borderRadius:14, cursor:"pointer", fontFamily:"'Inter',sans-serif",

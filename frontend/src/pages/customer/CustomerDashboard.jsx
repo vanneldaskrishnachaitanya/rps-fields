@@ -21,7 +21,7 @@ export default function CustomerDashboard() {
   const delivered  = orders.filter(o=>o.status==="delivered").length;
 
   const StatCard = ({ icon, value, label, to, color="#52b788" }) => (
-    <div onClick={() => navigate(to)} style={{ background:tk.bgCard, borderRadius:20, padding:"22px 20px", border:`1px solid ${tk.border}`, cursor:"pointer", textAlign:"center", transition:"all 0.25s", position:"relative", overflow:"hidden" }}
+    <div data-tilt onClick={() => navigate(to)} style={{ background:tk.bgCard, borderRadius:20, padding:"22px 20px", border:`1px solid ${tk.border}`, cursor:"pointer", textAlign:"center", transition:"all 0.25s", position:"relative", overflow:"hidden" }}
       onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-4px)"; e.currentTarget.style.boxShadow=tk.shadowMd; e.currentTarget.style.borderColor=color+"66";}}
       onMouseLeave={e=>{e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow="none"; e.currentTarget.style.borderColor=tk.border;}}>
       <div style={{ position:"absolute", top:-16, right:-16, width:60, height:60, borderRadius:"50%", background:color+"15", pointerEvents:"none" }} />
