@@ -5,6 +5,8 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import CustomCursor from "./components/CustomCursor";
+import GlobalEffects from "./components/GlobalEffects";
 
 // ── Public ────────────────────────────────────────────────────────────────────
 import HomePage           from "./pages/HomePage";
@@ -167,6 +169,8 @@ export default function App() {
       <ThemeProvider>
         <AuthProvider>
           <CartProvider>
+            <CustomCursor />
+            <GlobalEffects />
             <Layout />
           </CartProvider>
         </AuthProvider>
