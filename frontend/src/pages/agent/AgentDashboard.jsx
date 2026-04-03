@@ -83,7 +83,7 @@ export default function AgentDashboard() {
             >
               <div style={{ position:"absolute", top:-10, right:-10, width:50, height:50, borderRadius:"50%", background:`${color}12`, pointerEvents:"none" }} />
               <div style={{ fontSize:26, marginBottom:10 }}>{icon}</div>
-              <div style={{ fontSize:24, fontWeight:900, color, fontFamily:"'Inter',sans-serif", fontFeatureSettings:'"tnum"', marginBottom:4 }}>{val}</div>
+              <div className="num" style={{ fontSize:24, fontWeight:900, color, fontFamily:"'Inter',sans-serif", fontFeatureSettings:'"tnum"', marginBottom:4 }}>{val}</div>
               <div style={{ fontSize:10, color:tk.textLt, textTransform:"uppercase", letterSpacing:"1px", fontWeight:600 }}>{lbl}</div>
             </div>
           ))}

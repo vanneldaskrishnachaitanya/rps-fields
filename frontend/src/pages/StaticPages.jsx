@@ -50,7 +50,7 @@ export function AboutPage() {
           <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:20 }}>
             {[["500+","Farmers"],["12k+","Customers"],["₹2Cr+","Farmer Earnings"],["15+","States"]].map(([n,l])=>(
               <div key={l}>
-                <div style={{ fontSize:30, fontWeight:900, color:"#74c69d", fontFamily:"'Playfair Display',Georgia,serif" }}>{n}</div>
+                <div className="num" style={{ fontSize:30, fontWeight:900, color:"#74c69d", fontFamily:"'Inter',sans-serif" }}>{n}</div>
                 <div style={{ fontSize:12, color:"rgba(255,255,255,0.55)", marginTop:4 }}>{l}</div>
               </div>
             ))}

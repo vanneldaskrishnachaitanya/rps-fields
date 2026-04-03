@@ -126,7 +126,7 @@ export default function ProductDetailsPage() {
             </div>
 
             <div style={{ display:"flex", alignItems:"baseline", gap:6, marginBottom:8 }}>
-              <span className="price-value" style={{ fontSize:52, fontWeight:900, color:tk.green6, fontFamily:"'Inter',sans-serif", lineHeight:1 }}>
+              <span className="num" style={{ fontSize:52, fontWeight:900, color:tk.green6, fontFamily:"'Inter',sans-serif", lineHeight:1 }}>
                 ₹{Number(product.price || product.pricePerKg || 0).toLocaleString("en-IN")}
               </span>
               <span style={{ fontSize:16, color:tk.textLt, fontWeight:400 }}>per kg</span>

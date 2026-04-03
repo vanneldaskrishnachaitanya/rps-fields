@@ -2,31 +2,24 @@ import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 
 /**
- * GlobalEffects — Automatically injects CSS magic animations into EVERY page.
+ * GlobalEffects — applies CSS magic to EVERY page automatically.
  *
- * This works by scanning the live DOM for card-like/interactive elements and
- * injecting effects. No className or data-attributes needed on individual
- * components — this finds everything automatically.
- *
- * Effects applied:
- * 1. SCROLL-REVEAL  — cards/sections fade-up + blur-in when scrolled into view
- * 2. 3D TILT        — cards with images get 3D hover tilt
- * 3. MAGNETIC       — [data-magnetic] buttons attract toward cursor
- * 4. BUTTON RIPPLE  — green ripple wave on every button click
- * 5. CARD HOVER GLOW — border + shadow glow on card hover
- * 6. IMAGE ZOOM     — images inside cards zoom slightly on hover
+ * 1. SCROLL-REVEAL    — cards/sections fade-up on scroll
+ * 2. 3D TILT          — [data-tilt] cards rotate in 3D
+ * 3. ALL BUTTONS MAGNETIC — every <button> on every page attracts toward cursor
+ * 4. BUTTON RIPPLE    — green ripple on every button click
+ * 5. CARD HOVER GLOW  — border glow on card hover
+ * 6. COUNT-UP         — numbers animate counting up when scrolled into view
  */
 export default function GlobalEffects() {
   const location = useLocation();
   const cleanupRef = useRef(null);
 
   useEffect(() => {
-    // Run effects with delays to catch both initial render and async content
     const t1 = setTimeout(() => run(), 200);
-    const t2 = setTimeout(() => run(), 1800); // re-run after async data loads
+    const t2 = setTimeout(() => run(), 2000);
 
     function run() {
-      // Clean previous
       if (cleanupRef.current) cleanupRef.current();
       const cleanups = [];
 
@@ -37,43 +30,25 @@ export default function GlobalEffects() {
         (entries) => {
           entries.forEach((e) => {
             if (e.isIntersecting) {
-              const el = e.target;
-              el.style.opacity = "1";
-              el.style.transform = "translateY(0) scale(1)";
-              el.style.filter = "blur(0)";
+              e.target.style.opacity = "1";
+              e.target.style.transform = "translateY(0) scale(1)";
+              e.target.style.filter = "blur(0)";
             }
           });
         },
         { threshold: 0.06, rootMargin: "0px 0px -30px 0px" }
       );
 
-      // Find ALL card-like elements across every page
-      const cardSelectors = [
-        // Cards with explicit border-radius (the project pattern)
-        "div[style*='borderRadius: 2']",
-        "div[style*='borderRadius: 1']",
-        "div[style*='borderRadius:2']",
-        "div[style*='borderRadius:1']",
-        // Grid children — product cards, stat cards, category cards
-        ".product-grid > div",
-        ".stat-grid > div",
-        // Explicit selectors
-        "[data-id]",
-        ".scroll-item",
-        // Table rows
-        "table tbody tr",
-      ];
-
-      const allCards = document.querySelectorAll(cardSelectors.join(","));
-      const revealedEls = [];
-
-      allCards.forEach((el, i) => {
-        if (el.dataset.gfxR) return; // already applied
+      const revealEls = document.querySelectorAll(
+        "[data-id], .scroll-item, .product-grid > div, .stat-grid > div"
+      );
+      const revealedSet = [];
+      revealEls.forEach((el, i) => {
+        if (el.dataset.gfxR) return;
         const rect = el.getBoundingClientRect();
-        // Only animate below-fold elements
         if (rect.top > window.innerHeight * 0.75) {
           el.dataset.gfxR = "1";
-          revealedEls.push(el);
+          revealedSet.push(el);
           const delay = Math.min((i % 8) * 0.06, 0.42);
           el.style.opacity = "0";
           el.style.transform = "translateY(25px) scale(0.98)";
@@ -86,17 +61,14 @@ export default function GlobalEffects() {
       });
 
       // ═══════════════════════════════════════
-      // 2. 3D TILT on cards (those with images or data-tilt)
+      // 2. 3D TILT on [data-tilt]
       // ═══════════════════════════════════════
-      const tiltTargets = document.querySelectorAll(
-        "[data-tilt], .product-grid > div > div"
-      );
-      tiltTargets.forEach((card) => {
-        if (card.dataset.gfxT || card.offsetHeight < 80) return;
+      document.querySelectorAll("[data-tilt]").forEach((card) => {
+        if (card.dataset.gfxT || card.offsetHeight < 60) return;
         card.dataset.gfxT = "1";
         card.style.transition =
           (card.style.transition || "") +
-          ", transform 0.15s ease-out, box-shadow 0.3s ease";
+          ", transform 0.15s ease-out";
 
         const onMove = (e) => {
           const r = card.getBoundingClientRect();
@@ -105,11 +77,9 @@ export default function GlobalEffects() {
           const rx = (y - 0.5) * -10;
           const ry = (x - 0.5) * 10;
           card.style.transform = `perspective(600px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-5px) scale(1.02)`;
-          card.style.boxShadow = "0 20px 40px rgba(0,0,0,0.15)";
         };
         const onLeave = () => {
           card.style.transform = "";
-          card.style.boxShadow = "";
         };
         card.addEventListener("mousemove", onMove);
         card.addEventListener("mouseleave", onLeave);
@@ -120,19 +90,25 @@ export default function GlobalEffects() {
       });
 
       // ═══════════════════════════════════════
-      // 3. MAGNETIC BUTTONS
+      // 3. ALL BUTTONS MAGNETIC — every <button>
       // ═══════════════════════════════════════
-      document.querySelectorAll("[data-magnetic]").forEach((btn) => {
-        if (btn.dataset.gfxM) return;
-        btn.dataset.gfxM = "1";
+      const allBtns = document.querySelectorAll("button");
+      allBtns.forEach((btn) => {
+        if (btn.dataset.gfxMag) return;
+        if (btn.offsetWidth < 28 || btn.offsetHeight < 28) return;
+        btn.dataset.gfxMag = "1";
+
         const onMove = (e) => {
           const r = btn.getBoundingClientRect();
           const dx = e.clientX - (r.left + r.width / 2);
           const dy = e.clientY - (r.top + r.height / 2);
-          btn.style.transform = `translate(${dx * 0.3}px, ${dy * 0.3}px)`;
+          const strength = 0.25;
+          btn.style.transform = `translate(${dx * strength}px, ${dy * strength}px)`;
+          btn.style.transition = "transform 0.1s ease-out";
         };
         const onLeave = () => {
           btn.style.transform = "translate(0,0)";
+          btn.style.transition = "transform 0.35s cubic-bezier(0.22,1,0.36,1)";
         };
         btn.addEventListener("mousemove", onMove);
         btn.addEventListener("mouseleave", onLeave);
@@ -143,7 +119,7 @@ export default function GlobalEffects() {
       });
 
       // ═══════════════════════════════════════
-      // 4. BUTTON RIPPLE — every <button>
+      // 4. BUTTON RIPPLE — on every button click
       // ═══════════════════════════════════════
       const ripple = (e) => {
         const btn = e.currentTarget;
@@ -154,7 +130,7 @@ export default function GlobalEffects() {
         Object.assign(span.style, {
           position: "absolute",
           borderRadius: "50%",
-          background: "rgba(82,183,136,0.18)",
+          background: "rgba(0,212,255,0.15)",
           width: sz + "px",
           height: sz + "px",
           left: e.clientX - r.left - sz / 2 + "px",
@@ -175,30 +151,27 @@ export default function GlobalEffects() {
         }, 600);
       };
 
-      const allBtns = document.querySelectorAll("button");
       allBtns.forEach((btn) => {
-        if (btn.dataset.gfxB) return;
-        btn.dataset.gfxB = "1";
+        if (btn.dataset.gfxRip) return;
+        btn.dataset.gfxRip = "1";
         btn.addEventListener("click", ripple);
         cleanups.push(() => btn.removeEventListener("click", ripple));
       });
 
       // ═══════════════════════════════════════
-      // 5. CARD HOVER GLOW — green border glow
+      // 5. CARD HOVER GLOW
       // ═══════════════════════════════════════
-      const hoverCards = document.querySelectorAll(
+      document.querySelectorAll(
         "div[style*='borderRadius'][style*='border']"
-      );
-      hoverCards.forEach((card) => {
+      ).forEach((card) => {
         if (card.dataset.gfxH || card.offsetHeight < 60) return;
         card.dataset.gfxH = "1";
         const origBorder = card.style.borderColor || "";
         const origShadow = card.style.boxShadow || "";
         const onIn = () => {
-          card.style.borderColor = "rgba(82,183,136,0.45)";
-          if (!card.style.boxShadow || card.style.boxShadow === "none") {
-            card.style.boxShadow = "0 8px 30px rgba(82,183,136,0.12)";
-          }
+          card.style.borderColor = "rgba(0,212,255,0.3)";
+          if (!card.style.boxShadow || card.style.boxShadow === "none")
+            card.style.boxShadow = "0 8px 30px rgba(0,212,255,0.08)";
         };
         const onOut = () => {
           card.style.borderColor = origBorder;
@@ -213,31 +186,149 @@ export default function GlobalEffects() {
       });
 
       // ═══════════════════════════════════════
-      // 6. IMAGE ZOOM on hover (cards with images)
+      // 6. COUNT-UP — animate numbers on scroll
       // ═══════════════════════════════════════
-      document
-        .querySelectorAll("div[style*='overflow'] img[style*='objectFit']")
-        .forEach((img) => {
-          if (img.dataset.gfxI) return;
-          img.dataset.gfxI = "1";
-          if (!img.style.transition) {
-            img.style.transition = "transform 0.5s ease";
+      const countObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && !entry.target.dataset.gfxCounted) {
+              entry.target.dataset.gfxCounted = "1";
+              animateCount(entry.target);
+            }
+          });
+        },
+        { threshold: 0.3 }
+      );
+
+      function animateCount(el) {
+        const origText = el.textContent.trim();
+        // Extract the numeric part
+        const match = origText.match(
+          /^([^\d]*?)([\d,]+(?:\.\d+)?)(.*?)$/
+        );
+        if (!match) return;
+
+        const prefix = match[1]; // ₹, etc.
+        const numStr = match[2].replace(/,/g, "");
+        const suffix = match[3]; // /kg, %, etc.
+        const target = parseFloat(numStr);
+        if (isNaN(target) || target === 0) return;
+
+        const isFloat = numStr.includes(".");
+        const decimals = isFloat ? (numStr.split(".")[1] || "").length : 0;
+        const hasCommas = match[2].includes(",");
+        const duration = 1200; // ms
+        const startTime = performance.now();
+
+        function step(now) {
+          const elapsed = now - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          // Ease out cubic
+          const ease = 1 - Math.pow(1 - progress, 3);
+          let current = target * ease;
+
+          let formatted;
+          if (isFloat) {
+            formatted = current.toFixed(decimals);
+          } else {
+            formatted = Math.round(current).toString();
           }
-        });
+
+          if (hasCommas) {
+            const parts = formatted.split(".");
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            // Also handle Indian comma system if original had it
+            if (match[2].match(/\d{1,2},\d{2},\d{3}/)) {
+              parts[0] = indianComma(Math.round(current));
+            }
+            formatted = parts.join(".");
+          }
+
+          el.textContent = prefix + formatted + suffix;
+
+          if (progress < 1) {
+            requestAnimationFrame(step);
+          } else {
+            // Restore exact original text
+            el.textContent = origText;
+          }
+        }
+
+        requestAnimationFrame(step);
+      }
+
+      function indianComma(num) {
+        const s = num.toString();
+        if (s.length <= 3) return s;
+        let last3 = s.slice(-3);
+        let rest = s.slice(0, -3);
+        rest = rest.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
+        return rest + "," + last3;
+      }
+
+      // Find elements that contain numbers to animate
+      // Target: stat values, prices, counts, etc.
+      // Look for elements with specific font weights/sizes that contain numbers
+      const numSelectors = [
+        // Elements with specific number classes
+        ".price-value",
+        ".num",
+        ".rupee",
+        ".currency-value",
+        // Stat values — large bold number elements
+      ];
+
+      document.querySelectorAll(numSelectors.join(",")).forEach((el) => {
+        if (el.dataset.gfxC) return;
+        el.dataset.gfxC = "1";
+        countObserver.observe(el);
+      });
+
+      // Also find inline-styled elements that look like stat numbers
+      // (large font, bold, short text content that's numeric)
+      document.querySelectorAll(
+        "div[style*='fontWeight: 900'], div[style*='fontWeight:900'], " +
+        "span[style*='fontWeight: 900'], span[style*='fontWeight:900'], " +
+        "div[style*='fontWeight: 800'], div[style*='fontWeight:800'], " +
+        "span[style*='fontWeight: 800'], span[style*='fontWeight:800']"
+      ).forEach((el) => {
+        if (el.dataset.gfxC) return;
+        const text = el.textContent.trim();
+        // Only target short text that contains numbers
+        if (text.length > 20) return;
+        if (!/\d/.test(text)) return;
+        // Skip if it's a button or inside a button
+        if (el.tagName === "BUTTON" || el.closest("button")) return;
+
+        el.dataset.gfxC = "1";
+        countObserver.observe(el);
+      });
+
+      // ═══════════════════════════════════════
+      // 7. GLOBAL TABULAR NUMS FONT
+      // ═══════════════════════════════════════
+      // Apply Inter + tabular nums to ALL elements containing numbers
+      document.querySelectorAll(
+        "div[style*='fontFeatureSettings'], span[style*='fontFeatureSettings']"
+      ).forEach((el) => {
+        el.style.fontFamily = "'Inter','Segoe UI',sans-serif";
+        el.style.fontFeatureSettings = '"tnum" 1, "lnum" 1';
+      });
 
       // ═══════════════════════════════════════
       // CLEANUP
       // ═══════════════════════════════════════
       cleanupRef.current = () => {
         revealObserver.disconnect();
+        countObserver.disconnect();
         cleanups.forEach((fn) => fn());
-        // Reset data attributes
-        revealedEls.forEach((el) => delete el.dataset.gfxR);
+        revealedSet.forEach((el) => delete el.dataset.gfxR);
         document.querySelectorAll("[data-gfx-t]").forEach((el) => delete el.dataset.gfxT);
-        document.querySelectorAll("[data-gfx-m]").forEach((el) => delete el.dataset.gfxM);
-        document.querySelectorAll("[data-gfx-b]").forEach((el) => delete el.dataset.gfxB);
+        document.querySelectorAll("[data-gfx-mag]").forEach((el) => { delete el.dataset.gfxMag; el.style.transform = ""; });
+        document.querySelectorAll("[data-gfx-rip]").forEach((el) => delete el.dataset.gfxRip);
         document.querySelectorAll("[data-gfx-h]").forEach((el) => delete el.dataset.gfxH);
-        document.querySelectorAll("[data-gfx-i]").forEach((el) => delete el.dataset.gfxI);
+        document.querySelectorAll("[data-gfx-c]").forEach((el) => delete el.dataset.gfxC);
+        document.querySelectorAll("[data-gfx-counted]").forEach((el) => delete el.dataset.gfxCounted);
       };
     }
 

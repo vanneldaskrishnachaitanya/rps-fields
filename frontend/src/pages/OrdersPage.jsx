@@ -74,7 +74,7 @@ export default function OrdersPage() {
                   <span style={{ background:ss.bg, color:ss.color, border:`1px solid ${ss.border}`, borderRadius:20, padding:"4px 14px", fontWeight:700, fontSize:12 }}>
                     ● {ord.status}
                   </span>
-                  <div style={{ fontSize:26, fontWeight:900, color:tk.green5, fontFamily:"'Playfair Display',Georgia,serif" }}>
+                  <div className="num" style={{ fontSize:26, fontWeight:900, color:tk.green5, fontFamily:"'Inter',sans-serif" }}>
                     ₹{ord.totalPrice||ord.total}
                   </div>
                 </div>

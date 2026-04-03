@@ -292,7 +292,7 @@ export default function HomePage() {
             {[["🌾","500+","Verified Farmers"],["📦","10K+","Orders Delivered"],["⭐","4.8/5","Avg Rating"],["🗺","15+","States Covered"]].map(([icon,num,label]) => (
               <div key={label} style={{ textAlign:"center" }}>
                 <div style={{ fontSize:22, marginBottom:6 }}>{icon}</div>
-                <div style={{ color:"#fff", fontSize:26, fontWeight:900, fontFamily:"'Playfair Display',Georgia,serif" }}>{num}</div>
+                <div className="num" style={{ color:"#fff", fontSize:26, fontWeight:900, fontFamily:"'Inter',sans-serif" }}>{num}</div>
                 <div style={{ color:"rgba(255,255,255,0.55)", fontSize:11, marginTop:2 }}>{label}</div>
               </div>
             ))}

@@ -26,7 +26,7 @@ export default function CustomerDashboard() {
       onMouseLeave={e=>{e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow="none"; e.currentTarget.style.borderColor=tk.border;}}>
       <div style={{ position:"absolute", top:-16, right:-16, width:60, height:60, borderRadius:"50%", background:color+"15", pointerEvents:"none" }} />
       <div style={{ fontSize:28, marginBottom:8 }}>{icon}</div>
-      <div style={{ fontSize:28, fontWeight:900, color, fontFamily:"'Playfair Display',Georgia,serif", marginBottom:4 }}>{value}</div>
+      <div className="num" style={{ fontSize:28, fontWeight:900, color, fontFamily:"'Inter',sans-serif", marginBottom:4 }}>{value}</div>
       <div style={{ fontSize:11, color:tk.textLt, textTransform:"uppercase", letterSpacing:"0.8px" }}>{label}</div>
     </div>
   );

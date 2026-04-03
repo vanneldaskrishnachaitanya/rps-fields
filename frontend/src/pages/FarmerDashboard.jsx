@@ -121,7 +121,7 @@ export default function FarmerDashboard() {
             >
               <div style={{ position:"absolute", top:-8, right:-8, width:50, height:50, borderRadius:"50%", background:`${color}12`, pointerEvents:"none" }} />
               <div style={{ fontSize:26, marginBottom:10 }}>{icon}</div>
-              <div style={{ fontSize:26, fontWeight:900, color, fontFamily:"'Inter',sans-serif", fontFeatureSettings:'"tnum"', letterSpacing:"-0.5px", marginBottom:4 }}>{val}</div>
+              <div className="num" style={{ fontSize:26, fontWeight:900, color, fontFamily:"'Inter',sans-serif", fontFeatureSettings:'"tnum"', letterSpacing:"-0.5px", marginBottom:4 }}>{val}</div>
               <div style={{ fontSize:11, color:tk.textLt, textTransform:"uppercase", letterSpacing:"1px", fontWeight:600 }}>{lbl}</div>
             </div>
           ))}

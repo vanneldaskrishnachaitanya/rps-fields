@@ -9,7 +9,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ── Currency / numeric text ── */
+/* ── Currency / numeric text — GLOBAL digit font ── */
 .rupee,
 .num,
 .price-value,
@@ -17,6 +17,27 @@ body {
   font-family: 'Inter', 'Segoe UI', sans-serif !important;
   font-feature-settings: "tnum" 1, "lnum" 1;
   font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Force ALL digits across the entire site to use Inter tabular numbers */
+body {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Elements that typically show stat/price numbers */
+[style*="fontWeight: 900"],
+[style*="fontWeight:900"],
+[style*="fontWeight: 800"],
+[style*="fontWeight:800"] {
+  font-feature-settings: "tnum" 1, "lnum" 1 !important;
+  font-variant-numeric: tabular-nums lining-nums !important;
+}
+
+/* Count-up animation flash */
+@keyframes countPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
 }
 
 /* ── Scrollbar ── */
@@ -496,8 +517,8 @@ html, body { overflow-x: hidden; max-width: 100vw; }
 }
 
 /* ═══════════════════════════════════════════
-   CUSTOM CURSOR — Adaptive Dot (desktop only)
-   Uses mix-blend-mode: difference for auto-contrast
+   CUSTOM CURSOR — Blue Glowing Dot (desktop only)
+   Fixed size • mix-blend-mode: screen
 ═══════════════════════════════════════════ */
 @media (min-width: 769px) {
   html, body,
