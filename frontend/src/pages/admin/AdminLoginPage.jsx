@@ -119,12 +119,12 @@ function Badge({ label, color }) {
 
 function StatCard({ icon, label, value, sub, color=A.green }) {
   return (
-    <div style={{ background:"rgba(10,20,12,0.82)", backdropFilter:"blur(24px) saturate(180%)", WebkitBackdropFilter:"blur(24px) saturate(180%)", border:`1px solid ${color}20`, borderRadius:20, padding:"22px 24px", boxShadow:"0 4px 24px rgba(0,0,0,0.4)", transition:"all 0.28s cubic-bezier(0.34,1.56,0.64,1)", position:"relative", overflow:"hidden" }}
+    <div data-tilt style={{ background:"rgba(10,20,12,0.82)", backdropFilter:"blur(24px) saturate(180%)", WebkitBackdropFilter:"blur(24px) saturate(180%)", border:`1px solid ${color}20`, borderRadius:20, padding:"22px 24px", boxShadow:"0 4px 24px rgba(0,0,0,0.4)", transition:"all 0.28s cubic-bezier(0.34,1.56,0.64,1)", position:"relative", overflow:"hidden" }}
       onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-4px)"; e.currentTarget.style.boxShadow=`0 12px 32px ${color}20`;}}
       onMouseLeave={e=>{e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow="0 4px 24px rgba(0,0,0,0.4)";}}>
       <div style={{ position:"absolute", top:-8, right:-8, width:50, height:50, borderRadius:"50%", background:`${color}10`, pointerEvents:"none" }} />
       <div style={{ fontSize:28, marginBottom:12 }}>{icon}</div>
-      <div style={{ fontSize:32, fontWeight:900, color, fontFamily:"'Inter',sans-serif", fontFeatureSettings:'"tnum"', marginBottom:4 }}>{value}</div>
+      <div className="num" style={{ fontSize:32, fontWeight:900, color, fontFamily:"'Inter',sans-serif", fontFeatureSettings:'"tnum"', marginBottom:4 }}>{value}</div>
       <div style={{ fontWeight:700, color:A.text, fontSize:14, marginBottom:3 }}>{label}</div>
       {sub && <div style={{ fontSize:12, color:A.textLt }}>{sub}</div>}
     </div>
@@ -161,7 +161,7 @@ export function AdminLoginPage() {
       <div style={{ position:"absolute", bottom:"10%", right:"15%", width:250, height:250, borderRadius:"50%", background:"rgba(40,100,70,0.08)", filter:"blur(40px)", pointerEvents:"none" }} />
 
       <div style={{ width:"100%", maxWidth:420, animation:"scaleIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both" }}>
-        <div style={{ background:"rgba(8,18,10,0.88)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", borderRadius:24, padding:"44px 40px", border:"1px solid rgba(82,183,136,0.15)", boxShadow:"0 24px 64px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.05)", marginBottom:16 }}>
+        <div data-tilt style={{ background:"rgba(8,18,10,0.88)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", borderRadius:24, padding:"44px 40px", border:"1px solid rgba(82,183,136,0.15)", boxShadow:"0 24px 64px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.05)", marginBottom:16 }}>
           <div style={{ textAlign:"center", marginBottom:32 }}>
             <div style={{ width:68, height:68, borderRadius:18, background:"rgba(82,183,136,0.28)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:30, margin:"0 auto 18px", boxShadow:"0 10px 30px rgba(82,183,136,0.4)", animation:"anim-glow 2s ease-in-out infinite" }}>🛡</div>
             <h1 style={{ fontSize:26, fontFamily:"'Playfair Display',Georgia,serif", color:"#fff", margin:"0 0 6px" }}>Admin Login</h1>

@@ -109,7 +109,7 @@ export default function Header() {
           </div>
 
           {/* Desktop Nav */}
-          <nav className="rps-nav" style={{ alignItems:"center", gap:2, flexWrap:"nowrap" }}>
+          <nav className="rps-nav" style={{ alignItems:"center", gap:8, flexWrap:"nowrap" }}>
             <NavLink to="/" end className="hnav" style={({isActive})=>nb(isActive)}>🏠 Home</NavLink>
             <NavLink to="/catalog" className="hnav" style={({isActive})=>nb(isActive)}>🛒 Catalog</NavLink>
             <NavLink to="/weather" className="hnav" style={({isActive})=>nb(isActive,{background:isActive?"rgba(116,198,157,0.18)":"transparent",borderColor:isActive?"rgba(116,198,157,0.45)":"rgba(255,255,255,0.14)"})}>🌤 Weather</NavLink>
