@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * Glowing blue bar cursor — desktop only, no ring.
- * Becomes a dot when hovering interactive elements.
+ * Custom cursor — a glowing DOT (no ring).
+ * Uses mix-blend-mode: difference so it auto-inverts against
+ * any background, staying visible on light AND dark surfaces.
+ * Desktop only — hidden on mobile/touch.
  */
 export default function CustomCursor() {
-  const curRef = useRef(null);
+  const dotRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
-  const hoveringRef = useRef(false);
 
   useEffect(() => {
     // Skip on mobile / touch devices
@@ -24,6 +25,7 @@ export default function CustomCursor() {
     let mouseY = -100;
     let curX = -100;
     let curY = -100;
+    let hovering = false;
     let animId;
 
     const onMove = (e) => {
@@ -33,7 +35,8 @@ export default function CustomCursor() {
 
     const onOver = (e) => {
       const t = e.target;
-      hoveringRef.current =
+      const wasHovering = hovering;
+      hovering =
         t.tagName === "BUTTON" ||
         t.tagName === "A" ||
         t.tagName === "INPUT" ||
@@ -43,35 +46,31 @@ export default function CustomCursor() {
         !!t.closest("a") ||
         !!t.closest("[data-tilt]") ||
         !!t.closest("[data-magnetic]") ||
-        !!t.closest("[role='button']");
+        !!t.closest("[role='button']") ||
+        !!t.closest("label") ||
+        window.getComputedStyle(t).cursor === "pointer";
 
-      if (curRef.current) {
-        const el = curRef.current;
-        if (hoveringRef.current) {
-          el.style.width = "14px";
-          el.style.height = "14px";
-          el.style.borderRadius = "50%";
-          el.style.background = "#3b82f6";
-          el.style.boxShadow =
-            "0 0 12px rgba(59,130,246,0.8), 0 0 24px rgba(59,130,246,0.5)";
+      if (dotRef.current && hovering !== wasHovering) {
+        const el = dotRef.current;
+        if (hovering) {
+          el.style.width = "40px";
+          el.style.height = "40px";
+          el.style.opacity = "0.5";
         } else {
-          el.style.width = "4px";
-          el.style.height = "28px";
-          el.style.borderRadius = "3px";
-          el.style.background =
-            "linear-gradient(180deg, #00b4ff, #0066ff)";
-          el.style.boxShadow =
-            "0 0 10px rgba(0,120,255,0.7), 0 0 22px rgba(0,120,255,0.4), 0 2px 8px rgba(0,120,255,0.3)";
+          el.style.width = "12px";
+          el.style.height = "12px";
+          el.style.opacity = "1";
         }
       }
     };
 
+    // Smooth 60fps tracking
     const render = () => {
-      curX += (mouseX - curX) * 0.45;
-      curY += (mouseY - curY) * 0.45;
-      if (curRef.current) {
-        curRef.current.style.left = curX + "px";
-        curRef.current.style.top = curY + "px";
+      curX += (mouseX - curX) * 0.35;
+      curY += (mouseY - curY) * 0.35;
+      if (dotRef.current) {
+        dotRef.current.style.left = curX + "px";
+        dotRef.current.style.top = curY + "px";
       }
       animId = requestAnimationFrame(render);
     };
@@ -91,23 +90,22 @@ export default function CustomCursor() {
 
   return (
     <div
-      ref={curRef}
+      ref={dotRef}
       id="rps-cursor"
       style={{
         position: "fixed",
         left: "-100px",
         top: "-100px",
-        width: "4px",
-        height: "28px",
-        borderRadius: "3px",
-        background: "linear-gradient(180deg, #00b4ff, #0066ff)",
-        boxShadow:
-          "0 0 10px rgba(0,120,255,0.7), 0 0 22px rgba(0,120,255,0.4), 0 2px 8px rgba(0,120,255,0.3)",
+        width: "12px",
+        height: "12px",
+        borderRadius: "50%",
+        background: "#fff",
         transform: "translate(-50%, -50%)",
         pointerEvents: "none",
         zIndex: 99999,
+        mixBlendMode: "difference",
         transition:
-          "width 0.18s cubic-bezier(0.23,1,0.32,1), height 0.18s cubic-bezier(0.23,1,0.32,1), border-radius 0.18s, background 0.18s, box-shadow 0.18s",
+          "width 0.2s cubic-bezier(0.23,1,0.32,1), height 0.2s cubic-bezier(0.23,1,0.32,1), opacity 0.2s ease",
       }}
     />
   );

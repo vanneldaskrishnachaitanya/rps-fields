@@ -480,7 +480,7 @@ html, body { overflow-x: hidden; max-width: 100vw; }
 /* ══════════════════════════════════════════════════════════════════
    CSS MAGIC — GLOBAL EFFECTS
    Glassmorphism · Gradient Backgrounds · 3D Tilt · Scroll Anims
-   · Magnetic Buttons · SVG Demos · Glowing Blue Bar Cursor
+   · Magnetic Buttons · SVG Demos · Adaptive Dot Cursor
    (Neon text effects excluded per user request)
 ══════════════════════════════════════════════════════════════════ */
 :root {
@@ -496,16 +496,17 @@ html, body { overflow-x: hidden; max-width: 100vw; }
 }
 
 /* ═══════════════════════════════════════════
-   CUSTOM CURSOR — Glowing Blue Bar (desktop)
+   CUSTOM CURSOR — Adaptive Dot (desktop only)
+   Uses mix-blend-mode: difference for auto-contrast
 ═══════════════════════════════════════════ */
 @media (min-width: 769px) {
-  body { cursor: none !important; }
+  html, body,
   body * { cursor: none !important; }
 }
 @media (max-width: 768px) {
-  body { cursor: auto !important; }
+  html, body,
   body * { cursor: auto !important; }
-  button, a { cursor: pointer !important; }
+  button, a, [role="button"] { cursor: pointer !important; }
 }
 
 /* ═══════════════════════════════════════════
