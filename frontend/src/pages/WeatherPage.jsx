@@ -198,7 +198,7 @@ export default function WeatherPage() {
         {weather && curr && !loading && (<>
 
           {/* ── Current weather card ── */}
-          <div style={{ background:"linear-gradient(135deg,#040d06,#0d2b1a,#1b4332)", borderRadius:22, padding:"28px 28px", marginBottom:24, border:"1px solid rgba(82,183,136,0.15)", boxShadow:"0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06)", position:"relative", overflow:"hidden" }}>
+          <div data-tilt style={{ background:"linear-gradient(135deg,#040d06,#0d2b1a,#1b4332)", borderRadius:22, padding:"28px 28px", marginBottom:24, border:"1px solid rgba(82,183,136,0.15)", boxShadow:"0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06)", position:"relative", overflow:"hidden" }}>
             <div style={{ position:"absolute", top:"-30%", right:"-5%", width:250, height:250, borderRadius:"50%", background:"rgba(82,183,136,0.06)", pointerEvents:"none" }} />
             <div style={{ position:"absolute", bottom:"-20%", left:"20%", width:180, height:180, borderRadius:"50%", background:"rgba(82,183,136,0.04)", pointerEvents:"none" }} />
 

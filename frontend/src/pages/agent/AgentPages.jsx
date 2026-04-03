@@ -59,7 +59,7 @@ export function AgentProductsPage() {
         ) : (
           <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(290px,1fr))", gap:18 }}>
             {products.map(p => (
-              <div key={p._id||p.id} style={{ background:tk.bgCard, borderRadius:16, overflow:"hidden", border:`1px solid ${tk.border}`, boxShadow:tk.shadow }}>
+              <div key={p._id||p.id} data-tilt style={{ background:tk.bgCard, borderRadius:16, overflow:"hidden", border:`1px solid ${tk.border}`, boxShadow:tk.shadow, position:"relative" }}>
                 <div style={{ height:140, overflow:"hidden", background:tk.bgMuted, position:"relative" }}>
                   <img src={p.image||p.img} alt={p.name} style={{ width:"100%", height:"100%", objectFit:"cover" }} onError={e=>e.target.style.display="none"} />
                   <div style={{ position:"absolute", top:8, right:8, background:"rgba(27,67,50,0.85)", color:"#74c69d", borderRadius:12, padding:"2px 10px", fontSize:11, fontWeight:700 }}>{p.category}</div>
@@ -111,7 +111,7 @@ export function AgentOrdersPage() {
             <p style={{ color:tk.textLt }}>No orders yet.</p>
           </div>
         ) : orders.map(ord => (
-          <div key={ord._id||ord.id} style={{ background:tk.bgCard, borderRadius:14, padding:22, marginBottom:14, boxShadow:tk.shadow, border:`1px solid ${tk.border}` }}>
+          <div key={ord._id||ord.id} data-tilt style={{ background:tk.bgCard, borderRadius:14, padding:22, marginBottom:14, boxShadow:tk.shadow, border:`1px solid ${tk.border}`, position:"relative", overflow:"hidden" }}>
             <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:12, flexWrap:"wrap", gap:10 }}>
               <div>
                 <div style={{ fontWeight:800, fontSize:15, color:tk.text }}>{ord._id||ord.id}</div>
@@ -165,7 +165,7 @@ export function AgentFarmersPage() {
         ) : (
           <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))", gap:18 }}>
             {farmers.map(f => (
-              <div key={f._id||f.id} style={{ background:tk.bgCard, borderRadius:16, padding:24, border:`1px solid ${tk.border}`, boxShadow:tk.shadow }}>
+              <div key={f._id||f.id} data-tilt style={{ background:tk.bgCard, borderRadius:16, padding:24, border:`1px solid ${tk.border}`, boxShadow:tk.shadow, position:"relative", overflow:"hidden" }}>
                 <div style={{ fontSize:44, textAlign:"center", marginBottom:12 }}>🌾</div>
                 <div style={{ fontWeight:800, fontSize:16, color:tk.text, textAlign:"center", marginBottom:4 }}>{f.fullName||f.name}</div>
                 <div style={{ fontSize:12, color:tk.textMid, textAlign:"center", marginBottom:14 }}>ID: {(f._id||f.id)?.toString().slice(-8)}</div>
@@ -225,7 +225,7 @@ export function AgentRequestsPage() {
           const farmer = req.farmerId || {};
           const busy   = responding[req._id];
           return (
-            <div key={req._id} style={{ background:tk.bgCard, borderRadius:14, padding:24, marginBottom:14, border:`1px solid ${tk.border}`, boxShadow:tk.shadow }}>
+            <div key={req._id} data-tilt style={{ background:tk.bgCard, borderRadius:14, padding:24, marginBottom:14, border:`1px solid ${tk.border}`, boxShadow:tk.shadow, position:"relative", overflow:"hidden" }}>
               <div style={{ display:"flex", alignItems:"flex-start", gap:16, marginBottom:16 }}>
                 <div style={{ width:50, height:50, borderRadius:"50%", background:"rgba(52,211,153,0.15)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:24, flexShrink:0 }}>🌾</div>
                 <div style={{ flex:1 }}>

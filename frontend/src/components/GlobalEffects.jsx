@@ -4,13 +4,13 @@ import { useLocation } from "react-router-dom";
 /**
  * GlobalEffects — CSS magic injected into EVERY page.
  *
- * 1. SCROLL-REVEAL      — cards fade-up on scroll
- * 2. 3D TILT            — [data-tilt] cards rotate in 3D
- * 3. ALL BUTTONS MAGNETIC — every <button> + .hnav links attract toward cursor
- * 4. BUTTON RIPPLE       — ripple on every button click
- * 5. WHITE GLOW ON CLICK — dim white glow lighting on button press
- * 6. CARD HOVER GLOW     — border glow on card hover
- * 7. COUNT-UP            — numbers animate counting up on scroll
+ * 1. SCROLL-REVEAL        — cards fade-up on scroll
+ * 2. 3D TILT              — ALL cards auto-detected + [data-tilt] rotate in 3D
+ * 3. CURSOR SPOTLIGHT GLOW — radial glow follows cursor inside every card
+ * 4. ALL BUTTONS MAGNETIC  — every <button> + .hnav links attract toward cursor
+ * 5. BUTTON RIPPLE          — ripple on every button click
+ * 6. WHITE GLOW ON CLICK   — dim white glow lighting on button press
+ * 7. COUNT-UP              — numbers animate counting up on scroll
  */
 export default function GlobalEffects() {
   const location = useLocation();
@@ -23,6 +23,20 @@ export default function GlobalEffects() {
     function run() {
       if (cleanupRef.current) cleanupRef.current();
       const cleanups = [];
+
+      // Helper: find ALL card-like elements
+      function getAllCards() {
+        const set = new Set();
+        // Explicit data-tilt
+        document.querySelectorAll("[data-tilt]").forEach((el) => set.add(el));
+        // Cards with borderRadius + border in inline style
+        document.querySelectorAll("div[style*='borderRadius']").forEach((el) => {
+          if (el.offsetHeight >= 60 && el.offsetWidth >= 100) set.add(el);
+        });
+        // Product card wrappers
+        document.querySelectorAll(".product-grid > div, .stat-grid > div").forEach((el) => set.add(el));
+        return Array.from(set);
+      }
 
       // ═══════════════════════════════════════
       // 1. SCROLL-REVEAL
@@ -40,16 +54,11 @@ export default function GlobalEffects() {
         { threshold: 0.06, rootMargin: "0px 0px -30px 0px" }
       );
 
-      const revealEls = document.querySelectorAll(
-        "[data-id], .scroll-item, .product-grid > div, .stat-grid > div"
-      );
-      const revealedSet = [];
-      revealEls.forEach((el, i) => {
+      document.querySelectorAll("[data-id], .scroll-item").forEach((el, i) => {
         if (el.dataset.gfxR) return;
         const rect = el.getBoundingClientRect();
         if (rect.top > window.innerHeight * 0.75) {
           el.dataset.gfxR = "1";
-          revealedSet.push(el);
           const delay = Math.min((i % 8) * 0.06, 0.42);
           el.style.opacity = "0";
           el.style.transform = "translateY(25px) scale(0.98)";
@@ -62,21 +71,26 @@ export default function GlobalEffects() {
       });
 
       // ═══════════════════════════════════════
-      // 2. 3D TILT on [data-tilt]
+      // 2. 3D TILT ON ALL CARDS
       // ═══════════════════════════════════════
-      document.querySelectorAll("[data-tilt]").forEach((card) => {
-        if (card.dataset.gfxT || card.offsetHeight < 60) return;
+      getAllCards().forEach((card) => {
+        if (card.dataset.gfxT) return;
+        // Skip tiny elements, inputs, buttons, nav
+        if (card.offsetHeight < 60 || card.offsetWidth < 100) return;
+        if (card.tagName === "BUTTON" || card.tagName === "INPUT" || card.tagName === "NAV") return;
+        if (card.closest("nav") || card.closest("header") || card.closest("aside")) return;
         card.dataset.gfxT = "1";
-        card.style.transition =
-          (card.style.transition || "") + ", transform 0.15s ease-out";
+
+        const origTransition = card.style.transition || "";
+        card.style.transition = origTransition + (origTransition ? ", " : "") + "transform 0.15s ease-out";
 
         const onMove = (e) => {
           const r = card.getBoundingClientRect();
           const x = (e.clientX - r.left) / r.width;
           const y = (e.clientY - r.top) / r.height;
-          const rx = (y - 0.5) * -10;
-          const ry = (x - 0.5) * 10;
-          card.style.transform = `perspective(600px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-5px) scale(1.02)`;
+          const rx = (y - 0.5) * -8;
+          const ry = (x - 0.5) * 8;
+          card.style.transform = `perspective(600px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-4px) scale(1.01)`;
         };
         const onLeave = () => {
           card.style.transform = "";
@@ -90,10 +104,64 @@ export default function GlobalEffects() {
       });
 
       // ═══════════════════════════════════════
-      // 3. ALL BUTTONS + NAV LINKS MAGNETIC
+      // 3. CURSOR SPOTLIGHT GLOW INSIDE CARDS
+      //    — radial gradient follows cursor
       // ═══════════════════════════════════════
-      const magTargets = document.querySelectorAll("button, a.hnav, [data-magnetic]");
-      magTargets.forEach((btn) => {
+      getAllCards().forEach((card) => {
+        if (card.dataset.gfxSpot) return;
+        if (card.offsetHeight < 60 || card.offsetWidth < 100) return;
+        if (card.tagName === "BUTTON" || card.tagName === "INPUT" || card.tagName === "NAV") return;
+        if (card.closest("nav") || card.closest("header") || card.closest("aside")) return;
+        card.dataset.gfxSpot = "1";
+
+        // Create overlay div for the glow
+        const glow = document.createElement("div");
+        Object.assign(glow.style, {
+          position: "absolute",
+          top: "0",
+          left: "0",
+          right: "0",
+          bottom: "0",
+          borderRadius: "inherit",
+          pointerEvents: "none",
+          opacity: "0",
+          transition: "opacity 0.3s ease",
+          zIndex: "1",
+          background:
+            "radial-gradient(300px circle at var(--glow-x, 50%) var(--glow-y, 50%), rgba(82,183,136,0.12), transparent 60%)",
+        });
+
+        // Ensure card is positioned
+        const pos = window.getComputedStyle(card).position;
+        if (pos === "static") card.style.position = "relative";
+
+        card.appendChild(glow);
+
+        const onMove = (e) => {
+          const r = card.getBoundingClientRect();
+          const x = e.clientX - r.left;
+          const y = e.clientY - r.top;
+          glow.style.setProperty("--glow-x", x + "px");
+          glow.style.setProperty("--glow-y", y + "px");
+          glow.style.background = `radial-gradient(250px circle at ${x}px ${y}px, rgba(82,183,136,0.15), transparent 60%)`;
+          glow.style.opacity = "1";
+        };
+        const onLeave = () => {
+          glow.style.opacity = "0";
+        };
+        card.addEventListener("mousemove", onMove);
+        card.addEventListener("mouseleave", onLeave);
+        cleanups.push(() => {
+          card.removeEventListener("mousemove", onMove);
+          card.removeEventListener("mouseleave", onLeave);
+          if (glow.parentNode) glow.remove();
+        });
+      });
+
+      // ═══════════════════════════════════════
+      // 4. ALL BUTTONS + NAV LINKS MAGNETIC
+      // ═══════════════════════════════════════
+      document.querySelectorAll("button, a.hnav, [data-magnetic]").forEach((btn) => {
         if (btn.dataset.gfxMag) return;
         if (btn.offsetWidth < 20 || btn.offsetHeight < 20) return;
         btn.dataset.gfxMag = "1";
@@ -107,8 +175,7 @@ export default function GlobalEffects() {
         };
         const onLeave = () => {
           btn.style.transform = "translate(0,0)";
-          btn.style.transition =
-            "transform 0.35s cubic-bezier(0.22,1,0.36,1)";
+          btn.style.transition = "transform 0.35s cubic-bezier(0.22,1,0.36,1)";
         };
         btn.addEventListener("mousemove", onMove);
         btn.addEventListener("mouseleave", onLeave);
@@ -119,7 +186,7 @@ export default function GlobalEffects() {
       });
 
       // ═══════════════════════════════════════
-      // 4. BUTTON RIPPLE — cyan ripple on click
+      // 5. BUTTON RIPPLE — on click
       // ═══════════════════════════════════════
       const ripple = (e) => {
         const btn = e.currentTarget;
@@ -159,62 +226,25 @@ export default function GlobalEffects() {
       });
 
       // ═══════════════════════════════════════
-      // 5. WHITE GLOW ON CLICK — dim white light
+      // 6. WHITE GLOW ON CLICK
       // ═══════════════════════════════════════
-      const glowClick = (e) => {
-        const btn = e.currentTarget;
-        if (btn.offsetWidth < 28) return;
-        // Flash: brief white glow boxShadow
-        const origShadow = btn.style.boxShadow || "";
-        btn.style.boxShadow =
-          origShadow +
-          ", 0 0 15px 4px rgba(255,255,255,0.25), 0 0 30px 8px rgba(255,255,255,0.1)";
-        btn.style.transition = "box-shadow 0.08s ease-out";
-        setTimeout(() => {
-          btn.style.boxShadow = origShadow;
-          btn.style.transition = "box-shadow 0.4s ease-out";
-        }, 200);
-      };
-
       document.querySelectorAll("button").forEach((btn) => {
         if (btn.dataset.gfxGlow) return;
         btn.dataset.gfxGlow = "1";
-        btn.addEventListener("mousedown", glowClick);
-        cleanups.push(() =>
-          btn.removeEventListener("mousedown", glowClick)
-        );
+        const handler = () => {
+          if (btn.offsetWidth < 28) return;
+          const orig = btn.style.boxShadow || "";
+          btn.style.boxShadow =
+            orig + ", 0 0 15px 4px rgba(255,255,255,0.25), 0 0 30px 8px rgba(255,255,255,0.1)";
+          btn.style.transition = "box-shadow 0.08s ease-out";
+          setTimeout(() => {
+            btn.style.boxShadow = orig;
+            btn.style.transition = "box-shadow 0.4s ease-out";
+          }, 200);
+        };
+        btn.addEventListener("mousedown", handler);
+        cleanups.push(() => btn.removeEventListener("mousedown", handler));
       });
-
-      // ═══════════════════════════════════════
-      // 6. CARD HOVER GLOW
-      // ═══════════════════════════════════════
-      document
-        .querySelectorAll("div[style*='borderRadius'][style*='border']")
-        .forEach((card) => {
-          if (card.dataset.gfxH || card.offsetHeight < 60) return;
-          card.dataset.gfxH = "1";
-          const origBorder = card.style.borderColor || "";
-          const origShadow = card.style.boxShadow || "";
-          const onIn = () => {
-            card.style.borderColor = "rgba(82,183,136,0.35)";
-            if (
-              !card.style.boxShadow ||
-              card.style.boxShadow === "none"
-            )
-              card.style.boxShadow =
-                "0 8px 30px rgba(82,183,136,0.08)";
-          };
-          const onOut = () => {
-            card.style.borderColor = origBorder;
-            card.style.boxShadow = origShadow;
-          };
-          card.addEventListener("mouseenter", onIn);
-          card.addEventListener("mouseleave", onOut);
-          cleanups.push(() => {
-            card.removeEventListener("mouseenter", onIn);
-            card.removeEventListener("mouseleave", onOut);
-          });
-        });
 
       // ═══════════════════════════════════════
       // 7. COUNT-UP — animate numbers on scroll
@@ -222,10 +252,7 @@ export default function GlobalEffects() {
       const countObserver = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
-            if (
-              entry.isIntersecting &&
-              !entry.target.dataset.gfxCounted
-            ) {
+            if (entry.isIntersecting && !entry.target.dataset.gfxCounted) {
               entry.target.dataset.gfxCounted = "1";
               animateCount(entry.target);
             }
@@ -236,53 +263,36 @@ export default function GlobalEffects() {
 
       function animateCount(el) {
         const origText = el.textContent.trim();
-        // Match: optional prefix (₹, $, etc), number with commas/decimals, optional suffix
         const match = origText.match(/^([^\d]*?)([\d,]+(?:\.\d+)?)(.*?)$/);
         if (!match) return;
-
         const prefix = match[1];
         const numStr = match[2].replace(/,/g, "");
         const suffix = match[3];
         const target = parseFloat(numStr);
         if (isNaN(target) || target === 0) return;
-
         const isFloat = numStr.includes(".");
         const decimals = isFloat ? (numStr.split(".")[1] || "").length : 0;
         const hasCommas = match[2].includes(",");
         const useIndian = /\d{1,2},\d{2},\d{3}/.test(match[2]);
         const duration = 1200;
         const startTime = performance.now();
-
         function step(now) {
           const elapsed = now - startTime;
           const progress = Math.min(elapsed / duration, 1);
           const ease = 1 - Math.pow(1 - progress, 3);
           const current = target * ease;
-
-          let formatted;
-          if (isFloat) formatted = current.toFixed(decimals);
-          else formatted = Math.round(current).toString();
-
+          let formatted = isFloat ? current.toFixed(decimals) : Math.round(current).toString();
           if (hasCommas) {
             const parts = formatted.split(".");
-            if (useIndian) parts[0] = indianComma(parseInt(parts[0]));
-            else
-              parts[0] = parts[0].replace(
-                /\B(?=(\d{3})+(?!\d))/g,
-                ","
-              );
+            parts[0] = useIndian ? indianComma(parseInt(parts[0])) : parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             formatted = parts.join(".");
           }
-
           el.textContent = prefix + formatted + suffix;
-
           if (progress < 1) requestAnimationFrame(step);
           else el.textContent = origText;
         }
-
         requestAnimationFrame(step);
       }
-
       function indianComma(num) {
         const s = Math.abs(num).toString();
         if (s.length <= 3) return (num < 0 ? "-" : "") + s;
@@ -292,32 +302,26 @@ export default function GlobalEffects() {
         return (num < 0 ? "-" : "") + rest + "," + last3;
       }
 
-      // Target .num elements (explicit class)
-      document.querySelectorAll(".num, .price-value, .rupee, .currency-value").forEach(
-        (el) => {
-          if (el.dataset.gfxC) return;
-          if (!/\d/.test(el.textContent)) return;
-          el.dataset.gfxC = "1";
-          countObserver.observe(el);
-        }
-      );
-
-      // Auto-detect bold stat numbers (fontWeight 800/900, short numeric text)
-      document
-        .querySelectorAll(
-          "div[style*='fontWeight: 900'], div[style*='fontWeight:900'], " +
-            "div[style*='fontWeight: 800'], div[style*='fontWeight:800'], " +
-            "span[style*='fontWeight: 900'], span[style*='fontWeight:900'], " +
-            "span[style*='fontWeight: 800'], span[style*='fontWeight:800']"
-        )
-        .forEach((el) => {
-          if (el.dataset.gfxC) return;
-          const text = el.textContent.trim();
-          if (text.length > 25 || !/\d/.test(text)) return;
-          if (el.tagName === "BUTTON" || el.closest("button")) return;
-          el.dataset.gfxC = "1";
-          countObserver.observe(el);
-        });
+      // Count-up targets
+      document.querySelectorAll(".num, .price-value, .rupee, .currency-value").forEach((el) => {
+        if (el.dataset.gfxC || !/\d/.test(el.textContent)) return;
+        el.dataset.gfxC = "1";
+        countObserver.observe(el);
+      });
+      // Auto-detect bold stat numbers
+      document.querySelectorAll(
+        "div[style*='fontWeight: 900'], div[style*='fontWeight:900'], " +
+        "div[style*='fontWeight: 800'], div[style*='fontWeight:800'], " +
+        "span[style*='fontWeight: 900'], span[style*='fontWeight:900'], " +
+        "span[style*='fontWeight: 800'], span[style*='fontWeight:800']"
+      ).forEach((el) => {
+        if (el.dataset.gfxC) return;
+        const text = el.textContent.trim();
+        if (text.length > 25 || !/\d/.test(text)) return;
+        if (el.tagName === "BUTTON" || el.closest("button")) return;
+        el.dataset.gfxC = "1";
+        countObserver.observe(el);
+      });
 
       // ═══════════════════════════════════════
       // CLEANUP
@@ -326,11 +330,10 @@ export default function GlobalEffects() {
         revealObserver.disconnect();
         countObserver.disconnect();
         cleanups.forEach((fn) => fn());
-        revealedSet.forEach((el) => delete el.dataset.gfxR);
-        const attrs = ["gfxT","gfxMag","gfxRip","gfxGlow","gfxH","gfxC","gfxCounted"];
-        attrs.forEach((a) => {
-          document.querySelectorAll(`[data-${a.replace(/([A-Z])/g, (m) => "-" + m.toLowerCase())}]`).forEach(
-            (el) => delete el.dataset[a]
+        // Remove gfx data attributes
+        ["gfxR","gfxT","gfxSpot","gfxMag","gfxRip","gfxGlow","gfxC","gfxCounted","gfxH"].forEach((attr) => {
+          document.querySelectorAll(`[data-${attr.replace(/[A-Z]/g, m => "-" + m.toLowerCase())}]`).forEach(
+            (el) => delete el.dataset[attr]
           );
         });
       };

@@ -57,17 +57,20 @@ div[style*="background:#080f12"] {
   body { background-color: #080f12; }
 }
 
-/* Button white glow on hover — universal */
+/* Button green glow on hover — universal */
+button {
+  transition: box-shadow 0.25s ease, transform 0.15s ease !important;
+}
 button:hover {
-  box-shadow: 0 0 12px 2px rgba(255,255,255,0.06), 0 4px 16px rgba(0,0,0,0.3) !important;
+  box-shadow: 0 0 12px 2px rgba(82,183,136,0.15), 0 0 24px 6px rgba(82,183,136,0.06), 0 4px 16px rgba(0,0,0,0.25) !important;
 }
 button:active {
-  box-shadow: 0 0 18px 4px rgba(255,255,255,0.15), 0 0 30px 8px rgba(255,255,255,0.05) !important;
+  box-shadow: 0 0 20px 6px rgba(82,183,136,0.25), 0 0 40px 10px rgba(82,183,136,0.08), 0 0 12px 3px rgba(255,255,255,0.1) !important;
 }
 
-/* Navigation link hover glow */
+/* Navigation link green glow */
 a.hnav:hover {
-  box-shadow: 0 0 10px 2px rgba(255,255,255,0.08) !important;
+  box-shadow: 0 0 10px 2px rgba(82,183,136,0.12), 0 0 20px 4px rgba(82,183,136,0.05) !important;
 }
 
 /* Input focus — subtle cyan glow in dark */

@@ -100,7 +100,7 @@ export default function CustomerDashboard() {
                 </button>
               </div>
             ) : recent.map((ord,i)=>(
-              <div key={ord.id||ord._id} style={{ background:tk.bgCard, borderRadius:18, padding:"18px 22px", marginBottom:12, border:`1px solid ${tk.border}`, animation:`fadeUp 0.5s ease ${i*0.08}s both`, transition:"all 0.2s" }}
+              <div key={ord.id||ord._id} data-tilt style={{ background:tk.bgCard, borderRadius:18, padding:"18px 22px", marginBottom:12, border:`1px solid ${tk.border}`, animation:`fadeUp 0.5s ease ${i*0.08}s both`, transition:"all 0.2s", position:"relative", overflow:"hidden" }}
                 onMouseEnter={e=>{e.currentTarget.style.boxShadow=tk.shadow; e.currentTarget.style.borderColor="#52b78833";}}
                 onMouseLeave={e=>{e.currentTarget.style.boxShadow="none"; e.currentTarget.style.borderColor=tk.border;}}>
                 <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:8 }}>

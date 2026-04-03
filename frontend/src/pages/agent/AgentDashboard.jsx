@@ -105,7 +105,7 @@ export default function AgentDashboard() {
                 </button>
               </div>
             ) : recentOrders.map((ord,i)=>(
-              <div key={ord._id||ord.id} style={{ ...gc, borderRadius:18, padding:20, marginBottom:12, transition:"all 0.2s", animation:`fadeUp 0.5s ease ${i*0.06}s both` }}
+              <div key={ord._id||ord.id} data-tilt style={{ ...gc, borderRadius:18, padding:20, marginBottom:12, transition:"all 0.2s", animation:`fadeUp 0.5s ease ${i*0.06}s both`, position:"relative", overflow:"hidden" }}
                 onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-2px)";}} onMouseLeave={e=>{e.currentTarget.style.transform="none";}}>
                 <div style={{ display:"flex", justifyContent:"space-between", marginBottom:8 }}>
                   <div>
