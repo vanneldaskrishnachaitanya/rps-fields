@@ -217,7 +217,7 @@ export default function HomePage() {
           </div>
           <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(190px,1fr))", gap:18 }}>
             {CATEGORIES.map((cat, i) => (
-              <div key={cat.name} data-id={`cat-${i}`} onClick={() => navigate("/catalog")} style={{
+              <div key={cat.name} data-id={`cat-${i}`} data-tilt onClick={() => navigate("/catalog")} style={{
                 borderRadius:20, overflow:"hidden", cursor:"pointer",
                 position:"relative", height:200,
                 boxShadow:"0 4px 20px rgba(0,0,0,0.12)",
@@ -266,14 +266,12 @@ export default function HomePage() {
           )}
 
           <div data-id="view-all" style={{ textAlign:"center", marginTop:48, ...reveal("view-all") }}>
-            <button onClick={() => navigate("/catalog")} style={{
+            <button data-magnetic onClick={() => navigate("/catalog")} style={{
               background:"rgba(82,183,136,0.28)", color:"#fff",
               border:"none", padding:"14px 42px", borderRadius:50, cursor:"pointer",
               fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif",
               boxShadow:"0 6px 24px rgba(82,183,136,0.35)", transition:"all 0.25s",
             }}
-              onMouseEnter={e => { e.target.style.transform="translateY(-2px)"; e.target.style.boxShadow="0 12px 36px rgba(82,183,136,0.5)"; }}
-              onMouseLeave={e => { e.target.style.transform="none"; e.target.style.boxShadow="0 6px 24px rgba(82,183,136,0.35)"; }}
             >View All Products →</button>
           </div>
         </div>
@@ -311,7 +309,7 @@ export default function HomePage() {
           </div>
           <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(260px,1fr))", gap:20 }}>
             {WHY.map((w, i) => (
-              <div key={w.title} data-id={`why-${i}`} style={{
+              <div key={w.title} data-id={`why-${i}`} data-tilt style={{
                 background:tk.bgCard, borderRadius:20, padding:"30px 26px",
                 border:`1px solid ${tk.border}`, transition:"all 0.3s ease",
                 ...reveal(`why-${i}`, i * 0.07),
@@ -339,13 +337,9 @@ export default function HomePage() {
             Join the RPS Fields network. List your produce, reach thousands of customers across Telangana, and earn more by cutting out the middleman.
           </p>
           <div style={{ display:"flex", gap:14, justifyContent:"center", flexWrap:"wrap" }}>
-            <button onClick={() => navigate("/register/farmer")} style={{ background:"rgba(82,183,136,0.25)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.12), 0 8px 28px rgba(0,0,0,0.22), 0 6px 24px rgba(27,67,50,0.3)", border:"1px solid rgba(255,255,255,0.28)", color:"#fff", padding:"14px 32px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", transition:"all 0.25s" }}
-              onMouseEnter={e => e.target.style.transform="translateY(-2px)"}
-              onMouseLeave={e => e.target.style.transform="none"}
+            <button data-magnetic onClick={() => navigate("/register/farmer")} style={{ background:"rgba(82,183,136,0.25)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.12), 0 8px 28px rgba(0,0,0,0.22), 0 6px 24px rgba(27,67,50,0.3)", border:"1px solid rgba(255,255,255,0.28)", color:"#fff", padding:"14px 32px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", transition:"all 0.25s" }}
             >🌾 Join as Farmer</button>
-            <button onClick={() => navigate("/register/agent")} style={{ background:"rgba(59,130,246,0.25)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.12), 0 8px 28px rgba(0,0,0,0.22), 0 6px 24px rgba(30,64,175,0.3)", padding:"14px 32px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", transition:"all 0.25s" }}
-              onMouseEnter={e => e.target.style.transform="translateY(-2px)"}
-              onMouseLeave={e => e.target.style.transform="none"}
+            <button data-magnetic onClick={() => navigate("/register/agent")} style={{ background:"rgba(59,130,246,0.25)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.12), 0 8px 28px rgba(0,0,0,0.22), 0 6px 24px rgba(30,64,175,0.3)", padding:"14px 32px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", transition:"all 0.25s" }}
             >🏢 Join as Agent</button>
           </div>
         </div>

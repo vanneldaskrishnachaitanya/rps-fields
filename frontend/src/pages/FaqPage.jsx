@@ -33,7 +33,7 @@ export default function FaqPage() {
 
       <div style={{ maxWidth: 760, margin: "0 auto", padding: "56px 20px" }}>
         {FAQS.map((faq, i) => (
-          <div key={i} onClick={() => setOpen(open === i ? null : i)}
+          <div key={i} data-tilt onClick={() => setOpen(open === i ? null : i)}
             style={{ background: tk.bgCard, borderRadius: 14, padding: "20px 24px", marginBottom: 12, cursor: "pointer", border: `1px solid ${open === i ? tk.green6 : tk.border}`, boxShadow: open === i ? tk.shadow : "none", transition: "all 0.2s" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16 }}>
               <span style={{ fontWeight: 700, fontSize: 15, color: tk.text }}>{faq.q}</span>
