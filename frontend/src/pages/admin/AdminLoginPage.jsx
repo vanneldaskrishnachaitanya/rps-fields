@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import { API_BASE } from "../../context/AuthContext";
+import { useTilt } from "../../hooks/useTilt";
 
 const A = {
   bg:"#030a05", card:"rgba(10,20,12,0.85)", border:"rgba(82,183,136,0.15)",
@@ -134,6 +135,7 @@ function StatCard({ icon, label, value, sub, color=A.green }) {
 // ── Admin Login Page ──────────────────────────────────────────────────────────
 export function AdminLoginPage() {
   const navigate = useNavigate();
+  const tiltRef = useTilt();
   const [email,    setEmail]    = useState("");
   const [password, setPassword] = useState("");
   const [error,    setError]    = useState("");
@@ -161,7 +163,7 @@ export function AdminLoginPage() {
       <div style={{ position:"absolute", bottom:"10%", right:"15%", width:250, height:250, borderRadius:"50%", background:"rgba(40,100,70,0.08)", filter:"blur(40px)", pointerEvents:"none" }} />
 
       <div style={{ width:"100%", maxWidth:420, animation:"scaleIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both" }}>
-        <div data-tilt style={{ background:"rgba(8,18,10,0.88)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", borderRadius:24, padding:"44px 40px", border:"1px solid rgba(82,183,136,0.15)", boxShadow:"0 24px 64px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.05)", marginBottom:16 }}>
+        <div ref={tiltRef} data-tilt style={{ background:"rgba(8,18,10,0.88)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", borderRadius:24, padding:"44px 40px", border:"1px solid rgba(82,183,136,0.15)", boxShadow:"0 24px 64px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.05)", marginBottom:16, perspective:"1000px" }}>
           <div style={{ textAlign:"center", marginBottom:32 }}>
             <div style={{ width:68, height:68, borderRadius:18, background:"rgba(82,183,136,0.28)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:30, margin:"0 auto 18px", boxShadow:"0 10px 30px rgba(82,183,136,0.4)", animation:"anim-glow 2s ease-in-out infinite" }}>🛡</div>
             <h1 style={{ fontSize:26, fontFamily:"'Playfair Display',Georgia,serif", color:"#fff", margin:"0 0 6px" }}>Admin Login</h1>
