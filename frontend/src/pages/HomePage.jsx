@@ -336,19 +336,19 @@ export default function HomePage() {
       </section>
 
       {/* ─────────────── JOIN CTA ─────────────── */}
-      <section style={{ padding:"clamp(40px,6vw,70px) var(--page-px,clamp(16px,4vw,48px))", background: dark?"#080f09":"#f0f7f2", borderTop:`1px solid ${tk.border}` }}>
-        <div data-id="cta" style={{ maxWidth:680, margin:"0 auto", textAlign:"center", ...reveal("cta") }}>
-          <div style={{ fontSize:48, marginBottom:16 }}>🌿</div>
-          <h2 style={{ fontSize:"clamp(24px,3.5vw,36px)", fontFamily:"'Playfair Display',Georgia,serif", color:tk.text, marginBottom:14 }}>
+      <section style={{ padding:"clamp(18px,2.6vw,30px) var(--page-px,clamp(10px,2.2vw,24px))", background: dark?"#080f09":"#f0f7f2", borderTop:`1px solid ${tk.border}` }}>
+        <div data-id="cta" style={{ maxWidth:620, margin:"0 auto", textAlign:"center", ...reveal("cta") }}>
+          <div style={{ fontSize:34, marginBottom:10 }}>🌿</div>
+          <h2 style={{ fontSize:"clamp(22px,3vw,32px)", fontFamily:"'Playfair Display',Georgia,serif", color:tk.text, marginBottom:10 }}>
             Are You a Farmer or Agent?
           </h2>
-          <p style={{ color:tk.textLt, fontSize:15, lineHeight:1.75, maxWidth:460, margin:"0 auto 34px" }}>
+          <p style={{ color:tk.textLt, fontSize:14, lineHeight:1.6, maxWidth:520, margin:"0 auto 16px" }}>
             Join the RPS Fields network. List your produce, reach thousands of customers across Telangana, and earn more by cutting out the middleman.
           </p>
-          <div style={{ display:"flex", gap:14, justifyContent:"center", flexWrap:"wrap" }}>
-            <button data-magnetic onClick={() => navigate("/register/farmer")} style={{ background:"rgba(82,183,136,0.25)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.12), 0 8px 28px rgba(0,0,0,0.22), 0 6px 24px rgba(27,67,50,0.3)", border:"1px solid rgba(255,255,255,0.28)", color:"#fff", padding:"14px 32px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", transition:"all 0.25s" }}
+          <div style={{ display:"flex", gap:10, justifyContent:"center", flexWrap:"wrap" }}>
+            <button data-magnetic onClick={() => navigate("/register/farmer")} style={{ background:"rgba(82,183,136,0.25)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.12), 0 8px 28px rgba(0,0,0,0.22), 0 6px 24px rgba(27,67,50,0.3)", border:"1px solid rgba(255,255,255,0.28)", color:"#fff", padding:"11px 24px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:14, fontFamily:"'Inter',sans-serif", transition:"all 0.25s" }}
             >🌾 Join as Farmer</button>
-            <button data-magnetic onClick={() => navigate("/register/agent")} style={{ background:"rgba(59,130,246,0.25)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.12), 0 8px 28px rgba(0,0,0,0.22), 0 6px 24px rgba(30,64,175,0.3)", padding:"14px 32px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", transition:"all 0.25s" }}
+            <button data-magnetic onClick={() => navigate("/register/agent")} style={{ background:"rgba(59,130,246,0.25)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.12), 0 8px 28px rgba(0,0,0,0.22), 0 6px 24px rgba(30,64,175,0.3)", padding:"11px 24px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:14, fontFamily:"'Inter',sans-serif", transition:"all 0.25s" }}
             >🏢 Join as Agent</button>
           </div>
         </div>
