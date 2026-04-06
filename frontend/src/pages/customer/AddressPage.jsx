@@ -26,14 +26,14 @@ export default function AddressPage() {
 
   return (
     <div style={{ background:tk.bg, minHeight:"100%" }}>
-      <div style={{ background:"linear-gradient(135deg,#1b4332,#40916c)", padding:"44px 20px", textAlign:"center" }}>
+      <div style={{ background:"linear-gradient(135deg,#1b4332,#40916c)", padding:"44px var(--page-px,clamp(16px,4vw,48px))", textAlign:"center" }}>
         <h1 style={{ color:"#fff", fontSize:32, fontFamily:"'Playfair Display',Georgia,serif" }}>📍 My Addresses</h1>
         <p style={{ color:"rgba(255,255,255,0.72)", fontSize:14 }}>Manage your delivery addresses</p>
       </div>
 
-      <div style={{ maxWidth:680, margin:"0 auto", padding:"36px 20px" }}>
+      <div style={{ maxWidth:680, margin:"0 auto", padding:"36px var(--page-px,clamp(16px,4vw,48px))" }}>
         <div style={{ display:"flex", justifyContent:"flex-end", marginBottom:20 }}>
-          <button data-magnetic onClick={() => setShowForm(s=>!s)} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"10px 20px", borderRadius:10, cursor:"pointer", fontWeight:700, fontSize:13, fontFamily:"'Inter',sans-serif" }}>
+          <button data-magnetic onClick={() => setShowForm(s=>!s)} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"10px var(--page-px,clamp(16px,4vw,48px))", borderRadius:10, cursor:"pointer", fontWeight:700, fontSize:13, fontFamily:"'Inter',sans-serif" }}>
             + Add New Address
           </button>
         </div>

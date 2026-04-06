@@ -17,7 +17,7 @@ export function AgentNav() {
 
 function GlassBanner({ title, sub }) {
   return (
-    <div style={{ background:"linear-gradient(135deg,#030818,#0f1f5a,#1e3a8a)", padding:"52px 20px 44px", position:"relative", overflow:"hidden" }}>
+    <div style={{ background:"linear-gradient(135deg,#030818,#0f1f5a,#1e3a8a)", padding:"52px var(--page-px,clamp(16px,4vw,48px)) 44px", position:"relative", overflow:"hidden" }}>
       <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(circle at 25% 50%,rgba(59,130,246,0.15),transparent 55%),radial-gradient(circle at 75% 30%,rgba(99,102,241,0.1),transparent 50%)", pointerEvents:"none" }} />
       <div style={{ position:"absolute", top:"-20%", right:"5%", width:250, height:250, borderRadius:"50%", background:"rgba(59,130,246,0.06)", pointerEvents:"none" }} />
       <div style={{ maxWidth:1100, margin:"0 auto", position:"relative", animation:"fadeUp 0.5s ease both" }}>
@@ -59,7 +59,7 @@ export default function AgentDashboard() {
   return (
     <div style={{ background:tk.bg, minHeight:"100%", fontFamily:"'Inter',sans-serif" }}>
       <GlassBanner title={`Welcome, ${user?.fullName?.split(" ")[0]||user?.name?.split(" ")[0]} 👋`} sub={`${user?.email} · 📍 ${user?.location||user?.city}`} />
-      <div style={{ maxWidth:1100, margin:"0 auto", padding:"28px 20px 100px" }}>
+      <div style={{ maxWidth:1100, margin:"0 auto", padding:"28px var(--page-px,clamp(16px,4vw,48px)) 100px" }}>
         <AgentNav />
 
         {/* Stats */}

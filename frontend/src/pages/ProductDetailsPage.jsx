@@ -51,7 +51,7 @@ export default function ProductDetailsPage() {
   );
 
   if (error || !product) return (
-    <div style={{ background:tk.bg, minHeight:"100%", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:"80px 20px", animation:"fadeIn 0.5s ease" }}>
+    <div style={{ background:tk.bg, minHeight:"100%", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:"80px var(--page-px,clamp(16px,4vw,48px))", animation:"fadeIn 0.5s ease" }}>
       <div style={{ fontSize:64, marginBottom:16 }}>🔍</div>
       <h2 style={{ fontSize:26, color:tk.text, marginBottom:8, fontFamily:"'Playfair Display',Georgia,serif" }}>Product Not Found</h2>
       <p style={{ color:tk.textLt, marginBottom:28 }}>{error}</p>
@@ -63,7 +63,7 @@ export default function ProductDetailsPage() {
 
   return (
     <div style={{ background:tk.bg, minHeight:"100%" }}>
-      <div style={{ maxWidth:1200, margin:"0 auto", padding:"36px 20px 80px" }}>
+      <div style={{ maxWidth:1200, margin:"0 auto", padding:"36px var(--page-px,clamp(16px,4vw,48px)) 80px" }}>
 
         {/* Breadcrumb */}
         <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:28, animation:"fadeUp 0.4s ease both", fontSize:13, color:tk.textLt }}>
@@ -142,7 +142,7 @@ export default function ProductDetailsPage() {
               </div>
             )}
 
-            <div style={{ background:tk.bgMuted, borderRadius:16, padding:"18px 20px", marginBottom:28, border:`1px solid ${tk.border}` }}>
+            <div style={{ background:tk.bgMuted, borderRadius:16, padding:"18px var(--page-px,clamp(16px,4vw,48px))", marginBottom:28, border:`1px solid ${tk.border}` }}>
               <div style={{ fontWeight:800, color:tk.text, marginBottom:8, fontSize:13, textTransform:"uppercase", letterSpacing:"0.5px" }}>About this Product</div>
               <p style={{ color:tk.textMid, fontSize:14, lineHeight:1.8, margin:0 }}>{product.description}</p>
             </div>
@@ -186,7 +186,7 @@ export default function ProductDetailsPage() {
                   <button
                     data-magnetic
                     onClick={() => navigate("/cart")}
-                    style={{ padding:"15px 20px", background:"transparent", border:`2px solid ${tk.green6}`, color:tk.green6, borderRadius:14, cursor:"pointer", fontWeight:700, fontSize:14, fontFamily:"'Inter',sans-serif", transition:"all 0.2s" }}
+                    style={{ padding:"15px var(--page-px,clamp(16px,4vw,48px))", background:"transparent", border:`2px solid ${tk.green6}`, color:tk.green6, borderRadius:14, cursor:"pointer", fontWeight:700, fontSize:14, fontFamily:"'Inter',sans-serif", transition:"all 0.2s" }}
                     onMouseEnter={e => { e.currentTarget.style.background=tk.green6; e.currentTarget.style.color="#fff"; }}
                     onMouseLeave={e => { e.currentTarget.style.background="transparent"; e.currentTarget.style.color=tk.green6; }}
                   >
@@ -195,7 +195,7 @@ export default function ProductDetailsPage() {
                 </div>
               </div>
             ) : (
-              <div style={{ background: dark?"rgba(239,68,68,0.1)":"#fff3f3", border:"1px solid rgba(239,68,68,0.3)", borderRadius:14, padding:"16px 20px", color:"#ef4444", fontWeight:700 }}>
+              <div style={{ background: dark?"rgba(239,68,68,0.1)":"#fff3f3", border:"1px solid rgba(239,68,68,0.3)", borderRadius:14, padding:"16px var(--page-px,clamp(16px,4vw,48px))", color:"#ef4444", fontWeight:700 }}>
                 ⚠ Out of Stock — This product is currently unavailable.
               </div>
             )}

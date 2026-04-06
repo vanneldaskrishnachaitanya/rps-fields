@@ -71,7 +71,7 @@ export default function TrackingPage() {
   );
 
   if (error) return (
-    <div style={{ background:tk.bg, minHeight:"100vh", padding:"40px 20px" }}>
+    <div style={{ background:tk.bg, minHeight:"100vh", padding:"40px var(--page-px,clamp(16px,4vw,48px))" }}>
       <div style={{ maxWidth:600, margin:"0 auto", padding:24, background:tk.bgCard, borderRadius:20, border:"2px solid rgba(239,68,68,0.4)" }}>
         <div style={{ color:"#ef4444", fontSize:16, fontWeight:700, marginBottom:10 }}>⚠️ Error</div>
         <p style={{ color:tk.textMid, marginBottom:20 }}>{error}</p>
@@ -89,7 +89,7 @@ export default function TrackingPage() {
   const progressColor = isDelivered ? "#10b981" : isOutForDelivery ? "#3b82f6" : "#f59e0b";
 
   return (
-    <div style={{ background:tk.bg, minHeight:"100vh", padding:"36px 20px 80px" }}>
+    <div style={{ background:tk.bg, minHeight:"100vh", padding:"36px var(--page-px,clamp(16px,4vw,48px)) 80px" }}>
       <div style={{ maxWidth:780, margin:"0 auto" }}>
 
         {/* Back */}
@@ -233,7 +233,7 @@ export default function TrackingPage() {
 
         {/* OTP verified badge */}
         {otpVerified && (
-          <div style={{ background:dark?"rgba(16,185,129,0.08)":"rgba(5,150,105,0.06)", border:"1px solid rgba(16,185,129,0.3)", borderRadius:14, padding:"14px 20px", marginBottom:24, display:"flex", alignItems:"center", gap:10 }}>
+          <div style={{ background:dark?"rgba(16,185,129,0.08)":"rgba(5,150,105,0.06)", border:"1px solid rgba(16,185,129,0.3)", borderRadius:14, padding:"14px var(--page-px,clamp(16px,4vw,48px))", marginBottom:24, display:"flex", alignItems:"center", gap:10 }}>
             <span style={{ fontSize:18 }}>✅</span>
             <span style={{ color:"#10b981", fontWeight:700, fontSize:13, fontFamily:"'Inter',sans-serif" }}>OTP verified — delivery confirmed!</span>
           </div>

@@ -22,7 +22,7 @@ export default function FaqPage() {
   return (
     <div style={{ background: tk.bg, minHeight: "100%" }}>
       {/* Banner */}
-      <div style={{ background: "linear-gradient(135deg,#1b4332,#40916c)", padding: "60px 20px", textAlign: "center" }}>
+      <div style={{ background: "linear-gradient(135deg,#1b4332,#40916c)", padding: "60px var(--page-px,clamp(16px,4vw,48px))", textAlign: "center" }}>
         <h1 style={{ color: "#fff", fontSize: 38, fontFamily: "'Playfair Display',Georgia,serif", marginBottom: 10 }}>
           Frequently Asked Questions
         </h1>
@@ -31,7 +31,7 @@ export default function FaqPage() {
         </p>
       </div>
 
-      <div style={{ maxWidth: 760, margin: "0 auto", padding: "56px 20px" }}>
+      <div style={{ maxWidth: 760, margin: "0 auto", padding: "56px var(--page-px,clamp(16px,4vw,48px))" }}>
         {FAQS.map((faq, i) => (
           <div key={i} data-tilt onClick={() => setOpen(open === i ? null : i)}
             style={{ background: tk.bgCard, borderRadius: 14, padding: "20px 24px", marginBottom: 12, cursor: "pointer", border: `1px solid ${open === i ? tk.green6 : tk.border}`, boxShadow: open === i ? tk.shadow : "none", transition: "all 0.2s" }}>

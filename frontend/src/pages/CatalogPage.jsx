@@ -76,7 +76,7 @@ export default function CatalogPage() {
     <div style={{ background: tk.bg, minHeight: "100%", fontFamily: "'Inter',sans-serif" }}>
 
       {/* ── Banner ── */}
-      <div style={{ background: "linear-gradient(135deg,#040d06,#0d2b1a,#1b4332,#2d6a4f)", padding: "52px 20px 44px", position: "relative", overflow: "hidden" }}>
+      <div style={{ background: "linear-gradient(135deg,#040d06,#0d2b1a,#1b4332,#2d6a4f)", padding: "clamp(36px,5vw,60px) var(--page-px,clamp(16px,4vw,48px)) clamp(32px,4vw,52px)", position: "relative", overflow: "hidden" }}>
         <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(circle at 25% 50%,rgba(82,183,136,0.12),transparent 55%),radial-gradient(circle at 75% 40%,rgba(116,198,157,0.08),transparent 50%)", pointerEvents:"none" }} />
         <div style={{ position:"relative", textAlign:"center" }}>
           <div style={{ display:"inline-flex", alignItems:"center", gap:6, background:"rgba(82,183,136,0.18)", backdropFilter:"blur(8px)", border:"1px solid rgba(82,183,136,0.3)", borderRadius:20, padding:"4px 16px", fontSize:11, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", color:"#74c69d", marginBottom:14 }}>
@@ -93,8 +93,8 @@ export default function CatalogPage() {
       </div>
 
       {/* ── STEP 1: Location selector ── */}
-      <div className="sticky-filter" style={{ background: dark ? "rgba(4,13,6,0.95)" : "rgba(255,255,255,0.95)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderBottom: `1px solid ${tk.border}`, padding: "18px 0", position: "sticky", top: 64, zIndex: 900 }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px" }}>
+      <div className="sticky-filter" style={{ background: dark ? "rgba(4,13,6,0.95)" : "rgba(255,255,255,0.95)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderBottom: `1px solid ${tk.border}`, padding: "14px 0", position: "sticky", top: 64, zIndex: 900 }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 var(--page-px,clamp(16px,4vw,48px))" }}>
 
           {/* Step label */}
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
@@ -123,7 +123,7 @@ export default function CatalogPage() {
 
           {/* Location pills — scrollable */}
           <div style={{ overflowX: "auto", paddingBottom: 4 }}>
-            <div className="filter-pills" style={{ display: "flex", gap: 8, minWidth: "max-content" }}>
+            <div className="filter-pills" style={{ display: "flex", gap: 8, flexWrap: "nowrap", minWidth: "max-content" }}>
               {LOCATIONS.filter(l => l === "All Locations" || l.toLowerCase().includes(locSearch.toLowerCase())).map(l => {
                 const isActive = loc === l;
                 return (
@@ -153,7 +153,7 @@ export default function CatalogPage() {
 
       {/* ── STEP 2: Category + Search ── */}
       <div style={{ background: dark ? "rgba(4,13,6,0.85)" : "rgba(248,252,249,0.95)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", borderBottom: `1px solid ${tk.border}`, padding: "14px 0" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 20px", display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 var(--page-px,clamp(16px,4vw,48px))", display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
 
           {/* Step label */}
           <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
@@ -201,9 +201,9 @@ export default function CatalogPage() {
       </div>
 
       {/* ── Products Grid ── */}
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "32px 20px 100px" }}>
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "28px var(--page-px,clamp(16px,4vw,48px)) 100px" }}>
         {error && (
-          <div style={{ background: dark ? "rgba(220,38,38,0.12)" : "#fff3cd", border: "1px solid rgba(220,38,38,0.3)", borderRadius: 14, padding: "16px 20px", marginBottom: 24, color: dark ? "#fca5a5" : "#856404", fontWeight: 600 }}>
+          <div style={{ background: dark ? "rgba(220,38,38,0.12)" : "#fff3cd", border: "1px solid rgba(220,38,38,0.3)", borderRadius: 14, padding: "16px var(--page-px,clamp(16px,4vw,48px))", marginBottom: 24, color: dark ? "#fca5a5" : "#856404", fontWeight: 600 }}>
             ⚠ {error}
           </div>
         )}
@@ -265,7 +265,7 @@ export default function CatalogPage() {
             ))}
           </div>
         ) : products.length === 0 ? (
-          <div style={{ textAlign: "center", padding: "80px 20px" }}>
+          <div style={{ textAlign: "center", padding: "80px var(--page-px,clamp(16px,4vw,48px))" }}>
             <div style={{ fontSize: 64, marginBottom: 16, animation: "float 3s ease-in-out infinite" }}>🔍</div>
             <h3 style={{ fontSize: 22, color: tk.text, marginBottom: 8, fontFamily: "'Playfair Display',Georgia,serif" }}>No products found</h3>
             <p style={{ color: tk.textLt, marginBottom: 24 }}>

@@ -122,7 +122,7 @@ export default function LoginPage() {
   });
 
   return (
-    <div style={{ background:tk.bg, minHeight:"100%", display:"flex", alignItems:"center", justifyContent:"center", padding:"60px 20px" }}>
+    <div style={{ background:tk.bg, minHeight:"100%", display:"flex", alignItems:"center", justifyContent:"center", padding:"60px var(--page-px,clamp(16px,4vw,48px))" }}>
       <div style={{ width:"100%", maxWidth:460, animation:"fadeInUp 0.5s ease both" }}>
 
         {/* Main Card */}

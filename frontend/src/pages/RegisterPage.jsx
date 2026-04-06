@@ -13,7 +13,7 @@ export default function RegisterPage() {
   const { dark } = useTheme(); const tk = TK(dark);
 
   return (
-    <div style={{ background:tk.bg, minHeight:"100%", padding:"60px 20px 100px" }}>
+    <div style={{ background:tk.bg, minHeight:"100%", padding:"60px var(--page-px,clamp(16px,4vw,48px)) 100px" }}>
       {/* Header */}
       <div style={{ textAlign:"center", marginBottom:52, animation:"fadeUp 0.5s ease both" }}>
         <div style={{ display:"inline-flex", alignItems:"center", gap:8, background: dark?"#162b1d":"#e8f5ee", color:"#40916c", borderRadius:20, padding:"5px 18px", fontSize:11, fontWeight:700, letterSpacing:"1.5px", textTransform:"uppercase", marginBottom:18 }}>

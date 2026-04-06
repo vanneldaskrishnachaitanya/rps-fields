@@ -13,7 +13,7 @@ const STATUS = {
 
 function GlassBanner({ title, sub }) {
   return (
-    <div style={{ background:"linear-gradient(135deg,#040d06,#0d2b1a,#1b4332)", padding:"52px 20px 44px", position:"relative", overflow:"hidden" }}>
+    <div style={{ background:"linear-gradient(135deg,#040d06,#0d2b1a,#1b4332)", padding:"52px var(--page-px,clamp(16px,4vw,48px)) 44px", position:"relative", overflow:"hidden" }}>
       <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(circle at 70% 50%,rgba(82,183,136,0.1),transparent 55%)", pointerEvents:"none" }} />
       <div style={{ maxWidth:1100, margin:"0 auto", position:"relative", animation:"fadeUp 0.5s ease both" }}>
         <div style={{ display:"inline-flex", alignItems:"center", gap:6, background:"rgba(82,183,136,0.15)", backdropFilter:"blur(8px)", border:"1px solid rgba(82,183,136,0.25)", borderRadius:20, padding:"4px 14px", marginBottom:14 }}>
@@ -40,12 +40,12 @@ export function FarmerOrdersPage() {
   return (
     <div style={{ background:tk.bg, minHeight:"100%", fontFamily:"'Inter',sans-serif" }}>
       <GlassBanner title="📦 Orders Received" sub={`${orders.length} order${orders.length!==1?"s":""} from customers`} />
-      <div style={{ maxWidth:1100, margin:"0 auto", padding:"28px 20px 100px" }}>
+      <div style={{ maxWidth:1100, margin:"0 auto", padding:"28px var(--page-px,clamp(16px,4vw,48px)) 100px" }}>
         <FarmerNav />
         {loading ? (
           [1,2,3].map(i=><div key={i} style={{ height:120, borderRadius:20, marginBottom:14, background: dark?"rgba(12,22,15,0.5)":"rgba(255,255,255,0.5)", backdropFilter:"blur(8px)", animation:"shimmer 1.5s ease infinite" }} />)
         ) : orders.length===0 ? (
-          <div style={{ background: dark?"rgba(12,22,15,0.82)":"rgba(255,255,255,0.82)", backdropFilter:"blur(24px)", WebkitBackdropFilter:"blur(24px)", border:`1px solid ${dark?"rgba(82,183,136,0.12)":"rgba(255,255,255,0.9)"}`, borderRadius:24, padding:"60px 20px", textAlign:"center", boxShadow: dark?"0 4px 24px rgba(0,0,0,0.45)":"0 4px 24px rgba(0,0,0,0.08)" }}>
+          <div style={{ background: dark?"rgba(12,22,15,0.82)":"rgba(255,255,255,0.82)", backdropFilter:"blur(24px)", WebkitBackdropFilter:"blur(24px)", border:`1px solid ${dark?"rgba(82,183,136,0.12)":"rgba(255,255,255,0.9)"}`, borderRadius:24, padding:"60px var(--page-px,clamp(16px,4vw,48px))", textAlign:"center", boxShadow: dark?"0 4px 24px rgba(0,0,0,0.45)":"0 4px 24px rgba(0,0,0,0.08)" }}>
             <div style={{ fontSize:60, marginBottom:16, animation:"float 3s ease-in-out infinite" }}>🛒</div>
             <h3 style={{ color:tk.text, fontSize:22, fontFamily:"'Playfair Display',Georgia,serif", marginBottom:8 }}>No orders yet</h3>
             <p style={{ color:tk.textLt, fontSize:15 }}>Orders appear here when customers buy your products.</p>
@@ -101,7 +101,7 @@ export function FarmerProfilePage() {
 
   return (
     <div style={{ background:tk.bg, minHeight:"100%", fontFamily:"'Inter',sans-serif" }}>
-      <div style={{ background:"linear-gradient(135deg,#040d06,#0d2b1a,#1b4332)", padding:"60px 20px", textAlign:"center", position:"relative", overflow:"hidden" }}>
+      <div style={{ background:"linear-gradient(135deg,#040d06,#0d2b1a,#1b4332)", padding:"60px var(--page-px,clamp(16px,4vw,48px))", textAlign:"center", position:"relative", overflow:"hidden" }}>
         <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(circle at 50% 80%,rgba(82,183,136,0.12),transparent 55%)", pointerEvents:"none" }} />
         <div style={{ position:"relative", animation:"fadeUp 0.5s ease both" }}>
           <div style={{ width:80, height:80, borderRadius:"50%", background:"rgba(82,183,136,0.28)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:34, margin:"0 auto 16px", boxShadow:"0 12px 36px rgba(82,183,136,0.35)" }}>🌾</div>
@@ -110,7 +110,7 @@ export function FarmerProfilePage() {
         </div>
       </div>
 
-      <div style={{ maxWidth:680, margin:"0 auto", padding:"28px 20px 100px" }}>
+      <div style={{ maxWidth:680, margin:"0 auto", padding:"28px var(--page-px,clamp(16px,4vw,48px)) 100px" }}>
         <FarmerNav />
         <div style={{ background: dark?"rgba(12,22,15,0.82)":"rgba(255,255,255,0.82)", backdropFilter:"blur(24px) saturate(180%)", WebkitBackdropFilter:"blur(24px) saturate(180%)", border:`1px solid ${dark?"rgba(82,183,136,0.12)":"rgba(255,255,255,0.9)"}`, borderRadius:22, padding:"6px 24px 20px", boxShadow: dark?"0 4px 24px rgba(0,0,0,0.45)":"0 4px 24px rgba(0,0,0,0.08)", marginBottom:20 }}>
           {[["👤","Full Name",user?.fullName],["🆔","Username",user?.username],["📧","Email",user?.email],["📞","Phone",user?.phone||user?.mobile],["🏡","Address",user?.address],["🏙","City",user?.city]].map(([icon,label,value])=>(

@@ -21,7 +21,7 @@ export default function CustomerDashboard() {
   const delivered  = orders.filter(o=>o.status==="delivered").length;
 
   const StatCard = ({ icon, value, label, to, color="#52b788" }) => (
-    <div data-tilt onClick={() => navigate(to)} style={{ background:tk.bgCard, borderRadius:20, padding:"22px 20px", border:`1px solid ${tk.border}`, cursor:"pointer", textAlign:"center", transition:"all 0.25s", position:"relative", overflow:"hidden" }}
+    <div data-tilt onClick={() => navigate(to)} style={{ background:tk.bgCard, borderRadius:20, padding:"22px var(--page-px,clamp(16px,4vw,48px))", border:`1px solid ${tk.border}`, cursor:"pointer", textAlign:"center", transition:"all 0.25s", position:"relative", overflow:"hidden" }}
       onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-4px)"; e.currentTarget.style.boxShadow=tk.shadowMd; e.currentTarget.style.borderColor=color+"66";}}
       onMouseLeave={e=>{e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow="none"; e.currentTarget.style.borderColor=tk.border;}}>
       <div style={{ position:"absolute", top:-16, right:-16, width:60, height:60, borderRadius:"50%", background:color+"15", pointerEvents:"none" }} />
@@ -52,9 +52,9 @@ export default function CustomerDashboard() {
   return (
     <div style={{ background:tk.bg, minHeight:"100%", animation:"fadeIn 0.4s ease" }}>
       {/* Hero banner */}
-      <div style={{ background:"linear-gradient(135deg,#0d2b1a,#1b4332,#2d6a4f)", padding:"52px 20px", position:"relative", overflow:"hidden" }}>
+      <div style={{ background:"linear-gradient(135deg,#0d2b1a,#1b4332,#2d6a4f)", padding:"clamp(40px,5vw,60px) var(--page-px,clamp(16px,4vw,48px))", position:"relative", overflow:"hidden" }}>
         <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(circle at 80% 50%,rgba(82,183,136,0.12),transparent 55%)", pointerEvents:"none" }} />
-        <div style={{ maxWidth:1100, margin:"0 auto", position:"relative" }}>
+        <div style={{ maxWidth:1400, margin:"0 auto", position:"relative" }}>
           <div style={{ display:"flex", alignItems:"center", gap:16, flexWrap:"wrap" }}>
             <div style={{ width:60, height:60, borderRadius:"50%", background:"rgba(82,183,136,0.28)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:26, boxShadow:"0 8px 24px rgba(82,183,136,0.3)", flexShrink:0 }}>👤</div>
             <div>
@@ -68,7 +68,7 @@ export default function CustomerDashboard() {
         </div>
       </div>
 
-      <div style={{ maxWidth:1100, margin:"0 auto", padding:"36px 20px 100px" }}>
+      <div style={{ maxWidth:1400, margin:"0 auto", padding:"clamp(24px,4vw,40px) var(--page-px,clamp(16px,4vw,48px)) 100px" }}>
         {/* Stats */}
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))", gap:16, marginBottom:36 }}>
           {[["📦", orders.length, "Total Orders", "/orders", "#3b82f6"],
@@ -115,7 +115,7 @@ export default function CustomerDashboard() {
                     <div style={{ color:"#52b788", fontWeight:900, fontSize:17 }}>₹{ord.total||ord.totalPrice}</div>
                   </div>
                 </div>
-                <div style={{ fontSize:12, color:tk.textMid }}>{(ord.items||[]).map(i=>`${i.name} ×${i.qty||i.quantity}kg`).join(" · ")}</div>
+                <div style={{ fontSize:13, color:tk.textMid }}>{(ord.items||[]).map(i=>`${i.name} ×${i.qty||i.quantity}kg`).join(" · ")}</div>
               </div>
             ))}
           </div>

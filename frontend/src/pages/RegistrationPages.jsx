@@ -140,7 +140,7 @@ function RegistrationForm({ type }) {
   );
 
   if (success) return (
-    <div style={{ background: tk.bg, minHeight: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "80px 20px", textAlign: "center" }}>
+    <div style={{ background: tk.bg, minHeight: "100%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "80px var(--page-px,clamp(16px,4vw,48px))", textAlign: "center" }}>
       <div style={{ fontSize: 72, marginBottom: 16 }}>🎉</div>
       <h2 style={{ fontSize: 28, color: tk.text, marginBottom: 8, fontFamily: "'Playfair Display',Georgia,serif" }}>Account Created!</h2>
       <p style={{ color: tk.textLt, marginBottom: 4 }}>Welcome, {form.fullName}!</p>
@@ -149,7 +149,7 @@ function RegistrationForm({ type }) {
   );
 
   return (
-    <div style={{ background: tk.bg, minHeight: "100%", padding: "50px 20px" }}>
+    <div style={{ background: tk.bg, minHeight: "100%", padding: "50px var(--page-px,clamp(16px,4vw,48px))" }}>
       <div style={{ maxWidth: 560, margin: "0 auto", background: tk.bgCard, borderRadius: 20, padding: "40px 40px 36px", boxShadow: tk.shadowLg, border: `2px solid ${cfg.color}40` }} data-tilt>
 
         <div style={{ textAlign: "center", marginBottom: 28 }}>

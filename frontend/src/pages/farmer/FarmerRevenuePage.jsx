@@ -21,7 +21,7 @@ export default function FarmerRevenuePage() {
 
   return (
     <div style={{ background:tk.bg, minHeight:"100%", fontFamily:"'Inter',sans-serif" }}>
-      <div style={{ background:"linear-gradient(135deg,#040d06,#0d2b1a,#1b4332)", padding:"52px 20px 44px", position:"relative", overflow:"hidden" }}>
+      <div style={{ background:"linear-gradient(135deg,#040d06,#0d2b1a,#1b4332)", padding:"52px var(--page-px,clamp(16px,4vw,48px)) 44px", position:"relative", overflow:"hidden" }}>
         <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(circle at 80% 50%,rgba(139,92,246,0.1),transparent 55%)", pointerEvents:"none" }} />
         <div style={{ maxWidth:1100, margin:"0 auto", position:"relative", animation:"fadeUp 0.5s ease both" }}>
           <div style={{ display:"inline-flex", alignItems:"center", gap:6, background:"rgba(139,92,246,0.15)", backdropFilter:"blur(8px)", border:"1px solid rgba(139,92,246,0.25)", borderRadius:20, padding:"4px 14px", marginBottom:14 }}>
@@ -31,7 +31,7 @@ export default function FarmerRevenuePage() {
         </div>
       </div>
 
-      <div style={{ maxWidth:1100, margin:"0 auto", padding:"28px 20px 100px" }}>
+      <div style={{ maxWidth:1100, margin:"0 auto", padding:"28px var(--page-px,clamp(16px,4vw,48px)) 100px" }}>
         <FarmerNav />
 
         {/* Stat cards */}
@@ -65,7 +65,7 @@ export default function FarmerRevenuePage() {
         {loading ? (
           [1,2,3].map(i=><div key={i} style={{ height:100, borderRadius:20, marginBottom:12, background: dark?"rgba(12,22,15,0.5)":"rgba(255,255,255,0.5)", backdropFilter:"blur(8px)", animation:"shimmer 1.5s ease infinite" }} />)
         ) : orders.length===0 ? (
-          <div style={{ ...gc, borderRadius:22, padding:"44px 20px", textAlign:"center" }}>
+          <div style={{ ...gc, borderRadius:22, padding:"44px var(--page-px,clamp(16px,4vw,48px))", textAlign:"center" }}>
             <div style={{ fontSize:48, marginBottom:14, animation:"float 3s ease-in-out infinite" }}>💰</div>
             <p style={{ color:tk.textLt, fontSize:15 }}>No revenue yet. Connect with agents to start selling.</p>
           </div>

@@ -31,7 +31,7 @@ function AdminSidebar() {
       display:"flex", flexDirection:"column",
     }}>
       {/* Logo */}
-      <div style={{ padding:"26px 20px 22px", borderBottom:"1px solid rgba(82,183,136,0.1)" }}>
+      <div style={{ padding:"26px var(--page-px,clamp(16px,4vw,48px)) 22px", borderBottom:"1px solid rgba(82,183,136,0.1)" }}>
         <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:4 }}>
           <div style={{ width:34, height:34, borderRadius:9, background:"rgba(82,183,136,0.28)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:16, boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)" }}>🌿</div>
           <span style={{ color:"#fff", fontFamily:"'Playfair Display',Georgia,serif", fontWeight:700, fontSize:18 }}>RPS Admin</span>

@@ -5,7 +5,7 @@ import { useTheme, TK } from "../context/ThemeContext";
 function Banner({ title, sub, emoji }) {
   useTheme();
   return (
-    <div style={{ background:"linear-gradient(135deg,#0d2b1a,#1b4332,#2d6a4f)", padding:"56px 20px", textAlign:"center", position:"relative", overflow:"hidden" }}>
+    <div style={{ background:"linear-gradient(135deg,#0d2b1a,#1b4332,#2d6a4f)", padding:"56px var(--page-px,clamp(16px,4vw,48px))", textAlign:"center", position:"relative", overflow:"hidden" }}>
       <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(circle at 30% 50%,rgba(82,183,136,0.1),transparent 55%)", pointerEvents:"none" }} />
       <div style={{ position:"relative", animation:"fadeUp 0.5s ease both" }}>
         {emoji && <div style={{ fontSize:44, marginBottom:14 }}>{emoji}</div>}
@@ -21,7 +21,7 @@ export function AboutPage() {
   return (
     <div style={{ background:tk.bg, minHeight:"100%" }}>
       <Banner title="About RPS Fields" sub="Bridging the gap between Indian farmers and consumers since 2023" emoji="🌾" />
-      <div style={{ maxWidth:860, margin:"0 auto", padding:"60px 20px 100px" }}>
+      <div style={{ maxWidth:860, margin:"0 auto", padding:"60px var(--page-px,clamp(16px,4vw,48px)) 100px" }}>
         <div data-tilt style={{ background:tk.bgCard, borderRadius:24, padding:40, border:`1px solid ${tk.border}`, marginBottom:24, animation:"fadeUp 0.5s ease both" }}>
           <h2 style={{ fontSize:22, fontFamily:"'Playfair Display',Georgia,serif", color:tk.text, marginBottom:14 }}>🌱 Our Mission</h2>
           <p style={{ color:tk.textMid, lineHeight:1.9, fontSize:15 }}>
@@ -71,7 +71,7 @@ export function ContactPage() {
   return (
     <div style={{ background:tk.bg, minHeight:"100%" }}>
       <Banner title="Contact Us" sub="We'd love to hear from you" emoji="📬" />
-      <div style={{ maxWidth:1100, margin:"0 auto", padding:"56px 20px 100px" }}>
+      <div style={{ maxWidth:1100, margin:"0 auto", padding:"56px var(--page-px,clamp(16px,4vw,48px)) 100px" }}>
         <div style={{ display:"grid", gridTemplateColumns:"1fr 1.4fr", gap:40 }}>
           <div style={{ animation:"slideLeft 0.5s ease both" }}>
             <h3 style={{ fontSize:20, fontWeight:800, color:tk.text, marginBottom:24 }}>Get in Touch</h3>
@@ -130,7 +130,7 @@ function StaticDoc({ title, emoji, children }) {
   return (
     <div style={{ background:tk.bg, minHeight:"100%" }}>
       <Banner title={title} emoji={emoji} />
-      <div style={{ maxWidth:780, margin:"0 auto", padding:"56px 20px 100px" }}>
+      <div style={{ maxWidth:780, margin:"0 auto", padding:"56px var(--page-px,clamp(16px,4vw,48px)) 100px" }}>
         <div data-tilt style={{ background:tk.bgCard, borderRadius:24, padding:44, border:`1px solid ${tk.border}`, color:tk.textMid, lineHeight:2, fontSize:15, animation:"fadeUp 0.5s ease both" }}>
           {children}
         </div>
@@ -179,7 +179,7 @@ export function NotFoundPage() {
   const { dark } = useTheme(); const tk = TK(dark);
   const navigate = useNavigate();
   return (
-    <div style={{ background:tk.bg, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:"80px 20px", minHeight:"100%", animation:"fadeIn 0.5s ease" }}>
+    <div style={{ background:tk.bg, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:"80px var(--page-px,clamp(16px,4vw,48px))", minHeight:"100%", animation:"fadeIn 0.5s ease" }}>
       <div style={{ fontSize:88, marginBottom:16, animation:"float 3s ease-in-out infinite" }}>🌿</div>
       <h2 style={{ fontSize:32, color:tk.text, marginBottom:10, fontFamily:"'Playfair Display',Georgia,serif" }}>Page Not Found</h2>
       <p style={{ color:tk.textLt, marginBottom:32, fontSize:15 }}>The page you're looking for doesn't exist.</p>

@@ -61,14 +61,14 @@ export default function EditProductPage() {
 
   return (
     <div style={{ background:tk.bg, minHeight:"100%" }}>
-      <div style={{ background:"linear-gradient(135deg,#1b4332,#2d6a4f)", padding:"44px 20px" }}>
+      <div style={{ background:"linear-gradient(135deg,#1b4332,#2d6a4f)", padding:"44px var(--page-px,clamp(16px,4vw,48px))" }}>
         <div style={{ maxWidth:760, margin:"0 auto" }}>
           <Link to="/farmer/products" style={{ color:"#74c69d", fontSize:13, fontWeight:700, textDecoration:"none", marginBottom:12, display:"inline-block" }}>← Back to Products</Link>
           <h1 style={{ color:"#fff", fontSize:30, fontFamily:"'Playfair Display',Georgia,serif", margin:0 }}>✏️ Edit Product</h1>
         </div>
       </div>
 
-      <div style={{ maxWidth:760, margin:"0 auto", padding:"36px 20px" }}>
+      <div style={{ maxWidth:760, margin:"0 auto", padding:"36px var(--page-px,clamp(16px,4vw,48px))" }}>
         <div style={{ background:tk.bgCard, borderRadius:20, padding:36, boxShadow:tk.shadowLg, border:`2px solid ${tk.green6}` }}>
 
           {apiError && <div style={{ background:"#fff0f0", border:"1px solid #e74c3c", borderRadius:10, padding:"10px 14px", marginBottom:20, color:"#c0392b", fontWeight:600 }}>⚠ {apiError}</div>}

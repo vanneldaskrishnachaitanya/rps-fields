@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import CustomCursor from "./components/CustomCursor";
 import GlobalEffects from "./components/GlobalEffects";
 import AnnouncementPopups from "./components/AnnouncementPopups";
+import QuickActions from "./components/QuickActions";
 
 import HomePage           from "./pages/HomePage";
 import CatalogPage        from "./pages/CatalogPage";
@@ -88,7 +89,13 @@ function Layout() {
     <div style={{ fontFamily:"'Inter','Segoe UI',sans-serif", background:tk.bg, minHeight:"100vh", color:tk.text, transition:"background 0.3s,color 0.3s" }}>
       {!isAdmin && <Header />}
       <AnnouncementPopups />
-      <main style={{ paddingTop:isAdmin?0:68, paddingBottom:isAdmin?0:52, minHeight:"100vh" }}>
+      {/* Fixed Quick Actions panel — desktop only, hidden on mobile via CSS */}
+      {!isAdmin && (
+        <div className="quick-actions-fixed">
+          <QuickActions />
+        </div>
+      )}
+      <main className={isAdmin ? "" : "anim-page-enter"} style={{ paddingTop:isAdmin?0:68, paddingBottom:isAdmin?0:52, minHeight:"100vh" }}>
         <Routes>
           <Route path="/"            element={<HomePage />} />
           <Route path="/catalog"     element={<CatalogPage />} />

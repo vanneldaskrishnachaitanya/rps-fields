@@ -50,7 +50,7 @@ export default function CheckoutPage() {
 
   if (!cart.length && !order) {
     return (
-      <div style={{ background:tk.bg, minHeight:"100%", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:"80px 20px" }}>
+      <div style={{ background:tk.bg, minHeight:"100%", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:"80px var(--page-px,clamp(16px,4vw,48px))" }}>
         <div style={{ fontSize:72, marginBottom:16 }}>🛒</div>
         <h2 style={{ color:tk.text, marginBottom:8 }}>Your cart is empty</h2>
         <button data-magnetic onClick={() => navigate("/catalog")} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"12px 26px", borderRadius:10, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>Browse Catalog</button>
@@ -59,7 +59,7 @@ export default function CheckoutPage() {
   }
 
   if (order) return (
-    <div style={{ background:tk.bg, minHeight:"100%", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:"60px 20px", textAlign:"center" }}>
+    <div style={{ background:tk.bg, minHeight:"100%", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:"60px var(--page-px,clamp(16px,4vw,48px))", textAlign:"center" }}>
       <div style={{ fontSize:80, marginBottom:16 }}>🎉</div>
       <h2 style={{ fontSize:30, color:tk.text, marginBottom:8 }}>Order Placed!</h2>
       <div style={{ background:tk.bgCard, borderRadius:16, padding:28, maxWidth:440, width:"100%", boxShadow:tk.shadowLg, border:`1px solid ${tk.border}`, marginBottom:24 }}>
@@ -78,10 +78,10 @@ export default function CheckoutPage() {
 
   return (
     <div style={{ background:tk.bg, minHeight:"100%" }}>
-      <div style={{ background:"linear-gradient(135deg,#1b4332,#40916c)", padding:"44px 20px", textAlign:"center" }}>
+      <div style={{ background:"linear-gradient(135deg,#1b4332,#40916c)", padding:"44px var(--page-px,clamp(16px,4vw,48px))", textAlign:"center" }}>
         <h1 style={{ color:"#fff", fontSize:34, fontFamily:"'Playfair Display',Georgia,serif" }}>🧾 Checkout</h1>
       </div>
-      <div style={{ maxWidth:960, margin:"0 auto", padding:"40px 20px" }}>
+      <div style={{ maxWidth:960, margin:"0 auto", padding:"40px var(--page-px,clamp(16px,4vw,48px))" }}>
         <div className="checkout-grid" style={{ display:"grid", gridTemplateColumns:"1fr 320px", gap:28 }}>
           {/* Delivery form */}
           <div style={{ background:tk.bgCard, borderRadius:20, padding:32, boxShadow:tk.shadow, border:`1px solid ${tk.border}` }}>

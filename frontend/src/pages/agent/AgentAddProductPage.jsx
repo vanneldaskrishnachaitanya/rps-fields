@@ -77,14 +77,14 @@ export default function AgentAddProductPage() {
 
   return (
     <div style={{ background:tk.bg, minHeight:"100%" }}>
-      <div style={{ background:"linear-gradient(135deg,#1e3a8a,#3b82f6)", padding:"44px 20px" }}>
+      <div style={{ background:"linear-gradient(135deg,#1e3a8a,#3b82f6)", padding:"44px var(--page-px,clamp(16px,4vw,48px))" }}>
         <div style={{ maxWidth:780, margin:"0 auto" }}>
           <p style={{ color:"rgba(255,255,255,0.6)", fontSize:11, letterSpacing:"2px", textTransform:"uppercase", margin:"0 0 8px" }}>🏢 AGENT DASHBOARD</p>
           <h1 style={{ color:"#fff", fontSize:28, fontFamily:"'Playfair Display',Georgia,serif", margin:0 }}>➕ Add New Product</h1>
         </div>
       </div>
 
-      <div style={{ maxWidth:780, margin:"0 auto", padding:"30px 20px" }}>
+      <div style={{ maxWidth:780, margin:"0 auto", padding:"30px var(--page-px,clamp(16px,4vw,48px))" }}>
         <AgentNav active="/agent/add-product" />
 
         {farmers.length === 0 && (

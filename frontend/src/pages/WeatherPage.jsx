@@ -123,7 +123,7 @@ export default function WeatherPage() {
   return (
     <div style={{ background:tk.bg, minHeight:"100%", fontFamily:"'Inter',sans-serif" }}>
       {/* ── Hero Banner ── */}
-      <div style={{ background:"linear-gradient(135deg,#040d06,#0d2b1a,#1b4332,#2d6a4f)", padding:"52px 20px 44px", position:"relative", overflow:"hidden" }}>
+      <div style={{ background:"linear-gradient(135deg,#040d06,#0d2b1a,#1b4332,#2d6a4f)", padding:"52px var(--page-px,clamp(16px,4vw,48px)) 44px", position:"relative", overflow:"hidden" }}>
         <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(circle at 30% 50%,rgba(82,183,136,0.1),transparent 55%),radial-gradient(circle at 70% 30%,rgba(116,198,157,0.07),transparent 50%)", pointerEvents:"none" }} />
         <div style={{ position:"absolute", top:"-20%", right:"5%", width:300, height:300, borderRadius:"50%", background:"rgba(82,183,136,0.04)", pointerEvents:"none" }} />
         <div style={{ textAlign:"center", position:"relative", animation:"fadeUp 0.5s ease both" }}>
@@ -137,7 +137,7 @@ export default function WeatherPage() {
         </div>
       </div>
 
-      <div style={{ maxWidth:980, margin:"0 auto", padding:"32px 20px 100px" }}>
+      <div style={{ maxWidth:980, margin:"0 auto", padding:"32px var(--page-px,clamp(16px,4vw,48px)) 100px" }}>
 
         {/* ── Search bar ── */}
         <div style={{ display:"flex", gap:10, marginBottom:16 }}>
@@ -236,7 +236,7 @@ export default function WeatherPage() {
           </div>
 
           {/* ── Chart tabs ── */}
-          <div className="weather-tab-row" style={{ display:"flex", gap:8, marginBottom:22, flexWrap:"wrap" }}>
+          <div className="weather-tab-row filter-pills" style={{ display:"flex", gap:8, marginBottom:22, flexWrap:"wrap" }}>
             {tabBtn("hourly","🌡️ Hourly Temp")}
             {tabBtn("rain","🌧️ Rain Chart")}
             {tabBtn("wind","💨 Wind Chart")}

@@ -8,7 +8,7 @@ import DeliveryVerificationModal from "../../components/DeliveryVerificationModa
 // ── Shared banner header ──────────────────────────────────────────────────────
 function AgentHeader({ title, sub }) {
   return (
-    <div style={{ background:"linear-gradient(135deg,#1e3a8a,#3b82f6)", padding:"44px 20px" }}>
+    <div style={{ background:"linear-gradient(135deg,#1e3a8a,#3b82f6)", padding:"44px var(--page-px,clamp(16px,4vw,48px))" }}>
       <div style={{ maxWidth:1100, margin:"0 auto" }}>
         <p style={{ color:"rgba(255,255,255,0.6)", fontSize:11, letterSpacing:"2px", textTransform:"uppercase", margin:"0 0 8px" }}>🏢 AGENT DASHBOARD</p>
         <h1 style={{ color:"#fff", fontSize:28, fontFamily:"'Playfair Display',Georgia,serif", margin:0 }}>{title}</h1>
@@ -44,7 +44,7 @@ export function AgentProductsPage() {
   return (
     <div style={{ background:tk.bg, minHeight:"100%" }}>
       <AgentHeader title="📦 My Products" sub={`${products.length} product${products.length!==1?"s":""} listed`} />
-      <div style={{ maxWidth:1100, margin:"0 auto", padding:"30px 20px" }}>
+      <div style={{ maxWidth:1100, margin:"0 auto", padding:"30px var(--page-px,clamp(16px,4vw,48px))" }}>
         <AgentNav active="/agent/products" />
         {msg && <div style={{ background:"#d4edda", border:"1px solid #28a745", borderRadius:10, padding:"10px 16px", marginBottom:18, color:"#155724", fontWeight:700 }}>{msg}</div>}
         <div style={{ display:"flex", justifyContent:"flex-end", marginBottom:20 }}>
@@ -138,7 +138,7 @@ export function AgentOrdersPage() {
   return (
     <div style={{ background:tk.bg, minHeight:"100%" }}>
       <AgentHeader title="🚚 Manage Deliveries" sub={`${orders.length} order${orders.length!==1?"s":""}`} />
-      <div style={{ maxWidth:1100, margin:"0 auto", padding:"30px 20px" }}>
+      <div style={{ maxWidth:1100, margin:"0 auto", padding:"30px var(--page-px,clamp(16px,4vw,48px))" }}>
         <AgentNav active="/agent/orders" />
         {loading ? <div style={{ textAlign:"center", padding:60, color:tk.textLt }}>Loading...</div>
         : orders.length===0 ? (
@@ -233,7 +233,7 @@ export function AgentFarmersPage() {
   return (
     <div style={{ background:tk.bg, minHeight:"100%" }}>
       <AgentHeader title="🌾 Partnered Farmers" sub={`${farmers.length} farmer${farmers.length!==1?"s":""} partnered`} />
-      <div style={{ maxWidth:1100, margin:"0 auto", padding:"30px 20px" }}>
+      <div style={{ maxWidth:1100, margin:"0 auto", padding:"30px var(--page-px,clamp(16px,4vw,48px))" }}>
         <AgentNav active="/agent/farmers" />
         {loading ? <div style={{ textAlign:"center", padding:60, color:tk.textLt }}>Loading...</div>
         : farmers.length===0 ? (
@@ -292,7 +292,7 @@ export function AgentRequestsPage() {
   return (
     <div style={{ background:tk.bg, minHeight:"100%" }}>
       <AgentHeader title="📬 Partnership Requests" sub={`${requests.length} pending request${requests.length!==1?"s":""}`} />
-      <div style={{ maxWidth:780, margin:"0 auto", padding:"30px 20px" }}>
+      <div style={{ maxWidth:780, margin:"0 auto", padding:"30px var(--page-px,clamp(16px,4vw,48px))" }}>
         <AgentNav active="/agent/requests" />
         {loading ? <div style={{ textAlign:"center", padding:60, color:tk.textLt }}>Loading...</div>
         : requests.length===0 ? (
@@ -378,7 +378,7 @@ export function AgentEditProductPage() {
   return (
     <div style={{ background:tk.bg, minHeight:"100%" }}>
       <AgentHeader title="✏️ Edit Product" />
-      <div style={{ maxWidth:760, margin:"0 auto", padding:"30px 20px" }}>
+      <div style={{ maxWidth:760, margin:"0 auto", padding:"30px var(--page-px,clamp(16px,4vw,48px))" }}>
         <AgentNav active="/agent/products" />
         <div style={{ background:tk.bgCard, borderRadius:20, padding:36, boxShadow:tk.shadowLg, border:`2px solid #3b82f640` }}>
           {apiError && <div style={{ background:"#fff0f0", border:"1px solid #e74c3c", borderRadius:10, padding:"10px 14px", marginBottom:20, color:"#c0392b", fontWeight:600 }}>⚠ {apiError}</div>}

@@ -40,7 +40,7 @@ export function FarmerNav() {
 
 function GlassBanner({ title, sub, gradient = "linear-gradient(135deg,#040d06,#0d2b1a,#1b4332)" }) {
   return (
-    <div style={{ background:gradient, padding:"52px 20px 44px", position:"relative", overflow:"hidden" }}>
+    <div style={{ background:gradient, padding:"52px var(--page-px,clamp(16px,4vw,48px)) 44px", position:"relative", overflow:"hidden" }}>
       <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(circle at 25% 50%,rgba(82,183,136,0.12),transparent 55%),radial-gradient(circle at 75% 30%,rgba(116,198,157,0.08),transparent 50%)", pointerEvents:"none" }} />
       <div style={{ position:"absolute", top:"-30%", right:"-10%", width:300, height:300, borderRadius:"50%", background:"rgba(82,183,136,0.05)", pointerEvents:"none" }} />
       <div style={{ maxWidth:1100, margin:"0 auto", position:"relative", animation:"fadeUp 0.5s ease both" }}>
@@ -93,7 +93,7 @@ export function FindAgentsPage() {
   return (
     <div style={{ background:tk.bg, minHeight:"100%", fontFamily:"'Inter',sans-serif" }}>
       <GlassBanner title="🤝 Find Agents" sub="Connect with verified agents to list your produce" />
-      <div style={{ maxWidth:1100, margin:"0 auto", padding:"28px 20px 100px" }}>
+      <div style={{ maxWidth:1100, margin:"0 auto", padding:"28px var(--page-px,clamp(16px,4vw,48px)) 100px" }}>
         <FarmerNav />
 
         {/* Glass search */}
@@ -112,7 +112,7 @@ export function FindAgentsPage() {
             {[1,2,3,4,5,6].map(i=><div key={i} style={{ height:200, borderRadius:20, background: dark?"rgba(12,22,15,0.5)":"rgba(255,255,255,0.4)", backdropFilter:"blur(8px)", animation:"shimmer 1.5s ease infinite" }} />)}
           </div>
         ) : agents.length===0 ? (
-          <GlassCard dark={dark} tk={tk} style={{ padding:"60px 20px", textAlign:"center" }}>
+          <GlassCard dark={dark} tk={tk} style={{ padding:"60px var(--page-px,clamp(16px,4vw,48px))", textAlign:"center" }}>
             <div style={{ fontSize:56, marginBottom:14, animation:"float 3s ease-in-out infinite" }}>🔍</div>
             <h3 style={{ color:tk.text, fontSize:20, marginBottom:8, fontFamily:"'Playfair Display',Georgia,serif" }}>No agents found</h3>
             <p style={{ color:tk.textLt }}>{search?`No results for "${search}"`:"No agents available right now."}</p>
@@ -186,14 +186,14 @@ export function PartneredAgentsPage() {
   return (
     <div style={{ background:tk.bg, minHeight:"100%", fontFamily:"'Inter',sans-serif" }}>
       <GlassBanner title="🤝 My Partnered Agents" sub={`${agents.length} active partner${agents.length!==1?"s":""}`} />
-      <div style={{ maxWidth:1100, margin:"0 auto", padding:"28px 20px 100px" }}>
+      <div style={{ maxWidth:1100, margin:"0 auto", padding:"28px var(--page-px,clamp(16px,4vw,48px)) 100px" }}>
         <FarmerNav />
         {loading ? (
           <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))", gap:18 }}>
             {[1,2,3].map(i=><div key={i} style={{ height:180, borderRadius:20, background: dark?"rgba(12,22,15,0.5)":"rgba(255,255,255,0.4)", backdropFilter:"blur(8px)", animation:"shimmer 1.5s ease infinite" }} />)}
           </div>
         ) : agents.length===0 ? (
-          <GlassCard dark={dark} tk={tk} style={{ padding:"60px 20px", textAlign:"center" }}>
+          <GlassCard dark={dark} tk={tk} style={{ padding:"60px var(--page-px,clamp(16px,4vw,48px))", textAlign:"center" }}>
             <div style={{ fontSize:56, marginBottom:14, animation:"float 3s ease-in-out infinite" }}>🤝</div>
             <h3 style={{ color:tk.text, fontSize:20, marginBottom:8, fontFamily:"'Playfair Display',Georgia,serif" }}>No partners yet</h3>
             <p style={{ color:tk.textLt, marginBottom:24 }}>Find agents to partner with and start selling.</p>

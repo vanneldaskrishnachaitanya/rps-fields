@@ -28,7 +28,7 @@ export default function ProfileEditPage() {
   const lbl = t => <label style={{ display:"block", fontWeight:700, fontSize:11, color:tk.textMid, marginBottom:5, textTransform:"uppercase", letterSpacing:"0.4px" }}>{t}</label>;
 
   return (
-    <div style={{ background:tk.bg, minHeight:"100%", padding:"50px 20px" }}>
+    <div style={{ background:tk.bg, minHeight:"100%", padding:"50px var(--page-px,clamp(16px,4vw,48px))" }}>
       <div style={{ maxWidth:520, margin:"0 auto", background:tk.bgCard, borderRadius:20, padding:40, boxShadow:tk.shadowLg, border:`1px solid ${tk.border}` }}>
         <div style={{ textAlign:"center", fontSize:44, marginBottom:14 }}>✏️</div>
         <h2 style={{ fontSize:24, fontFamily:"'Playfair Display',Georgia,serif", color:tk.text, textAlign:"center", marginBottom:24 }}>Edit Profile</h2>

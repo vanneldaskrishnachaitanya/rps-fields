@@ -49,7 +49,7 @@ export default function CartPage() {
   });
 
   if (order) return (
-    <div style={{ background:tk.bg, minHeight:"100%", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:"60px 20px", animation:"scaleIn 0.5s ease" }}>
+    <div style={{ background:tk.bg, minHeight:"100%", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:"60px var(--page-px,clamp(16px,4vw,48px))", animation:"scaleIn 0.5s ease" }}>
       <div style={{ width:80, height:80, borderRadius:"50%", background:"rgba(82,183,136,0.28)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:36, marginBottom:20, boxShadow:"0 12px 36px rgba(82,183,136,0.4)", animation:"bounce 0.6s ease" }}>🎉</div>
       <h2 style={{ fontSize:32, color:tk.text, marginBottom:8, fontFamily:"'Playfair Display',Georgia,serif" }}>Order Placed!</h2>
       <p style={{ color:tk.textLt, marginBottom:28, fontSize:15 }}>Your fresh produce is on its way 🌿</p>
@@ -74,7 +74,7 @@ export default function CartPage() {
   );
 
   if (!cart.length) return (
-    <div style={{ background:tk.bg, minHeight:"100%", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:"80px 20px", animation:"fadeIn 0.5s ease" }}>
+    <div style={{ background:tk.bg, minHeight:"100%", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:"80px var(--page-px,clamp(16px,4vw,48px))", animation:"fadeIn 0.5s ease" }}>
       <div style={{ fontSize:80, marginBottom:16, animation:"float 3s ease-in-out infinite" }}>🛒</div>
       <h2 style={{ fontSize:28, color:tk.text, marginBottom:8, fontFamily:"'Playfair Display',Georgia,serif" }}>Your cart is empty</h2>
       <p style={{ color:tk.textLt, marginBottom:28, fontSize:15 }}>Browse our catalog and add fresh produce.</p>
@@ -86,7 +86,7 @@ export default function CartPage() {
 
   return (
     <div style={{ background:tk.bg, minHeight:"100%", animation:"fadeIn 0.4s ease" }}>
-      <div style={{ background:"linear-gradient(135deg,#0d2b1a,#1b4332)", padding:"44px 20px", position:"relative", overflow:"hidden" }}>
+      <div style={{ background:"linear-gradient(135deg,#0d2b1a,#1b4332)", padding:"44px var(--page-px,clamp(16px,4vw,48px))", position:"relative", overflow:"hidden" }}>
         <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(circle at 30% 50%,rgba(82,183,136,0.1),transparent 55%)", pointerEvents:"none" }} />
         <div style={{ textAlign:"center", position:"relative" }}>
           <h1 style={{ color:"#fff", fontSize:36, fontFamily:"'Playfair Display',Georgia,serif", marginBottom:4 }}>🛒 Your Cart</h1>
@@ -94,7 +94,7 @@ export default function CartPage() {
         </div>
       </div>
 
-      <div style={{ maxWidth:1200, margin:"0 auto", padding:"36px 20px 100px" }}>
+      <div style={{ maxWidth:1200, margin:"0 auto", padding:"36px var(--page-px,clamp(16px,4vw,48px)) 100px" }}>
         <div className="cart-grid" style={{ display:"grid", gridTemplateColumns:"1fr 360px", gap:28 }}>
           {/* Items */}
           <div>

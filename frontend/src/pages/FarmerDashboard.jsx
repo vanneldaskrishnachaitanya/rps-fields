@@ -45,7 +45,7 @@ export default function FarmerDashboard() {
       {/* ── Hero Banner ── */}
       <div style={{
         background: "linear-gradient(135deg,#040d06 0%,#0d2b1a 40%,#1b4332 70%,#2d6a4f 100%)",
-        padding:"52px 20px 44px", position:"relative", overflow:"hidden",
+        padding:"52px var(--page-px,clamp(16px,4vw,48px)) 44px", position:"relative", overflow:"hidden",
       }}>
         {/* Decorative orbs */}
         <div style={{ position:"absolute", top:-40, right:-40, width:200, height:200, borderRadius:"50%", background:"rgba(82,183,136,0.08)", pointerEvents:"none" }} />
@@ -70,7 +70,7 @@ export default function FarmerDashboard() {
         </div>
       </div>
 
-      <div style={{ maxWidth:1100, margin:"0 auto", padding:"28px 20px 100px" }}>
+      <div style={{ maxWidth:1100, margin:"0 auto", padding:"28px var(--page-px,clamp(16px,4vw,48px)) 100px" }}>
 
         {/* ── Sub Nav ── */}
         <div style={{
@@ -108,7 +108,7 @@ export default function FarmerDashboard() {
           ].map(({ icon,val,lbl,color,grad,to },i)=>(
             <div key={lbl} data-tilt onClick={()=>navigate(to)} style={{
               background: dark ? `${grad}, rgba(12,26,15,0.95)` : `${grad}, rgba(255,255,255,0.95)`,
-              borderRadius:18, padding:"22px 20px",
+              borderRadius:18, padding:"22px var(--page-px,clamp(16px,4vw,48px))",
               border:`1px solid ${color}30`,
               cursor:"pointer", textAlign:"center",
               boxShadow: dark?"0 2px 16px rgba(0,0,0,0.4)":"0 2px 12px rgba(0,0,0,0.06)",

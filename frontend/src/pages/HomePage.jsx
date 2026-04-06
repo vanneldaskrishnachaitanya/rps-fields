@@ -114,7 +114,7 @@ export default function HomePage() {
         }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(100deg,rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.3) 55%,rgba(0,0,0,0.05) 100%)" }} />
 
-        <div style={{ position: "relative", zIndex: 2, height: "100%", display: "flex", alignItems: "center", maxWidth: 1280, margin: "0 auto", padding: "0 20px" }}>
+        <div style={{ position: "relative", zIndex: 2, height: "100%", display: "flex", alignItems: "center", maxWidth: 1400, margin: "0 auto", padding: "0 var(--page-px,clamp(16px,4vw,48px))" }}>
           <div style={{ maxWidth: 580 }}>
             <div style={{
               display: "inline-flex", alignItems: "center", gap: 7,
@@ -195,8 +195,8 @@ export default function HomePage() {
       </section>
 
       {/* ─────────────── STATS BAR ─────────────── */}
-      <div style={{ background: dark ? "#0f2018" : "#1b4332", borderBottom: "3px solid #52b788" }}>
-        <div style={{ maxWidth: 960, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(140px,1fr))" }}>
+      <div style={{ background: dark ? "#0f2018" : "#1b4332", borderBottom: "3px solid #52b788", width:"100%" }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(160px,1fr))", padding:"0 var(--page-px, clamp(16px,4vw,48px))" }}>
           {STATS.map((s, i) => (
             <div key={i} data-id={`stat-${i}`} style={{ textAlign:"center", padding:"22px 16px", borderRight: i < 3 ? "1px solid rgba(255,255,255,0.08)" : "none", ...reveal(`stat-${i}`, i * 0.08) }}>
               <div style={{ fontSize:22, marginBottom:4 }}>{s.icon}</div>
@@ -208,8 +208,8 @@ export default function HomePage() {
       </div>
 
       {/* ─────────────── CATEGORIES ─────────────── */}
-      <section style={{ padding: "72px 20px", background: tk.bg }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+      <section style={{ padding: "clamp(40px,6vw,80px) var(--page-px,clamp(16px,4vw,48px))", background: tk.bg }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto" }}>
           <div data-id="cat-hd" style={{ textAlign:"center", marginBottom:48, ...reveal("cat-hd") }}>
             <span style={{ display:"inline-block", background: dark?"#1c3525":"#e8f5ee", color:"#40916c", borderRadius:20, padding:"4px 16px", fontSize:11, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", marginBottom:14 }}>Shop by Category</span>
             <h2 style={{ fontSize:"clamp(28px,4vw,40px)", fontFamily:"'Playfair Display',Georgia,serif", color:tk.text, marginBottom:10 }}>Find What You're Looking For</h2>
@@ -242,8 +242,8 @@ export default function HomePage() {
       </section>
 
       {/* ─────────────── FEATURED PRODUCTS ─────────────── */}
-      <section style={{ padding:"20px 20px 56px", background: dark?"#080f09":"#eef7f0" }}>
-        <div style={{ maxWidth:1280, margin:"0 auto" }}>
+      <section style={{ padding:"clamp(20px,4vw,40px) var(--page-px,clamp(16px,4vw,48px)) clamp(40px,6vw,80px)", background: dark?"#080f09":"#eef7f0" }}>
+        <div style={{ maxWidth:1400, margin:"0 auto" }}>
           <div data-id="feat-hd" style={{ textAlign:"center", marginBottom:48, ...reveal("feat-hd") }}>
             <span style={{ display:"inline-block", background: dark?"#1c3525":"#e8f5ee", color:"#40916c", borderRadius:20, padding:"4px 16px", fontSize:11, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", marginBottom:14 }}>Featured This Week</span>
             <h2 style={{ fontSize:"clamp(28px,4vw,40px)", fontFamily:"'Playfair Display',Georgia,serif", color:tk.text, marginBottom:10 }}>Handpicked Fresh Arrivals</h2>
@@ -256,7 +256,7 @@ export default function HomePage() {
               <p>Loading fresh products...</p>
             </div>
           ) : (
-            <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))", gap:24 }}>
+            <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(290px,1fr))", gap:24 }}>
               {products.map((p, i) => (
                 <div key={p.id} data-id={`prod-${i}`} style={reveal(`prod-${i}`, i * 0.09)}>
                   <ProductCard product={p} />
@@ -278,7 +278,7 @@ export default function HomePage() {
       </section>
 
       {/* ─────────────── TRUST BANNER ─────────────── */}
-      <div style={{ background:"linear-gradient(135deg,#1b4332,#2d6a4f,#1b4332)", padding:"52px 20px", position:"relative", overflow:"hidden" }}>
+      <div style={{ background:"linear-gradient(135deg,#1b4332,#2d6a4f,#1b4332)", padding:"52px var(--page-px,clamp(16px,4vw,48px))", position:"relative", overflow:"hidden" }}>
         <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(circle at 20% 50%,rgba(82,183,136,0.14),transparent 60%),radial-gradient(circle at 80% 50%,rgba(116,198,157,0.09),transparent 60%)", pointerEvents:"none" }} />
         <div style={{ maxWidth:860, margin:"0 auto", textAlign:"center", position:"relative" }}>
           <div data-id="trust" style={reveal("trust")}>
@@ -301,8 +301,8 @@ export default function HomePage() {
       </div>
 
       {/* ─────────────── WHY US ─────────────── */}
-      <section style={{ padding:"56px 20px", background:tk.bg }}>
-        <div style={{ maxWidth:1280, margin:"0 auto" }}>
+      <section style={{ padding:"clamp(40px,6vw,80px) var(--page-px,clamp(16px,4vw,48px))", background:tk.bg }}>
+        <div style={{ maxWidth:1400, margin:"0 auto" }}>
           <div data-id="why-hd" style={{ textAlign:"center", marginBottom:52, ...reveal("why-hd") }}>
             <span style={{ display:"inline-block", background: dark?"#1c3525":"#e8f5ee", color:"#40916c", borderRadius:20, padding:"4px 16px", fontSize:11, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", marginBottom:14 }}>Why RPS Fields</span>
             <h2 style={{ fontSize:"clamp(28px,4vw,40px)", fontFamily:"'Playfair Display',Georgia,serif", color:tk.text }}>What Makes Us Different</h2>
@@ -327,7 +327,7 @@ export default function HomePage() {
       </section>
 
       {/* ─────────────── JOIN CTA ─────────────── */}
-      <section style={{ padding:"48px 20px 80px", background: dark?"#080f09":"#f0f7f2", borderTop:`1px solid ${tk.border}` }}>
+      <section style={{ padding:"clamp(40px,6vw,70px) var(--page-px,clamp(16px,4vw,48px))", background: dark?"#080f09":"#f0f7f2", borderTop:`1px solid ${tk.border}` }}>
         <div data-id="cta" style={{ maxWidth:680, margin:"0 auto", textAlign:"center", ...reveal("cta") }}>
           <div style={{ fontSize:48, marginBottom:16 }}>🌿</div>
           <h2 style={{ fontSize:"clamp(24px,3.5vw,36px)", fontFamily:"'Playfair Display',Georgia,serif", color:tk.text, marginBottom:14 }}>

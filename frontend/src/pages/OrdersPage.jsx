@@ -40,7 +40,7 @@ export default function OrdersPage() {
 
   return (
     <div style={{ background:tk.bg, minHeight:"100%", animation:"fadeIn 0.4s ease" }}>
-      <div style={{ background:"linear-gradient(135deg,#0d2b1a,#1b4332,#2d6a4f)", padding:"52px 20px", position:"relative", overflow:"hidden" }}>
+      <div style={{ background:"linear-gradient(135deg,#0d2b1a,#1b4332,#2d6a4f)", padding:"52px var(--page-px,clamp(16px,4vw,48px))", position:"relative", overflow:"hidden" }}>
         <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(circle at 70% 50%,rgba(82,183,136,0.1),transparent 55%)", pointerEvents:"none" }} />
         <div style={{ textAlign:"center", position:"relative" }}>
           <h1 style={{ color:"#fff", fontSize:38, fontFamily:"'Playfair Display',Georgia,serif", marginBottom:6 }}>📦 My Orders</h1>
@@ -48,7 +48,7 @@ export default function OrdersPage() {
         </div>
       </div>
 
-      <div style={{ maxWidth:900, margin:"0 auto", padding:"36px 20px 100px" }}>
+      <div style={{ maxWidth:1100, margin:"0 auto", padding:"36px var(--page-px,clamp(16px,4vw,48px)) 100px" }}>
         {loading ? (
           <div style={{ textAlign:"center", padding:"80px 0", color:tk.textLt }}>
             <div style={{ fontSize:48, marginBottom:14, animation:"float 2s ease-in-out infinite" }}>📦</div>
