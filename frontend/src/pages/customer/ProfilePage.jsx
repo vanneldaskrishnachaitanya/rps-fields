@@ -48,7 +48,7 @@ export default function ProfilePage() {
 
         <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, marginBottom:16, animation:"fadeUp 0.5s ease 0.1s both" }}>
           {[["📦","My Orders","/orders"],["📍","Addresses","/address"],["🛒","Catalog","/catalog"],["📊","Dashboard","/customer/dashboard"]].map(([icon,lbl,to])=>(
-            <button key={to} onClick={()=>navigate(to)} style={{ display:"flex", alignItems:"center", gap:10, padding:"14px 18px", background:tk.bgCard, border:`1.5px solid ${tk.border}`, borderRadius:14, cursor:"pointer", fontWeight:700, fontSize:14, color:tk.text, fontFamily:"'Inter',sans-serif", transition:"all 0.2s", textAlign:"left" }}
+            <button data-magnetic key={to} onClick={()=>navigate(to)} style={{ display:"flex", alignItems:"center", gap:10, padding:"14px 18px", background:tk.bgCard, border:`1.5px solid ${tk.border}`, borderRadius:14, cursor:"pointer", fontWeight:700, fontSize:14, color:tk.text, fontFamily:"'Inter',sans-serif", transition:"all 0.2s", textAlign:"left" }}
               onMouseEnter={e=>{e.currentTarget.style.borderColor="#52b788"; e.currentTarget.style.background=dark?"#162b1d":"#f0faf3";}}
               onMouseLeave={e=>{e.currentTarget.style.borderColor=tk.border; e.currentTarget.style.background=tk.bgCard;}}>
               <span style={{ fontSize:20 }}>{icon}</span>{lbl}
@@ -56,7 +56,7 @@ export default function ProfilePage() {
           ))}
         </div>
 
-        <button onClick={()=>{logout();navigate("/");}} style={{ width:"100%", padding:14, background:"rgba(220,38,38,0.12)", backdropFilter:"blur(20px) saturate(180%)", WebkitBackdropFilter:"blur(20px) saturate(180%)", border:"1px solid rgba(255,140,140,0.3)", color:"#ef4444", borderRadius:14, cursor:"pointer", fontWeight:800, fontSize:14, fontFamily:"'Inter',sans-serif", transition:"all 0.2s", animation:"fadeUp 0.5s ease 0.2s both" }}
+        <button data-magnetic onClick={()=>{logout();navigate("/");}} style={{ width:"100%", padding:14, background:"rgba(220,38,38,0.12)", backdropFilter:"blur(20px) saturate(180%)", WebkitBackdropFilter:"blur(20px) saturate(180%)", border:"1px solid rgba(255,140,140,0.3)", color:"#ef4444", borderRadius:14, cursor:"pointer", fontWeight:800, fontSize:14, fontFamily:"'Inter',sans-serif", transition:"all 0.2s", animation:"fadeUp 0.5s ease 0.2s both" }}
           onMouseEnter={e=>{e.currentTarget.style.background="rgba(239,68,68,0.1)";}}
           onMouseLeave={e=>{e.currentTarget.style.background="transparent";}}>
           🚪 Logout

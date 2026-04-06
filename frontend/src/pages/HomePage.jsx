@@ -148,7 +148,7 @@ export default function HomePage() {
               opacity: animating ? 0 : 1, transform: animating ? "translateY(18px)" : "none",
               transition: "all 0.5s ease 0.34s",
             }}>
-              <button onClick={() => navigate("/catalog")} style={{
+              <button data-magnetic onClick={() => navigate("/catalog")} style={{
                 background: "rgba(200,150,12,0.32)", color: "#1b2e10",
                 border: "none", padding: "14px 34px", borderRadius: 50,
                 cursor: "pointer", fontWeight: 800, fontSize: 15, fontFamily: "inherit",
@@ -159,7 +159,7 @@ export default function HomePage() {
                 onMouseLeave={e => { e.target.style.transform = "none"; e.target.style.boxShadow = "0 6px 24px rgba(212,160,23,0.4)"; }}
               >{cur.cta} →</button>
 
-              <button onClick={() => navigate("/register")} style={{
+              <button data-magnetic onClick={() => navigate("/register")} style={{
                 background: "rgba(255,255,255,0.1)", backdropFilter: "blur(8px)",
                 color: "#fff", border: "1px solid rgba(255,255,255,0.3)",
                 padding: "14px 28px", borderRadius: 50, cursor: "pointer",
@@ -175,7 +175,7 @@ export default function HomePage() {
         {/* Dots */}
         <div style={{ position: "absolute", bottom: 26, left: "50%", transform: "translateX(-50%)", display: "flex", gap: 8, zIndex: 3 }}>
           {SLIDES.map((_, i) => (
-            <button key={i} onClick={() => changeSlide(i)} style={{
+            <button data-magnetic key={i} onClick={() => changeSlide(i)} style={{
               width: i === slide ? 28 : 8, height: 8, borderRadius: 4, border: "none", cursor: "pointer", padding: 0,
               background: i === slide ? "#52b788" : "rgba(255,255,255,0.38)",
               transition: "all 0.35s ease",
@@ -184,11 +184,11 @@ export default function HomePage() {
         </div>
 
         {/* Arrows */}
-        <button onClick={() => changeSlide(s => (s - 1 + SLIDES.length) % SLIDES.length)} style={{ position:"absolute", left:18, top:"50%", transform:"translateY(-50%)", background:"rgba(255,255,255,0.15)", backdropFilter:"blur(6px)", border:"1px solid rgba(255,255,255,0.2)", color:"#fff", width:42, height:42, borderRadius:"50%", cursor:"pointer", fontSize:16, zIndex:3, transition:"all 0.2s" }}
+        <button data-magnetic onClick={() => changeSlide(s => (s - 1 + SLIDES.length) % SLIDES.length)} style={{ position:"absolute", left:18, top:"50%", transform:"translateY(-50%)", background:"rgba(255,255,255,0.15)", backdropFilter:"blur(6px)", border:"1px solid rgba(255,255,255,0.2)", color:"#fff", width:42, height:42, borderRadius:"50%", cursor:"pointer", fontSize:16, zIndex:3, transition:"all 0.2s" }}
           onMouseEnter={e => e.currentTarget.style.background="rgba(255,255,255,0.3)"}
           onMouseLeave={e => e.currentTarget.style.background="rgba(255,255,255,0.15)"}
         >❮</button>
-        <button onClick={() => changeSlide(s => (s + 1) % SLIDES.length)} style={{ position:"absolute", right:18, top:"50%", transform:"translateY(-50%)", background:"rgba(255,255,255,0.15)", backdropFilter:"blur(6px)", border:"1px solid rgba(255,255,255,0.2)", color:"#fff", width:42, height:42, borderRadius:"50%", cursor:"pointer", fontSize:16, zIndex:3, transition:"all 0.2s" }}
+        <button data-magnetic onClick={() => changeSlide(s => (s + 1) % SLIDES.length)} style={{ position:"absolute", right:18, top:"50%", transform:"translateY(-50%)", background:"rgba(255,255,255,0.15)", backdropFilter:"blur(6px)", border:"1px solid rgba(255,255,255,0.2)", color:"#fff", width:42, height:42, borderRadius:"50%", cursor:"pointer", fontSize:16, zIndex:3, transition:"all 0.2s" }}
           onMouseEnter={e => e.currentTarget.style.background="rgba(255,255,255,0.3)"}
           onMouseLeave={e => e.currentTarget.style.background="rgba(255,255,255,0.15)"}
         >❯</button>

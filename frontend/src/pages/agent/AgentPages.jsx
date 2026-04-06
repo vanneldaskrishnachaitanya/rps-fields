@@ -74,7 +74,7 @@ export function AgentProductsPage() {
                   {p.avgRating > 0 && <div style={{ fontSize:12, color:tk.gold, marginBottom:10 }}>{"⭐".repeat(Math.round(p.avgRating))} {p.avgRating} ({p.totalRatings})</div>}
                   <div style={{ display:"flex", gap:8 }}>
                     <Link to={`/agent/edit-product/${p._id||p.id}`} style={{ flex:1, padding:"9px", background:"transparent", border:`1.5px solid #3b82f6`, color:"#3b82f6", borderRadius:8, fontWeight:700, fontSize:13, textDecoration:"none", textAlign:"center" }}>✏️ Edit</Link>
-                    <button onClick={() => handleDelete(p._id||p.id, p.name)} style={{ flex:1, padding:"9px", background:"transparent", border:"1.5px solid #ef4444", color:"#ef4444", borderRadius:8, cursor:"pointer", fontWeight:700, fontSize:13, fontFamily:"'Inter',sans-serif" }}>🗑 Delete</button>
+                    <button data-magnetic onClick={() => handleDelete(p._id||p.id, p.name)} style={{ flex:1, padding:"9px", background:"transparent", border:"1.5px solid #ef4444", color:"#ef4444", borderRadius:8, cursor:"pointer", fontWeight:700, fontSize:13, fontFamily:"'Inter',sans-serif" }}>🗑 Delete</button>
                   </div>
                 </div>
               </div>
@@ -174,7 +174,7 @@ export function AgentFarmersPage() {
                     <span>{icon}</span><span>{val}</span>
                   </div>
                 ))}
-                <button onClick={()=>navigate("/agent/add-product")}
+                <button data-magnetic onClick={()=>navigate("/agent/add-product")}
                   style={{ marginTop:14, width:"100%", padding:"10px", background:"rgba(59,130,246,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.28)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", borderRadius:10, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>
                   + Add Product for This Farmer
                 </button>
@@ -242,11 +242,11 @@ export function AgentRequestsPage() {
                 ))}
               </div>
               <div style={{ display:"flex", gap:12 }}>
-                <button onClick={()=>respond(req._id,"accepted")} disabled={!!busy}
+                <button data-magnetic onClick={()=>respond(req._id,"accepted")} disabled={!!busy}
                   style={{ flex:1, padding:"12px", background:"rgba(16,185,129,0.25)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", color:"#fff", border:"none", borderRadius:10, cursor:busy?"not-allowed":"pointer", fontWeight:700, fontSize:14, fontFamily:"'Inter',sans-serif", opacity:busy?0.7:1 }}>
                   {busy==="accepted" ? "Accepting..." : "✓ Accept Partnership"}
                 </button>
-                <button onClick={()=>respond(req._id,"rejected")} disabled={!!busy}
+                <button data-magnetic onClick={()=>respond(req._id,"rejected")} disabled={!!busy}
                   style={{ flex:1, padding:"12px", background:"transparent", border:"1.5px solid #ef4444", color:"#ef4444", borderRadius:10, cursor:busy?"not-allowed":"pointer", fontWeight:700, fontSize:14, fontFamily:"'Inter',sans-serif" }}>
                   {busy==="rejected" ? "Rejecting..." : "✕ Reject"}
                 </button>
@@ -319,7 +319,7 @@ export function AgentEditProductPage() {
             <button data-magnetic onClick={handleSave} disabled={saving} style={{ flex:1, padding:14, background:"rgba(59,130,246,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.28)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", borderRadius:10, cursor:saving?"not-allowed":"pointer", fontWeight:700, fontSize:15, fontFamily:"'Inter',sans-serif", opacity:saving?0.7:1 }}>
               {saving ? "Saving..." : "💾 Save Changes"}
             </button>
-            <button onClick={()=>navigate("/agent/products")} style={{ flex:1, padding:14, background:"transparent", border:`1.5px solid ${tk.border}`, color:tk.textMid, borderRadius:10, cursor:"pointer", fontWeight:700, fontSize:15, fontFamily:"'Inter',sans-serif" }}>Cancel</button>
+            <button data-magnetic data-magnetic onClick={()=>navigate("/agent/products")} style={{ flex:1, padding:14, background:"transparent", border:`1.5px solid ${tk.border}`, color:tk.textMid, borderRadius:10, cursor:"pointer", fontWeight:700, fontSize:15, fontFamily:"'Inter',sans-serif" }}>Cancel</button>
           </div>
         </div>
       </div>

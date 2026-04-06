@@ -62,7 +62,7 @@ function AdminSidebar() {
           onMouseEnter={e=>e.currentTarget.style.color=A.green} onMouseLeave={e=>e.currentTarget.style.color=A.textLt}>
           ← Back to Site
         </NavLink>
-        <button onClick={()=>{clearAdminToken();window.location="/admin/login";}} style={{ display:"flex", alignItems:"center", gap:8, padding:"9px 14px", borderRadius:10, background:"rgba(239,68,68,0.1)", backdropFilter:"blur(8px)", border:"1px solid rgba(239,68,68,0.2)", color:"#fca5a5", cursor:"pointer", fontWeight:600, fontSize:13, fontFamily:"'Inter',sans-serif", width:"100%", textAlign:"left", transition:"all 0.18s" }}
+        <button data-magnetic onClick={()=>{clearAdminToken();window.location="/admin/login";}} style={{ display:"flex", alignItems:"center", gap:8, padding:"9px 14px", borderRadius:10, background:"rgba(239,68,68,0.1)", backdropFilter:"blur(8px)", border:"1px solid rgba(239,68,68,0.2)", color:"#fca5a5", cursor:"pointer", fontWeight:600, fontSize:13, fontFamily:"'Inter',sans-serif", width:"100%", textAlign:"left", transition:"all 0.18s" }}>
           onMouseEnter={e=>e.currentTarget.style.background="rgba(239,68,68,0.18)"} onMouseLeave={e=>e.currentTarget.style.background="rgba(239,68,68,0.1)"}>
           🚪 Logout
         </button>
@@ -200,7 +200,7 @@ export function AdminLoginPage() {
                 <div>📧 admin@rpsfields.in</div>
                 <div>🔑 admin123</div>
               </div>
-              <button onClick={()=>{ setEmail("admin@rpsfields.in"); setPassword("admin123"); setError(""); }}
+              <button data-magnetic onClick={()=>{ setEmail("admin@rpsfields.in"); setPassword("admin123"); setError(""); }}
                 style={{ padding:"7px 14px", background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.12), 0 8px 28px rgba(0,0,0,0.22), 0 3px 10px rgba(82,183,136,0.3)", borderRadius:20, cursor:"pointer", fontSize:12, fontWeight:700, fontFamily:"'Inter',sans-serif", transition:"all 0.2s" }}
                 onMouseEnter={e=>e.currentTarget.style.transform="translateY(-1px)"} onMouseLeave={e=>e.currentTarget.style.transform="none"}>
                 Fill →
@@ -273,7 +273,7 @@ export function AdminUsersPage() {
     <AdminLayout title="👥 User Management">
       <div style={{ display:"flex", gap:6, marginBottom:20, flexWrap:"wrap", padding:6, borderRadius:14, background:"rgba(82,183,136,0.06)", backdropFilter:"blur(8px)", border:"1px solid rgba(82,183,136,0.1)", width:"fit-content" }}>
         {["all","farmer","agent","customer"].map(r=>(
-          <button key={r} onClick={()=>setTab(r)} style={{ padding:"7px 16px", borderRadius:10, border:"none", background: tab===r?"rgba(82,183,136,0.28)":"transparent", color: tab===r?"#fff":A.textMid, cursor:"pointer", fontWeight:700, fontSize:13, fontFamily:"'Inter',sans-serif", boxShadow: tab===r?"0 3px 10px rgba(82,183,136,0.3)":"none", transition:"all 0.2s", textTransform:"capitalize" }}>
+          <button data-magnetic key={r} onClick={()=>setTab(r)} style={{ padding:"7px 16px", borderRadius:10, border:"none", background: tab===r?"rgba(82,183,136,0.28)":"transparent", color: tab===r?"#fff":A.textMid, cursor:"pointer", fontWeight:700, fontSize:13, fontFamily:"'Inter',sans-serif", boxShadow: tab===r?"0 3px 10px rgba(82,183,136,0.3)":"none", transition:"all 0.2s", textTransform:"capitalize" }}>
             {r==="all"?"All Users":r.charAt(0).toUpperCase()+r.slice(1)+"s"}
           </button>
         ))}
@@ -291,9 +291,9 @@ export function AdminUsersPage() {
               <span style={{ color:A.textMid, fontSize:13 }}>{u.city||u.location||"—"}</span>,
               <Badge label={u.status||"active"} color={u.status==="banned"?A.red:u.status==="suspended"?A.orange:A.green} />,
               <div style={{ display:"flex", gap:5 }}>
-                {u.role!=="admin"&&u.status!=="suspended"&&<button onClick={()=>setStatus(uid,"suspended")} disabled={acting[uid]} style={{ padding:"4px 10px", background:"rgba(249,115,22,0.12)", backdropFilter:"blur(8px)", border:"1px solid rgba(249,115,22,0.3)", color:A.orange, borderRadius:20, cursor:"pointer", fontSize:11, fontFamily:"'Inter',sans-serif", fontWeight:700, transition:"all 0.2s" }}>Suspend</button>}
-                {u.role!=="admin"&&u.status!=="banned"&&<button onClick={()=>setStatus(uid,"banned")} disabled={acting[uid]} style={{ padding:"4px 10px", background:"rgba(239,68,68,0.1)", backdropFilter:"blur(8px)", border:"1px solid rgba(239,68,68,0.3)", color:"#fca5a5", borderRadius:20, cursor:"pointer", fontSize:11, fontFamily:"'Inter',sans-serif", fontWeight:700, transition:"all 0.2s" }}>Ban</button>}
-                {u.status!=="active"&&<button onClick={()=>setStatus(uid,"active")} disabled={acting[uid]} style={{ padding:"4px 10px", background:"rgba(82,183,136,0.12)", backdropFilter:"blur(8px)", border:"1px solid rgba(82,183,136,0.3)", color:A.green, borderRadius:20, cursor:"pointer", fontSize:11, fontFamily:"'Inter',sans-serif", fontWeight:700, transition:"all 0.2s" }}>Restore</button>}
+                {u.role!="admin"&&u.status!="suspended"&&<button data-magnetic onClick={()=>setStatus(uid,"suspended")} disabled={acting[uid]} style={{ padding:"4px 10px", background:"rgba(249,115,22,0.12)", backdropFilter:"blur(8px)", border:"1px solid rgba(249,115,22,0.3)", color:A.orange, borderRadius:20, cursor:"pointer", fontSize:11, fontFamily:"'Inter',sans-serif", fontWeight:700, transition:"all 0.2s" }}>Suspend</button>}
+                {u.role!="admin"&&u.status!="banned"&&<button data-magnetic onClick={()=>setStatus(uid,"banned")} disabled={acting[uid]} style={{ padding:"4px 10px", background:"rgba(239,68,68,0.1)", backdropFilter:"blur(8px)", border:"1px solid rgba(239,68,68,0.3)", color:"#fca5a5", borderRadius:20, cursor:"pointer", fontSize:11, fontFamily:"'Inter',sans-serif", fontWeight:700, transition:"all 0.2s" }}>Ban</button>}
+                {u.status!="active"&&<button data-magnetic onClick={()=>setStatus(uid,"active")} disabled={acting[uid]} style={{ padding:"4px 10px", background:"rgba(82,183,136,0.12)", backdropFilter:"blur(8px)", border:"1px solid rgba(82,183,136,0.3)", color:A.green, borderRadius:20, cursor:"pointer", fontSize:11, fontFamily:"'Inter',sans-serif", fontWeight:700, transition:"all 0.2s" }}>Restore</button>}
               </div>,
             ];
           })}
@@ -336,9 +336,9 @@ export function AdminFarmersPage() {
               <span style={{ color:A.textMid }}>{f.totalRatings}</span>,
               <Badge label={f.status||"active"} color={f.status==="banned"?A.red:f.status==="suspended"?A.orange:A.green} />,
               <div style={{ display:"flex", gap:5 }}>
-                {f.status!=="suspended"&&<button onClick={()=>setStatus(fid,"suspended")} disabled={acting[fid]} style={{ padding:"4px 10px", background:"rgba(249,115,22,0.12)", backdropFilter:"blur(8px)", border:"1px solid rgba(249,115,22,0.3)", color:A.orange, borderRadius:20, cursor:"pointer", fontSize:11, fontFamily:"'Inter',sans-serif", fontWeight:700 }}>Suspend</button>}
-                {f.status!=="banned"&&<button onClick={()=>setStatus(fid,"banned")} disabled={acting[fid]} style={{ padding:"4px 10px", background:"rgba(239,68,68,0.1)", backdropFilter:"blur(8px)", border:"1px solid rgba(239,68,68,0.3)", color:"#fca5a5", borderRadius:20, cursor:"pointer", fontSize:11, fontFamily:"'Inter',sans-serif", fontWeight:700 }}>Ban</button>}
-                {f.status!=="active"&&<button onClick={()=>setStatus(fid,"active")} disabled={acting[fid]} style={{ padding:"4px 10px", background:"rgba(82,183,136,0.12)", backdropFilter:"blur(8px)", border:"1px solid rgba(82,183,136,0.3)", color:A.green, borderRadius:20, cursor:"pointer", fontSize:11, fontFamily:"'Inter',sans-serif", fontWeight:700 }}>Restore</button>}
+                {f.status!="suspended"&&<button data-magnetic onClick={()=>setStatus(fid,"suspended")} disabled={acting[fid]} style={{ padding:"4px 10px", background:"rgba(249,115,22,0.12)", backdropFilter:"blur(8px)", border:"1px solid rgba(249,115,22,0.3)", color:A.orange, borderRadius:20, cursor:"pointer", fontSize:11, fontFamily:"'Inter',sans-serif", fontWeight:700 }}>Suspend</button>}
+                {f.status!="banned"&&<button data-magnetic onClick={()=>setStatus(fid,"banned")} disabled={acting[fid]} style={{ padding:"4px 10px", background:"rgba(239,68,68,0.1)", backdropFilter:"blur(8px)", border:"1px solid rgba(239,68,68,0.3)", color:"#fca5a5", borderRadius:20, cursor:"pointer", fontSize:11, fontFamily:"'Inter',sans-serif", fontWeight:700 }}>Ban</button>}
+                {f.status!="active"&&<button data-magnetic onClick={()=>setStatus(fid,"active")} disabled={acting[fid]} style={{ padding:"4px 10px", background:"rgba(82,183,136,0.12)", backdropFilter:"blur(8px)", border:"1px solid rgba(82,183,136,0.3)", color:A.green, borderRadius:20, cursor:"pointer", fontSize:11, fontFamily:"'Inter',sans-serif", fontWeight:700 }}>Restore</button>}
               </div>,
             ];
           })}
@@ -377,9 +377,9 @@ export function AdminAgentsPage() {
               <span style={{ color:A.textMid, fontSize:13 }}>{a.city||a.location||"—"}</span>,
               <Badge label={a.status||"active"} color={a.status==="banned"?A.red:a.status==="suspended"?A.orange:A.green} />,
               <div style={{ display:"flex", gap:5 }}>
-                {a.status!=="suspended"&&<button onClick={()=>setStatus(aid,"suspended")} disabled={acting[aid]} style={{ padding:"4px 10px", background:"rgba(249,115,22,0.12)", backdropFilter:"blur(8px)", border:"1px solid rgba(249,115,22,0.3)", color:A.orange, borderRadius:20, cursor:"pointer", fontSize:11, fontFamily:"'Inter',sans-serif", fontWeight:700 }}>Suspend</button>}
-                {a.status!=="banned"&&<button onClick={()=>setStatus(aid,"banned")} disabled={acting[aid]} style={{ padding:"4px 10px", background:"rgba(239,68,68,0.1)", backdropFilter:"blur(8px)", border:"1px solid rgba(239,68,68,0.3)", color:"#fca5a5", borderRadius:20, cursor:"pointer", fontSize:11, fontFamily:"'Inter',sans-serif", fontWeight:700 }}>Ban</button>}
-                {a.status!=="active"&&<button onClick={()=>setStatus(aid,"active")} disabled={acting[aid]} style={{ padding:"4px 10px", background:"rgba(82,183,136,0.12)", backdropFilter:"blur(8px)", border:"1px solid rgba(82,183,136,0.3)", color:A.green, borderRadius:20, cursor:"pointer", fontSize:11, fontFamily:"'Inter',sans-serif", fontWeight:700 }}>Restore</button>}
+                {a.status!="suspended"&&<button data-magnetic onClick={()=>setStatus(aid,"suspended")} disabled={acting[aid]} style={{ padding:"4px 10px", background:"rgba(249,115,22,0.12)", backdropFilter:"blur(8px)", border:"1px solid rgba(249,115,22,0.3)", color:A.orange, borderRadius:20, cursor:"pointer", fontSize:11, fontFamily:"'Inter',sans-serif", fontWeight:700 }}>Suspend</button>}
+                {a.status!="banned"&&<button data-magnetic onClick={()=>setStatus(aid,"banned")} disabled={acting[aid]} style={{ padding:"4px 10px", background:"rgba(239,68,68,0.1)", backdropFilter:"blur(8px)", border:"1px solid rgba(239,68,68,0.3)", color:"#fca5a5", borderRadius:20, cursor:"pointer", fontSize:11, fontFamily:"'Inter',sans-serif", fontWeight:700 }}>Ban</button>}
+                {a.status!="active"&&<button data-magnetic onClick={()=>setStatus(aid,"active")} disabled={acting[aid]} style={{ padding:"4px 10px", background:"rgba(82,183,136,0.12)", backdropFilter:"blur(8px)", border:"1px solid rgba(82,183,136,0.3)", color:A.green, borderRadius:20, cursor:"pointer", fontSize:11, fontFamily:"'Inter',sans-serif", fontWeight:700 }}>Restore</button>}
               </div>,
             ];
           })}
@@ -416,7 +416,7 @@ export function AdminProductsPage() {
             <span style={{ color:A.green, fontWeight:700, fontFamily:"'Inter',sans-serif" }}>₹{p.pricePerKg||p.price}</span>,
             <span style={{ color:(p.quantity||p.qty)<20?A.gold:A.textMid, fontFamily:"'Inter',sans-serif" }}>{p.quantity||p.qty} kg</span>,
             <span style={{ color:A.gold, fontFamily:"'Inter',sans-serif" }}>{p.avgRating>0?`⭐ ${p.avgRating}`:"—"}</span>,
-            <button onClick={()=>remove(p._id||p.id)} style={{ padding:"4px 12px", background:"rgba(239,68,68,0.1)", backdropFilter:"blur(8px)", border:"1px solid rgba(239,68,68,0.3)", color:"#fca5a5", borderRadius:20, cursor:"pointer", fontSize:12, fontFamily:"'Inter',sans-serif", fontWeight:700, transition:"all 0.2s" }}>Remove</button>,
+            <button data-magnetic onClick={()=>remove(p._id||p.id)} style={{ padding:"4px 12px", background:"rgba(239,68,68,0.1)", backdropFilter:"blur(8px)", border:"1px solid rgba(239,68,68,0.3)", color:"#fca5a5", borderRadius:20, cursor:"pointer", fontSize:12, fontFamily:"'Inter',sans-serif", fontWeight:700, transition:"all 0.2s" }}>Remove</button>,
           ])}
         />
       )}

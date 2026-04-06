@@ -33,7 +33,7 @@ export default function AddressPage() {
 
       <div style={{ maxWidth:680, margin:"0 auto", padding:"36px 20px" }}>
         <div style={{ display:"flex", justifyContent:"flex-end", marginBottom:20 }}>
-          <button onClick={() => setShowForm(s=>!s)} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"10px 20px", borderRadius:10, cursor:"pointer", fontWeight:700, fontSize:13, fontFamily:"'Inter',sans-serif" }}>
+          <button data-magnetic onClick={() => setShowForm(s=>!s)} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"10px 20px", borderRadius:10, cursor:"pointer", fontWeight:700, fontSize:13, fontFamily:"'Inter',sans-serif" }}>
             + Add New Address
           </button>
         </div>
@@ -57,7 +57,7 @@ export default function AddressPage() {
             ))}
             <div style={{ display:"flex", gap:10 }}>
               <button data-magnetic onClick={addAddress} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"10px 22px", borderRadius:10, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>Save Address</button>
-              <button onClick={() => setShowForm(false)} style={{ background:"transparent", border:`1px solid ${tk.border}`, color:tk.textMid, padding:"10px 18px", borderRadius:10, cursor:"pointer", fontFamily:"'Inter',sans-serif" }}>Cancel</button>
+              <button data-magnetic onClick={() => setShowForm(false)} style={{ background:"transparent", border:`1px solid ${tk.border}`, color:tk.textMid, padding:"10px 18px", borderRadius:10, cursor:"pointer", fontFamily:"'Inter',sans-serif" }}>Cancel</button>
             </div>
           </div>
         )}
@@ -76,14 +76,14 @@ export default function AddressPage() {
                 </div>
               </div>
               <div style={{ display:"flex", gap:8 }}>
-                <button style={{ background:"transparent", border:`1px solid ${tk.border}`, color:tk.textMid, padding:"6px 12px", borderRadius:8, cursor:"pointer", fontSize:12, fontFamily:"'Inter',sans-serif" }}>Edit</button>
-                {!addr.default && <button onClick={() => setAddresses(a => a.filter(x=>x.id!==addr.id))} style={{ background:"transparent", border:"1px solid #e74c3c", color:"#e74c3c", padding:"6px 12px", borderRadius:8, cursor:"pointer", fontSize:12, fontFamily:"'Inter',sans-serif" }}>Delete</button>}
+                <button data-magnetic style={{ background:"transparent", border:`1px solid ${tk.border}`, color:tk.textMid, padding:"6px 12px", borderRadius:8, cursor:"pointer", fontSize:12, fontFamily:"'Inter',sans-serif" }}>Edit</button>
+                {!addr.default && <button data-magnetic onClick={() => setAddresses(a => a.filter(x=>x.id!==addr.id))} style={{ background:"transparent", border:"1px solid #e74c3c", color:"#e74c3c", padding:"6px 12px", borderRadius:8, cursor:"pointer", fontSize:12, fontFamily:"'Inter',sans-serif" }}>Delete</button>}
               </div>
             </div>
           </div>
         ))}
 
-        <button onClick={() => navigate("/profile")} style={{ marginTop:8, background:"transparent", border:`1.5px solid ${tk.border}`, color:tk.textMid, padding:"10px 22px", borderRadius:10, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>
+        <button data-magnetic onClick={() => navigate("/profile")} style={{ marginTop:8, background:"transparent", border:`1.5px solid ${tk.border}`, color:tk.textMid, padding:"10px 22px", borderRadius:10, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>
           ← Back to Profile
         </button>
       </div>

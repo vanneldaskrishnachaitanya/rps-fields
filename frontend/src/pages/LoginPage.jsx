@@ -127,7 +127,7 @@ export default function LoginPage() {
             <div style={{ fontWeight:800, fontSize:11, color:tk.textMid, textTransform:"uppercase", letterSpacing:"0.6px", marginBottom:10 }}>🧪 Demo Accounts</div>
             <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:6 }}>
               {DEMOS.map(({ label, email:e, password:p }) => (
-                <button key={e} onClick={() => { setEmail(e); setPassword(p); setErrors({}); setApiError(""); }} style={{
+                <button data-magnetic key={e} onClick={() => { setEmail(e); setPassword(p); setErrors({}); setApiError(""); }} style={{
                   fontSize:11, padding:"7px 10px",
                   background: dark?"rgba(82,183,136,0.1)":"rgba(82,183,136,0.08)",
                   border:`1px solid ${tk.border}`, borderRadius:8,

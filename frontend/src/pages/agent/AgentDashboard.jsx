@@ -100,7 +100,7 @@ export default function AgentDashboard() {
               <div style={{ ...gc, borderRadius:20, padding:36, textAlign:"center" }}>
                 <div style={{ fontSize:44, marginBottom:10, animation:"float 3s ease-in-out infinite" }}>🛒</div>
                 <p style={{ color:tk.textLt, marginBottom:16 }}>No orders yet. Add products to start selling.</p>
-                <button onClick={()=>navigate("/agent/add-product")} style={{ background:"rgba(59,130,246,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.28)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"11px 24px", borderRadius:50, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>
+                <button data-magnetic onClick={()=>navigate("/agent/add-product")} style={{ background:"rgba(59,130,246,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.28)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"11px 24px", borderRadius:50, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>
                   Add First Product →
                 </button>
               </div>
@@ -134,7 +134,7 @@ export default function AgentDashboard() {
                 <p style={{ color:tk.textLt, fontSize:14 }}>No pending requests</p>
               </div>
             ) : pendingReqs.slice(0,4).map(req=><RequestCard key={req._id} req={req} authFetch={authFetch} tk={tk} dark={dark} onDone={()=>window.location.reload()} />)}
-            {pendingReqs.length>4 && <button onClick={()=>navigate("/agent/requests")} style={{ width:"100%", marginTop:8, padding:10, background:"rgba(59,130,246,0.1)", backdropFilter:"blur(8px)", border:"1px solid rgba(59,130,246,0.2)", color:"#60a5fa", borderRadius:14, cursor:"pointer", fontFamily:"'Inter',sans-serif", fontWeight:600 }}>See all {pendingReqs.length} requests →</button>}
+            {pendingReqs.length>4 && <button data-magnetic onClick={()=>navigate("/agent/requests")} style={{ width:"100%", marginTop:8, padding:10, background:"rgba(59,130,246,0.1)", backdropFilter:"blur(8px)", border:"1px solid rgba(59,130,246,0.2)", color:"#60a5fa", borderRadius:14, cursor:"pointer", fontFamily:"'Inter',sans-serif", fontWeight:600 }}>See all {pendingReqs.length} requests →</button>}
           </div>
         </div>
       </div>
@@ -155,10 +155,10 @@ function RequestCard({ req, authFetch, tk, dark, onDone }) {
       <div style={{ fontWeight:700, color:tk.text, fontSize:14, marginBottom:3 }}>{farmer.fullName||farmer.name}</div>
       <div style={{ fontSize:12, color:tk.textMid, marginBottom:12 }}>📍 {farmer.location||farmer.city} · 📞 {farmer.mobile||farmer.phone}</div>
       <div style={{ display:"flex", gap:8 }}>
-        <button onClick={()=>respond("accepted")} disabled={!!loading} style={{ flex:1, padding:"8px", background:"rgba(5,150,105,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.12), 0 8px 28px rgba(0,0,0,0.22), 0 3px 10px rgba(5,150,105,0.3)", color:"#fff", border:"none", borderRadius:50, cursor:"pointer", fontWeight:700, fontSize:13, fontFamily:"'Inter',sans-serif", opacity:loading?0.7:1, transition:"all 0.2s" }}>
+        <button data-magnetic onClick={()=>respond("accepted")} disabled={!!loading} style={{ flex:1, padding:"8px", background:"rgba(5,150,105,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.12), 0 8px 28px rgba(0,0,0,0.22), 0 3px 10px rgba(5,150,105,0.3)", color:"#fff", border:"none", borderRadius:50, cursor:"pointer", fontWeight:700, fontSize:13, fontFamily:"'Inter',sans-serif", opacity:loading?0.7:1, transition:"all 0.2s" }}>
           {loading==="accepted"?"...":"✓ Accept"}
         </button>
-        <button onClick={()=>respond("rejected")} disabled={!!loading} style={{ flex:1, padding:"8px", background:"rgba(220,38,38,0.12)", backdropFilter:"blur(8px)", border:"1px solid rgba(220,38,38,0.3)", color:"#ef4444", borderRadius:50, cursor:"pointer", fontWeight:700, fontSize:13, fontFamily:"'Inter',sans-serif", transition:"all 0.2s" }}>
+        <button data-magnetic onClick={()=>respond("rejected")} disabled={!!loading} style={{ flex:1, padding:"8px", background:"rgba(220,38,38,0.12)", backdropFilter:"blur(8px)", border:"1px solid rgba(220,38,38,0.3)", color:"#ef4444", borderRadius:50, cursor:"pointer", fontWeight:700, fontSize:13, fontFamily:"'Inter',sans-serif", transition:"all 0.2s" }}>
           {loading==="rejected"?"...":"✕ Reject"}
         </button>
       </div>

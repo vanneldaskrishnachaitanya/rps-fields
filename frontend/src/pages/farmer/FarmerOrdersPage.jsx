@@ -123,7 +123,7 @@ export function FarmerProfilePage() {
             </div>
           ))}
         </div>
-        <button onClick={()=>{logout();navigate("/");}} style={{ width:"100%", padding:14, background:"rgba(220,38,38,0.1)", backdropFilter:"blur(8px)", border:"1.5px solid rgba(220,38,38,0.3)", color:"#ef4444", borderRadius:14, cursor:"pointer", fontWeight:700, fontSize:14, fontFamily:"'Inter',sans-serif", transition:"all 0.2s" }}
+        <button data-magnetic onClick={()=>{logout();navigate("/");}} style={{ width:"100%", padding:14, background:"rgba(220,38,38,0.1)", backdropFilter:"blur(8px)", border:"1.5px solid rgba(220,38,38,0.3)", color:"#ef4444", borderRadius:14, cursor:"pointer", fontWeight:700, fontSize:14, fontFamily:"'Inter',sans-serif", transition:"all 0.2s" }}
           onMouseEnter={e=>e.currentTarget.style.background="rgba(220,38,38,0.2)"}
           onMouseLeave={e=>e.currentTarget.style.background="rgba(220,38,38,0.1)"}>
           🚪 Logout

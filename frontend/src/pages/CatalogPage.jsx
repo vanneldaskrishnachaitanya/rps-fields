@@ -127,7 +127,7 @@ export default function CatalogPage() {
               {LOCATIONS.filter(l => l === "All Locations" || l.toLowerCase().includes(locSearch.toLowerCase())).map(l => {
                 const isActive = loc === l;
                 return (
-                  <button key={l} onClick={() => setLoc(l)} style={{
+                  <button data-magnetic key={l} onClick={() => setLoc(l)} style={{
                     padding: "7px 16px", borderRadius: 20, cursor: "pointer",
                     fontWeight: 600, fontSize: 13, fontFamily: "'Inter',sans-serif",
                     whiteSpace: "nowrap",
@@ -166,7 +166,7 @@ export default function CatalogPage() {
             {CATEGORIES.map(c => {
               const isActive = cat === c;
               return (
-                <button key={c} onClick={() => setCat(c)} style={{
+                <button data-magnetic key={c} onClick={() => setCat(c)} style={{
                   padding: "7px 14px", borderRadius: 20, cursor: "pointer",
                   fontWeight: 600, fontSize: 13, fontFamily: "'Inter',sans-serif",
                   display: "flex", alignItems: "center", gap: 5,
@@ -241,7 +241,7 @@ export default function CatalogPage() {
             </div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
               {Object.entries(locationCounts).sort((a,b) => b[1]-a[1]).slice(0, 12).map(([location, count]) => (
-                <button key={location} onClick={() => setLoc(location)} style={{ display: "inline-flex", alignItems: "center", gap: 5, padding: "4px 12px", background: "transparent", border: `1px solid ${tk.border}`, borderRadius: 20, fontSize: 12, color: tk.textMid, cursor: "pointer", fontFamily: "'Inter',sans-serif", transition: "all 0.2s" }}
+                <button data-magnetic key={location} onClick={() => setLoc(location)} style={{ display: "inline-flex", alignItems: "center", gap: 5, padding: "4px 12px", background: "transparent", border: `1px solid ${tk.border}`, borderRadius: 20, fontSize: 12, color: tk.textMid, cursor: "pointer", fontFamily: "'Inter',sans-serif", transition: "all 0.2s" }}
                   onMouseEnter={e => { e.currentTarget.style.borderColor = "#52b788"; e.currentTarget.style.color = tk.green4; }}
                   onMouseLeave={e => { e.currentTarget.style.borderColor = tk.border; e.currentTarget.style.color = tk.textMid; }}>
                   📍 {location} <span style={{ background: dark ? "rgba(82,183,136,0.15)" : "rgba(82,183,136,0.1)", borderRadius: 10, padding: "1px 6px", fontSize: 10, fontWeight: 700, color: tk.green4 }}>{count}</span>

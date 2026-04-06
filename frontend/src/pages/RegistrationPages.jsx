@@ -231,7 +231,7 @@ function RegistrationForm({ type }) {
           </div>
         )}
 
-        <button onClick={handleSubmit} disabled={loading}
+        <button data-magnetic onClick={handleSubmit} disabled={loading}
           style={{
             background: loading ? tk.border : `linear-gradient(135deg,${cfg.color},${cfg.color}bb)`,
             color: "#fff", border: "none", width: "100%", padding: 14, borderRadius: 12,

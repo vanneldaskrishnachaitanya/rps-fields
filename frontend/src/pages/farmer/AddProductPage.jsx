@@ -106,7 +106,7 @@ export default function AddProductPage() {
               <div style={{ fontSize:11, color:tk.textMid, marginBottom:6 }}>Quick pick:</div>
               <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
                 {QUICK_IMGS.map(([lbl,url]) => (
-                  <button key={lbl} onClick={() => setForm(f=>({...f,img:url}))} style={{ padding:"4px 10px", borderRadius:6, border:`1px solid ${tk.border}`, background:form.img===url?tk.green6:tk.bgMuted, color:form.img===url?"#fff":tk.textMid, cursor:"pointer", fontSize:12, fontFamily:"'Inter',sans-serif" }}>{lbl}</button>
+                  <button data-magnetic key={lbl} onClick={() => setForm(f=>({...f,img:url}))} style={{ padding:"4px 10px", borderRadius:6, border:`1px solid ${tk.border}`, background:form.img===url?tk.green6:tk.bgMuted, color:form.img===url?"#fff":tk.textMid, cursor:"pointer", fontSize:12, fontFamily:"'Inter',sans-serif" }}>{lbl}</button>
                 ))}
               </div>
             </div>

@@ -66,7 +66,7 @@ export default function CartPage() {
         <button data-magnetic onClick={()=>navigate("/catalog")} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"13px 28px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif" }}>
           Continue Shopping
         </button>
-        <button onClick={()=>navigate("/orders")} style={{ background:"transparent", border:`2px solid ${tk.green6}`, color:tk.green6, padding:"13px 28px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif" }}>
+        <button data-magnetic onClick={()=>navigate("/orders")} style={{ background:"transparent", border:`2px solid ${tk.green6}`, color:tk.green6, padding:"13px 28px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif" }}>
           View Orders
         </button>
       </div>
@@ -78,7 +78,7 @@ export default function CartPage() {
       <div style={{ fontSize:80, marginBottom:16, animation:"float 3s ease-in-out infinite" }}>🛒</div>
       <h2 style={{ fontSize:28, color:tk.text, marginBottom:8, fontFamily:"'Playfair Display',Georgia,serif" }}>Your cart is empty</h2>
       <p style={{ color:tk.textLt, marginBottom:28, fontSize:15 }}>Browse our catalog and add fresh produce.</p>
-      <button onClick={()=>navigate("/catalog")} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"14px 32px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif" }}>
+      <button data-magnetic onClick={()=>navigate("/catalog")} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"14px 32px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif" }}>
         Browse Catalog →
       </button>
     </div>
@@ -115,15 +115,15 @@ export default function CartPage() {
                   <div style={{ fontSize:16, fontWeight:900, color:tk.green5 }}>₹{item.price}/kg</div>
                 </div>
                 <div style={{ display:"flex", alignItems:"center", gap:0, border:`1.5px solid ${tk.border}`, borderRadius:12, overflow:"hidden" }}>
-                  <button onClick={()=>updateQty(item.id,-1)} style={{ width:32, height:32, background:tk.bgMuted, border:"none", cursor:"pointer", fontSize:18, color:tk.text, fontFamily:"'Inter',sans-serif", transition:"background 0.2s" }}
+                  <button data-magnetic onClick={()=>updateQty(item.id,-1)} style={{ width:32, height:32, background:tk.bgMuted, border:"none", cursor:"pointer", fontSize:18, color:tk.text, fontFamily:"'Inter',sans-serif", transition:"background 0.2s" }}
                     onMouseEnter={e=>e.target.style.background=tk.border} onMouseLeave={e=>e.target.style.background=tk.bgMuted}>−</button>
                   <span style={{ width:36, textAlign:"center", fontWeight:800, fontSize:14, color:tk.text }}>{item.qty}</span>
-                  <button onClick={()=>updateQty(item.id,1)} style={{ width:32, height:32, background:tk.bgMuted, border:"none", cursor:"pointer", fontSize:18, color:tk.text, fontFamily:"'Inter',sans-serif", transition:"background 0.2s" }}
+                  <button data-magnetic onClick={()=>updateQty(item.id,1)} style={{ width:32, height:32, background:tk.bgMuted, border:"none", cursor:"pointer", fontSize:18, color:tk.text, fontFamily:"'Inter',sans-serif", transition:"background 0.2s" }}
                     onMouseEnter={e=>e.target.style.background=tk.border} onMouseLeave={e=>e.target.style.background=tk.bgMuted}>+</button>
                 </div>
                 <div style={{ textAlign:"right", minWidth:88 }}>
                   <div style={{ fontWeight:900, fontSize:18, color:tk.text, marginBottom:8 }}>₹{item.price*item.qty}</div>
-                  <button onClick={()=>removeFromCart(item.id)} style={{ background:"transparent", border:"1.5px solid rgba(239,68,68,0.4)", color:"#ef4444", padding:"5px 12px", borderRadius:8, cursor:"pointer", fontSize:12, fontWeight:700, fontFamily:"'Inter',sans-serif", transition:"all 0.2s" }}
+                  <button data-magnetic onClick={()=>removeFromCart(item.id)} style={{ background:"transparent", border:"1.5px solid rgba(239,68,68,0.4)", color:"#ef4444", padding:"5px 12px", borderRadius:8, cursor:"pointer", fontSize:12, fontWeight:700, fontFamily:"'Inter',sans-serif", transition:"all 0.2s" }}>
                     onMouseEnter={e=>{e.target.style.background="rgba(239,68,68,0.1)";}} onMouseLeave={e=>{e.target.style.background="transparent";}}>Remove</button>
                 </div>
               </div>
@@ -150,13 +150,13 @@ export default function CartPage() {
               {!showCheckout ? (
                 <>
                   {!user && <div style={{ background: dark?"rgba(212,160,23,0.1)":"#fffbeb", border:"1px solid rgba(212,160,23,0.3)", borderRadius:10, padding:"10px 14px", fontSize:12, color:"#92400e", marginBottom:14 }}>⚠ Please login to checkout</div>}
-                  <button onClick={()=>{ if(!user) navigate("/login"); else setShowCheckout(true); }}
+                  <button data-magnetic onClick={()=>{ if(!user) navigate("/login"); else setShowCheckout(true); }}
                     style={{ background:"rgba(200,150,12,0.32)", color:"#1b2e10", border:"none", width:"100%", padding:14, borderRadius:14, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", boxShadow:"0 6px 20px rgba(212,160,23,0.35)", transition:"all 0.2s", marginBottom:10 }}
                     onMouseEnter={e=>{e.target.style.transform="translateY(-1px)";e.target.style.boxShadow="0 10px 28px rgba(212,160,23,0.5)";}}
                     onMouseLeave={e=>{e.target.style.transform="none";e.target.style.boxShadow="0 6px 20px rgba(212,160,23,0.35)";}}>
                     {user ? "Proceed to Checkout →" : "Login to Checkout →"}
                   </button>
-                  <button onClick={()=>navigate("/catalog")} style={{ background:"transparent", border:`2px solid ${tk.border}`, color:tk.textMid, width:"100%", padding:12, borderRadius:14, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif", transition:"all 0.2s", boxSizing:"border-box" }}>
+                  <button data-magnetic onClick={()=>navigate("/catalog")} style={{ background:"transparent", border:`2px solid ${tk.border}`, color:tk.textMid, width:"100%", padding:12, borderRadius:14, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif", transition:"all 0.2s", boxSizing:"border-box" }}>
                     Continue Shopping
                   </button>
                 </>
@@ -171,11 +171,11 @@ export default function CartPage() {
                       {errs[k] && <div style={{ color:"#ef4444", fontSize:11, marginTop:3 }}>⚠ {errs[k]}</div>}
                     </div>
                   ))}
-                  <button onClick={handleCheckout} disabled={loading}
+                  <button data-magnetic onClick={handleCheckout} disabled={loading}
                     style={{ background:"rgba(200,150,12,0.32)", color:"#1b2e10", border:"none", width:"100%", padding:14, borderRadius:14, cursor:loading?"not-allowed":"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", marginTop:8, opacity:loading?0.75:1, transition:"all 0.2s" }}>
                     {loading ? "Placing Order..." : `✓ Place Order · ₹${total}`}
                   </button>
-                  <button onClick={()=>setShowCheckout(false)} style={{ background:"transparent", border:`1px solid ${tk.border}`, color:tk.textMid, width:"100%", padding:10, borderRadius:10, cursor:"pointer", fontSize:13, fontFamily:"'Inter',sans-serif", marginTop:8, boxSizing:"border-box" }}>
+                  <button data-magnetic onClick={()=>setShowCheckout(false)} style={{ background:"transparent", border:`1px solid ${tk.border}`, color:tk.textMid, width:"100%", padding:10, borderRadius:10, cursor:"pointer", fontSize:13, fontFamily:"'Inter',sans-serif", marginTop:8, boxSizing:"border-box" }}>
                     ← Back
                   </button>
                 </div>

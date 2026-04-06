@@ -151,7 +151,7 @@ export default function Header() {
             )}
 
             {(!user||user.role==="customer") && (
-              <button onClick={()=>navigate("/cart")} style={{
+              <button data-magnetic onClick={()=>navigate("/cart")} style={{
                 background:"rgba(200,150,12,0.32)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)",
                 border:"none", color:"#fff", fontWeight:700, fontFamily:"'Inter',sans-serif",
                 padding:"7px 14px", borderRadius:20, cursor:"pointer", fontSize:13,
@@ -179,12 +179,12 @@ export default function Header() {
           {/* Mobile */}
           <div className="rps-hamburger" ref={menuRef} style={{ alignItems:"center", gap:7, position:"relative" }}>
             {(!user||user.role==="customer") && (
-              <button onClick={()=>goTo("/cart")} style={{ background:"rgba(200,150,12,0.32)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", border:"none", color:"#fff", fontWeight:700, padding:"6px 10px", borderRadius:10, cursor:"pointer", fontSize:13, fontFamily:"'Inter',sans-serif", display:"flex", alignItems:"center", gap:3 }}>
+              <button data-magnetic onClick={()=>goTo("/cart")} style={{ background:"rgba(200,150,12,0.32)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", border:"none", color:"#fff", fontWeight:700, padding:"6px 10px", borderRadius:10, cursor:"pointer", fontSize:13, fontFamily:"'Inter',sans-serif", display:"flex", alignItems:"center", gap:3 }}>
                 🛒{itemCount>0&&<span style={{background:"rgba(0,0,0,0.3)",borderRadius:"50%",width:15,height:15,display:"inline-flex",alignItems:"center",justifyContent:"center",fontSize:9,fontWeight:800}}>{itemCount}</span>}
               </button>
             )}
             <button data-magnetic onClick={toggle} style={{ background:"rgba(255,255,255,0.06)", border:"1px solid rgba(255,255,255,0.12)", color:"#fff", width:34, height:34, borderRadius:"50%", cursor:"pointer", fontSize:14, display:"flex", alignItems:"center", justifyContent:"center" }}>{dark?"☀️":"🌙"}</button>
-            <button onClick={()=>setMenuOpen(o=>!o)} style={{ background:"rgba(255,255,255,0.06)", border:"1px solid rgba(255,255,255,0.12)", width:38, height:38, borderRadius:9, cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:4, padding:0 }}>
+            <button data-magnetic onClick={()=>setMenuOpen(o=>!o)} style={{ background:"rgba(255,255,255,0.06)", border:"1px solid rgba(255,255,255,0.12)", width:38, height:38, borderRadius:9, cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:4, padding:0 }}>
               {[0,1,2].map(i=><span key={i} style={{ width:16, height:2, background:"#fff", borderRadius:2, display:"block", transition:"all 0.25s", transform: menuOpen?(i===0?"rotate(45deg) translate(4px,4px)":i===2?"rotate(-45deg) translate(4px,-4px)":"none"):"none", opacity:menuOpen&&i===1?0:1 }} />)}
             </button>
 
@@ -209,14 +209,14 @@ export default function Header() {
                   </div>
                 )}
                 {[["🏠","Home","/"],["🛒","Catalog","/catalog"],["🌤","Weather","/weather"]].map(([e,l,to])=>(
-                  <button key={to} onClick={()=>goTo(to)} className="mlink" style={ml()}>{e} {l}</button>
+                  <button data-magnetic key={to} onClick={()=>goTo(to)} className="mlink" style={ml()}>{e} {l}</button>
                 ))}
-                {user?.role==="farmer"&&<><button onClick={()=>goTo("/farmer/dashboard")}   className="mlink" style={ml("#fcd34d")}>🌾 My Farm</button><button onClick={()=>goTo("/farmer/orders")} className="mlink" style={ml()}>📦 Orders</button><button onClick={()=>goTo("/farmer/find-agents")} className="mlink" style={ml()}>🤝 Find Agents</button><button onClick={()=>goTo("/farmer/revenue")} className="mlink" style={ml()}>💰 Revenue</button></>}
-                {user?.role==="agent"&&<><button onClick={()=>goTo("/agent/dashboard")} className="mlink" style={ml("#93c5fd")}>🏢 Dashboard</button><button onClick={()=>goTo("/agent/products")} className="mlink" style={ml()}>📦 Products</button><button onClick={()=>goTo("/agent/orders")} className="mlink" style={ml()}>🛒 Orders</button><button onClick={()=>goTo("/agent/requests")} className="mlink" style={ml()}>📬 Requests</button></>}
-                {user?.role==="customer"&&<><button onClick={()=>goTo("/customer/dashboard")} className="mlink" style={ml()}>📊 Dashboard</button><button onClick={()=>goTo("/orders")} className="mlink" style={ml()}>📦 My Orders</button><button onClick={()=>goTo("/profile")} className="mlink" style={ml()}>👤 Profile</button></>}
-                {user?.role==="admin"&&<button onClick={()=>goTo("/admin/dashboard")} className="mlink" style={ml("#fca5a5")}>🛡 Admin Panel</button>}
-                {!user&&<><button onClick={()=>goTo("/login")} className="mlink" style={ml()}>🔑 Login</button><button onClick={()=>goTo("/register")} className="mlink" style={ml("#fbbf24")}>📝 Register</button></>}
-                {user&&<button onClick={mobileLogout} className="mlink" style={{...ml("#fca5a5"),borderBottom:"none"}}>🚪 Logout</button>}
+                {user?.role==="farmer"&&<><button data-magnetic onClick={()=>goTo("/farmer/dashboard")}   className="mlink" style={ml("#fcd34d")}>🌾 My Farm</button><button data-magnetic onClick={()=>goTo("/farmer/orders")} className="mlink" style={ml()}>📦 Orders</button><button data-magnetic onClick={()=>goTo("/farmer/find-agents")} className="mlink" style={ml()}>🤝 Find Agents</button><button data-magnetic onClick={()=>goTo("/farmer/revenue")} className="mlink" style={ml()}>💰 Revenue</button></>}
+                {user?.role==="agent"&&<><button data-magnetic onClick={()=>goTo("/agent/dashboard")} className="mlink" style={ml("#93c5fd")}>🏢 Dashboard</button><button data-magnetic onClick={()=>goTo("/agent/products")} className="mlink" style={ml()}>📦 Products</button><button data-magnetic onClick={()=>goTo("/agent/orders")} className="mlink" style={ml()}>🛒 Orders</button><button data-magnetic onClick={()=>goTo("/agent/requests")} className="mlink" style={ml()}>📬 Requests</button></>}
+                {user?.role==="customer"&&<><button data-magnetic onClick={()=>goTo("/customer/dashboard")} className="mlink" style={ml()}>📊 Dashboard</button><button data-magnetic onClick={()=>goTo("/orders")} className="mlink" style={ml()}>📦 My Orders</button><button data-magnetic onClick={()=>goTo("/profile")} className="mlink" style={ml()}>👤 Profile</button></>}
+                {user?.role==="admin"&&<button data-magnetic onClick={()=>goTo("/admin/dashboard")} className="mlink" style={ml("#fca5a5")}>🛡 Admin Panel</button>}
+                {!user&&<><button data-magnetic onClick={()=>goTo("/login")} className="mlink" style={ml()}>🔑 Login</button><button data-magnetic onClick={()=>goTo("/register")} className="mlink" style={ml("#fbbf24")}>📝 Register</button></>}
+                {user&&<button data-magnetic onClick={mobileLogout} className="mlink" style={{...ml("#fca5a5"),borderBottom:"none"}}>🚪 Logout</button>}
               </div>
             )}
           </div>

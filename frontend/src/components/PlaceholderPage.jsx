@@ -46,7 +46,7 @@ export default function PlaceholderPage({
       {links.length > 0 && (
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", marginBottom: 24 }}>
           {links.map(({ label, to, primary }) => (
-            <button key={to} onClick={() => navigate(to)}
+            <button data-magnetic key={to} onClick={() => navigate(to)}}
               style={{
                 background: primary ? "rgba(82,183,136,0.28)" : "transparent",
                 border: `1.5px solid ${primary ? "transparent" : tk.green7}`,

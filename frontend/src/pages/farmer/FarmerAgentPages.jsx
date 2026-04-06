@@ -149,7 +149,7 @@ export function FindAgentsPage() {
                       </div>
                     ))}
                   </div>
-                  <button disabled={!!connecting[aid]||st==="sent"} onClick={()=>handleConnect(aid)} style={{
+                  <button data-magnetic disabled={!!connecting[aid]||st==="sent"} onClick={()=>handleConnect(aid)} style={{
                     width:"100%", padding:"11px", borderRadius:50, cursor:(connecting[aid]||st==="sent")?"not-allowed":"pointer",
                     fontWeight:700, fontSize:14, fontFamily:"'Inter',sans-serif",
                     ...(st==="sent"

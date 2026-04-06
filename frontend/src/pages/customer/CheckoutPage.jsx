@@ -50,7 +50,7 @@ export default function CheckoutPage() {
       <div style={{ background:tk.bg, minHeight:"100%", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", padding:"80px 20px" }}>
         <div style={{ fontSize:72, marginBottom:16 }}>🛒</div>
         <h2 style={{ color:tk.text, marginBottom:8 }}>Your cart is empty</h2>
-        <button onClick={() => navigate("/catalog")} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"12px 26px", borderRadius:10, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>Browse Catalog</button>
+        <button data-magnetic onClick={() => navigate("/catalog")} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"12px 26px", borderRadius:10, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>Browse Catalog</button>
       </div>
     );
   }
@@ -67,8 +67,8 @@ export default function CheckoutPage() {
         ))}
       </div>
       <div style={{ display:"flex", gap:12 }}>
-        <button onClick={() => navigate("/orders")} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"12px 24px", borderRadius:10, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>View Orders</button>
-        <button onClick={() => navigate("/catalog")} style={{ background:"transparent", border:`1.5px solid ${tk.green7}`, color:tk.green7, padding:"12px 24px", borderRadius:10, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>Continue Shopping</button>
+        <button data-magnetic onClick={() => navigate("/orders")} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"12px 24px", borderRadius:10, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>View Orders</button>
+        <button data-magnetic onClick={() => navigate("/catalog")} style={{ background:"transparent", border:`1.5px solid ${tk.green7}`, color:tk.green7, padding:"12px 24px", borderRadius:10, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>Continue Shopping</button>
       </div>
     </div>
   );
@@ -113,11 +113,11 @@ export default function CheckoutPage() {
                   {total >= 500 ? "✅ Free delivery" : `Add ₹${500-total} more for free delivery`}
                 </div>
               </div>
-              <button onClick={handlePlace} disabled={loading}
+              <button data-magnetic onClick={handlePlace} disabled={loading}
                 style={{ background:"rgba(200,150,12,0.32)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", border:"none", width:"100%", padding:14, borderRadius:10, cursor:loading?"not-allowed":"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", opacity:loading?0.7:1 }}>
                 {loading ? "Placing Order..." : `✓ Place Order · ₹${total}`}
               </button>
-              <button onClick={() => navigate("/cart")} style={{ background:"transparent", border:`1px solid ${tk.border}`, color:tk.textMid, width:"100%", padding:9, borderRadius:8, cursor:"pointer", fontSize:13, fontFamily:"'Inter',sans-serif", marginTop:10, boxSizing:"border-box" }}>
+              <button data-magnetic onClick={() => navigate("/cart")} style={{ background:"transparent", border:`1px solid ${tk.border}`, color:tk.textMid, width:"100%", padding:9, borderRadius:8, cursor:"pointer", fontSize:13, fontFamily:"'Inter',sans-serif", marginTop:10, boxSizing:"border-box" }}>
                 ← Back to Cart
               </button>
             </div>

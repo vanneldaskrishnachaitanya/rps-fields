@@ -107,7 +107,7 @@ export default function WeatherPage() {
   };
 
   const tabBtn = (key, lbl) => (
-    <button key={key} onClick={() => setTab(key)} style={{
+    <button data-magnetic key={key} onClick={() => setTab(key)} style={{
       padding:"9px 18px", borderRadius:50, cursor:"pointer",
       fontWeight:700, fontSize:13, fontFamily:"'Inter',sans-serif",
       border:`1.5px solid ${tab===key?"rgba(82,183,136,0.6)":tk.border}`,
@@ -151,7 +151,7 @@ export default function WeatherPage() {
               onBlur={e=>{e.target.style.borderColor=tk.border; e.target.style.boxShadow="none";}}
             />
           </div>
-          <button onClick={()=>fetchWeather(input)} disabled={loading} style={{
+          <button data-magnetic onClick={()=>fetchWeather(input)} disabled={loading} style={{
             padding:"14px 28px", borderRadius:16, cursor:loading?"not-allowed":"pointer",
             fontWeight:700, fontSize:15, fontFamily:"'Inter',sans-serif",
             background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)",
@@ -168,7 +168,7 @@ export default function WeatherPage() {
         {/* ── Quick city pills ── */}
         <div className="filter-pills" style={{ display:"flex", gap:8, flexWrap:"wrap", marginBottom:28 }}>
           {QUICK_CITIES.map(c=>(
-            <button key={c} onClick={()=>{setInput(c); fetchWeather(c);}} style={{
+            <button data-magnetic key={c} onClick={()=>{setInput(c); fetchWeather(c);}} style={{
               padding:"7px 16px", borderRadius:50, cursor:"pointer",
               fontWeight:600, fontSize:13, fontFamily:"'Inter',sans-serif",
               border:`1px solid ${city===c?"rgba(82,183,136,0.55)":tk.border}`,

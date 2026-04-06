@@ -75,11 +75,11 @@ export default function RateProductModal({ item, orderId, onClose, onDone }) {
             {error && <div style={{ color:"#e74c3c", fontSize:13, marginBottom:12, fontWeight:600 }}>⚠ {error}</div>}
 
             <div style={{ display:"flex", gap:10 }}>
-              <button onClick={handleSubmit} disabled={loading}
+              <button data-magnetic onClick={handleSubmit} disabled={loading}
                 style={{ flex:1, padding:"12px", background:"rgba(245,158,11,0.30)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", color:"#fff", border:"none", borderRadius:10, cursor:loading?"not-allowed":"pointer", fontWeight:700, fontSize:14, fontFamily:"inherit", opacity:loading?0.7:1 }}>
                 {loading ? "Submitting..." : "Submit Review ⭐"}
               </button>
-              <button onClick={onClose}
+              <button data-magnetic onClick={onClose}
                 style={{ flex:1, padding:"12px", background:"transparent", border:`1.5px solid ${tk.border}`, color:tk.textMid, borderRadius:10, cursor:"pointer", fontWeight:700, fontSize:14, fontFamily:"inherit" }}>
                 Cancel
               </button>
