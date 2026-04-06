@@ -39,18 +39,6 @@ export default function Header() {
     return { farmer:"/farmer/dashboard", agent:"/agent/dashboard", customer:"/customer/dashboard", admin:"/admin/dashboard" }[user.role] || "/";
   };
 
-  const nb = (isActive, override = {}) => ({
-    background: isActive ? "rgba(82,183,136,0.22)" : "transparent",
-    border: `1px solid ${isActive ? "rgba(82,183,136,0.55)" : "rgba(255,255,255,0.14)"}`,
-    color: isActive ? "#74c69d" : "rgba(255,255,255,0.82)",
-    padding: "6px 12px", borderRadius: 8,
-    cursor: "pointer", fontSize: 13, fontWeight: 600,
-    fontFamily: "'Inter',sans-serif",
-    textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 4,
-    transition: "all 0.18s ease",
-    ...override,
-  });
-
   const ml = (color = "rgba(255,255,255,0.85)") => ({
     display: "block", width: "100%", padding: "12px 20px",
     color, fontSize: 14, fontWeight: 600, cursor: "pointer",

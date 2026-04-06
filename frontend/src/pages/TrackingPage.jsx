@@ -83,7 +83,6 @@ export default function TrackingPage() {
   if (!tracking) return null;
 
   const { deliveryStatus, deliveryOTP, otpVerified, estimatedDeliveryTime, actualDeliveryTime, timeline, progressPercentage } = tracking;
-  const currentStep = STATUS_ORDER[deliveryStatus] ?? 0;
   const isDelivered = deliveryStatus === "delivered";
   const isOutForDelivery = deliveryStatus === "out_for_delivery" || deliveryStatus === "picked_up";
 
