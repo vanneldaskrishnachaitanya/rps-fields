@@ -227,7 +227,7 @@ export default function CatalogPage() {
                 🔍 "{search}" <span onClick={() => { setSearch(""); setDSearch(""); }} style={{ cursor: "pointer", marginLeft: 2, opacity: 0.7 }}>×</span>
               </span>
             )}
-            <button onClick={reset} style={{ fontSize: 12, color: tk.textLt, cursor: "pointer", background: "transparent", border: "none", fontFamily: "'Inter',sans-serif", textDecoration: "underline" }}>
+            <button data-magnetic onClick={reset} style={{ fontSize: 12, color: tk.textLt, cursor: "pointer", background: "transparent", border: "none", fontFamily: "'Inter',sans-serif", textDecoration: "underline" }}>
               Clear all
             </button>
           </div>
@@ -271,7 +271,7 @@ export default function CatalogPage() {
             <p style={{ color: tk.textLt, marginBottom: 24 }}>
               {loc !== "All Locations" ? `No ${cat !== "All" ? cat.toLowerCase() : "products"} available in ${loc} yet.` : "Try a different filter or search term"}
             </p>
-            <button onClick={reset} style={{ padding: "11px 28px", background: "rgba(82,183,136,0.28)", backdropFilter: "blur(28px) saturate(200%)", WebkitBackdropFilter: "blur(28px) saturate(200%)", border: "1px solid rgba(255,255,255,0.30)", color: "#fff", boxShadow: "inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", borderRadius: 50, cursor: "pointer", fontWeight: 700, fontFamily: "'Inter',sans-serif", fontSize: 14 }}>
+            <button data-magnetic onClick={reset} style={{ padding: "11px 28px", background: "rgba(82,183,136,0.28)", backdropFilter: "blur(28px) saturate(200%)", WebkitBackdropFilter: "blur(28px) saturate(200%)", border: "1px solid rgba(255,255,255,0.30)", color: "#fff", boxShadow: "inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", borderRadius: 50, cursor: "pointer", fontWeight: 700, fontFamily: "'Inter',sans-serif", fontSize: 14 }}>
               Show All Products
             </button>
           </div>

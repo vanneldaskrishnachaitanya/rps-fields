@@ -146,7 +146,7 @@ export default function Header() {
                   </div>
                   {(user.fullName||user.name)?.split(" ")[0]}
                 </div>
-                <button onClick={handleLogout} className="hnav" style={nb(false,{background:"rgba(220,38,38,0.1)",borderColor:"rgba(220,38,38,0.3)",color:"#fca5a5"})}>Logout</button>
+                <button data-magnetic onClick={handleLogout} className="hnav" style={nb(false,{background:"rgba(220,38,38,0.1)",borderColor:"rgba(220,38,38,0.3)",color:"#fca5a5"})}>Logout</button>
               </div>
             )}
 
@@ -165,7 +165,7 @@ export default function Header() {
               </button>
             )}
 
-            <button onClick={toggle} style={{
+            <button data-magnetic onClick={toggle} style={{
               background:"rgba(255,255,255,0.06)", border:"1px solid rgba(255,255,255,0.12)",
               color:"#fff", width:32, height:32, borderRadius:"50%", cursor:"pointer",
               fontSize:14, display:"flex", alignItems:"center", justifyContent:"center",
@@ -183,7 +183,7 @@ export default function Header() {
                 🛒{itemCount>0&&<span style={{background:"rgba(0,0,0,0.3)",borderRadius:"50%",width:15,height:15,display:"inline-flex",alignItems:"center",justifyContent:"center",fontSize:9,fontWeight:800}}>{itemCount}</span>}
               </button>
             )}
-            <button onClick={toggle} style={{ background:"rgba(255,255,255,0.06)", border:"1px solid rgba(255,255,255,0.12)", color:"#fff", width:34, height:34, borderRadius:"50%", cursor:"pointer", fontSize:14, display:"flex", alignItems:"center", justifyContent:"center" }}>{dark?"☀️":"🌙"}</button>
+            <button data-magnetic onClick={toggle} style={{ background:"rgba(255,255,255,0.06)", border:"1px solid rgba(255,255,255,0.12)", color:"#fff", width:34, height:34, borderRadius:"50%", cursor:"pointer", fontSize:14, display:"flex", alignItems:"center", justifyContent:"center" }}>{dark?"☀️":"🌙"}</button>
             <button onClick={()=>setMenuOpen(o=>!o)} style={{ background:"rgba(255,255,255,0.06)", border:"1px solid rgba(255,255,255,0.12)", width:38, height:38, borderRadius:9, cursor:"pointer", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:4, padding:0 }}>
               {[0,1,2].map(i=><span key={i} style={{ width:16, height:2, background:"#fff", borderRadius:2, display:"block", transition:"all 0.25s", transform: menuOpen?(i===0?"rotate(45deg) translate(4px,4px)":i===2?"rotate(-45deg) translate(4px,-4px)":"none"):"none", opacity:menuOpen&&i===1?0:1 }} />)}
             </button>

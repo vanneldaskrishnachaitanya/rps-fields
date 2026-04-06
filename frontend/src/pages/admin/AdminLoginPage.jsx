@@ -186,7 +186,7 @@ export function AdminLoginPage() {
             </div>
           ))}
 
-          <button onClick={handleLogin} disabled={loading} style={{ width:"100%", padding:"14px", background:loading?"rgba(82,183,136,0.2)":"rgba(82,183,136,0.28)", color:"#fff", border:"none", borderRadius:14, cursor:loading?"not-allowed":"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", boxShadow:loading?"none":"0 6px 20px rgba(82,183,136,0.4)", transition:"all 0.25s", opacity:loading?0.75:1, marginTop:8 }}
+          <button data-magnetic onClick={handleLogin} disabled={loading} style={{ width:"100%", padding:"14px", background:loading?"rgba(82,183,136,0.2)":"rgba(82,183,136,0.28)", color:"#fff", border:"none", borderRadius:14, cursor:loading?"not-allowed":"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", boxShadow:loading?"none":"0 6px 20px rgba(82,183,136,0.4)", transition:"all 0.25s", opacity:loading?0.75:1, marginTop:8 }}
             onMouseEnter={e=>{ if(!loading){e.target.style.transform="translateY(-1px)"; e.target.style.boxShadow="0 10px 28px rgba(82,183,136,0.5)";}}}
             onMouseLeave={e=>{e.target.style.transform="none"; e.target.style.boxShadow=loading?"none":"0 6px 20px rgba(82,183,136,0.4)";}}>
             {loading?"Signing in...":"Sign in to Admin →"}

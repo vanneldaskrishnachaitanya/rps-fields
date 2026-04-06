@@ -45,7 +45,7 @@ export function AboutPage() {
           ))}
         </div>
 
-        <div style={{ background:"linear-gradient(135deg,#0d2b1a,#1b4332)", borderRadius:24, padding:40, textAlign:"center", animation:"fadeUp 0.5s ease 0.2s both" }}>
+        <div data-tilt style={{ background:"linear-gradient(135deg,#0d2b1a,#1b4332)", borderRadius:24, padding:40, textAlign:"center", animation:"fadeUp 0.5s ease 0.2s both" }}>
           <h3 style={{ color:"#fff", fontSize:22, fontFamily:"'Playfair Display',Georgia,serif", marginBottom:28 }}>Our Impact</h3>
           <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:20 }}>
             {[["500+","Farmers"],["12k+","Customers"],["₹2Cr+","Farmer Earnings"],["15+","States"]].map(([n,l])=>(
@@ -93,7 +93,7 @@ export function ContactPage() {
               <div style={{ fontSize:64, marginBottom:16, animation:"bounce 0.6s ease" }}>✅</div>
               <h3 style={{ fontSize:24, color:tk.text, marginBottom:8, fontFamily:"'Playfair Display',Georgia,serif" }}>Message Sent!</h3>
               <p style={{ color:tk.textLt, marginBottom:24 }}>We'll get back to you within 24 hours.</p>
-              <button onClick={()=>setSent(false)} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"12px 28px", borderRadius:50, cursor:"pointer", fontWeight:800, fontFamily:"'Inter',sans-serif" }}>Send Another</button>
+              <button data-magnetic onClick={()=>setSent(false)} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"12px 28px", borderRadius:50, cursor:"pointer", fontWeight:800, fontFamily:"'Inter',sans-serif" }}>Send Another</button>
             </div>
           ) : (
             <div data-tilt style={{ background:tk.bgCard, borderRadius:24, padding:36, border:`1px solid ${tk.border}`, animation:"slideRight 0.5s ease both" }}>
@@ -183,7 +183,7 @@ export function NotFoundPage() {
       <div style={{ fontSize:88, marginBottom:16, animation:"float 3s ease-in-out infinite" }}>🌿</div>
       <h2 style={{ fontSize:32, color:tk.text, marginBottom:10, fontFamily:"'Playfair Display',Georgia,serif" }}>Page Not Found</h2>
       <p style={{ color:tk.textLt, marginBottom:32, fontSize:15 }}>The page you're looking for doesn't exist.</p>
-      <button onClick={()=>navigate("/")} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"14px 32px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif" }}>
+      <button data-magnetic onClick={()=>navigate("/")} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"14px 32px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif" }}>
         Back to Home →
       </button>
     </div>
