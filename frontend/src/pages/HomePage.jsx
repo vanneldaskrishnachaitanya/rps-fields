@@ -103,7 +103,7 @@ export default function HomePage() {
     <div style={{ background: tk.bg, overflowX: "hidden" }}>
 
       {/* ─────────────── HERO SLIDER ─────────────── */}
-      <section style={{ position: "relative", height: "clamp(320px,66vh,560px)", minHeight: 320, maxHeight: 560, overflow: "hidden" }}>
+      <section style={{ position: "relative", height: "clamp(280px,56vh,460px)", minHeight: 280, maxHeight: 460, overflow: "hidden" }}>
         <div style={{
           position: "absolute", inset: 0,
           backgroundImage: `url(${cur.img})`,
@@ -114,7 +114,7 @@ export default function HomePage() {
         }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(100deg,rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.3) 55%,rgba(0,0,0,0.05) 100%)" }} />
 
-        <div style={{ position: "relative", zIndex: 2, height: "100%", display: "flex", alignItems: "center", maxWidth: "var(--content-max)", margin: "0 auto", padding: "0 var(--page-px,clamp(10px,2.2vw,24px))" }}>
+        <div style={{ position: "relative", zIndex: 2, height: "100%", display: "flex", alignItems: "center", maxWidth: "var(--content-max)", margin: "0 auto", padding: "0 clamp(58px,5.5vw,94px)" }}>
           <div style={{ maxWidth: 580 }}>
             <div style={{
               display: "inline-flex", alignItems: "center", gap: 7,
@@ -149,14 +149,14 @@ export default function HomePage() {
               transition: "all 0.5s ease 0.34s",
             }}>
               <button data-magnetic onClick={() => navigate("/catalog")} style={{
-                background: "rgba(200,150,12,0.32)", color: "#1b2e10",
-                border: "none", padding: "14px 34px", borderRadius: 50,
+                background: "linear-gradient(135deg,#f3c84b,#d4a017)", color: "#1a2a0f",
+                border: "1px solid rgba(255,230,140,0.6)", padding: "13px 30px", borderRadius: 50,
                 cursor: "pointer", fontWeight: 800, fontSize: 15, fontFamily: "inherit",
-                boxShadow: "0 6px 24px rgba(212,160,23,0.4)", letterSpacing: "0.2px",
+                boxShadow: "0 8px 24px rgba(212,160,23,0.45), inset 0 1px 0 rgba(255,248,200,0.6)", letterSpacing: "0.2px",
                 transition: "all 0.25s",
               }}
-                onMouseEnter={e => { e.target.style.transform = "translateY(-2px)"; e.target.style.boxShadow = "0 10px 32px rgba(212,160,23,0.55)"; }}
-                onMouseLeave={e => { e.target.style.transform = "none"; e.target.style.boxShadow = "0 6px 24px rgba(212,160,23,0.4)"; }}
+                onMouseEnter={e => { e.target.style.transform = "translateY(-2px)"; e.target.style.boxShadow = "0 12px 30px rgba(212,160,23,0.55), inset 0 1px 0 rgba(255,248,200,0.7)"; }}
+                onMouseLeave={e => { e.target.style.transform = "none"; e.target.style.boxShadow = "0 8px 24px rgba(212,160,23,0.45), inset 0 1px 0 rgba(255,248,200,0.6)"; }}
               >{cur.cta} →</button>
 
               <button data-magnetic onClick={() => navigate("/register")} style={{
@@ -184,11 +184,11 @@ export default function HomePage() {
         </div>
 
         {/* Arrows */}
-        <button data-magnetic onClick={() => changeSlide(s => (s - 1 + SLIDES.length) % SLIDES.length)} style={{ position:"absolute", left:18, top:"50%", transform:"translateY(-50%)", background:"rgba(255,255,255,0.15)", backdropFilter:"blur(6px)", border:"1px solid rgba(255,255,255,0.2)", color:"#fff", width:42, height:42, borderRadius:"50%", cursor:"pointer", fontSize:16, zIndex:3, transition:"all 0.2s" }}
+        <button data-magnetic onClick={() => changeSlide(s => (s - 1 + SLIDES.length) % SLIDES.length)} style={{ position:"absolute", left:10, top:"50%", transform:"translateY(-50%)", background:"rgba(255,255,255,0.15)", backdropFilter:"blur(6px)", border:"1px solid rgba(255,255,255,0.2)", color:"#fff", width:38, height:38, borderRadius:"50%", cursor:"pointer", fontSize:14, zIndex:3, transition:"all 0.2s" }}
           onMouseEnter={e => e.currentTarget.style.background="rgba(255,255,255,0.3)"}
           onMouseLeave={e => e.currentTarget.style.background="rgba(255,255,255,0.15)"}
         >❮</button>
-        <button data-magnetic onClick={() => changeSlide(s => (s + 1) % SLIDES.length)} style={{ position:"absolute", right:18, top:"50%", transform:"translateY(-50%)", background:"rgba(255,255,255,0.15)", backdropFilter:"blur(6px)", border:"1px solid rgba(255,255,255,0.2)", color:"#fff", width:42, height:42, borderRadius:"50%", cursor:"pointer", fontSize:16, zIndex:3, transition:"all 0.2s" }}
+        <button data-magnetic onClick={() => changeSlide(s => (s + 1) % SLIDES.length)} style={{ position:"absolute", right:10, top:"50%", transform:"translateY(-50%)", background:"rgba(255,255,255,0.15)", backdropFilter:"blur(6px)", border:"1px solid rgba(255,255,255,0.2)", color:"#fff", width:38, height:38, borderRadius:"50%", cursor:"pointer", fontSize:14, zIndex:3, transition:"all 0.2s" }}
           onMouseEnter={e => e.currentTarget.style.background="rgba(255,255,255,0.3)"}
           onMouseLeave={e => e.currentTarget.style.background="rgba(255,255,255,0.15)"}
         >❯</button>
@@ -242,9 +242,9 @@ export default function HomePage() {
       </section>
 
       {/* ─────────────── FEATURED PRODUCTS ─────────────── */}
-      <section style={{ padding:"clamp(2px,1vw,10px) var(--page-px,clamp(10px,2.2vw,24px)) clamp(16px,2.8vw,30px)", background: dark?"#080f09":"#eef7f0" }}>
+      <section style={{ padding:"clamp(2px,1vw,8px) var(--page-px,clamp(10px,2.2vw,24px)) clamp(10px,2vw,20px)", background: dark?"#080f09":"#eef7f0" }}>
         <div style={{ maxWidth:"var(--content-max)", margin:"0 auto" }}>
-          <div data-id="feat-hd" style={{ textAlign:"center", marginBottom:14, ...reveal("feat-hd") }}>
+          <div data-id="feat-hd" style={{ textAlign:"center", marginBottom:10, ...reveal("feat-hd") }}>
             <span style={{ display:"inline-block", background: dark?"#1c3525":"#e8f5ee", color:"#40916c", borderRadius:20, padding:"4px 16px", fontSize:11, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", marginBottom:14 }}>Featured This Week</span>
             <h2 style={{ fontSize:"clamp(28px,4vw,40px)", fontFamily:"'Playfair Display',Georgia,serif", color:tk.text, marginBottom:10 }}>Handpicked Fresh Arrivals</h2>
             <p style={{ color:tk.textLt, fontSize:15 }}>Curated by our farmers — freshest produce available right now</p>
@@ -256,16 +256,16 @@ export default function HomePage() {
               <p>Loading fresh products...</p>
             </div>
           ) : (
-            <div style={{ display:"flex", gap:12, overflowX:"auto", flexWrap:"nowrap", paddingBottom:4 }}>
+            <div style={{ display:"grid", gridTemplateColumns:"repeat(6,minmax(0,1fr))", gap:10, alignItems:"stretch" }}>
               {products.map((p, i) => (
-                <div key={p.id} data-id={`prod-${i}`} style={{ minWidth:208, flex:"0 0 208px", ...reveal(`prod-${i}`, i * 0.09) }}>
+                <div key={p.id} data-id={`prod-${i}`} style={{ minWidth:0, ...reveal(`prod-${i}`, i * 0.07) }}>
                   <ProductCard product={p} />
                 </div>
               ))}
             </div>
           )}
 
-          <div data-id="view-all" style={{ textAlign:"center", marginTop:12, ...reveal("view-all") }}>
+          <div data-id="view-all" style={{ textAlign:"center", marginTop:8, ...reveal("view-all") }}>
             <button data-magnetic onClick={() => navigate("/catalog")} style={{
               background:"rgba(82,183,136,0.28)", color:"#fff",
               border:"none", padding:"14px 42px", borderRadius:50, cursor:"pointer",
@@ -278,22 +278,22 @@ export default function HomePage() {
       </section>
 
       {/* ─────────────── TRUST BANNER ─────────────── */}
-      <div style={{ background:"linear-gradient(135deg,#1b4332,#2d6a4f,#1b4332)", padding:"28px var(--page-px,clamp(10px,2.2vw,24px))", position:"relative", overflow:"hidden" }}>
+      <div style={{ background:"linear-gradient(135deg,#1b4332,#2d6a4f,#1b4332)", padding:"18px var(--page-px,clamp(10px,2.2vw,24px))", position:"relative", overflow:"hidden" }}>
         <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(circle at 20% 50%,rgba(82,183,136,0.14),transparent 60%),radial-gradient(circle at 80% 50%,rgba(116,198,157,0.09),transparent 60%)", pointerEvents:"none" }} />
         <div style={{ maxWidth:860, margin:"0 auto", textAlign:"center", position:"relative" }}>
           <div data-id="trust" style={reveal("trust")}>
-            <div style={{ fontSize:32, marginBottom:10 }}>⭐⭐⭐⭐⭐</div>
-            <h2 style={{ color:"#fff", fontSize:"clamp(20px,2.8vw,32px)", fontFamily:"'Playfair Display',Georgia,serif", marginBottom:8, lineHeight:1.35, fontStyle:"italic" }}>
+            <div style={{ fontSize:28, marginBottom:8 }}>⭐⭐⭐⭐⭐</div>
+            <h2 style={{ color:"#fff", fontSize:"clamp(18px,2.3vw,28px)", fontFamily:"'Playfair Display',Georgia,serif", marginBottom:6, lineHeight:1.3, fontStyle:"italic" }}>
               "The freshest produce I've ever received,<br />straight from the farm to my kitchen."
             </h2>
-            <p style={{ color:"#74c69d", fontSize:13, fontWeight:700, letterSpacing:"1px" }}>— Priya M., Hyderabad customer since 2024</p>
+            <p style={{ color:"#74c69d", fontSize:12, fontWeight:700, letterSpacing:"0.8px" }}>— Priya M., Hyderabad customer since 2024</p>
           </div>
-          <div data-id="trust2" style={{ display:"flex", justifyContent:"center", gap:30, marginTop:30, flexWrap:"wrap", ...reveal("trust2", 0.2) }}>
+          <div data-id="trust2" style={{ display:"flex", justifyContent:"center", gap:20, marginTop:18, flexWrap:"wrap", ...reveal("trust2", 0.2) }}>
             {[["🌾","500+","Verified Farmers"],["📦","10K+","Orders Delivered"],["⭐","4.8/5","Avg Rating"],["🗺","15+","States Covered"]].map(([icon,num,label]) => (
               <div key={label} style={{ textAlign:"center" }}>
-                <div style={{ fontSize:20, marginBottom:4 }}>{icon}</div>
-                <div className="num" style={{ color:"#fff", fontSize:22, fontWeight:900, fontFamily:"'Inter',sans-serif" }}>{num}</div>
-                <div style={{ color:"rgba(255,255,255,0.55)", fontSize:11, marginTop:2 }}>{label}</div>
+                <div style={{ fontSize:18, marginBottom:2 }}>{icon}</div>
+                <div className="num" style={{ color:"#fff", fontSize:18, fontWeight:900, fontFamily:"'Inter',sans-serif" }}>{num}</div>
+                <div style={{ color:"rgba(255,255,255,0.55)", fontSize:10.5, marginTop:1 }}>{label}</div>
               </div>
             ))}
           </div>
