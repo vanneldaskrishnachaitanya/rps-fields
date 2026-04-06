@@ -9,7 +9,6 @@ export default function FarmerProductsPage() {
   const { user, authFetch } = useAuth();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [msg, setMsg] = useState("");
 
   const load = () => {
     setLoading(true);
@@ -44,12 +43,6 @@ export default function FarmerProductsPage() {
 
       <div style={{ maxWidth:1100, margin:"0 auto", padding:"28px 20px 100px" }}>
         <FarmerNav />
-
-        {msg && (
-          <div style={{ background:"rgba(16,185,129,0.12)", backdropFilter:"blur(8px)", border:"1px solid rgba(16,185,129,0.25)", borderRadius:12, padding:"12px 18px", marginBottom:20, color:"#10b981", fontWeight:700, animation:"fadeUp 0.3s ease" }}>
-            ✅ {msg}
-          </div>
-        )}
 
         {loading ? (
           <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))", gap:18 }}>
