@@ -63,7 +63,7 @@ export default function ProductCard({ product }) {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
-        background: tk.bgCard, borderRadius: 18, overflow: "hidden",
+        background: tk.bgCard, borderRadius: 16, overflow: "hidden",
         border: `1px solid ${hovered ? (dark ? "#52b788" : "#2d6a4f") : tk.border}`,
         boxShadow: hovered
           ? (dark ? "0 20px 60px rgba(27,67,50,0.35), 0 0 0 1px rgba(82,183,136,0.2)" : "0 20px 60px rgba(27,67,50,0.2)")
@@ -74,7 +74,7 @@ export default function ProductCard({ product }) {
       }}
     >
       {/* Image */}
-      <div style={{ position: "relative", height: 180, overflow: "hidden", background: tk.bgMuted, cursor: "pointer" }}
+      <div style={{ position: "relative", height: 160, overflow: "hidden", background: tk.bgMuted, cursor: "pointer" }}
         onClick={() => navigate(`/product/${product.id || product._id}`)}>
         {!imgError ? (
           <>
@@ -116,16 +116,16 @@ export default function ProductCard({ product }) {
       </div>
 
       {/* Body */}
-      <div style={{ padding: "14px 14px 12px" }}>
+      <div style={{ padding: "12px 12px 10px" }}>
         <div onClick={() => navigate(`/product/${product.id || product._id}`)} style={{ cursor: "pointer" }}>
-          <div style={{ fontWeight: 800, fontSize: 15, color: tk.text, marginBottom: 4, lineHeight: 1.3 }}>{product.name}</div>
+          <div style={{ fontWeight: 800, fontSize: 14, color: tk.text, marginBottom: 3, lineHeight: 1.25 }}>{product.name}</div>
           <div style={{ fontSize: 12, color: tk.textLt, marginBottom: 10, display: "flex", alignItems: "center", gap: 4 }}>
             <span>🧑‍🌾</span>
             <span>{farmerName}</span>
           </div>
 
-          <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 12 }}>
-            <span className="price-value" style={{ fontSize: 20, fontWeight: 900, color: tk.green5, fontFamily: "'Inter',sans-serif", fontFeatureSettings: '"tnum"', letterSpacing: "-0.5px" }}>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 10 }}>
+            <span className="price-value" style={{ fontSize: 18, fontWeight: 900, color: tk.green5, fontFamily: "'Inter',sans-serif", fontFeatureSettings: '"tnum"', letterSpacing: "-0.5px" }}>
               ₹{Number(price).toLocaleString("en-IN")}
             </span>
             <span style={{ fontSize: 12, color: tk.textLt, fontFamily: "'Inter',sans-serif" }}>/{unit}</span>

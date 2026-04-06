@@ -17,9 +17,9 @@ html { scroll-behavior: smooth; overflow-x: hidden; }
   --transition-fast: 0.18s ease; --transition-med: 0.28s ease;
   --transition-spring: 0.35s cubic-bezier(0.34,1.56,0.64,1);
   /* Layout */
-  --page-px: clamp(16px, 4vw, 48px);
-  --section-py: clamp(40px, 6vw, 80px);
-  --content-max: 1400px;
+  --page-px: clamp(10px, 2.2vw, 24px);
+  --section-py: clamp(20px, 3.5vw, 44px);
+  --content-max: 1680px;
 }
 
 /* ══════════════════════════════════════════════════════════════════

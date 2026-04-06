@@ -114,7 +114,7 @@ export default function HomePage() {
         }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(100deg,rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.3) 55%,rgba(0,0,0,0.05) 100%)" }} />
 
-        <div style={{ position: "relative", zIndex: 2, height: "100%", display: "flex", alignItems: "center", maxWidth: 1400, margin: "0 auto", padding: "0 var(--page-px,clamp(16px,4vw,48px))" }}>
+        <div style={{ position: "relative", zIndex: 2, height: "100%", display: "flex", alignItems: "center", maxWidth: "var(--content-max)", margin: "0 auto", padding: "0 var(--page-px,clamp(10px,2.2vw,24px))" }}>
           <div style={{ maxWidth: 580 }}>
             <div style={{
               display: "inline-flex", alignItems: "center", gap: 7,
@@ -196,7 +196,7 @@ export default function HomePage() {
 
       {/* ─────────────── STATS BAR ─────────────── */}
       <div style={{ background: dark ? "#0f2018" : "#1b4332", borderBottom: "3px solid #52b788", width:"100%" }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(160px,1fr))", padding:"0 var(--page-px, clamp(16px,4vw,48px))" }}>
+        <div style={{ maxWidth: "var(--content-max)", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(160px,1fr))", padding:"0 var(--page-px, clamp(10px,2.2vw,24px))" }}>
           {STATS.map((s, i) => (
             <div key={i} data-id={`stat-${i}`} style={{ textAlign:"center", padding:"22px 16px", borderRight: i < 3 ? "1px solid rgba(255,255,255,0.08)" : "none", ...reveal(`stat-${i}`, i * 0.08) }}>
               <div style={{ fontSize:22, marginBottom:4 }}>{s.icon}</div>
@@ -208,18 +208,18 @@ export default function HomePage() {
       </div>
 
       {/* ─────────────── CATEGORIES ─────────────── */}
-      <section style={{ padding: "clamp(24px,4vw,48px) var(--page-px,clamp(16px,4vw,48px))", background: tk.bg }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto" }}>
-          <div data-id="cat-hd" style={{ textAlign:"center", marginBottom:32, ...reveal("cat-hd") }}>
+      <section style={{ padding: "clamp(10px,2.2vw,24px) var(--page-px,clamp(10px,2.2vw,24px))", background: tk.bg }}>
+        <div style={{ maxWidth: "var(--content-max)", margin: "0 auto" }}>
+          <div data-id="cat-hd" style={{ textAlign:"center", marginBottom:16, ...reveal("cat-hd") }}>
             <span style={{ display:"inline-block", background: dark?"#1c3525":"#e8f5ee", color:"#40916c", borderRadius:20, padding:"4px 16px", fontSize:11, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", marginBottom:14 }}>Shop by Category</span>
             <h2 style={{ fontSize:"clamp(28px,4vw,40px)", fontFamily:"'Playfair Display',Georgia,serif", color:tk.text, marginBottom:10 }}>Find What You're Looking For</h2>
             <p style={{ color:tk.textLt, fontSize:15, maxWidth:460, margin:"0 auto" }}>From crisp vegetables to premium dry fruits — all direct from farms</p>
           </div>
-          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(170px,1fr))", gap:14 }}>
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(150px,1fr))", gap:10 }}>
             {CATEGORIES.map((cat, i) => (
               <div key={cat.name} data-id={`cat-${i}`} data-tilt onClick={() => navigate("/catalog")} style={{
-                borderRadius:16, overflow:"hidden", cursor:"pointer",
-                position:"relative", height:170,
+                borderRadius:14, overflow:"hidden", cursor:"pointer",
+                position:"relative", height:150,
                 boxShadow:"0 4px 20px rgba(0,0,0,0.12)",
                 transition:"all 0.3s ease",
                 ...reveal(`cat-${i}`, i * 0.08),
@@ -242,9 +242,9 @@ export default function HomePage() {
       </section>
 
       {/* ─────────────── FEATURED PRODUCTS ─────────────── */}
-      <section style={{ padding:"clamp(8px,2vw,20px) var(--page-px,clamp(16px,4vw,48px)) clamp(32px,5vw,56px)", background: dark?"#080f09":"#eef7f0" }}>
-        <div style={{ maxWidth:1400, margin:"0 auto" }}>
-          <div data-id="feat-hd" style={{ textAlign:"center", marginBottom:28, ...reveal("feat-hd") }}>
+      <section style={{ padding:"clamp(2px,1vw,10px) var(--page-px,clamp(10px,2.2vw,24px)) clamp(16px,2.8vw,30px)", background: dark?"#080f09":"#eef7f0" }}>
+        <div style={{ maxWidth:"var(--content-max)", margin:"0 auto" }}>
+          <div data-id="feat-hd" style={{ textAlign:"center", marginBottom:14, ...reveal("feat-hd") }}>
             <span style={{ display:"inline-block", background: dark?"#1c3525":"#e8f5ee", color:"#40916c", borderRadius:20, padding:"4px 16px", fontSize:11, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", marginBottom:14 }}>Featured This Week</span>
             <h2 style={{ fontSize:"clamp(28px,4vw,40px)", fontFamily:"'Playfair Display',Georgia,serif", color:tk.text, marginBottom:10 }}>Handpicked Fresh Arrivals</h2>
             <p style={{ color:tk.textLt, fontSize:15 }}>Curated by our farmers — freshest produce available right now</p>
@@ -256,16 +256,16 @@ export default function HomePage() {
               <p>Loading fresh products...</p>
             </div>
           ) : (
-            <div style={{ display:"flex", gap:16, overflowX:"auto", flexWrap:"nowrap", paddingBottom:6 }}>
+            <div style={{ display:"flex", gap:12, overflowX:"auto", flexWrap:"nowrap", paddingBottom:4 }}>
               {products.map((p, i) => (
-                <div key={p.id} data-id={`prod-${i}`} style={{ minWidth:240, flex:"0 0 240px", ...reveal(`prod-${i}`, i * 0.09) }}>
+                <div key={p.id} data-id={`prod-${i}`} style={{ minWidth:208, flex:"0 0 208px", ...reveal(`prod-${i}`, i * 0.09) }}>
                   <ProductCard product={p} />
                 </div>
               ))}
             </div>
           )}
 
-          <div data-id="view-all" style={{ textAlign:"center", marginTop:24, ...reveal("view-all") }}>
+          <div data-id="view-all" style={{ textAlign:"center", marginTop:12, ...reveal("view-all") }}>
             <button data-magnetic onClick={() => navigate("/catalog")} style={{
               background:"rgba(82,183,136,0.28)", color:"#fff",
               border:"none", padding:"14px 42px", borderRadius:50, cursor:"pointer",
@@ -278,7 +278,7 @@ export default function HomePage() {
       </section>
 
       {/* ─────────────── TRUST BANNER ─────────────── */}
-      <div style={{ background:"linear-gradient(135deg,#1b4332,#2d6a4f,#1b4332)", padding:"34px var(--page-px,clamp(16px,4vw,48px))", position:"relative", overflow:"hidden" }}>
+      <div style={{ background:"linear-gradient(135deg,#1b4332,#2d6a4f,#1b4332)", padding:"28px var(--page-px,clamp(10px,2.2vw,24px))", position:"relative", overflow:"hidden" }}>
         <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(circle at 20% 50%,rgba(82,183,136,0.14),transparent 60%),radial-gradient(circle at 80% 50%,rgba(116,198,157,0.09),transparent 60%)", pointerEvents:"none" }} />
         <div style={{ maxWidth:860, margin:"0 auto", textAlign:"center", position:"relative" }}>
           <div data-id="trust" style={reveal("trust")}>
@@ -301,8 +301,8 @@ export default function HomePage() {
       </div>
 
       {/* ─────────────── WHY US ─────────────── */}
-      <section style={{ padding:"clamp(22px,4vw,42px) var(--page-px,clamp(16px,4vw,48px))", background:tk.bg }}>
-        <div style={{ maxWidth:1400, margin:"0 auto" }}>
+      <section style={{ padding:"clamp(14px,2.5vw,28px) var(--page-px,clamp(10px,2.2vw,24px))", background:tk.bg }}>
+        <div style={{ maxWidth:"var(--content-max)", margin:"0 auto" }}>
           <div data-id="why-hd" style={{ textAlign:"center", marginBottom:26, ...reveal("why-hd") }}>
             <span style={{ display:"inline-block", background: dark?"#1c3525":"#e8f5ee", color:"#40916c", borderRadius:20, padding:"4px 16px", fontSize:11, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", marginBottom:14 }}>Why RPS Fields</span>
             <h2 style={{ fontSize:"clamp(28px,4vw,40px)", fontFamily:"'Playfair Display',Georgia,serif", color:tk.text }}>What Makes Us Different</h2>
