@@ -265,7 +265,7 @@ export default function HomePage() {
             </div>
           )}
 
-          <div data-id="view-all" style={{ textAlign:"center", marginTop:48, ...reveal("view-all") }}>
+          <div data-id="view-all" style={{ textAlign:"center", marginTop:24, ...reveal("view-all") }}>
             <button data-magnetic onClick={() => navigate("/catalog")} style={{
               background:"rgba(82,183,136,0.28)", color:"#fff",
               border:"none", padding:"14px 42px", borderRadius:50, cursor:"pointer",
@@ -278,21 +278,21 @@ export default function HomePage() {
       </section>
 
       {/* ─────────────── TRUST BANNER ─────────────── */}
-      <div style={{ background:"linear-gradient(135deg,#1b4332,#2d6a4f,#1b4332)", padding:"52px var(--page-px,clamp(16px,4vw,48px))", position:"relative", overflow:"hidden" }}>
+      <div style={{ background:"linear-gradient(135deg,#1b4332,#2d6a4f,#1b4332)", padding:"34px var(--page-px,clamp(16px,4vw,48px))", position:"relative", overflow:"hidden" }}>
         <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(circle at 20% 50%,rgba(82,183,136,0.14),transparent 60%),radial-gradient(circle at 80% 50%,rgba(116,198,157,0.09),transparent 60%)", pointerEvents:"none" }} />
         <div style={{ maxWidth:860, margin:"0 auto", textAlign:"center", position:"relative" }}>
           <div data-id="trust" style={reveal("trust")}>
-            <div style={{ fontSize:36, marginBottom:16 }}>⭐⭐⭐⭐⭐</div>
-            <h2 style={{ color:"#fff", fontSize:"clamp(22px,3vw,36px)", fontFamily:"'Playfair Display',Georgia,serif", marginBottom:14, lineHeight:1.4, fontStyle:"italic" }}>
+            <div style={{ fontSize:32, marginBottom:10 }}>⭐⭐⭐⭐⭐</div>
+            <h2 style={{ color:"#fff", fontSize:"clamp(20px,2.8vw,32px)", fontFamily:"'Playfair Display',Georgia,serif", marginBottom:8, lineHeight:1.35, fontStyle:"italic" }}>
               "The freshest produce I've ever received,<br />straight from the farm to my kitchen."
             </h2>
             <p style={{ color:"#74c69d", fontSize:13, fontWeight:700, letterSpacing:"1px" }}>— Priya M., Hyderabad customer since 2024</p>
           </div>
-          <div data-id="trust2" style={{ display:"flex", justifyContent:"center", gap:44, marginTop:52, flexWrap:"wrap", ...reveal("trust2", 0.2) }}>
+          <div data-id="trust2" style={{ display:"flex", justifyContent:"center", gap:30, marginTop:30, flexWrap:"wrap", ...reveal("trust2", 0.2) }}>
             {[["🌾","500+","Verified Farmers"],["📦","10K+","Orders Delivered"],["⭐","4.8/5","Avg Rating"],["🗺","15+","States Covered"]].map(([icon,num,label]) => (
               <div key={label} style={{ textAlign:"center" }}>
-                <div style={{ fontSize:22, marginBottom:6 }}>{icon}</div>
-                <div className="num" style={{ color:"#fff", fontSize:26, fontWeight:900, fontFamily:"'Inter',sans-serif" }}>{num}</div>
+                <div style={{ fontSize:20, marginBottom:4 }}>{icon}</div>
+                <div className="num" style={{ color:"#fff", fontSize:22, fontWeight:900, fontFamily:"'Inter',sans-serif" }}>{num}</div>
                 <div style={{ color:"rgba(255,255,255,0.55)", fontSize:11, marginTop:2 }}>{label}</div>
               </div>
             ))}
@@ -301,25 +301,25 @@ export default function HomePage() {
       </div>
 
       {/* ─────────────── WHY US ─────────────── */}
-      <section style={{ padding:"clamp(40px,6vw,80px) var(--page-px,clamp(16px,4vw,48px))", background:tk.bg }}>
+      <section style={{ padding:"clamp(22px,4vw,42px) var(--page-px,clamp(16px,4vw,48px))", background:tk.bg }}>
         <div style={{ maxWidth:1400, margin:"0 auto" }}>
-          <div data-id="why-hd" style={{ textAlign:"center", marginBottom:52, ...reveal("why-hd") }}>
+          <div data-id="why-hd" style={{ textAlign:"center", marginBottom:26, ...reveal("why-hd") }}>
             <span style={{ display:"inline-block", background: dark?"#1c3525":"#e8f5ee", color:"#40916c", borderRadius:20, padding:"4px 16px", fontSize:11, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", marginBottom:14 }}>Why RPS Fields</span>
             <h2 style={{ fontSize:"clamp(28px,4vw,40px)", fontFamily:"'Playfair Display',Georgia,serif", color:tk.text }}>What Makes Us Different</h2>
           </div>
-          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(260px,1fr))", gap:20 }}>
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(180px,1fr))", gap:12 }}>
             {WHY.map((w, i) => (
               <div key={w.title} data-id={`why-${i}`} data-tilt style={{
-                background:tk.bgCard, borderRadius:20, padding:"30px 26px",
+                background:tk.bgCard, borderRadius:16, padding:"20px 18px",
                 border:`1px solid ${tk.border}`, transition:"all 0.3s ease",
                 ...reveal(`why-${i}`, i * 0.07),
               }}
                 onMouseEnter={e => { e.currentTarget.style.transform="translateY(-5px)"; e.currentTarget.style.boxShadow="0 14px 40px rgba(27,67,50,0.15)"; e.currentTarget.style.borderColor="#52b788"; }}
                 onMouseLeave={e => { e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow="none"; e.currentTarget.style.borderColor=tk.border; }}
               >
-                <div style={{ width:50, height:50, borderRadius:14, background: dark?"#1c3525":"#e8f5ee", display:"flex", alignItems:"center", justifyContent:"center", fontSize:22, marginBottom:16 }}>{w.icon}</div>
-                <div style={{ fontWeight:800, fontSize:16, color:tk.text, marginBottom:8 }}>{w.title}</div>
-                <div style={{ fontSize:13, color:tk.textLt, lineHeight:1.65 }}>{w.desc}</div>
+                <div style={{ width:44, height:44, borderRadius:12, background: dark?"#1c3525":"#e8f5ee", display:"flex", alignItems:"center", justifyContent:"center", fontSize:20, marginBottom:12 }}>{w.icon}</div>
+                <div style={{ fontWeight:800, fontSize:15, color:tk.text, marginBottom:6 }}>{w.title}</div>
+                <div style={{ fontSize:12.5, color:tk.textLt, lineHeight:1.55 }}>{w.desc}</div>
               </div>
             ))}
           </div>
