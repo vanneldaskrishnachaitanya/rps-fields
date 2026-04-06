@@ -214,6 +214,7 @@ const getOrderTracking = async (req, res) => {
 
     const timeElapsed = Math.round((Date.now() - order.createdAt) / 1000 / 60); // minutes
     const estimatedDeliveryMinutes = 24 * 60; // 24 hours
+    const estimatedDeliveryTime = order.estimatedDeliveryTime || new Date(order.createdAt.getTime() + estimatedDeliveryMinutes * 60 * 1000);
 
     res.json({
       success: true,
@@ -223,7 +224,7 @@ const getOrderTracking = async (req, res) => {
         deliveryStatus: order.deliveryStatus,
         orderStatus: order.status,
         createdAt: order.createdAt,
-        estimatedDeliveryTime: order.estimatedDeliveryTime,
+        estimatedDeliveryTime,
         deliveryStartTime: order.deliveryStartTime,
         actualDeliveryTime: order.actualDeliveryTime,
         deliveryOTP: order.deliveryOTP,

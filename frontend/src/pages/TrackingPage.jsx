@@ -16,6 +16,13 @@ export default function TrackingPage() {
   const [error, setError] = useState("");
   const [refreshing, setRefreshing] = useState(false);
 
+  const formatDateTime = (value) => {
+    if (!value) return "Pending";
+    const d = new Date(value);
+    if (Number.isNaN(d.getTime())) return "Pending";
+    return `${d.toLocaleDateString()} ${d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+  };
+
   const fetchTracking = useCallback(async (isRefresh = false) => {
     try {
       setError("");
@@ -53,10 +60,13 @@ export default function TrackingPage() {
   if (!tracking) return <div style={{ background: tk.bg, minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", color: tk.textMid }}>No tracking data</div>;
 
   const { timeline, progressPercentage, estimatedDeliveryTime, actualDeliveryTime, deliveryStatus, otpVerified } = tracking;
+  const safeEstimatedDelivery = formatDateTime(estimatedDeliveryTime);
 
   return (
     <div style={{ background: tk.bg, minHeight: "100vh", padding: "40px 20px 80px" }}>
-      <button data-magnetic onClick={() => navigate("/orders")} style={{ padding: "8px 16px", background: "transparent", border: `1px solid ${tk.border}`, color: tk.textMid, borderRadius: 8, cursor: "pointer", fontFamily: "'Inter',sans-serif", marginBottom: 20 }}>← Back to Orders</button>
+      <div style={{ maxWidth: 800, margin: "0 auto 20px", display: "flex", justifyContent: "flex-start" }}>
+        <button data-magnetic onClick={() => navigate("/orders")} style={{ padding: "10px 18px", background: "rgba(59,130,246,0.12)", border: `1px solid rgba(59,130,246,0.35)`, color: "#60a5fa", borderRadius: 12, cursor: "pointer", fontFamily: "'Inter',sans-serif", fontWeight: 700, display: "inline-flex", alignItems: "center", gap: 8, transition: "all 0.2s" }}>← Back to Orders</button>
+      </div>
 
       {/* Header */}
       <div style={{ maxWidth: 800, margin: "0 auto", marginBottom: 40 }}>
@@ -89,14 +99,14 @@ export default function TrackingPage() {
           <div>
             <div style={{ fontSize: 12, color: tk.textMid, marginBottom: 4 }}>Estimated Delivery</div>
             <div style={{ fontSize: 14, fontWeight: 700, color: tk.text }}>
-              {new Date(estimatedDeliveryTime).toLocaleDateString()} {new Date(estimatedDeliveryTime).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+              {safeEstimatedDelivery}
             </div>
           </div>
           {actualDeliveryTime && (
             <div>
               <div style={{ fontSize: 12, color: tk.textMid, marginBottom: 4 }}>Delivered At</div>
               <div style={{ fontSize: 14, fontWeight: 700, color: A.green }}>
-                {new Date(actualDeliveryTime).toLocaleDateString()} {new Date(actualDeliveryTime).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                {formatDateTime(actualDeliveryTime)}
               </div>
             </div>
           )}
@@ -126,7 +136,7 @@ export default function TrackingPage() {
                 <div style={{ fontSize: 14, fontWeight: 700, color: tk.text, marginBottom: 4 }}>{item.name}</div>
                 {item.time && (
                   <div style={{ fontSize: 12, color: tk.textMid }}>
-                    {new Date(item.time).toLocaleDateString()} at {new Date(item.time).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                    {formatDateTime(item.time)}
                   </div>
                 )}
                 <div style={{ fontSize: 12, color: item.status === "completed" ? A.green : item.status === "pending" ? tk.textMid : A.orange, fontWeight: 600, marginTop: 4, textTransform: "capitalize" }}>

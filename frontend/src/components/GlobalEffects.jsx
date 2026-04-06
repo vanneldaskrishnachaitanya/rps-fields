@@ -122,17 +122,20 @@ export default function GlobalEffects() {
       // ═══════════════════════════════════════
       // 3. ALL BUTTONS MAGNETIC
       // ═══════════════════════════════════════
-      document.querySelectorAll("button, a.hnav, [data-magnetic]").forEach(btn => {
+      document.querySelectorAll("button, a.hnav, .mlink, [data-magnetic], [role='button']").forEach(btn => {
         if (btn.dataset.gfxMag) return;
         if (btn.offsetWidth < 20 || btn.offsetHeight < 20) return;
         btn.dataset.gfxMag = "1";
+        const baseTransform = btn.style.transform || "";
         const onMove = e => {
           const r = btn.getBoundingClientRect();
-          btn.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * 0.25}px, ${(e.clientY - r.top - r.height / 2) * 0.25}px)`;
+          const tx = (e.clientX - r.left - r.width / 2) * 0.25;
+          const ty = (e.clientY - r.top - r.height / 2) * 0.25;
+          btn.style.transform = `${baseTransform} translate(${tx}px, ${ty}px)`.trim();
           btn.style.transition = "transform 0.1s ease-out";
         };
         const onLeave = () => {
-          btn.style.transform = "translate(0,0)";
+          btn.style.transform = baseTransform;
           btn.style.transition = "transform 0.35s cubic-bezier(0.22,1,0.36,1)";
         };
         btn.addEventListener("mousemove", onMove);
