@@ -48,6 +48,8 @@ export default function ProductCard({ product }) {
     flex: 1, padding: "10px 8px",
     borderRadius: 12, cursor: outOfStock ? "not-allowed" : "pointer",
     fontWeight: 700, fontSize: 12, fontFamily: "'Inter',sans-serif",
+    display: "inline-flex", alignItems: "center", justifyContent: "center",
+    minHeight: 40, lineHeight: 1, whiteSpace: "nowrap",
     border: "1px solid rgba(255,255,255,0.28)",
     backdropFilter: "blur(20px) saturate(180%)",
     WebkitBackdropFilter: "blur(20px) saturate(180%)",
@@ -143,7 +145,7 @@ export default function ProductCard({ product }) {
         </div>
 
         {/* Buttons */}
-        <div style={{ display: "flex", gap: 8 }}>
+        <div style={{ display: "flex", gap: 8, alignItems: "stretch" }}>
           <button
             onClick={() => navigate(`/product/${product.id || product._id}`)}
             style={{
@@ -164,8 +166,8 @@ export default function ProductCard({ product }) {
                 ...iosBtnBase,
                 background: added ? (dark ? "rgba(16,185,129,0.35)" : "rgba(5,150,105,0.25)") : (dark ? "rgba(200,150,12,0.28)" : "rgba(168,112,8,0.22)"),
                 color: dark ? "#fff" : "#7a4a00",
-                minWidth: 44,
-                flex: added ? 1 : "0 0 44px",
+                minWidth: 42,
+                flex: added ? 1 : "0 0 42px",
                 fontSize: added ? 12 : 18,
               }}
               onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.08) translateY(-1px)"; e.currentTarget.style.background = added ? (dark ? "rgba(16,185,129,0.45)" : "rgba(5,150,105,0.35)") : (dark ? "rgba(200,150,12,0.42)" : "rgba(168,112,8,0.38)"); }}

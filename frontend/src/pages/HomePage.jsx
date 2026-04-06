@@ -288,9 +288,18 @@ export default function HomePage() {
             </h2>
             <p style={{ color:"#74c69d", fontSize:12, fontWeight:700, letterSpacing:"0.8px" }}>— Priya M., Hyderabad customer since 2024</p>
           </div>
-          <div data-id="trust2" style={{ display:"flex", justifyContent:"center", gap:20, marginTop:18, flexWrap:"wrap", ...reveal("trust2", 0.2) }}>
+          <div data-id="trust2" style={{
+            display:"grid",
+            gridTemplateColumns:"repeat(4,minmax(110px,1fr))",
+            gap:16,
+            maxWidth:560,
+            margin:"18px auto 0",
+            alignItems:"start",
+            justifyItems:"center",
+            ...reveal("trust2", 0.2),
+          }}>
             {[["🌾","500+","Verified Farmers"],["📦","10K+","Orders Delivered"],["⭐","4.8/5","Avg Rating"],["🗺","15+","States Covered"]].map(([icon,num,label]) => (
-              <div key={label} style={{ textAlign:"center" }}>
+              <div key={label} style={{ textAlign:"center", width:"100%" }}>
                 <div style={{ fontSize:18, marginBottom:2 }}>{icon}</div>
                 <div className="num" style={{ color:"#fff", fontSize:18, fontWeight:900, fontFamily:"'Inter',sans-serif" }}>{num}</div>
                 <div style={{ color:"rgba(255,255,255,0.55)", fontSize:10.5, marginTop:1 }}>{label}</div>
