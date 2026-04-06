@@ -50,11 +50,11 @@ export default function ProductCard({ product }) {
     fontWeight: 700, fontSize: 12, fontFamily: "'Inter',sans-serif",
     display: "inline-flex", alignItems: "center", justifyContent: "center",
     minHeight: 40, height: 40, lineHeight: 1, whiteSpace: "nowrap", textAlign: "center",
-    border: "1px solid rgba(255,255,255,0.28)",
+    border: "1px solid rgba(255,255,255,0.45)",
     backdropFilter: "blur(20px) saturate(180%)",
     WebkitBackdropFilter: "blur(20px) saturate(180%)",
     transition: "all 0.22s cubic-bezier(0.34,1.56,0.64,1)",
-    boxShadow: "inset 0 1.5px 0 rgba(255,255,255,0.45), inset 0 -1px 0 rgba(0,0,0,0.1), 0 4px 14px rgba(0,0,0,0.15)",
+    boxShadow: "inset 0 1.5px 0 rgba(255,255,255,0.58), inset 0 -1px 0 rgba(0,0,0,0.1), 0 6px 16px rgba(0,0,0,0.2)",
     position: "relative", overflow: "hidden",
   };
 
@@ -151,11 +151,21 @@ export default function ProductCard({ product }) {
             style={{
               ...iosBtnBase,
               width: "100%",
-              background: outOfStock ? (dark ? "rgba(100,100,100,0.15)" : "rgba(180,180,180,0.2)") : (dark ? "rgba(82,183,136,0.26)" : "rgba(45,106,79,0.18)"),
-              color: outOfStock ? tk.textLt : (dark ? "#fff" : "#1b4332"),
+              background: outOfStock
+                ? (dark ? "rgba(120,120,120,0.25)" : "rgba(170,170,170,0.26)")
+                : (dark ? "linear-gradient(135deg,rgba(116,198,157,0.48),rgba(45,106,79,0.62))" : "linear-gradient(135deg,rgba(82,183,136,0.28),rgba(45,106,79,0.34))"),
+              color: outOfStock ? "rgba(240,240,240,0.82)" : "#ffffff",
             }}
-            onMouseEnter={e => { if (!outOfStock) { e.currentTarget.style.transform = "scale(1.05) translateY(-1px)"; e.currentTarget.style.background = dark ? "rgba(82,183,136,0.4)" : "rgba(45,106,79,0.3)"; }}}
-            onMouseLeave={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.background = outOfStock ? (dark ? "rgba(100,100,100,0.15)" : "rgba(180,180,180,0.2)") : (dark ? "rgba(82,183,136,0.26)" : "rgba(45,106,79,0.18)"); }}
+            onMouseEnter={e => {
+              if (!outOfStock) {
+                e.currentTarget.style.transform = "scale(1.03) translateY(-1px)";
+                e.currentTarget.style.filter = "brightness(1.08)";
+              }
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.transform = "none";
+              e.currentTarget.style.filter = "none";
+            }}
           >
             {outOfStock ? "Out of Stock" : "View Details"}
           </button>
@@ -165,14 +175,17 @@ export default function ProductCard({ product }) {
               onClick={handleAddToCart}
               style={{
                 ...iosBtnBase,
-                background: added ? (dark ? "rgba(16,185,129,0.35)" : "rgba(5,150,105,0.25)") : (dark ? "rgba(200,150,12,0.28)" : "rgba(168,112,8,0.22)"),
-                color: dark ? "#fff" : "#7a4a00",
+                background: added
+                  ? (dark ? "linear-gradient(135deg,rgba(16,185,129,0.55),rgba(5,150,105,0.7))" : "linear-gradient(135deg,rgba(16,185,129,0.36),rgba(5,150,105,0.42))")
+                  : "linear-gradient(135deg,rgba(244,197,66,0.88),rgba(200,148,6,0.88))",
+                color: added ? "#ffffff" : "#2f2300",
                 minWidth: 40,
                 flex: added ? 1 : "0 0 40px",
                 fontSize: added ? 12 : 18,
+                borderColor: "rgba(255,240,178,0.75)",
               }}
-              onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.08) translateY(-1px)"; e.currentTarget.style.background = added ? (dark ? "rgba(16,185,129,0.45)" : "rgba(5,150,105,0.35)") : (dark ? "rgba(200,150,12,0.42)" : "rgba(168,112,8,0.38)"); }}
-              onMouseLeave={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.background = added ? (dark ? "rgba(16,185,129,0.35)" : "rgba(5,150,105,0.25)") : (dark ? "rgba(200,150,12,0.28)" : "rgba(168,112,8,0.22)"); }}
+              onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.05) translateY(-1px)"; e.currentTarget.style.filter = "brightness(1.08)"; }}
+              onMouseLeave={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.filter = "none"; }}
               title="Add to Cart"
             >
               {added ? "✓ Added!" : "🛒"}

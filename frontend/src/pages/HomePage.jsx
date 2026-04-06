@@ -267,10 +267,10 @@ export default function HomePage() {
 
           <div data-id="view-all" style={{ textAlign:"center", marginTop:8, ...reveal("view-all") }}>
             <button data-magnetic onClick={() => navigate("/catalog")} style={{
-              background:"rgba(82,183,136,0.28)", color:"#fff",
-              border:"none", padding:"14px 42px", borderRadius:50, cursor:"pointer",
+              background:"linear-gradient(135deg,rgba(116,198,157,0.52),rgba(45,106,79,0.72))", color:"#fff",
+              border:"1px solid rgba(199,240,220,0.55)", padding:"13px 38px", borderRadius:50, cursor:"pointer",
               fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif",
-              boxShadow:"0 6px 24px rgba(82,183,136,0.35)", transition:"all 0.25s",
+              boxShadow:"0 8px 24px rgba(82,183,136,0.4), inset 0 1px 0 rgba(255,255,255,0.35)", transition:"all 0.25s",
             }}
             >View All Products →</button>
           </div>
