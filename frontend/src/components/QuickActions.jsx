@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { useTheme, TK } from "../context/ThemeContext";
+import { useTheme } from "../context/ThemeContext";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 import { useState } from "react";
@@ -35,7 +35,7 @@ const GUEST_ACTIONS = [
 export default function QuickActions({ collapsed: defaultCollapsed = false }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const { dark } = useTheme(); const tk = TK(dark);
+  const { dark } = useTheme();
   const { user } = useAuth();
   const { itemCount } = useCart();
   const [collapsed, setCollapsed] = useState(defaultCollapsed);
