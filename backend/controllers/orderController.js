@@ -215,6 +215,7 @@ const getOrderTracking = async (req, res) => {
     const timeElapsed = Math.round((Date.now() - order.createdAt) / 1000 / 60); // minutes
     const estimatedDeliveryMinutes = 24 * 60; // 24 hours
     const estimatedDeliveryTime = order.estimatedDeliveryTime || new Date(order.createdAt.getTime() + estimatedDeliveryMinutes * 60 * 1000);
+    const processingTime = new Date(order.createdAt.getTime() + 10 * 60 * 1000);
 
     res.json({
       success: true,
@@ -234,7 +235,7 @@ const getOrderTracking = async (req, res) => {
         progressPercentage: Math.min(100, (timeElapsed / estimatedDeliveryMinutes) * 100),
         timeline: [
           { step: 1, name: "Order Confirmed", status: "completed", time: order.createdAt },
-          { step: 2, name: "Being Processed", status: order.deliveryStatus !== "processing" ? "completed" : "pending", time: order.createdAt },
+          { step: 2, name: "Being Processed", status: order.deliveryStatus !== "processing" ? "completed" : "pending", time: processingTime },
           { step: 3, name: "Picked Up", status: ["picked_up", "out_for_delivery", "delivered"].includes(order.deliveryStatus) ? "completed" : "pending", time: order.deliveryStartTime },
           { step: 4, name: "Out for Delivery", status: ["out_for_delivery", "delivered"].includes(order.deliveryStatus) ? "completed" : "pending", time: order.deliveryStartTime },
           { step: 5, name: "Delivered", status: order.deliveryStatus === "delivered" ? "completed" : "pending", time: order.actualDeliveryTime },
