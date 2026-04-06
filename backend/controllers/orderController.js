@@ -136,8 +136,6 @@ const getAllOrders = async (req, res) => {
   }
 };
 
-};
-
 // POST /api/orders/:id/start-delivery (agent picks up order)
 const startDelivery = async (req, res) => {
   try {
