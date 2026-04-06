@@ -103,7 +103,7 @@ export default function HomePage() {
     <div style={{ background: tk.bg, overflowX: "hidden" }}>
 
       {/* ─────────────── HERO SLIDER ─────────────── */}
-      <section style={{ position: "relative", height: "clamp(420px,88vh,780px)", minHeight: 520, maxHeight: 780, overflow: "hidden" }}>
+      <section style={{ position: "relative", height: "clamp(320px,66vh,560px)", minHeight: 320, maxHeight: 560, overflow: "hidden" }}>
         <div style={{
           position: "absolute", inset: 0,
           backgroundImage: `url(${cur.img})`,
