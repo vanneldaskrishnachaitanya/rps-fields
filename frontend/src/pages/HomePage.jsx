@@ -65,6 +65,7 @@ export default function HomePage() {
   const timerRef = useRef(null);
   const snapLockRef = useRef(false);
   const sectionRefs = useRef([]);
+  const headerOffset = 72;
 
   useEffect(() => {
     fetch(`${API_BASE}/products`)
@@ -101,6 +102,13 @@ export default function HomePage() {
     transition: `opacity 0.6s ease ${delay}s, transform 0.6s ease ${delay}s`,
   });
 
+  const scrollToStep = (step) => {
+    const target = sectionRefs.current[step];
+    if (!target) return;
+    const top = target.getBoundingClientRect().top + window.scrollY - headerOffset;
+    window.scrollTo({ top, behavior: "smooth" });
+  };
+
   useEffect(() => {
     const onWheel = (e) => {
       if (snapLockRef.current) {
@@ -120,7 +128,7 @@ export default function HomePage() {
       snapLockRef.current = true;
       setActiveStep(nextStep);
       setBlurFlash(true);
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      scrollToStep(nextStep);
 
       window.setTimeout(() => setBlurFlash(false), 420);
       window.setTimeout(() => {
@@ -144,7 +152,7 @@ export default function HomePage() {
   return (
     <div style={{ background: tk.bg, overflowX: "hidden" }}>
 
-      <div ref={el => { sectionRefs.current[0] = el; }} style={{ minHeight: "100vh", ...sectionTransitionStyle }}>
+      <div ref={el => { sectionRefs.current[0] = el; }} style={{ ...sectionTransitionStyle }}>
       {/* ─────────────── HERO SLIDER ─────────────── */}
       <section style={{ position: "relative", height: "clamp(320px,62vh,520px)", minHeight: 320, maxHeight: 520, overflow: "hidden" }}>
         <div style={{
@@ -251,7 +259,7 @@ export default function HomePage() {
       </div>
       </div>
 
-      <div ref={el => { sectionRefs.current[1] = el; }} style={{ minHeight: "100vh", ...sectionTransitionStyle }}>
+      <div ref={el => { sectionRefs.current[1] = el; }} style={{ ...sectionTransitionStyle }}>
       {/* ─────────────── CATEGORIES ─────────────── */}
       <section style={{ padding: "clamp(10px,2.2vw,24px) var(--page-px,clamp(10px,2.2vw,24px))", background: tk.bg }}>
         <div style={{ maxWidth: "var(--content-max)", margin: "0 auto" }}>
@@ -323,7 +331,7 @@ export default function HomePage() {
       </section>
       </div>
 
-      <div ref={el => { sectionRefs.current[2] = el; }} style={{ minHeight: "100vh", ...sectionTransitionStyle }}>
+      <div ref={el => { sectionRefs.current[2] = el; }} style={{ ...sectionTransitionStyle }}>
       {/* ─────────────── TESTIMONIAL + WHY GRID ─────────────── */}
       <section style={{ padding:"clamp(10px,2vw,20px) var(--page-px,clamp(10px,2.2vw,24px)) clamp(18px,2.8vw,30px)", background:tk.bg }}>
         <div style={{ maxWidth:"var(--content-max)", margin:"0 auto", display:"grid", gridTemplateColumns:"minmax(280px,360px) 1fr", gap:14, alignItems:"start" }}>
