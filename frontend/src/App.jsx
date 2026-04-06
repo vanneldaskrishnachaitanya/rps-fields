@@ -26,6 +26,7 @@ import CustomerDashboard from "./pages/customer/CustomerDashboard";
 import CartPage          from "./pages/CartPage";
 import CheckoutPage      from "./pages/customer/CheckoutPage";
 import OrdersPage        from "./pages/OrdersPage";
+import TrackingPage      from "./pages/TrackingPage";
 import ProfilePage       from "./pages/customer/ProfilePage";
 import ProfileEditPage   from "./pages/customer/ProfileEditPage";
 import AddressPage       from "./pages/customer/AddressPage";
@@ -120,6 +121,7 @@ function Layout() {
           <Route path="/customer/dashboard" element={<RequireAuth role="customer"><CustomerDashboard /></RequireAuth>} />
           <Route path="/checkout"           element={<RequireAuth role="customer"><CheckoutPage /></RequireAuth>} />
           <Route path="/orders"             element={<RequireAuth role="customer"><OrdersPage /></RequireAuth>} />
+          <Route path="/orders/:orderId/track" element={<RequireAuth role="customer"><TrackingPage /></RequireAuth>} />
           <Route path="/profile"            element={<RequireAuth role="customer"><ProfilePage /></RequireAuth>} />
           <Route path="/profile/edit"       element={<RequireAuth role="customer"><ProfileEditPage /></RequireAuth>} />
           <Route path="/address"            element={<RequireAuth role="customer"><AddressPage /></RequireAuth>} />

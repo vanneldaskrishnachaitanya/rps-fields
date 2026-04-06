@@ -3,6 +3,7 @@ import { useNavigate, Link, useParams } from "react-router-dom";
 import { useTheme, TK } from "../../context/ThemeContext";
 import { useAuth } from "../../context/AuthContext";
 import { AgentNav } from "./AgentDashboard";
+import DeliveryVerificationModal from "../../components/DeliveryVerificationModal";
 
 // ── Shared banner header ──────────────────────────────────────────────────────
 function AgentHeader({ title, sub }) {
@@ -92,16 +93,51 @@ export function AgentOrdersPage() {
   const { authFetch } = useAuth();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [verifyModal, setVerifyModal] = useState(null);
+  const [acting, setActing] = useState({});
 
-  useEffect(() => {
+  const loadOrders = useCallback(() => {
+    setLoading(true);
     authFetch("/orders/agent/orders")
       .then(d => setOrders(d.orders||[]))
       .finally(()=>setLoading(false));
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [authFetch]);
+
+  useEffect(() => {
+    loadOrders();
+  }, [loadOrders]);
+
+  const handleStartDelivery = async (orderId) => {
+    setActing(a => ({...a,[orderId]:true}));
+    try {
+      const res = await authFetch(`/orders/${orderId}/start-delivery`, { method: "POST" });
+      if (res.success) {
+        loadOrders();
+      }
+    } finally {
+      setActing(a => ({...a,[orderId]:false}));
+    }
+  };
+
+  const handleOutForDelivery = async (orderId) => {
+    setActing(a => ({...a,[orderId+"_out"]:true}));
+    try {
+      const res = await authFetch(`/orders/${orderId}/out-for-delivery`, { method: "POST" });
+      if (res.success) {
+        loadOrders();
+      }
+    } finally {
+      setActing(a => ({...a,[orderId+"_out"]:false}));
+    }
+  };
+
+  const handleDeliverySuccess = () => {
+    loadOrders();
+  };
 
   return (
     <div style={{ background:tk.bg, minHeight:"100%" }}>
-      <AgentHeader title="🛒 Orders" sub={`${orders.length} order${orders.length!==1?"s":""}`} />
+      <AgentHeader title="🚚 Manage Deliveries" sub={`${orders.length} order${orders.length!==1?"s":""}`} />
       <div style={{ maxWidth:1100, margin:"0 auto", padding:"30px 20px" }}>
         <AgentNav active="/agent/orders" />
         {loading ? <div style={{ textAlign:"center", padding:60, color:tk.textLt }}>Loading...</div>
@@ -110,29 +146,72 @@ export function AgentOrdersPage() {
             <div style={{ fontSize:52, marginBottom:12 }}>🛒</div>
             <p style={{ color:tk.textLt }}>No orders yet.</p>
           </div>
-        ) : orders.map(ord => (
-          <div key={ord._id||ord.id} data-tilt style={{ background:tk.bgCard, borderRadius:14, padding:22, marginBottom:14, boxShadow:tk.shadow, border:`1px solid ${tk.border}`, position:"relative", overflow:"hidden" }}>
-            <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:12, flexWrap:"wrap", gap:10 }}>
-              <div>
-                <div style={{ fontWeight:800, fontSize:15, color:tk.text }}>{ord._id||ord.id}</div>
-                <div style={{ fontSize:12, color:tk.textLt }}>{new Date(ord.createdAt).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"})}</div>
-              </div>
-              <div style={{ textAlign:"right" }}>
-                <span style={{ background:"#d4edda", color:"#155724", borderRadius:16, padding:"3px 12px", fontWeight:700, fontSize:12 }}>✓ {ord.status}</span>
-                <div style={{ fontSize:20, fontWeight:800, color:"#3b82f6", marginTop:3 }}>₹{ord.totalPrice||ord.total}</div>
-              </div>
-            </div>
-            <div style={{ display:"flex", flexWrap:"wrap", gap:8, marginBottom:8 }}>
-              {(ord.items||[]).map((item,i) => (
-                <div key={i} style={{ background:tk.bgMuted, borderRadius:8, padding:"7px 12px", fontSize:13, color:tk.textMid, border:`1px solid ${tk.border}` }}>
-                  {item.name} × {item.quantity||item.qty}kg — <strong>₹{item.totalPrice||(item.pricePerKg||item.price)*(item.quantity||item.qty)}</strong>
+        ) : orders.map(ord => {
+          const ordId = ord._id || ord.id;
+          const deliveryStatus = ord.deliveryStatus || "processing";
+          const statusColors = {
+            processing: { bg: "rgba(249,115,22,0.15)", color: "#f59e0b", border: "rgba(249,115,22,0.3)" },
+            picked_up: { bg: "rgba(59,130,246,0.15)", color: "#3b82f6", border: "rgba(59,130,246,0.3)" },
+            out_for_delivery: { bg: "rgba(168,85,247,0.15)", color: "#a855f7", border: "rgba(168,85,247,0.3)" },
+            delivered: { bg: "rgba(16,185,129,0.15)", color: "#10b981", border: "rgba(16,185,129,0.3)" },
+          };
+          const statusStyle = statusColors[deliveryStatus] || statusColors.processing;
+
+          return (
+            <div key={ordId} data-tilt style={{ background:tk.bgCard, borderRadius:14, padding:22, marginBottom:14, boxShadow:tk.shadow, border:`1px solid ${tk.border}`, position:"relative", overflow:"hidden" }}>
+              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:12, flexWrap:"wrap", gap:10 }}>
+                <div>
+                  <div style={{ fontWeight:800, fontSize:15, color:tk.text }}>Order #{ordId?.toString().slice(-10)}</div>
+                  <div style={{ fontSize:12, color:tk.textLt }}>{new Date(ord.createdAt).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"})}</div>
                 </div>
-              ))}
+                <div style={{ textAlign:"right" }}>
+                  <div style={{ background:statusStyle.bg, color:statusStyle.color, border:`1px solid ${statusStyle.border}`, borderRadius:16, padding:"4px 12px", fontWeight:700, fontSize:12, marginBottom:6, display:"inline-block", textTransform:"capitalize" }}>● {deliveryStatus.replace(/_/g, " ")}</div>
+                  <div style={{ fontSize:20, fontWeight:800, color:"#3b82f6" }}>₹{ord.totalPrice||ord.total}</div>
+                </div>
+              </div>
+              <div style={{ display:"flex", flexWrap:"wrap", gap:8, marginBottom:14 }}>
+                {(ord.items||[]).map((item,i) => (
+                  <div key={i} style={{ background:tk.bgMuted, borderRadius:8, padding:"7px 12px", fontSize:13, color:tk.textMid, border:`1px solid ${tk.border}` }}>
+                    {item.name} × {item.quantity||item.qty}kg
+                  </div>
+                ))}
+              </div>
+              <div style={{ fontSize:12, color:tk.textLt, paddingBottom:12, borderBottom:`1px solid ${tk.border}`, marginBottom:14 }}>
+                📍 {ord.deliveryAddress||ord.address}, {ord.city} · 📞 {ord.phone}
+              </div>
+
+              {/* Delivery Actions */}
+              <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
+                {deliveryStatus === "processing" && (
+                  <button data-magnetic onClick={() => handleStartDelivery(ordId)} disabled={acting[ordId]} 
+                    style={{ flex:"1 1 auto", minWidth:140, padding:10, background:"rgba(59,130,246,0.28)", border:"1px solid rgba(59,130,246,0.5)", color:"#fff", borderRadius:8, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif", fontSize:13, opacity:acting[ordId]?0.6:1 }}>
+                    {acting[ordId] ? "Picking up..." : "📦 Pick Up Order"}
+                  </button>
+                )}
+                {deliveryStatus === "picked_up" && (
+                  <button data-magnetic onClick={() => handleOutForDelivery(ordId)} disabled={acting[ordId+"_out"]}
+                    style={{ flex:"1 1 auto", minWidth:140, padding:10, background:"rgba(168,85,247,0.28)", border:"1px solid rgba(168,85,247,0.5)", color:"#fff", borderRadius:8, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif", fontSize:13, opacity:acting[ordId+"_out"]?0.6:1 }}>
+                    {acting[ordId+"_out"] ? "Marking..." : "🚗 Out for Delivery"}
+                  </button>
+                )}
+                {(deliveryStatus === "picked_up" || deliveryStatus === "out_for_delivery") && (
+                  <button data-magnetic onClick={() => setVerifyModal(ord)}
+                    style={{ flex:"1 1 auto", minWidth:140, padding:10, background:"rgba(16,185,129,0.28)", border:"1px solid rgba(16,185,129,0.5)", color:"#fff", borderRadius:8, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif", fontSize:13 }}>
+                    ✓ Verify & Deliver
+                  </button>
+                )}
+                {deliveryStatus === "delivered" && (
+                  <div style={{ flex:"1 1 auto", minWidth:140, padding:10, background:"rgba(16,185,129,0.15)", border:`1px solid rgba(16,185,129,0.3)`, color:"#10b981", borderRadius:8, fontWeight:700, fontFamily:"'Inter',sans-serif", fontSize:13, textAlign:"center" }}>
+                    ✓ Delivered
+                  </div>
+                )}
+              </div>
             </div>
-            <div style={{ fontSize:12, color:tk.textLt }}>📦 {ord.deliveryAddress||ord.address}, {ord.city} · 📞 {ord.phone}</div>
-          </div>
-        ))}
+          );
+        })}
       </div>
+
+      {verifyModal && <DeliveryVerificationModal order={verifyModal} onClose={() => setVerifyModal(null)} onSuccess={handleDeliverySuccess} />}
     </div>
   );
 }

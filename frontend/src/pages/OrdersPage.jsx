@@ -71,6 +71,13 @@ export default function OrdersPage() {
                   </div>
                 </div>
                 <div style={{ textAlign:"right", display:"flex", flexDirection:"column", alignItems:"flex-end", gap:8 }}>
+                  <div style={{ display:"flex", gap:8 }}>
+                    {ord.status !== "cancelled" && (
+                      <button data-magnetic onClick={()=>navigate(`/orders/${ordId}/track`)} style={{ padding:"6px 12px", background:"rgba(59,130,246,0.15)", border:"1px solid rgba(59,130,246,0.4)", color:"#3b82f6", borderRadius:20, cursor:"pointer", fontSize:12, fontWeight:700, fontFamily:"'Inter',sans-serif", transition:"all 0.2s", whiteSpace:"nowrap" }} onMouseEnter={e=>{e.target.style.background="rgba(59,130,246,0.3)";}} onMouseLeave={e=>{e.target.style.background="rgba(59,130,246,0.15)";}}>
+                        📍 Track
+                      </button>
+                    )}
+                  </div>
                   <span style={{ background:ss.bg, color:ss.color, border:`1px solid ${ss.border}`, borderRadius:20, padding:"4px 14px", fontWeight:700, fontSize:12 }}>
                     ● {ord.status}
                   </span>
