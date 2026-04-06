@@ -290,16 +290,17 @@ export default function HomePage() {
           </div>
           <div data-id="trust2" style={{
             display:"grid",
-            gridTemplateColumns:"repeat(4,minmax(110px,1fr))",
-            gap:16,
+            gridTemplateColumns:"repeat(4,120px)",
+            justifyContent:"center",
+            gap:14,
+            width:"100%",
             maxWidth:560,
             margin:"18px auto 0",
             alignItems:"start",
-            justifyItems:"center",
             ...reveal("trust2", 0.2),
           }}>
             {[["🌾","500+","Verified Farmers"],["📦","10K+","Orders Delivered"],["⭐","4.8/5","Avg Rating"],["🗺","15+","States Covered"]].map(([icon,num,label]) => (
-              <div key={label} style={{ textAlign:"center", width:"100%" }}>
+              <div key={label} style={{ textAlign:"center", width:120, margin:"0 auto" }}>
                 <div style={{ fontSize:18, marginBottom:2 }}>{icon}</div>
                 <div className="num" style={{ color:"#fff", fontSize:18, fontWeight:900, fontFamily:"'Inter',sans-serif" }}>{num}</div>
                 <div style={{ color:"rgba(255,255,255,0.55)", fontSize:10.5, marginTop:1 }}>{label}</div>

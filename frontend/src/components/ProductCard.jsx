@@ -49,7 +49,7 @@ export default function ProductCard({ product }) {
     borderRadius: 12, cursor: outOfStock ? "not-allowed" : "pointer",
     fontWeight: 700, fontSize: 12, fontFamily: "'Inter',sans-serif",
     display: "inline-flex", alignItems: "center", justifyContent: "center",
-    minHeight: 40, lineHeight: 1, whiteSpace: "nowrap",
+    minHeight: 40, height: 40, lineHeight: 1, whiteSpace: "nowrap", textAlign: "center",
     border: "1px solid rgba(255,255,255,0.28)",
     backdropFilter: "blur(20px) saturate(180%)",
     WebkitBackdropFilter: "blur(20px) saturate(180%)",
@@ -150,6 +150,7 @@ export default function ProductCard({ product }) {
             onClick={() => navigate(`/product/${product.id || product._id}`)}
             style={{
               ...iosBtnBase,
+              width: "100%",
               background: outOfStock ? (dark ? "rgba(100,100,100,0.15)" : "rgba(180,180,180,0.2)") : (dark ? "rgba(82,183,136,0.26)" : "rgba(45,106,79,0.18)"),
               color: outOfStock ? tk.textLt : (dark ? "#fff" : "#1b4332"),
             }}
@@ -166,8 +167,8 @@ export default function ProductCard({ product }) {
                 ...iosBtnBase,
                 background: added ? (dark ? "rgba(16,185,129,0.35)" : "rgba(5,150,105,0.25)") : (dark ? "rgba(200,150,12,0.28)" : "rgba(168,112,8,0.22)"),
                 color: dark ? "#fff" : "#7a4a00",
-                minWidth: 42,
-                flex: added ? 1 : "0 0 42px",
+                minWidth: 40,
+                flex: added ? 1 : "0 0 40px",
                 fontSize: added ? 12 : 18,
               }}
               onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.08) translateY(-1px)"; e.currentTarget.style.background = added ? (dark ? "rgba(16,185,129,0.45)" : "rgba(5,150,105,0.35)") : (dark ? "rgba(200,150,12,0.42)" : "rgba(168,112,8,0.38)"); }}
