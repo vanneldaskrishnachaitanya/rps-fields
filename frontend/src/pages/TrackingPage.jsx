@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useTheme, TK } from "../context/ThemeContext";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 export default function TrackingPage() {
   const { orderId } = useParams();
@@ -14,7 +14,7 @@ export default function TrackingPage() {
   const [error, setError] = useState("");
   const [refreshing, setRefreshing] = useState(false);
 
-  const fetchTracking = async (isRefresh = false) => {
+  const fetchTracking = useCallback(async (isRefresh = false) => {
     try {
       if (isRefresh) setRefreshing(true);
       else setLoading(true);
@@ -32,13 +32,13 @@ export default function TrackingPage() {
       if (isRefresh) setRefreshing(false);
       else setLoading(false);
     }
-  };
+  }, [orderId]);
 
   useEffect(() => {
     fetchTracking();
     const interval = setInterval(() => fetchTracking(true), 5000); // Refresh every 5 seconds
     return () => clearInterval(interval);
-  }, [orderId]);
+  }, [orderId, fetchTracking]);
 
   if (loading) return <div style={{ background: tk.bg, minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", color: tk.textMid }}>Loading tracking...</div>;
 
