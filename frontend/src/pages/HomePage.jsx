@@ -60,7 +60,11 @@ export default function HomePage() {
   const [slide, setSlide]         = useState(0);
   const [animating, setAnimating] = useState(false);
   const [visible, setVisible]     = useState({});
+  const [activeStep, setActiveStep] = useState(0);
+  const [blurFlash, setBlurFlash] = useState(false);
   const timerRef = useRef(null);
+  const snapLockRef = useRef(false);
+  const sectionRefs = useRef([]);
 
   useEffect(() => {
     fetch(`${API_BASE}/products`)
@@ -97,11 +101,50 @@ export default function HomePage() {
     transition: `opacity 0.6s ease ${delay}s, transform 0.6s ease ${delay}s`,
   });
 
+  useEffect(() => {
+    const onWheel = (e) => {
+      if (snapLockRef.current) {
+        e.preventDefault();
+        return;
+      }
+      if (Math.abs(e.deltaY) < 8) return;
+
+      const dir = e.deltaY > 0 ? 1 : -1;
+      const nextStep = Math.max(0, Math.min(2, activeStep + dir));
+      if (nextStep === activeStep) return;
+
+      const target = sectionRefs.current[nextStep];
+      if (!target) return;
+
+      e.preventDefault();
+      snapLockRef.current = true;
+      setActiveStep(nextStep);
+      setBlurFlash(true);
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+
+      window.setTimeout(() => setBlurFlash(false), 420);
+      window.setTimeout(() => {
+        snapLockRef.current = false;
+      }, 760);
+    };
+
+    window.addEventListener("wheel", onWheel, { passive: false });
+    return () => window.removeEventListener("wheel", onWheel);
+  }, [activeStep]);
+
+  const sectionTransitionStyle = {
+    transition: "filter 0.42s ease, opacity 0.42s ease, transform 0.42s ease",
+    filter: blurFlash ? "blur(2px)" : "blur(0px)",
+    opacity: blurFlash ? 0.93 : 1,
+    transform: blurFlash ? "translateY(6px)" : "translateY(0)",
+  };
+
   const cur = SLIDES[slide];
 
   return (
     <div style={{ background: tk.bg, overflowX: "hidden" }}>
 
+      <div ref={el => { sectionRefs.current[0] = el; }} style={{ minHeight: "100vh", ...sectionTransitionStyle }}>
       {/* ─────────────── HERO SLIDER ─────────────── */}
       <section style={{ position: "relative", height: "clamp(320px,62vh,520px)", minHeight: 320, maxHeight: 520, overflow: "hidden" }}>
         <div style={{
@@ -206,7 +249,9 @@ export default function HomePage() {
           ))}
         </div>
       </div>
+      </div>
 
+      <div ref={el => { sectionRefs.current[1] = el; }} style={{ minHeight: "100vh", ...sectionTransitionStyle }}>
       {/* ─────────────── CATEGORIES ─────────────── */}
       <section style={{ padding: "clamp(10px,2.2vw,24px) var(--page-px,clamp(10px,2.2vw,24px))", background: tk.bg }}>
         <div style={{ maxWidth: "var(--content-max)", margin: "0 auto" }}>
@@ -276,7 +321,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      </div>
 
+      <div ref={el => { sectionRefs.current[2] = el; }} style={{ minHeight: "100vh", ...sectionTransitionStyle }}>
       {/* ─────────────── TESTIMONIAL + WHY GRID ─────────────── */}
       <section style={{ padding:"clamp(10px,2vw,20px) var(--page-px,clamp(10px,2.2vw,24px)) clamp(18px,2.8vw,30px)", background:tk.bg }}>
         <div style={{ maxWidth:"var(--content-max)", margin:"0 auto", display:"grid", gridTemplateColumns:"minmax(280px,360px) 1fr", gap:14, alignItems:"start" }}>
@@ -350,6 +397,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      </div>
 
     </div>
   );
