@@ -19,12 +19,6 @@ export default function FarmerProductsPage() {
   };
   useEffect(()=>{ load(); }, []); // eslint-disable-line
 
-  const handleDelete = async (id, name) => {
-    if (!window.confirm(`Delete "${name}"?`)) return;
-    const d = await authFetch(`/products/${id}`,{method:"DELETE"});
-    if (d.success) { setMsg("Product deleted."); setTimeout(()=>setMsg(""),3000); load(); }
-  };
-
   const gc = { // glass card style
     background: dark?"rgba(12,22,15,0.82)":"rgba(255,255,255,0.82)",
     backdropFilter:"blur(24px) saturate(180%)", WebkitBackdropFilter:"blur(24px) saturate(180%)",
