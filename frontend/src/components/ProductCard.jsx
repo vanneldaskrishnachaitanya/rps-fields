@@ -2,11 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme, TK } from "../context/ThemeContext";
 import { useCart } from "../context/CartContext";
-import { useTilt } from "../hooks/useTilt";
 
 export default function ProductCard({ product }) {
   const navigate = useNavigate();
-  const tiltRef = useTilt();
   const { dark } = useTheme(); const tk = TK(dark);
   const { addToCart } = useCart();
   const [hovered,   setHovered]   = useState(false);
@@ -43,8 +41,6 @@ export default function ProductCard({ product }) {
 
   return (
     <div
-      ref={tiltRef}
-      data-tilt
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
