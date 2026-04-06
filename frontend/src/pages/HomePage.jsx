@@ -277,67 +277,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ─────────────── TRUST BANNER ─────────────── */}
-      <div style={{ background:"linear-gradient(135deg,#1b4332,#2d6a4f,#1b4332)", padding:"18px var(--page-px,clamp(10px,2.2vw,24px))", position:"relative", overflow:"hidden" }}>
-        <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(circle at 20% 50%,rgba(82,183,136,0.14),transparent 60%),radial-gradient(circle at 80% 50%,rgba(116,198,157,0.09),transparent 60%)", pointerEvents:"none" }} />
-        <div style={{ maxWidth:860, margin:"0 auto", textAlign:"center", position:"relative" }}>
-          <div data-id="trust" style={reveal("trust")}>
-            <div style={{ fontSize:28, marginBottom:8 }}>⭐⭐⭐⭐⭐</div>
-            <h2 style={{ color:"#fff", fontSize:"clamp(18px,2.3vw,28px)", fontFamily:"'Playfair Display',Georgia,serif", marginBottom:6, lineHeight:1.3, fontStyle:"italic" }}>
-              "The freshest produce I've ever received,<br />straight from the farm to my kitchen."
-            </h2>
-            <p style={{ color:"#74c69d", fontSize:12, fontWeight:700, letterSpacing:"0.8px" }}>— Priya M., Hyderabad customer since 2024</p>
-          </div>
-          <div data-id="trust2" style={{
-            display:"grid",
-            gridTemplateColumns:"repeat(4,120px)",
-            justifyContent:"center",
-            gap:14,
-            width:"100%",
-            maxWidth:560,
-            margin:"18px auto 0",
-            alignItems:"start",
-            ...reveal("trust2", 0.2),
-          }}>
-            {[["🌾","500+","Verified Farmers"],["📦","10K+","Orders Delivered"],["⭐","4.8/5","Avg Rating"],["🗺","15+","States Covered"]].map(([icon,num,label]) => (
-              <div key={label} style={{ textAlign:"center", width:120, margin:"0 auto" }}>
-                <div style={{ fontSize:18, marginBottom:2 }}>{icon}</div>
-                <div className="num" style={{ color:"#fff", fontSize:18, fontWeight:900, fontFamily:"'Inter',sans-serif" }}>{num}</div>
-                <div style={{ color:"rgba(255,255,255,0.55)", fontSize:10.5, marginTop:1 }}>{label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* ─────────────── WHY US ─────────────── */}
-      <section style={{ padding:"clamp(14px,2.5vw,28px) var(--page-px,clamp(10px,2.2vw,24px))", background:tk.bg }}>
-        <div style={{ maxWidth:"var(--content-max)", margin:"0 auto" }}>
-          <div data-id="why-hd" style={{ textAlign:"center", marginBottom:26, ...reveal("why-hd") }}>
-            <span style={{ display:"inline-block", background: dark?"#1c3525":"#e8f5ee", color:"#40916c", borderRadius:20, padding:"4px 16px", fontSize:11, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", marginBottom:14 }}>Why RPS Fields</span>
-            <h2 style={{ fontSize:"clamp(28px,4vw,40px)", fontFamily:"'Playfair Display',Georgia,serif", color:tk.text }}>What Makes Us Different</h2>
-          </div>
-          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(180px,1fr))", gap:12 }}>
-            {WHY.map((w, i) => (
-              <div key={w.title} data-id={`why-${i}`} data-tilt style={{
-                background:tk.bgCard, borderRadius:16, padding:"20px 18px",
-                border:`1px solid ${tk.border}`, transition:"all 0.3s ease",
-                ...reveal(`why-${i}`, i * 0.07),
-              }}
-                onMouseEnter={e => { e.currentTarget.style.transform="translateY(-5px)"; e.currentTarget.style.boxShadow="0 14px 40px rgba(27,67,50,0.15)"; e.currentTarget.style.borderColor="#52b788"; }}
-                onMouseLeave={e => { e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow="none"; e.currentTarget.style.borderColor=tk.border; }}
-              >
-                <div style={{ width:44, height:44, borderRadius:12, background: dark?"#1c3525":"#e8f5ee", display:"flex", alignItems:"center", justifyContent:"center", fontSize:20, marginBottom:12 }}>{w.icon}</div>
-                <div style={{ fontWeight:800, fontSize:15, color:tk.text, marginBottom:6 }}>{w.title}</div>
-                <div style={{ fontSize:12.5, color:tk.textLt, lineHeight:1.55 }}>{w.desc}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─────────────── JOIN CTA ─────────────── */}
-      <section style={{ padding:"clamp(18px,2.6vw,30px) var(--page-px,clamp(10px,2.2vw,24px))", background: dark?"#080f09":"#f0f7f2", borderTop:`1px solid ${tk.border}` }}>
+      {/* ─────────────── JOIN CTA (MOVED UP) ─────────────── */}
+      <section style={{ padding:"clamp(16px,2.3vw,24px) var(--page-px,clamp(10px,2.2vw,24px))", background: dark?"#080f09":"#f0f7f2", borderTop:`1px solid ${tk.border}` }}>
         <div data-id="cta" style={{ maxWidth:620, margin:"0 auto", textAlign:"center", ...reveal("cta") }}>
           <div style={{ fontSize:34, marginBottom:10 }}>🌿</div>
           <h2 style={{ fontSize:"clamp(22px,3vw,32px)", fontFamily:"'Playfair Display',Georgia,serif", color:tk.text, marginBottom:10 }}>
@@ -351,6 +292,61 @@ export default function HomePage() {
             >🌾 Join as Farmer</button>
             <button data-magnetic onClick={() => navigate("/register/agent")} style={{ background:"rgba(59,130,246,0.25)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.12), 0 8px 28px rgba(0,0,0,0.22), 0 6px 24px rgba(30,64,175,0.3)", padding:"11px 24px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:14, fontFamily:"'Inter',sans-serif", transition:"all 0.25s" }}
             >🏢 Join as Agent</button>
+          </div>
+        </div>
+      </section>
+
+      {/* ─────────────── TESTIMONIAL + WHY GRID ─────────────── */}
+      <section style={{ padding:"clamp(10px,2vw,20px) var(--page-px,clamp(10px,2.2vw,24px)) clamp(18px,2.8vw,30px)", background:tk.bg }}>
+        <div style={{ maxWidth:"var(--content-max)", margin:"0 auto", display:"grid", gridTemplateColumns:"minmax(280px,360px) 1fr", gap:14, alignItems:"start" }}>
+
+          {/* Testimonial card */}
+          <div data-id="trust" style={{
+            background: "linear-gradient(135deg,rgba(45,106,79,0.38),rgba(27,67,50,0.58))",
+            border:`1px solid ${dark ? "rgba(116,198,157,0.35)" : "rgba(45,106,79,0.3)"}`,
+            borderRadius:18,
+            padding:"16px 14px",
+            backdropFilter:"blur(12px)",
+            ...reveal("trust"),
+          }}>
+            <div style={{ fontSize:22, marginBottom:6 }}>⭐⭐⭐⭐⭐</div>
+            <h3 style={{ color:"#fff", fontSize:"clamp(17px,1.8vw,22px)", fontFamily:"'Playfair Display',Georgia,serif", lineHeight:1.3, marginBottom:8, fontStyle:"italic" }}>
+              "The freshest produce I've ever received, straight from the farm to my kitchen."
+            </h3>
+            <p style={{ color:"#74c69d", fontSize:11.5, fontWeight:700, marginBottom:10 }}>— Priya M., Hyderabad customer since 2024</p>
+            <div data-id="trust2" style={{ display:"grid", gridTemplateColumns:"repeat(2,1fr)", gap:8, ...reveal("trust2", 0.12) }}>
+              {[["🌾","500+","Verified Farmers"],["📦","10K+","Orders Delivered"],["⭐","4.8/5","Avg Rating"],["🗺","15+","States Covered"]].map(([icon,num,label]) => (
+                <div key={label} style={{ textAlign:"center", padding:"6px 4px", borderRadius:10, background:"rgba(0,0,0,0.12)" }}>
+                  <div style={{ fontSize:15 }}>{icon}</div>
+                  <div className="num" style={{ color:"#fff", fontSize:17, fontWeight:900, fontFamily:"'Inter',sans-serif" }}>{num}</div>
+                  <div style={{ color:"rgba(255,255,255,0.62)", fontSize:10 }}>{label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Why cards moved to the right */}
+          <div>
+            <div data-id="why-hd" style={{ marginBottom:10, ...reveal("why-hd") }}>
+              <span style={{ display:"inline-block", background: dark?"#1c3525":"#e8f5ee", color:"#40916c", borderRadius:20, padding:"4px 14px", fontSize:10.5, fontWeight:700, letterSpacing:"1.1px", textTransform:"uppercase", marginBottom:8 }}>Why RPS Fields</span>
+              <h2 style={{ fontSize:"clamp(24px,3vw,34px)", fontFamily:"'Playfair Display',Georgia,serif", color:tk.text }}>What Makes Us Different</h2>
+            </div>
+            <div style={{ display:"grid", gridTemplateColumns:"repeat(3,minmax(0,1fr))", gap:10 }}>
+              {WHY.map((w, i) => (
+                <div key={w.title} data-id={`why-${i}`} data-tilt style={{
+                  background:tk.bgCard, borderRadius:14, padding:"14px 12px",
+                  border:`1px solid ${tk.border}`, transition:"all 0.3s ease",
+                  ...reveal(`why-${i}`, i * 0.05),
+                }}
+                  onMouseEnter={e => { e.currentTarget.style.transform="translateY(-4px)"; e.currentTarget.style.boxShadow="0 10px 30px rgba(27,67,50,0.14)"; e.currentTarget.style.borderColor="#52b788"; }}
+                  onMouseLeave={e => { e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow="none"; e.currentTarget.style.borderColor=tk.border; }}
+                >
+                  <div style={{ width:36, height:36, borderRadius:10, background: dark?"#1c3525":"#e8f5ee", display:"flex", alignItems:"center", justifyContent:"center", fontSize:17, marginBottom:8 }}>{w.icon}</div>
+                  <div style={{ fontWeight:800, fontSize:13.5, color:tk.text, marginBottom:4 }}>{w.title}</div>
+                  <div style={{ fontSize:11.5, color:tk.textLt, lineHeight:1.45 }}>{w.desc}</div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
