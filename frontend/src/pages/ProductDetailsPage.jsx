@@ -183,10 +183,15 @@ export default function ProductDetailsPage() {
                   }}>
                     {added ? `✓ Added ${qty}kg to Cart!` : `🛒 Add to Cart`}
                   </button>
-                  <button data-magnetic onClick={() => navigate("/cart")} style={{ padding:"15px 20px", background:"transparent", border:`2px solid ${tk.green6}`, color:tk.green6, borderRadius:14, cursor:"pointer", fontWeight:700, fontSize:14, fontFamily:"'Inter',sans-serif", transition:"all 0.2s" }}>
+                  <button
+                    data-magnetic
+                    onClick={() => navigate("/cart")}
+                    style={{ padding:"15px 20px", background:"transparent", border:`2px solid ${tk.green6}`, color:tk.green6, borderRadius:14, cursor:"pointer", fontWeight:700, fontSize:14, fontFamily:"'Inter',sans-serif", transition:"all 0.2s" }}
                     onMouseEnter={e => { e.currentTarget.style.background=tk.green6; e.currentTarget.style.color="#fff"; }}
                     onMouseLeave={e => { e.currentTarget.style.background="transparent"; e.currentTarget.style.color=tk.green6; }}
-                  >Cart →</button>
+                  >
+                    Cart →
+                  </button>
                 </div>
               </div>
             ) : (
