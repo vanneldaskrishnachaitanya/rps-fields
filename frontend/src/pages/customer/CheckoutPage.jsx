@@ -3,12 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { useTheme, TK } from "../../context/ThemeContext";
 import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
+import { useNotifications } from "../../context/NotificationContext";
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
   const { dark } = useTheme(); const tk = TK(dark);
   const { cart, total, clearCart } = useCart();
   const { user, authFetch } = useAuth();
+  const { notifyOrderPlaced } = useNotifications();
 
   const [form, setForm] = useState({ address: user?.address || "", city: user?.city || "", phone: user?.phone || "" });
   const [errors, setErrors] = useState({});
@@ -37,6 +39,7 @@ export default function CheckoutPage() {
       });
       if (!data.success) throw new Error(data.error);
       clearCart();
+      notifyOrderPlaced(data.order);
       setOrder(data.order);
     } catch (e) { setApiError(e.message); }
     finally { setLoading(false); }

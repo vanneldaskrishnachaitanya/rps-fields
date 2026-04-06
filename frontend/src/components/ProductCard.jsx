@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme, TK } from "../context/ThemeContext";
 import { useCart } from "../context/CartContext";
@@ -11,6 +11,7 @@ export default function ProductCard({ product }) {
   const [imgError,  setImgError]  = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
   const [added,     setAdded]     = useState(false);
+  const cardRef = useRef(null);
 
   const farmerName = product.farmerName || product.farmer || "Farmer";
   const farmerLoc  = product.farmerLocation || product.location || "";
@@ -26,7 +27,23 @@ export default function ProductCard({ product }) {
     setTimeout(() => setAdded(false), 1800);
   };
 
-  // iOS glass button style
+  // 3D Tilt handlers
+  const handleMouseMove = useCallback((e) => {
+    if (!cardRef.current) return;
+    const r = cardRef.current.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width;
+    const y = (e.clientY - r.top) / r.height;
+    const rx = (y - 0.5) * -14;
+    const ry = (x - 0.5) * 14;
+    cardRef.current.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px) scale(1.02)`;
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    if (!cardRef.current) return;
+    cardRef.current.style.transform = "perspective(800px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)";
+    setHovered(false);
+  }, []);
+
   const iosBtnBase = {
     flex: 1, padding: "11px 8px",
     borderRadius: 14, cursor: outOfStock ? "not-allowed" : "pointer",
@@ -41,15 +58,19 @@ export default function ProductCard({ product }) {
 
   return (
     <div
+      ref={cardRef}
       onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       style={{
         background: tk.bgCard, borderRadius: 20, overflow: "hidden",
-        border: `1px solid ${hovered ? "#52b788" : tk.border}`,
-        boxShadow: hovered ? "0 16px 48px rgba(27,67,50,0.18)" : "0 2px 16px rgba(0,0,0,0.06)",
-        transform: hovered ? "translateY(-7px)" : "none",
-        transition: "all 0.3s cubic-bezier(0.34,1.56,0.64,1)",
-        perspective: "1000px",
+        border: `1px solid ${hovered ? (dark ? "#52b788" : "#2d6a4f") : tk.border}`,
+        boxShadow: hovered
+          ? (dark ? "0 20px 60px rgba(27,67,50,0.35), 0 0 0 1px rgba(82,183,136,0.2)" : "0 20px 60px rgba(27,67,50,0.2)")
+          : tk.shadow,
+        transition: "border-color 0.3s ease, box-shadow 0.3s ease",
+        transformStyle: "preserve-3d",
+        willChange: "transform",
       }}
     >
       {/* Image */}
@@ -72,12 +93,10 @@ export default function ProductCard({ product }) {
           <div style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 52 }}>🌿</div>
         )}
 
-        {/* Category badge */}
-        <div style={{ position: "absolute", top: 12, right: 12, background: "rgba(27,67,50,0.88)", backdropFilter: "blur(8px)", border: "1px solid rgba(82,183,136,0.3)", color: "#74c69d", borderRadius: 20, padding: "3px 11px", fontSize: 11, fontWeight: 700 }}>
+        <div style={{ position: "absolute", top: 12, right: 12, background: dark ? "rgba(27,67,50,0.88)" : "rgba(27,67,50,0.82)", backdropFilter: "blur(8px)", border: "1px solid rgba(82,183,136,0.3)", color: "#74c69d", borderRadius: 20, padding: "3px 11px", fontSize: 11, fontWeight: 700 }}>
           {product.category}
         </div>
 
-        {/* Location badge */}
         {farmerLoc && (
           <div style={{ position: "absolute", bottom: 10, left: 10, background: "rgba(0,0,0,0.6)", backdropFilter: "blur(8px)", color: "rgba(255,255,255,0.88)", borderRadius: 20, padding: "3px 10px", fontSize: 10, fontWeight: 600 }}>
             📍 {farmerLoc}
@@ -93,7 +112,6 @@ export default function ProductCard({ product }) {
           </div>
         )}
 
-        {/* Hover gradient overlay */}
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top,rgba(27,67,50,0.4) 0%,transparent 55%)", opacity: hovered ? 1 : 0, transition: "opacity 0.3s ease" }} />
       </div>
 
@@ -106,7 +124,6 @@ export default function ProductCard({ product }) {
             <span>{farmerName}</span>
           </div>
 
-          {/* Price — Inter font, tabular numbers */}
           <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 12 }}>
             <span className="price-value" style={{ fontSize: 22, fontWeight: 900, color: tk.green5, fontFamily: "'Inter',sans-serif", fontFeatureSettings: '"tnum"', letterSpacing: "-0.5px" }}>
               ₹{Number(price).toLocaleString("en-IN")}
@@ -114,46 +131,45 @@ export default function ProductCard({ product }) {
             <span style={{ fontSize: 12, color: tk.textLt, fontFamily: "'Inter',sans-serif" }}>/{unit}</span>
           </div>
 
+          {/* Rating shown statically — no live count */}
           {product.avgRating > 0 && (
             <div style={{ display: "flex", alignItems: "center", gap: 4, marginBottom: 10 }}>
               {[1,2,3,4,5].map(s => (
                 <span key={s} style={{ fontSize: 11, color: s <= Math.round(product.avgRating) ? "#d4a017" : tk.border }}>★</span>
               ))}
-              <span style={{ fontSize: 11, color: tk.textLt, marginLeft: 2 }}>{product.avgRating.toFixed(1)} ({product.totalRatings})</span>
+              <span style={{ fontSize: 11, color: tk.textLt, marginLeft: 2 }}>{product.avgRating.toFixed(1)}</span>
             </div>
           )}
         </div>
 
-        {/* Dual buttons — iOS dock glass style */}
+        {/* Buttons */}
         <div style={{ display: "flex", gap: 8 }}>
-          {/* View Details */}
           <button
             onClick={() => navigate(`/product/${product.id || product._id}`)}
             style={{
               ...iosBtnBase,
-              background: outOfStock ? "rgba(100,100,100,0.15)" : "rgba(82,183,136,0.26)",
-              color: outOfStock ? tk.textLt : "#fff",
+              background: outOfStock ? (dark ? "rgba(100,100,100,0.15)" : "rgba(180,180,180,0.2)") : (dark ? "rgba(82,183,136,0.26)" : "rgba(45,106,79,0.18)"),
+              color: outOfStock ? tk.textLt : (dark ? "#fff" : "#1b4332"),
             }}
-            onMouseEnter={e => { if (!outOfStock) { e.currentTarget.style.transform = "scale(1.05) translateY(-1px)"; e.currentTarget.style.background = "rgba(82,183,136,0.4)"; }}}
-            onMouseLeave={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.background = outOfStock ? "rgba(100,100,100,0.15)" : "rgba(82,183,136,0.26)"; }}
+            onMouseEnter={e => { if (!outOfStock) { e.currentTarget.style.transform = "scale(1.05) translateY(-1px)"; e.currentTarget.style.background = dark ? "rgba(82,183,136,0.4)" : "rgba(45,106,79,0.3)"; }}}
+            onMouseLeave={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.background = outOfStock ? (dark ? "rgba(100,100,100,0.15)" : "rgba(180,180,180,0.2)") : (dark ? "rgba(82,183,136,0.26)" : "rgba(45,106,79,0.18)"); }}
           >
             {outOfStock ? "Out of Stock" : "View Details"}
           </button>
 
-          {/* Add to Cart */}
           {!outOfStock && (
             <button
               onClick={handleAddToCart}
               style={{
                 ...iosBtnBase,
-                background: added ? "rgba(16,185,129,0.35)" : "rgba(200,150,12,0.28)",
-                color: "#fff",
+                background: added ? (dark ? "rgba(16,185,129,0.35)" : "rgba(5,150,105,0.25)") : (dark ? "rgba(200,150,12,0.28)" : "rgba(168,112,8,0.22)"),
+                color: dark ? "#fff" : "#7a4a00",
                 minWidth: 44,
                 flex: added ? 1 : "0 0 44px",
                 fontSize: added ? 12 : 18,
               }}
-              onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.08) translateY(-1px)"; e.currentTarget.style.background = added ? "rgba(16,185,129,0.45)" : "rgba(200,150,12,0.42)"; }}
-              onMouseLeave={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.background = added ? "rgba(16,185,129,0.35)" : "rgba(200,150,12,0.28)"; }}
+              onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.08) translateY(-1px)"; e.currentTarget.style.background = added ? (dark ? "rgba(16,185,129,0.45)" : "rgba(5,150,105,0.35)") : (dark ? "rgba(200,150,12,0.42)" : "rgba(168,112,8,0.38)"); }}
+              onMouseLeave={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.background = added ? (dark ? "rgba(16,185,129,0.35)" : "rgba(5,150,105,0.25)") : (dark ? "rgba(200,150,12,0.28)" : "rgba(168,112,8,0.22)"); }}
               title="Add to Cart"
             >
               {added ? "✓ Added!" : "🛒"}

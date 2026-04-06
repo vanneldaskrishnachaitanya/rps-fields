@@ -86,4 +86,52 @@ const getMe = async (req, res) => {
   res.json({ success: true, user: req.user });
 };
 
-module.exports = { register, login, getMe };
+
+// ── In-memory OTP store (10 min expiry per email) ──
+const otpStore = new Map();
+
+const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ success: false, error: "Email required" });
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ success: false, error: "No account found with this email" });
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    otpStore.set(email, { otp, expires: Date.now() + 10 * 60 * 1000, verified: false });
+    console.log(`[ForgotPassword] OTP for ${email}: ${otp}`);
+    const isDev = process.env.NODE_ENV !== "production";
+    res.json({ success: true, message: "OTP sent to your email", ...(isDev && { devOtp: otp }) });
+  } catch (err) { res.status(500).json({ success: false, error: err.message }); }
+};
+
+const verifyOtp = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+    if (!email || !otp) return res.status(400).json({ success: false, error: "Email and OTP required" });
+    const record = otpStore.get(email);
+    if (!record) return res.status(400).json({ success: false, error: "No OTP requested for this email" });
+    if (Date.now() > record.expires) { otpStore.delete(email); return res.status(400).json({ success: false, error: "OTP expired. Request a new one." }); }
+    if (record.otp !== otp.trim()) return res.status(400).json({ success: false, error: "Invalid OTP" });
+    otpStore.set(email, { ...record, verified: true });
+    const resetToken = jwt.sign({ email, purpose: "reset" }, process.env.JWT_SECRET, { expiresIn: "10m" });
+    res.json({ success: true, resetToken });
+  } catch (err) { res.status(500).json({ success: false, error: err.message }); }
+};
+
+const resetPassword = async (req, res) => {
+  try {
+    const { email, otp, newPassword } = req.body;
+    if (!email || !otp || !newPassword) return res.status(400).json({ success: false, error: "All fields required" });
+    if (newPassword.length < 6) return res.status(400).json({ success: false, error: "Password must be at least 6 characters" });
+    const record = otpStore.get(email);
+    if (!record || !record.verified || record.otp !== otp.trim()) return res.status(400).json({ success: false, error: "Invalid or expired OTP. Please restart." });
+    const user = await User.findOne({ email }).select("+password");
+    if (!user) return res.status(404).json({ success: false, error: "User not found" });
+    user.password = newPassword;
+    await user.save();
+    otpStore.delete(email);
+    res.json({ success: true, message: "Password reset successfully" });
+  } catch (err) { res.status(500).json({ success: false, error: err.message }); }
+};
+
+module.exports = { register, login, getMe, forgotPassword, verifyOtp, resetPassword };

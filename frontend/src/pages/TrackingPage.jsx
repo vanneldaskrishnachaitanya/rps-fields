@@ -1,7 +1,16 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useTheme, TK } from "../context/ThemeContext";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
+
+const STEPS = [
+  { key:"processing",       icon:"📋", label:"Order Confirmed",   desc:"Your order has been confirmed and is being prepared" },
+  { key:"picked_up",        icon:"📦", label:"Picked Up",          desc:"Order picked up by delivery agent" },
+  { key:"out_for_delivery", icon:"🚚", label:"Out for Delivery",   desc:"On the way to your doorstep!" },
+  { key:"delivered",        icon:"✅", label:"Delivered",           desc:"Order delivered successfully" },
+];
+
+const STATUS_ORDER = { processing:0, picked_up:1, out_for_delivery:2, delivered:3 };
 
 export default function TrackingPage() {
   const { orderId } = useParams();
@@ -9,176 +18,264 @@ export default function TrackingPage() {
   const { dark } = useTheme();
   const { authFetch } = useAuth();
   const tk = TK(dark);
-  const A = { text: tk.text, textMid: tk.textMid, textLt: tk.textLt, bg: tk.bg, bgCard: tk.bgCard, border: tk.border, green: "#10b981", orange: "#f59e0b", red: "#ef4444" };
 
-  const [tracking, setTracking] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [tracking,   setTracking]   = useState(null);
+  const [loading,    setLoading]    = useState(true);
+  const [error,      setError]      = useState("");
   const [refreshing, setRefreshing] = useState(false);
+  const [lastUpdate, setLastUpdate] = useState(null);
+  const [dots,       setDots]       = useState("");
+  const intervalRef = useRef(null);
 
-  const formatDateTime = (value) => {
-    if (!value) return "Pending";
-    const d = new Date(value);
-    if (Number.isNaN(d.getTime())) return "Pending";
-    return `${d.toLocaleDateString()} ${d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
-  };
+  // Animated dots for "live" feel
+  useEffect(() => {
+    const t = setInterval(() => setDots(d => d.length >= 3 ? "" : d + "."), 600);
+    return () => clearInterval(t);
+  }, []);
 
   const fetchTracking = useCallback(async (isRefresh = false) => {
     try {
       setError("");
-      if (isRefresh) setRefreshing(true);
-      else setLoading(true);
+      if (isRefresh) setRefreshing(true); else setLoading(true);
       const data = await authFetch(`/orders/${orderId}/track`);
-      if (data.success) setTracking(data.tracking);
-      else throw new Error(data.error || "Failed to fetch tracking");
+      if (data.success) {
+        setTracking(data.tracking);
+        setLastUpdate(new Date());
+      } else throw new Error(data.error || "Failed to fetch tracking");
     } catch (err) {
       setError(err.message);
     } finally {
-      if (isRefresh) setRefreshing(false);
-      else setLoading(false);
+      if (isRefresh) setRefreshing(false); else setLoading(false);
     }
   }, [authFetch, orderId]);
 
   useEffect(() => {
     fetchTracking();
-    const interval = setInterval(() => fetchTracking(true), 5000); // Refresh every 5 seconds
-    return () => clearInterval(interval);
+    // Poll every 8 seconds for real-time updates
+    intervalRef.current = setInterval(() => fetchTracking(true), 8000);
+    return () => clearInterval(intervalRef.current);
   }, [fetchTracking]);
 
-  if (loading) return <div style={{ background: tk.bg, minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", color: tk.textMid }}>Loading tracking...</div>;
+  const fmt = (v) => {
+    if (!v) return null;
+    const d = new Date(v);
+    if (isNaN(d.getTime())) return null;
+    return d.toLocaleString("en-IN", { day:"numeric", month:"short", year:"numeric", hour:"2-digit", minute:"2-digit" });
+  };
+
+  if (loading) return (
+    <div style={{ background:tk.bg, minHeight:"100vh", display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column", gap:16, color:tk.textMid }}>
+      <div style={{ fontSize:48, animation:"float 2s ease-in-out infinite" }}>🚚</div>
+      <p style={{ fontFamily:"'Inter',sans-serif", fontSize:15 }}>Loading tracking{dots}</p>
+    </div>
+  );
 
   if (error) return (
-    <div style={{ background: tk.bg, minHeight: "100vh", padding: "20px", color: tk.text }}>
-      <div style={{ maxWidth: 600, margin: "0 auto", padding: 20, background: tk.bgCard, borderRadius: 16, border: `1px solid ${A.red}` }}>
-        <div style={{ color: A.red, fontSize: 16, fontWeight: 700, marginBottom: 10 }}>Error</div>
-        <p style={{ color: tk.textMid }}>{error}</p>
-        <button data-magnetic onClick={() => navigate("/orders")} style={{ marginTop: 16, padding: "10px 20px", background: tk.bgMuted, border: `1px solid ${tk.border}`, borderRadius: 8, cursor: "pointer", color: tk.text, fontFamily: "'Inter',sans-serif" }}>Back to Orders</button>
+    <div style={{ background:tk.bg, minHeight:"100vh", padding:"40px 20px" }}>
+      <div style={{ maxWidth:600, margin:"0 auto", padding:24, background:tk.bgCard, borderRadius:20, border:"2px solid rgba(239,68,68,0.4)" }}>
+        <div style={{ color:"#ef4444", fontSize:16, fontWeight:700, marginBottom:10 }}>⚠️ Error</div>
+        <p style={{ color:tk.textMid, marginBottom:20 }}>{error}</p>
+        <button onClick={()=>navigate("/orders")} style={{ padding:"10px 22px", background:"linear-gradient(135deg,#2d6a4f,#52b788)", border:"none", borderRadius:10, cursor:"pointer", color:"#fff", fontFamily:"'Inter',sans-serif", fontWeight:700 }}>← Back to Orders</button>
       </div>
     </div>
   );
 
-  if (!tracking) return <div style={{ background: tk.bg, minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", color: tk.textMid }}>No tracking data</div>;
+  if (!tracking) return null;
 
-  const { timeline, progressPercentage, estimatedDeliveryTime, actualDeliveryTime, deliveryStatus, otpVerified } = tracking;
-  const safeEstimatedDelivery = formatDateTime(estimatedDeliveryTime);
+  const { deliveryStatus, deliveryOTP, otpVerified, estimatedDeliveryTime, actualDeliveryTime, timeline, progressPercentage } = tracking;
+  const currentStep = STATUS_ORDER[deliveryStatus] ?? 0;
+  const isDelivered = deliveryStatus === "delivered";
+  const isOutForDelivery = deliveryStatus === "out_for_delivery" || deliveryStatus === "picked_up";
+
+  const progressColor = isDelivered ? "#10b981" : isOutForDelivery ? "#3b82f6" : "#f59e0b";
 
   return (
-    <div style={{ background: tk.bg, minHeight: "100vh", padding: "40px 20px 80px" }}>
-      <div style={{ maxWidth: 800, margin: "0 auto 20px", display: "flex", justifyContent: "flex-start" }}>
-        <button data-magnetic onClick={() => navigate("/orders")} style={{ padding: "10px 18px", background: "rgba(59,130,246,0.12)", border: `1px solid rgba(59,130,246,0.35)`, color: "#60a5fa", borderRadius: 12, cursor: "pointer", fontFamily: "'Inter',sans-serif", fontWeight: 700, display: "inline-flex", alignItems: "center", gap: 8, transition: "all 0.2s" }}>← Back to Orders</button>
-      </div>
+    <div style={{ background:tk.bg, minHeight:"100vh", padding:"36px 20px 80px" }}>
+      <div style={{ maxWidth:780, margin:"0 auto" }}>
 
-      {/* Header */}
-      <div style={{ maxWidth: 800, margin: "0 auto", marginBottom: 40 }}>
-        <h1 style={{ fontSize: 28, fontWeight: 700, color: tk.text, marginBottom: 8 }}>Order Tracking</h1>
-        <p style={{ color: tk.textMid }}>Real-time delivery status for Order #{orderId?.slice(-8)}</p>
-      </div>
+        {/* Back */}
+        <button onClick={()=>navigate("/orders")} style={{ marginBottom:24, padding:"9px 18px", background:dark?"rgba(59,130,246,0.12)":"rgba(37,99,235,0.1)", border:"1px solid rgba(59,130,246,0.35)", color:"#3b82f6", borderRadius:12, cursor:"pointer", fontFamily:"'Inter',sans-serif", fontWeight:700, display:"inline-flex", alignItems:"center", gap:8, fontSize:13 }}>
+          ← Back to Orders
+        </button>
 
-      {/* Progress Bar */}
-      <div style={{ maxWidth: 800, margin: "0 auto", marginBottom: 40, background: tk.bgCard, borderRadius: 16, padding: 24, border: `1px solid ${tk.border}` }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-          <div>
-            <div style={{ fontSize: 14, color: tk.textMid, marginBottom: 4 }}>Delivery Progress</div>
-            <div style={{ fontSize: 24, fontWeight: 700, color: tk.text }}>{Math.round(progressPercentage)}%</div>
-          </div>
-          <div style={{ textAlign: "right" }}>
-            <div style={{ fontSize: 12, color: tk.textMid, marginBottom: 4 }}>Status</div>
-            <div style={{ display: "inline-flex", gap: 8, alignItems: "center", padding: "6px 12px", background: deliveryStatus === "delivered" ? "rgba(16,185,129,0.1)" : deliveryStatus === "out_for_delivery" ? "rgba(59,130,246,0.1)" : "rgba(249,115,22,0.1)", borderRadius: 8 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, color: deliveryStatus === "delivered" ? A.green : deliveryStatus === "out_for_delivery" ? "#3b82f6" : A.orange, textTransform: "capitalize" }}>● {deliveryStatus?.replace(/_/g, " ")}</span>
+        {/* Header */}
+        <div style={{ marginBottom:28 }}>
+          <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:6 }}>
+            <h1 style={{ fontSize:26, fontWeight:800, color:tk.text, fontFamily:"'Playfair Display',Georgia,serif", margin:0 }}>Live Order Tracking</h1>
+            {/* Live indicator */}
+            <div style={{ display:"flex", alignItems:"center", gap:5, background:dark?"rgba(16,185,129,0.12)":"rgba(5,150,105,0.1)", border:"1px solid rgba(16,185,129,0.3)", borderRadius:20, padding:"3px 10px" }}>
+              <span style={{ width:7, height:7, borderRadius:"50%", background:"#10b981", display:"inline-block", animation:"pulse 1.5s infinite" }} />
+              <span style={{ fontSize:10, color:"#10b981", fontWeight:700, letterSpacing:"1px", textTransform:"uppercase" }}>LIVE{refreshing ? dots : ""}</span>
             </div>
           </div>
+          <p style={{ color:tk.textLt, fontSize:13, fontFamily:"'Inter',sans-serif" }}>
+            Order #{orderId?.slice(-8).toUpperCase()}
+            {lastUpdate && <span style={{ marginLeft:12, color:tk.textLt }}>· Updated {lastUpdate.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit",second:"2-digit"})}</span>}
+          </p>
         </div>
 
-        {/* Progress Bar */}
-        <div style={{ width: "100%", height: 8, background: tk.bgMuted, borderRadius: 4, overflow: "hidden", marginBottom: 20 }}>
-          <div style={{ width: `${Math.min(100, progressPercentage)}%`, height: "100%", background: deliveryStatus === "delivered" ? A.green : deliveryStatus === "out_for_delivery" ? "#3b82f6" : A.orange, transition: "width 0.3s" }} />
-        </div>
-
-        {/* Estimated Delivery */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 16 }}>
-          <div>
-            <div style={{ fontSize: 12, color: tk.textMid, marginBottom: 4 }}>Estimated Delivery</div>
-            <div style={{ fontSize: 14, fontWeight: 700, color: tk.text }}>
-              {safeEstimatedDelivery}
-            </div>
-          </div>
-          {actualDeliveryTime && (
+        {/* Delivered banner */}
+        {isDelivered && (
+          <div className="anim-fade-up" style={{ background:"linear-gradient(135deg,rgba(16,185,129,0.15),rgba(5,150,105,0.08))", border:"2px solid rgba(16,185,129,0.4)", borderRadius:20, padding:"24px 28px", marginBottom:28, display:"flex", alignItems:"center", gap:18 }}>
+            <div style={{ fontSize:44 }}>🎉</div>
             <div>
-              <div style={{ fontSize: 12, color: tk.textMid, marginBottom: 4 }}>Delivered At</div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: A.green }}>
-                {formatDateTime(actualDeliveryTime)}
+              <div style={{ fontSize:18, fontWeight:800, color:"#10b981", marginBottom:4, fontFamily:"'Inter',sans-serif" }}>Order Delivered!</div>
+              <div style={{ color:tk.textMid, fontSize:13 }}>
+                {actualDeliveryTime ? `Delivered on ${fmt(actualDeliveryTime)}` : "Thank you for your order!"}
               </div>
             </div>
-          )}
-        </div>
-      </div>
+          </div>
+        )}
 
-      {/* Timeline */}
-      <div style={{ maxWidth: 800, margin: "0 auto" }}>
-        <h2 style={{ fontSize: 18, fontWeight: 700, color: tk.text, marginBottom: 24 }}>Delivery Timeline</h2>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          {timeline.map((item, idx) => (
-            <div key={idx} style={{ display: "flex", gap: 16, marginBottom: idx === timeline.length - 1 ? 0 : 24, position: "relative" }}>
-              {/* Vertical Line */}
-              {idx < timeline.length - 1 && (
-                <div style={{ position: "absolute", left: 20, top: 40, width: 2, height: 24, background: item.status === "completed" ? A.green : tk.bgMuted }} />
-              )}
+        {/* Progress card */}
+        <div style={{ background:tk.bgCard, borderRadius:20, padding:24, marginBottom:24, border:`1px solid ${tk.border}`, boxShadow:tk.shadow }}>
+          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16, flexWrap:"wrap", gap:12 }}>
+            <div>
+              <div style={{ fontSize:12, color:tk.textLt, marginBottom:4, fontFamily:"'Inter',sans-serif" }}>Delivery Progress</div>
+              <div style={{ fontSize:28, fontWeight:900, color:progressColor, fontFamily:"'Inter',sans-serif" }}>{Math.min(100,Math.round(progressPercentage || 0))}%</div>
+            </div>
+            <div style={{ background:`${progressColor}18`, border:`1px solid ${progressColor}44`, borderRadius:10, padding:"6px 14px", display:"inline-flex", alignItems:"center", gap:6 }}>
+              <span style={{ width:8, height:8, borderRadius:"50%", background:progressColor, display:"inline-block", animation: isDelivered ? "none" : "pulse 2s infinite" }} />
+              <span style={{ fontSize:12, fontWeight:700, color:progressColor, textTransform:"capitalize", fontFamily:"'Inter',sans-serif" }}>
+                {deliveryStatus?.replace(/_/g," ")}
+              </span>
+            </div>
+          </div>
 
-              {/* Circle */}
-              <div style={{ width: 40, height: 40, borderRadius: "50%", background: item.status === "completed" ? A.green : item.status === "pending" ? tk.bgMuted : A.orange, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, zIndex: 1 }}>
-                <span style={{ color: item.status === "completed" ? "#fff" : item.status === "pending" ? tk.textMid : "#fff", fontSize: 20 }}>
-                  {item.status === "completed" ? "✓" : item.step}
-                </span>
+          {/* Progress bar */}
+          <div style={{ width:"100%", height:10, background:tk.bgMuted, borderRadius:5, overflow:"hidden", marginBottom:20 }}>
+            <div style={{ width:`${Math.min(100, progressPercentage||0)}%`, height:"100%", background:`linear-gradient(90deg,${progressColor},${progressColor}bb)`, borderRadius:5, transition:"width 0.8s cubic-bezier(0.34,1.56,0.64,1)", boxShadow:`0 0 8px ${progressColor}66` }} />
+          </div>
+
+          {/* Est delivery */}
+          <div style={{ display:"grid", gridTemplateColumns:actualDeliveryTime?"1fr 1fr":"1fr", gap:16 }}>
+            <div>
+              <div style={{ fontSize:11, color:tk.textLt, marginBottom:4, fontFamily:"'Inter',sans-serif" }}>ESTIMATED DELIVERY</div>
+              <div style={{ fontSize:14, fontWeight:700, color:tk.text, fontFamily:"'Inter',sans-serif" }}>{fmt(estimatedDeliveryTime) || "Within 24 hours"}</div>
+            </div>
+            {actualDeliveryTime && (
+              <div>
+                <div style={{ fontSize:11, color:tk.textLt, marginBottom:4, fontFamily:"'Inter',sans-serif" }}>DELIVERED AT</div>
+                <div style={{ fontSize:14, fontWeight:700, color:"#10b981", fontFamily:"'Inter',sans-serif" }}>{fmt(actualDeliveryTime)}</div>
               </div>
+            )}
+          </div>
+        </div>
 
-              {/* Content */}
-              <div style={{ flex: 1, paddingTop: 4 }}>
-                <div style={{ fontSize: 14, fontWeight: 700, color: tk.text, marginBottom: 4 }}>{item.name}</div>
-                {item.time && (
-                  <div style={{ fontSize: 12, color: tk.textMid }}>
-                    {formatDateTime(item.time)}
+        {/* 4-step visual tracker */}
+        <div style={{ background:tk.bgCard, borderRadius:20, padding:"28px 24px", marginBottom:24, border:`1px solid ${tk.border}` }}>
+          <h2 style={{ fontSize:15, fontWeight:700, color:tk.text, marginBottom:24, fontFamily:"'Inter',sans-serif" }}>Delivery Status</h2>
+          <div style={{ display:"flex", alignItems:"flex-start", gap:0, overflowX:"auto", paddingBottom:8 }}>
+            {STEPS.map((step, idx) => {
+              const done = STATUS_ORDER[deliveryStatus] >= idx;
+              const active = STATUS_ORDER[deliveryStatus] === idx;
+              return (
+                <div key={step.key} style={{ display:"flex", alignItems:"flex-start", flex:1, minWidth:80 }}>
+                  <div style={{ display:"flex", flexDirection:"column", alignItems:"center", flex:1 }}>
+                    {/* Circle */}
+                    <div style={{
+                      width:48, height:48, borderRadius:"50%",
+                      background: done ? (isDelivered && idx===3 ? "#10b981" : "#52b788") : tk.bgMuted,
+                      border: active ? `3px solid ${progressColor}` : done ? "none" : `2px solid ${tk.border}`,
+                      display:"flex", alignItems:"center", justifyContent:"center",
+                      fontSize:20, flexShrink:0, zIndex:1,
+                      boxShadow: active ? `0 0 16px ${progressColor}66` : done ? "0 4px 12px rgba(82,183,136,0.3)" : "none",
+                      transition:"all 0.4s ease",
+                      animation: active && !isDelivered ? "pulse 2s infinite" : "none",
+                    }}>
+                      {done ? (idx===3?"🎉":step.icon) : <span style={{ color:tk.textLt, fontSize:14, fontWeight:700 }}>{idx+1}</span>}
+                    </div>
+
+                    {/* Label */}
+                    <div style={{ textAlign:"center", marginTop:10, padding:"0 4px" }}>
+                      <div style={{ fontSize:11, fontWeight:700, color: done ? tk.text : tk.textLt, fontFamily:"'Inter',sans-serif", lineHeight:1.3 }}>{step.label}</div>
+                      {/* Time from timeline */}
+                      {timeline?.[idx]?.time && (
+                        <div style={{ fontSize:9, color:tk.textLt, marginTop:3, fontFamily:"'Inter',sans-serif" }}>{fmt(timeline[idx].time)}</div>
+                      )}
+                    </div>
                   </div>
+
+                  {/* Connector line */}
+                  {idx < STEPS.length - 1 && (
+                    <div style={{
+                      height:3, flex:1, marginTop:22,
+                      background: STATUS_ORDER[deliveryStatus] > idx
+                        ? "linear-gradient(90deg,#52b788,#74c69d)"
+                        : tk.bgMuted,
+                      borderRadius:2, transition:"background 0.4s ease",
+                    }} />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* OTP Card — shown when out for delivery and not yet verified */}
+        {(isOutForDelivery) && !otpVerified && deliveryOTP && (
+          <div className="anim-fade-up" style={{ background: dark?"rgba(245,158,11,0.08)":"rgba(245,158,11,0.06)", border:"2px solid rgba(245,158,11,0.5)", borderRadius:20, padding:"24px 28px", marginBottom:24, boxShadow:"0 4px 24px rgba(245,158,11,0.15)" }}>
+            <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:16 }}>
+              <span style={{ fontSize:22 }}>🔐</span>
+              <div style={{ fontSize:16, fontWeight:800, color:"#f59e0b", fontFamily:"'Inter',sans-serif" }}>Delivery OTP</div>
+            </div>
+            <p style={{ color:tk.textMid, marginBottom:20, fontSize:13, lineHeight:1.6, fontFamily:"'Inter',sans-serif" }}>
+              Your delivery is on the way! Share this OTP <strong>only with the delivery agent</strong> when they arrive at your door. Delivery will be confirmed after OTP verification.
+            </p>
+            <div style={{ background:dark?"rgba(0,0,0,0.3)":"rgba(255,255,255,0.8)", borderRadius:16, padding:"20px 24px", textAlign:"center", border:`1px solid rgba(245,158,11,0.3)` }}>
+              <div style={{ fontSize:11, color:tk.textLt, marginBottom:10, letterSpacing:"1.5px", textTransform:"uppercase", fontFamily:"'Inter',sans-serif" }}>Your One-Time Password</div>
+              <div style={{ fontSize:42, fontWeight:900, color:"#f59e0b", letterSpacing:10, fontFamily:"'JetBrains Mono','Courier New',monospace" }}>
+                {deliveryOTP}
+              </div>
+              <div style={{ fontSize:11, color:tk.textLt, marginTop:12, fontFamily:"'Inter',sans-serif" }}>🔒 Do not share with anyone other than the delivery agent</div>
+            </div>
+          </div>
+        )}
+
+        {/* OTP verified badge */}
+        {otpVerified && (
+          <div style={{ background:dark?"rgba(16,185,129,0.08)":"rgba(5,150,105,0.06)", border:"1px solid rgba(16,185,129,0.3)", borderRadius:14, padding:"14px 20px", marginBottom:24, display:"flex", alignItems:"center", gap:10 }}>
+            <span style={{ fontSize:18 }}>✅</span>
+            <span style={{ color:"#10b981", fontWeight:700, fontSize:13, fontFamily:"'Inter',sans-serif" }}>OTP verified — delivery confirmed!</span>
+          </div>
+        )}
+
+        {/* Timeline detail */}
+        <div style={{ background:tk.bgCard, borderRadius:20, padding:24, border:`1px solid ${tk.border}` }}>
+          <h2 style={{ fontSize:15, fontWeight:700, color:tk.text, marginBottom:20, fontFamily:"'Inter',sans-serif" }}>📋 Detailed Timeline</h2>
+          <div style={{ display:"flex", flexDirection:"column", gap:0 }}>
+            {(timeline||[]).map((item, idx) => (
+              <div key={idx} style={{ display:"flex", gap:16, paddingBottom: idx < (timeline.length-1) ? 24 : 0, position:"relative" }}>
+                {idx < timeline.length - 1 && (
+                  <div style={{ position:"absolute", left:19, top:40, width:2, height:"calc(100% - 16px)", background: item.status==="completed" ? "linear-gradient(to bottom,#52b788,#74c69d44)" : tk.bgMuted }} />
                 )}
-                <div style={{ fontSize: 12, color: item.status === "completed" ? A.green : item.status === "pending" ? tk.textMid : A.orange, fontWeight: 600, marginTop: 4, textTransform: "capitalize" }}>
-                  {item.status}
+                <div style={{ width:40, height:40, borderRadius:"50%", flexShrink:0, zIndex:1, display:"flex", alignItems:"center", justifyContent:"center", fontSize:16,
+                  background: item.status==="completed" ? "#52b788" : item.status==="active" ? progressColor : tk.bgMuted,
+                  boxShadow: item.status==="completed" ? "0 4px 12px rgba(82,183,136,0.35)" : "none",
+                }}>
+                  {item.status==="completed" ? "✓" : item.status==="active" ? "⟳" : <span style={{ color:tk.textLt, fontSize:12 }}>{idx+1}</span>}
+                </div>
+                <div style={{ flex:1, paddingTop:4 }}>
+                  <div style={{ fontSize:14, fontWeight:700, color:tk.text, marginBottom:2, fontFamily:"'Inter',sans-serif" }}>{item.name}</div>
+                  {item.time && fmt(item.time) && (
+                    <div style={{ fontSize:12, color:tk.textLt, fontFamily:"'Inter',sans-serif" }}>{fmt(item.time)}</div>
+                  )}
+                  <div style={{ fontSize:11, fontWeight:600, marginTop:3, textTransform:"capitalize", fontFamily:"'Inter',sans-serif",
+                    color: item.status==="completed" ? "#52b788" : item.status==="active" ? progressColor : tk.textLt,
+                  }}>{item.status}</div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* OTP Section */}
-      {deliveryStatus === "out_for_delivery" && !otpVerified && (
-        <div style={{ maxWidth: 800, margin: "40px auto 0", background: tk.bgCard, borderRadius: 16, padding: 24, border: `2px solid ${A.orange}` }}>
-          <div style={{ fontSize: 16, fontWeight: 700, color: tk.text, marginBottom: 12 }}>⚠️ Delivery OTP</div>
-          <p style={{ color: tk.textMid, marginBottom: 16, fontSize: 13, lineHeight: 1.5 }}>
-            Your delivery is on the way! Share your OTP with the delivery boy when they arrive. The delivery will be confirmed only after OTP verification.
-          </p>
-          <div style={{ background: tk.bgMuted, padding: 16, borderRadius: 12, textAlign: "center", border: `1px solid ${tk.border}` }}>
-            <div style={{ fontSize: 12, color: tk.textMid, marginBottom: 8 }}>Your OTP</div>
-            <div style={{ fontSize: 32, fontWeight: 800, color: A.orange, letterSpacing: 4, fontFamily: "monospace" }}>
-              {tracking.deliveryOTP ? tracking.deliveryOTP.toString().split("").join(" ") : "****"}
-            </div>
-            <div style={{ fontSize: 12, color: tk.textMid, marginTop: 12 }}>Do not share this with anyone else</div>
+            ))}
           </div>
         </div>
-      )}
 
-      {/* Delivered Badge */}
-      {deliveryStatus === "delivered" && (
-        <div style={{ maxWidth: 800, margin: "40px auto 0", background: "rgba(16,185,129,0.1)", borderRadius: 16, padding: 24, border: `2px solid ${A.green}`, textAlign: "center" }}>
-          <div style={{ fontSize: 32, marginBottom: 12 }}>🎉</div>
-          <div style={{ fontSize: 18, fontWeight: 700, color: A.green, marginBottom: 8 }}>Order Delivered!</div>
-          <p style={{ color: tk.textMid }}>Thank you for your purchase. We hope you enjoy your fresh produce!</p>
+        {/* Manual refresh */}
+        <div style={{ textAlign:"center", marginTop:28 }}>
+          <button onClick={()=>fetchTracking(true)} disabled={refreshing} style={{ padding:"10px 24px", background:dark?"rgba(59,130,246,0.1)":"rgba(37,99,235,0.08)", border:"1px solid rgba(59,130,246,0.4)", color:"#3b82f6", borderRadius:12, cursor:refreshing?"not-allowed":"pointer", fontFamily:"'Inter',sans-serif", fontWeight:700, fontSize:13, opacity:refreshing?0.7:1 }}>
+            {refreshing ? `🔄 Refreshing${dots}` : "🔄 Refresh Now"}
+          </button>
+          <div style={{ fontSize:11, color:tk.textLt, marginTop:8, fontFamily:"'Inter',sans-serif" }}>Auto-refreshes every 8 seconds</div>
         </div>
-      )}
-
-      {/* Refresh Button */}
-      <div style={{ maxWidth: 800, margin: "40px auto 0", textAlign: "center" }}>
-        <button data-magnetic onClick={() => fetchTracking(true)} disabled={refreshing} style={{ padding: "10px 20px", background: "rgba(59,130,246,0.1)", border: `1px solid #3b82f6`, color: "#3b82f6", borderRadius: 8, cursor: refreshing ? "not-allowed" : "pointer", fontFamily: "'Inter',sans-serif", fontWeight: 600, opacity: refreshing ? 0.7 : 1 }}>
-          {refreshing ? "Refreshing..." : "🔄 Refresh Tracking"}
-        </button>
       </div>
     </div>
   );
