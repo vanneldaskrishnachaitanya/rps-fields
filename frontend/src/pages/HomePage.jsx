@@ -208,18 +208,18 @@ export default function HomePage() {
       </div>
 
       {/* ─────────────── CATEGORIES ─────────────── */}
-      <section style={{ padding: "clamp(40px,6vw,80px) var(--page-px,clamp(16px,4vw,48px))", background: tk.bg }}>
+      <section style={{ padding: "clamp(24px,4vw,48px) var(--page-px,clamp(16px,4vw,48px))", background: tk.bg }}>
         <div style={{ maxWidth: 1400, margin: "0 auto" }}>
-          <div data-id="cat-hd" style={{ textAlign:"center", marginBottom:48, ...reveal("cat-hd") }}>
+          <div data-id="cat-hd" style={{ textAlign:"center", marginBottom:32, ...reveal("cat-hd") }}>
             <span style={{ display:"inline-block", background: dark?"#1c3525":"#e8f5ee", color:"#40916c", borderRadius:20, padding:"4px 16px", fontSize:11, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", marginBottom:14 }}>Shop by Category</span>
             <h2 style={{ fontSize:"clamp(28px,4vw,40px)", fontFamily:"'Playfair Display',Georgia,serif", color:tk.text, marginBottom:10 }}>Find What You're Looking For</h2>
             <p style={{ color:tk.textLt, fontSize:15, maxWidth:460, margin:"0 auto" }}>From crisp vegetables to premium dry fruits — all direct from farms</p>
           </div>
-          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(190px,1fr))", gap:18 }}>
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(170px,1fr))", gap:14 }}>
             {CATEGORIES.map((cat, i) => (
               <div key={cat.name} data-id={`cat-${i}`} data-tilt onClick={() => navigate("/catalog")} style={{
-                borderRadius:20, overflow:"hidden", cursor:"pointer",
-                position:"relative", height:200,
+                borderRadius:16, overflow:"hidden", cursor:"pointer",
+                position:"relative", height:170,
                 boxShadow:"0 4px 20px rgba(0,0,0,0.12)",
                 transition:"all 0.3s ease",
                 ...reveal(`cat-${i}`, i * 0.08),
@@ -242,9 +242,9 @@ export default function HomePage() {
       </section>
 
       {/* ─────────────── FEATURED PRODUCTS ─────────────── */}
-      <section style={{ padding:"clamp(20px,4vw,40px) var(--page-px,clamp(16px,4vw,48px)) clamp(40px,6vw,80px)", background: dark?"#080f09":"#eef7f0" }}>
+      <section style={{ padding:"clamp(8px,2vw,20px) var(--page-px,clamp(16px,4vw,48px)) clamp(32px,5vw,56px)", background: dark?"#080f09":"#eef7f0" }}>
         <div style={{ maxWidth:1400, margin:"0 auto" }}>
-          <div data-id="feat-hd" style={{ textAlign:"center", marginBottom:48, ...reveal("feat-hd") }}>
+          <div data-id="feat-hd" style={{ textAlign:"center", marginBottom:28, ...reveal("feat-hd") }}>
             <span style={{ display:"inline-block", background: dark?"#1c3525":"#e8f5ee", color:"#40916c", borderRadius:20, padding:"4px 16px", fontSize:11, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", marginBottom:14 }}>Featured This Week</span>
             <h2 style={{ fontSize:"clamp(28px,4vw,40px)", fontFamily:"'Playfair Display',Georgia,serif", color:tk.text, marginBottom:10 }}>Handpicked Fresh Arrivals</h2>
             <p style={{ color:tk.textLt, fontSize:15 }}>Curated by our farmers — freshest produce available right now</p>
