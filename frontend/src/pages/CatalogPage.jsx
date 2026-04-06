@@ -252,9 +252,9 @@ export default function CatalogPage() {
         )}
 
         {loading ? (
-          <div className="product-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(260px,1fr))", gap: 22 }}>
+          <div className="product-grid" style={{ display: "flex", gap: 16, overflowX: "auto", flexWrap: "nowrap", paddingBottom: 6 }}>
             {[1,2,3,4,5,6,7,8].map(i => (
-              <div key={i} style={{ borderRadius: 20, overflow: "hidden", background: tk.bgCard, border: `1px solid ${tk.border}` }}>
+              <div key={i} style={{ minWidth: 240, flex: "0 0 240px", borderRadius: 18, overflow: "hidden", background: tk.bgCard, border: `1px solid ${tk.border}` }}>
                 <div style={{ height: 200, background: `linear-gradient(90deg,${tk.bgMuted} 25%,${tk.border} 50%,${tk.bgMuted} 75%)`, backgroundSize: "400px 100%", animation: "shimmer 1.4s ease infinite" }} />
                 <div style={{ padding: 16 }}>
                   <div style={{ height: 16, borderRadius: 8, background: tk.bgMuted, marginBottom: 8, width: "70%" }} />
@@ -276,9 +276,9 @@ export default function CatalogPage() {
             </button>
           </div>
         ) : (
-          <div className="product-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(260px,1fr))", gap: 22 }}>
+          <div className="product-grid" style={{ display: "flex", gap: 16, overflowX: "auto", flexWrap: "nowrap", paddingBottom: 6 }}>
             {products.map((p, i) => (
-              <div key={p.id || p._id} style={{ animation: `fadeUp 0.5s ease ${Math.min(i,8)*0.06}s both` }}>
+              <div key={p.id || p._id} style={{ minWidth: 240, flex: "0 0 240px", animation: `fadeUp 0.5s ease ${Math.min(i,8)*0.06}s both` }}>
                 <ProductCard product={p} />
               </div>
             ))}

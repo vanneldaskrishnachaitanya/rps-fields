@@ -213,8 +213,12 @@ export default function ProductDetailsPage() {
             <h2 style={{ fontSize:26, fontFamily:"'Playfair Display',Georgia,serif", color:tk.text, marginBottom:24 }}>
               More {product.category}
             </h2>
-            <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))", gap:22 }}>
-              {related.map(p => <ProductCard key={p.id} product={p} />)}
+            <div style={{ display:"flex", gap:16, overflowX:"auto", flexWrap:"nowrap", paddingBottom:6 }}>
+              {related.map(p => (
+                <div key={p.id} style={{ minWidth:240, flex:"0 0 240px" }}>
+                  <ProductCard product={p} />
+                </div>
+              ))}
             </div>
           </div>
         )}
