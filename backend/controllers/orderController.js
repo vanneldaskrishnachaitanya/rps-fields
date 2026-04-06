@@ -228,6 +228,7 @@ const getOrderTracking = async (req, res) => {
         estimatedDeliveryTime: order.estimatedDeliveryTime,
         deliveryStartTime: order.deliveryStartTime,
         actualDeliveryTime: order.actualDeliveryTime,
+        deliveryOTP: order.deliveryOTP,
         otpVerified: order.otpVerified,
         timeElapsedMinutes: timeElapsed,
         estimatedDeliveryMinutes,

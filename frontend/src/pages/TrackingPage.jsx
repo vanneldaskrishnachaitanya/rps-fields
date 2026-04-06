@@ -1,11 +1,13 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useTheme, TK } from "../context/ThemeContext";
 import { useEffect, useState, useCallback } from "react";
+import { useAuth } from "../context/AuthContext";
 
 export default function TrackingPage() {
   const { orderId } = useParams();
   const navigate = useNavigate();
   const { dark } = useTheme();
+  const { authFetch } = useAuth();
   const tk = TK(dark);
   const A = { text: tk.text, textMid: tk.textMid, textLt: tk.textLt, bg: tk.bg, bgCard: tk.bgCard, border: tk.border, green: "#10b981", orange: "#f59e0b", red: "#ef4444" };
 
@@ -16,29 +18,25 @@ export default function TrackingPage() {
 
   const fetchTracking = useCallback(async (isRefresh = false) => {
     try {
+      setError("");
       if (isRefresh) setRefreshing(true);
       else setLoading(true);
-      const token = localStorage.getItem("token");
-      const res = await fetch(`/api/orders/${orderId}/track`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!res.ok) throw new Error("Failed to fetch tracking");
-      const data = await res.json();
+      const data = await authFetch(`/orders/${orderId}/track`);
       if (data.success) setTracking(data.tracking);
-      else throw new Error(data.error);
+      else throw new Error(data.error || "Failed to fetch tracking");
     } catch (err) {
       setError(err.message);
     } finally {
       if (isRefresh) setRefreshing(false);
       else setLoading(false);
     }
-  }, [orderId]);
+  }, [authFetch, orderId]);
 
   useEffect(() => {
     fetchTracking();
     const interval = setInterval(() => fetchTracking(true), 5000); // Refresh every 5 seconds
     return () => clearInterval(interval);
-  }, [orderId, fetchTracking]);
+  }, [fetchTracking]);
 
   if (loading) return <div style={{ background: tk.bg, minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", color: tk.textMid }}>Loading tracking...</div>;
 
@@ -150,7 +148,7 @@ export default function TrackingPage() {
           <div style={{ background: tk.bgMuted, padding: 16, borderRadius: 12, textAlign: "center", border: `1px solid ${tk.border}` }}>
             <div style={{ fontSize: 12, color: tk.textMid, marginBottom: 8 }}>Your OTP</div>
             <div style={{ fontSize: 32, fontWeight: 800, color: A.orange, letterSpacing: 4, fontFamily: "monospace" }}>
-              {tracking.orderId ? tracking.orderId.toString().slice(-4).split("").join(" ") : "****"}
+              {tracking.deliveryOTP ? tracking.deliveryOTP.toString().split("").join(" ") : "****"}
             </div>
             <div style={{ fontSize: 12, color: tk.textMid, marginTop: 12 }}>Do not share this with anyone else</div>
           </div>

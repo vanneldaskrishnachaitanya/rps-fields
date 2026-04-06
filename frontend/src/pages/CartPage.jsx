@@ -124,7 +124,8 @@ export default function CartPage() {
                 <div style={{ textAlign:"right", minWidth:88 }}>
                   <div style={{ fontWeight:900, fontSize:18, color:tk.text, marginBottom:8 }}>₹{item.price*item.qty}</div>
                   <button data-magnetic onClick={()=>removeFromCart(item.id)} style={{ background:"transparent", border:"1.5px solid rgba(239,68,68,0.4)", color:"#ef4444", padding:"5px 12px", borderRadius:8, cursor:"pointer", fontSize:12, fontWeight:700, fontFamily:"'Inter',sans-serif", transition:"all 0.2s" }}>
-                    onMouseEnter={e=>{e.target.style.background="rgba(239,68,68,0.1)";}} onMouseLeave={e=>{e.target.style.background="transparent";}}>Remove</button>
+                    Remove
+                  </button>
                 </div>
               </div>
             ))}
