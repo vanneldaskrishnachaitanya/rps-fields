@@ -98,16 +98,7 @@ export default function FarmerProductsPage() {
                       {p.quantity||p.qty} kg
                     </div>
                   </div>
-                  <div style={{ display:"flex", gap:8 }}>
-                    <Link to={`/farmer/edit-product/${p.id||p._id}`} style={{ flex:1, padding:"9px", background:"rgba(64,145,108,0.12)", backdropFilter:"blur(8px)", border:`1.5px solid rgba(64,145,108,0.3)`, color:tk.green4, borderRadius:50, fontWeight:700, fontSize:13, textDecoration:"none", textAlign:"center", transition:"all 0.2s" }}
-                      onMouseEnter={e=>{e.target.style.background="rgba(64,145,108,0.25)";}} onMouseLeave={e=>{e.target.style.background="rgba(64,145,108,0.12)";}}>
-                      ✏️ Edit
-                    </Link>
-                    <button onClick={()=>handleDelete(p.id||p._id,p.name)} style={{ flex:1, padding:"9px", background:"rgba(220,38,38,0.1)", backdropFilter:"blur(8px)", border:"1.5px solid rgba(220,38,38,0.25)", color:"#ef4444", borderRadius:50, cursor:"pointer", fontWeight:700, fontSize:13, fontFamily:"'Inter',sans-serif", transition:"all 0.2s" }}
-                      onMouseEnter={e=>{e.target.style.background="rgba(220,38,38,0.2)";}} onMouseLeave={e=>{e.target.style.background="rgba(220,38,38,0.1)";}}>
-                      🗑 Delete
-                    </button>
-                  </div>
+
                 </div>
               </div>
             ))}

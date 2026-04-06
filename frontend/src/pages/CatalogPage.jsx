@@ -27,6 +27,7 @@ export default function CatalogPage() {
   const [cat,      setCat]      = useState("All");
   const [search,   setSearch]   = useState("");
   const [dSearch,  setDSearch]  = useState("");
+  const [locSearch, setLocSearch] = useState("");
   const debounce = useRef(null);
 
   const load = (location, category, searchTerm) => {
@@ -108,10 +109,22 @@ export default function CatalogPage() {
             )}
           </div>
 
+          {/* Location search input */}
+          <div style={{ position: "relative", marginBottom: 12, maxWidth: 300 }}>
+            <span style={{ position: "absolute", left: 13, top: "50%", transform: "translateY(-50%)", fontSize: 14, pointerEvents: "none" }}>📍</span>
+            <input
+              style={{ width: "100%", padding: "9px 14px 9px 36px", borderRadius: 20, border: `1.5px solid ${tk.border}`, background: dark ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.8)", backdropFilter: "blur(8px)", color: tk.text, fontSize: 13, outline: "none", fontFamily: "'Inter',sans-serif", transition: "all 0.2s", boxSizing: "border-box" }}
+              placeholder="Search locations..."
+              value={locSearch} onChange={e => setLocSearch(e.target.value)}
+              onFocus={e => { e.target.style.borderColor = "#52b788"; e.target.style.boxShadow = "0 0 0 3px rgba(82,183,136,0.2)"; }}
+              onBlur={e => { e.target.style.borderColor = tk.border; e.target.style.boxShadow = "none"; }}
+            />
+          </div>
+
           {/* Location pills — scrollable */}
           <div style={{ overflowX: "auto", paddingBottom: 4 }}>
             <div className="filter-pills" style={{ display: "flex", gap: 8, minWidth: "max-content" }}>
-              {LOCATIONS.map(l => {
+              {LOCATIONS.filter(l => l === "All Locations" || l.toLowerCase().includes(locSearch.toLowerCase())).map(l => {
                 const isActive = loc === l;
                 return (
                   <button key={l} onClick={() => setLoc(l)} style={{
