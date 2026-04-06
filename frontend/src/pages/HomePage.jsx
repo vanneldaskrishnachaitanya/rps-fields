@@ -196,7 +196,7 @@ export default function HomePage() {
 
       {/* ─────────────── STATS BAR ─────────────── */}
       <div style={{ background: dark ? "#0f2018" : "#1b4332", borderBottom: "3px solid #52b788", width:"100%" }}>
-        <div style={{ maxWidth: "var(--content-max)", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(160px,1fr))", padding:"0 var(--page-px, clamp(10px,2.2vw,24px))" }}>
+        <div style={{ maxWidth: "var(--content-max)", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4,minmax(150px,220px))", justifyContent:"center", padding:"0 var(--page-px, clamp(10px,2.2vw,24px))" }}>
           {STATS.map((s, i) => (
             <div key={i} data-id={`stat-${i}`} style={{ textAlign:"center", padding:"22px 16px", borderRight: i < 3 ? "1px solid rgba(255,255,255,0.08)" : "none", ...reveal(`stat-${i}`, i * 0.08) }}>
               <div style={{ fontSize:22, marginBottom:4 }}>{s.icon}</div>
