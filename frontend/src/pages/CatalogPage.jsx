@@ -85,7 +85,19 @@ export default function CatalogPage() {
     clearTimeout(debounce.current);
   };
 
-  const reset = () => { setLoc("all"); setSortBy("default"); setSearch(""); setDSearch(""); setOpenMenu(null); };
+  const reset = () => {
+    clearTimeout(debounce.current);
+    setLoc("all");
+    setSortBy("default");
+    setSearch("");
+    setDSearch("");
+    setOpenMenu(null);
+  };
+
+  const resetSortOnly = () => {
+    setSortBy("default");
+    setOpenMenu(null);
+  };
 
   const applyQuickFilter = (nextAction) => {
     setShowFilters(true);
@@ -334,6 +346,7 @@ export default function CatalogPage() {
 
               <div style={{ display: "flex", alignItems: "end" }}>
                 <button
+                  type="button"
                   data-magnetic
                   onClick={() => { reset(); setOpenMenu(null); }}
                   style={{ width: "100%", minHeight: 52, padding: "9px 14px", borderRadius: 16, border: `1.5px solid ${tk.border}`, background: "linear-gradient(135deg, rgba(82,183,136,0.10), rgba(45,106,79,0.04))", color: tk.textMid, fontWeight: 800, fontSize: 13, cursor: "pointer", fontFamily: "'Inter',sans-serif" }}
@@ -355,8 +368,8 @@ export default function CatalogPage() {
             <span className="summary-copy">matching your current filters</span>
           </div>
           <div className="summary-bar-right">
-            <button data-magnetic onClick={reset} className="summary-action summary-action-ghost">Clear All</button>
-            <button data-magnetic onClick={() => setSortBy("default")} className="summary-action summary-action-primary">Reset Sort</button>
+            <button type="button" data-magnetic onClick={reset} className="summary-action summary-action-ghost">Clear All</button>
+            <button type="button" data-magnetic onClick={resetSortOnly} className="summary-action summary-action-primary">Reset Sort</button>
           </div>
         </div>
 
