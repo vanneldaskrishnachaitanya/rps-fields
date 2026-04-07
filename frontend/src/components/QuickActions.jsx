@@ -46,7 +46,6 @@ export default function QuickActions({ collapsed: defaultCollapsed = false }) {
   const [dockedSide, setDockedSide] = useState("none");
   const [isHovered, setIsHovered] = useState(false);
   const dragRef = useRef({ startX: 0, startY: 0, initialX: 0, initialY: 0 });
-  const wRef = useRef(220);
 
   // Initialize position on mount
   useEffect(() => {
@@ -105,7 +104,6 @@ export default function QuickActions({ collapsed: defaultCollapsed = false }) {
     setPos(curr => {
       let { x, y } = curr;
       const w = collapsed ? 50 : 220; 
-      const h = 400; // rough height estimate
       const th = 60; // snap threshold
       let newSide = "none";
       
