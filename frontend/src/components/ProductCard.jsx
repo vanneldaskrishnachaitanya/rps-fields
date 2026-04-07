@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useTheme, TK } from "../context/ThemeContext";
 import { useCart } from "../context/CartContext";
 
-export default function ProductCard({ product, onQuickView, onToggleSave, onToggleCompare, onViewProduct, isSaved = false, isCompared = false }) {
+export default function ProductCard({ product, onQuickView, onViewProduct }) {
   const navigate = useNavigate();
   const { dark } = useTheme(); const tk = TK(dark);
   const { addToCart } = useCart();
@@ -61,14 +61,6 @@ export default function ProductCard({ product, onQuickView, onToggleSave, onTogg
     transition: "all 0.22s cubic-bezier(0.34,1.56,0.64,1)",
     boxShadow: "inset 0 1.5px 0 rgba(255,255,255,0.58), inset 0 -1px 0 rgba(0,0,0,0.1), 0 6px 16px rgba(0,0,0,0.2)",
     position: "relative", overflow: "hidden",
-  };
-
-  const quickActionBase = {
-    border: "1px solid rgba(255,255,255,0.22)",
-    backdropFilter: "blur(20px) saturate(180%)",
-    WebkitBackdropFilter: "blur(20px) saturate(180%)",
-    boxShadow: "inset 0 1px 0 rgba(255,255,255,0.24), 0 8px 20px rgba(0,0,0,0.18)",
-    transition: "transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease",
   };
 
   return (
@@ -137,24 +129,6 @@ export default function ProductCard({ product, onQuickView, onToggleSave, onTogg
             className="product-quick-btn product-quick-btn-primary"
           >
             Quick View
-          </button>
-          <button
-            type="button"
-            data-magnetic
-            onClick={(e) => { e.stopPropagation(); onToggleCompare && onToggleCompare(product); }}
-            className={`product-quick-btn ${isCompared ? "is-active" : ""}`}
-            style={{ ...quickActionBase, background: isCompared ? "linear-gradient(135deg,rgba(37,99,235,0.88),rgba(29,78,216,0.92))" : "rgba(6,18,11,0.62)", color: "#fff" }}
-          >
-            {isCompared ? "Compared" : "Compare"}
-          </button>
-          <button
-            type="button"
-            data-magnetic
-            onClick={(e) => { e.stopPropagation(); onToggleSave && onToggleSave(product); }}
-            className={`product-quick-btn ${isSaved ? "is-active" : ""}`}
-            style={{ ...quickActionBase, background: isSaved ? "linear-gradient(135deg,rgba(249,115,22,0.9),rgba(194,65,12,0.92))" : "rgba(6,18,11,0.62)", color: "#fff" }}
-          >
-            {isSaved ? "Saved" : "Save"}
           </button>
         </div>
       </div>

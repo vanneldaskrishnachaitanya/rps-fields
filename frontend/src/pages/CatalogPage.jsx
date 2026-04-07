@@ -24,8 +24,6 @@ export default function CatalogPage() {
   const [showFilters, setShowFilters] = useState(false);
   const [openMenu, setOpenMenu] = useState(null);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
-  const [savedIds, setSavedIds] = useState([]);
-  const [compareIds, setCompareIds] = useState([]);
   const [recentlyViewed, setRecentlyViewed] = useState([]);
   const [search,   setSearch]   = useState("");
   const [dSearch,  setDSearch]  = useState("");
@@ -60,8 +58,6 @@ export default function CatalogPage() {
   }, []);
 
   useEffect(() => {
-    setSavedIds(Array.isArray(user?.savedProductIds) ? user.savedProductIds : []);
-    setCompareIds(Array.isArray(user?.comparedProductIds) ? user.comparedProductIds : []);
     setRecentlyViewed(Array.isArray(user?.recentlyViewedProducts) ? user.recentlyViewedProducts : []);
     catalogStateReadyRef.current = !!user;
   }, [user]);
@@ -71,12 +67,10 @@ export default function CatalogPage() {
     authFetch("/auth/catalog-state", {
       method: "PUT",
       body: JSON.stringify({
-        savedProductIds: savedIds,
-        comparedProductIds: compareIds,
         recentlyViewedProducts: recentlyViewed,
       }),
     }).catch(() => {});
-  }, [savedIds, compareIds, recentlyViewed, user, authFetch]);
+  }, [recentlyViewed, user, authFetch]);
 
   const handleSearch = (val) => {
     setSearch(val);
@@ -127,16 +121,6 @@ export default function CatalogPage() {
     return list;
   }, [products, loc, sortBy]);
 
-  const savedProducts = useMemo(() => {
-    const byId = new Map(products.map((product) => [product.id || product._id, product]));
-    return savedIds.map((id) => byId.get(id)).filter(Boolean);
-  }, [products, savedIds]);
-
-  const comparedProducts = useMemo(() => {
-    const byId = new Map(products.map((product) => [product.id || product._id, product]));
-    return compareIds.map((id) => byId.get(id)).filter(Boolean);
-  }, [products, compareIds]);
-
   const featuredProducts = useMemo(() => {
     const ranked = [...products].sort((a, b) => {
       const aScore = Number(b.avgRating || 0) - Number(a.avgRating || 0);
@@ -162,16 +146,6 @@ export default function CatalogPage() {
   const selectedLocationLabel = loc === "all" ? "All Locations" : loc;
   const selectedSortLabel = SORT_OPTIONS.find((option) => option.value === sortBy)?.label || "Default";
   const activeFilterCount = Number(loc !== "all") + Number(sortBy !== "default") + Number(Boolean(search));
-
-  const toggleSaved = (product) => {
-    const id = product.id || product._id;
-    setSavedIds((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id]);
-  };
-
-  const toggleCompared = (product) => {
-    const id = product.id || product._id;
-    setCompareIds((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id]);
-  };
 
   const markRecentlyViewed = (product) => {
     const item = {
@@ -377,8 +351,6 @@ export default function CatalogPage() {
           <div className="summary-bar-left">
             <span className="summary-pill summary-pill-strong">{filteredProducts.length} items</span>
             <span className="summary-pill" style={{ background: "rgba(82,183,136,0.10)", color: tk.textMid, border: "1px solid rgba(82,183,136,0.16)" }}>{activeFilterCount} active filters</span>
-            <span className="summary-pill" style={{ background: "rgba(249,115,22,0.10)", color: tk.textMid, border: "1px solid rgba(249,115,22,0.16)" }}>{savedIds.length} saved</span>
-            <span className="summary-pill" style={{ background: "rgba(37,99,235,0.10)", color: tk.textMid, border: "1px solid rgba(37,99,235,0.16)" }}>{compareIds.length} compare</span>
             <span className="summary-copy">matching your current filters</span>
           </div>
           <div className="summary-bar-right">
@@ -390,73 +362,6 @@ export default function CatalogPage() {
         {error && (
           <div style={{ background: dark ? "rgba(220,38,38,0.12)" : "#fff3cd", border: "1px solid rgba(220,38,38,0.3)", borderRadius: 14, padding: "16px var(--page-px,clamp(16px,4vw,48px))", marginBottom: 24, color: dark ? "#fca5a5" : "#856404", fontWeight: 600 }}>
             ⚠ {error}
-          </div>
-        )}
-
-        {(savedProducts.length > 0 || comparedProducts.length > 0) && (
-          <div style={{ display: "grid", gap: 16, marginBottom: 24 }}>
-            {savedProducts.length > 0 && (
-              <section className={`catalog-collection ${dark ? "catalog-collection-dark" : "catalog-collection-light"}`}>
-                <div className="catalog-collection-head">
-                  <div>
-                    <div className="catalog-collection-kicker">Saved locally on this device</div>
-                    <h3>Saved items</h3>
-                  </div>
-                  <button data-magnetic onClick={() => setSavedIds([])} className="summary-action summary-action-ghost">Clear Saved</button>
-                </div>
-                <div className="catalog-mini-grid">
-                  {savedProducts.slice(0, 4).map((product) => (
-                    <button
-                      key={product.id || product._id}
-                      type="button"
-                      data-magnetic
-                      className={`catalog-mini-card ${dark ? "catalog-mini-card-dark" : "catalog-mini-card-light"}`}
-                      onClick={() => setQuickViewProduct(product)}
-                    >
-                      <img src={product.img || product.image} alt={product.name} className="catalog-mini-image" />
-                      <div className="catalog-mini-content">
-                        <div className="catalog-mini-category">Saved item</div>
-                        <div className="catalog-mini-name">{product.name}</div>
-                        <div className="catalog-mini-meta">₹{Number(product.price || product.pricePerKg || 0).toLocaleString("en-IN")} / {product.unit || "kg"}</div>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {comparedProducts.length > 0 && (
-              <section className={`catalog-collection ${dark ? "catalog-collection-dark" : "catalog-collection-light"}`}>
-                <div className="catalog-collection-head">
-                  <div>
-                    <div className="catalog-collection-kicker">Side-by-side shortlist</div>
-                    <h3>Compare tray</h3>
-                  </div>
-                  <button data-magnetic onClick={() => setCompareIds([])} className="summary-action summary-action-ghost">Clear Compare</button>
-                </div>
-                <div className="catalog-compare-grid">
-                  {comparedProducts.slice(0, 3).map((product) => (
-                    <button
-                      key={product.id || product._id}
-                      type="button"
-                      data-magnetic
-                      className={`catalog-compare-card ${dark ? "catalog-compare-card-dark" : "catalog-compare-card-light"}`}
-                      onClick={() => setQuickViewProduct(product)}
-                    >
-                      <div className="catalog-compare-image-wrap">
-                        <img src={product.img || product.image} alt={product.name} className="catalog-compare-image" />
-                      </div>
-                      <div className="catalog-compare-content">
-                        <div className="catalog-compare-category">Compare pick</div>
-                        <div className="catalog-compare-name">{product.name}</div>
-                        <div className="catalog-compare-meta">₹{Number(product.price || product.pricePerKg || 0).toLocaleString("en-IN")} / {product.unit || "kg"}</div>
-                        <div className="catalog-compare-meta">📍 {product.farmerLocation || product.location || "Location unavailable"}</div>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </section>
-            )}
           </div>
         )}
 
@@ -517,11 +422,7 @@ export default function CatalogPage() {
                 <ProductCard
                   product={p}
                   onQuickView={() => { markRecentlyViewed(p); setQuickViewProduct(p); }}
-                  onToggleSave={() => toggleSaved(p)}
-                  onToggleCompare={() => toggleCompared(p)}
                   onViewProduct={() => markRecentlyViewed(p)}
-                  isSaved={savedIds.includes(p.id || p._id)}
-                  isCompared={compareIds.includes(p.id || p._id)}
                 />
               </div>
             ))}
@@ -582,7 +483,6 @@ export default function CatalogPage() {
                 </p>
                 <div className="catalog-modal-actions">
                   <button data-magnetic onClick={() => setQuickViewProduct(null)} className="summary-action summary-action-ghost">Keep Browsing</button>
-                  <button data-magnetic onClick={() => { setQuickViewProduct(null); toggleSaved(quickViewProduct); }} className="summary-action summary-action-primary">Save for Later</button>
                 </div>
               </div>
             </div>
