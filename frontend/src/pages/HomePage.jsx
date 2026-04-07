@@ -52,6 +52,88 @@ const WHY = [
   { icon: "📱", title: "Easy Ordering",     desc: "Order in seconds. Track delivery in real time." },
 ];
 
+const ScrollRevealTestimonial = ({ dark, tk }) => {
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      const sectionTop = rect.top;
+      const sectionHeight = rect.height;
+      const viewportCenter = windowHeight / 2;
+      const progressPixels = viewportCenter - sectionTop;
+      let p = progressPixels / (sectionHeight * 0.6);
+      p = Math.max(0, Math.min(1, p));
+      containerRef.current.style.setProperty('--scroll-p', p);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <section ref={containerRef} style={{ padding: "clamp(60px, 8vw, 120px) var(--page-px)", background: tk.bg, borderTop: `1px solid ${tk.border}`, overflow: "hidden" }}>
+      <div style={{ maxWidth: "800px", margin: "0 auto", display: 'flex', gap: "30px", alignItems: 'stretch' }}>
+        
+        {/* The Track and Line */}
+        <div style={{ width: "4px", background: dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)", borderRadius: "2px", position: "relative", overflow: "hidden", flexShrink: 0 }}>
+          <div style={{ 
+            position: "absolute", top: 0, left: 0, right: 0, 
+            background: "#2563eb", 
+            height: "calc(var(--scroll-p, 0) * 100%)",
+            transition: "height 0.1s linear"
+          }} />
+        </div>
+
+        {/* The Text */}
+        <div style={{ flex: 1, padding: "20px 0" }}>
+          <div style={{ 
+             display: "inline-block", background: "rgba(37, 99, 235, 0.1)", color: "#2563eb", borderRadius: 20, padding: "4px 14px", fontSize: 11, fontWeight: 700, letterSpacing: "1.1px", textTransform: "uppercase", marginBottom: 16 
+          }}>
+             What our customers say
+          </div>
+          
+          <h2 style={{ 
+            fontSize: "clamp(28px, 4.5vw, 42px)", 
+            fontFamily: "'Playfair Display', Georgia, serif", 
+            fontWeight: 800, 
+            lineHeight: 1.3, 
+            position: "relative",
+            color: dark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.15)", /* Faded base color */
+          }}>
+            {/* Outline / Faded Text */}
+            "The freshest produce I've ever received, straight from the farm to my kitchen. The delivery is incredibly fast, and the quality is unmatched. I won't buy my vegetables anywhere else."
+
+            {/* The colored overlay text */}
+            <div style={{
+              position: "absolute",
+              inset: 0,
+              color: "#2563eb", /* Blue color */
+              clipPath: "inset(0 0 calc((1 - var(--scroll-p, 0)) * 100%) 0)",
+              WebkitClipPath: "inset(0 0 calc((1 - var(--scroll-p, 0)) * 100%) 0)",
+              transition: "clip-path 0.1s linear, -webkit-clip-path 0.1s linear"
+            }}>
+              "The freshest produce I've ever received, straight from the farm to my kitchen. The delivery is incredibly fast, and the quality is unmatched. I won't buy my vegetables anywhere else."
+            </div>
+            
+          </h2>
+          
+          <div style={{ 
+            marginTop: 30, opacity: "var(--scroll-p, 0)", transition: "opacity 0.3s ease", transform: `translateY(calc((1 - var(--scroll-p, 0)) * 20px))`
+          }}>
+            <div style={{ fontWeight: 800, fontSize: 16, color: tk.text }}>— Rajesh K.</div>
+            <div style={{ fontSize: 13, color: tk.textLt }}>Verified Customer, Hyderabad</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  );
+};
+
 export default function HomePage() {
   const navigate  = useNavigate();
   const { dark }  = useTheme();
@@ -113,6 +195,7 @@ export default function HomePage() {
 
   useEffect(() => {
     const onWheel = (e) => {
+      return; // Temporarily disabled for smooth scroll reveal animation (Wacus effect)
       if (snapLockRef.current) {
         e.preventDefault();
         return;
@@ -382,6 +465,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <ScrollRevealTestimonial dark={dark} tk={tk} />
 
       {/* ─────────────── JOIN CTA ─────────────── */}
       <section style={{ padding:"clamp(16px,2.3vw,24px) var(--page-px,clamp(10px,2.2vw,24px))", background: dark?"#080f09":"#f0f7f2", borderTop:`1px solid ${tk.border}` }}>
