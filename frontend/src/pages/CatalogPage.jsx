@@ -12,6 +12,20 @@ const SORT_OPTIONS = [
 ];
 
 const FEATURED_LABELS = ["Fresh Today", "Best Seller", "Low Stock", "Farm Direct"];
+const SEASONAL_STORIES = [
+  {
+    title: "Summer Specials",
+    copy: "Hydrating produce, cooling greens, and light kitchen staples for the hot season.",
+  },
+  {
+    title: "Monsoon Greens",
+    copy: "Leafy harvests and earthy vegetables that shine in rainy-season cooking.",
+  },
+  {
+    title: "Festival Staples",
+    copy: "Bulk-friendly essentials, premium dry fruits, and spice-forward celebratory picks.",
+  },
+];
 
 export default function CatalogPage() {
   const { dark } = useTheme(); const tk = TK(dark);
@@ -25,6 +39,7 @@ export default function CatalogPage() {
   const [quickViewProduct, setQuickViewProduct] = useState(null);
   const [savedIds, setSavedIds] = useState([]);
   const [compareIds, setCompareIds] = useState([]);
+  const [recentlyViewed, setRecentlyViewed] = useState([]);
   const [search,   setSearch]   = useState("");
   const [dSearch,  setDSearch]  = useState("");
   const debounce = useRef(null);
@@ -60,11 +75,14 @@ export default function CatalogPage() {
     try {
       const saved = JSON.parse(localStorage.getItem("catalog-saved-products") || "[]");
       const compared = JSON.parse(localStorage.getItem("catalog-compared-products") || "[]");
+      const viewed = JSON.parse(localStorage.getItem("catalog-recently-viewed") || "[]");
       setSavedIds(Array.isArray(saved) ? saved : []);
       setCompareIds(Array.isArray(compared) ? compared : []);
+      setRecentlyViewed(Array.isArray(viewed) ? viewed : []);
     } catch {
       setSavedIds([]);
       setCompareIds([]);
+      setRecentlyViewed([]);
     }
   }, []);
 
@@ -75,6 +93,10 @@ export default function CatalogPage() {
   useEffect(() => {
     localStorage.setItem("catalog-compared-products", JSON.stringify(compareIds));
   }, [compareIds]);
+
+  useEffect(() => {
+    localStorage.setItem("catalog-recently-viewed", JSON.stringify(recentlyViewed));
+  }, [recentlyViewed]);
 
   const handleSearch = (val) => {
     setSearch(val);
@@ -149,6 +171,18 @@ export default function CatalogPage() {
     setCompareIds((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id]);
   };
 
+  const markRecentlyViewed = (product) => {
+    const item = {
+      id: product.id || product._id,
+      name: product.name,
+      img: product.img || product.image,
+      price: product.price || product.pricePerKg || 0,
+      unit: product.unit || "kg",
+      category: product.category,
+    };
+    setRecentlyViewed((current) => [item, ...current.filter((entry) => entry.id !== item.id)].slice(0, 6));
+  };
+
   return (
     <div style={{ background: tk.bg, minHeight: "100%", fontFamily: "'Inter',sans-serif" }}>
 
@@ -166,6 +200,36 @@ export default function CatalogPage() {
           <p style={{ color:"rgba(255,255,255,0.7)", fontSize:13 }}>
             Search products quickly, then refine with location and sort filters
           </p>
+        </div>
+      </div>
+
+      {/* ── Seasonal Storytelling ── */}
+      <div style={{ padding: "16px clamp(10px,2.2vw,24px) 8px" }}>
+        <div style={{ maxWidth: 1680, margin: "0 auto" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 12, flexWrap: "wrap" }}>
+            <div>
+              <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: "1.2px", textTransform: "uppercase", color: tk.green4, marginBottom: 4 }}>Seasonal Storytelling</div>
+              <h2 style={{ fontFamily: "'Playfair Display',Georgia,serif", fontSize: 22, color: tk.text, lineHeight: 1.1 }}>Browse by season</h2>
+            </div>
+            <span style={{ fontSize: 12, color: tk.textLt }}>A calmer way to discover what feels right today</span>
+          </div>
+
+          <div className="seasonal-strip">
+            {SEASONAL_STORIES.map((story, index) => (
+              <button
+                key={story.title}
+                type="button"
+                data-magnetic
+                onClick={() => setSearch(story.query)}
+                className={`seasonal-card ${dark ? "seasonal-card-dark" : "seasonal-card-light"}`}
+                style={{ animationDelay: `${index * 0.08}s` }}
+              >
+                <div className="seasonal-card-kicker">Curated Season</div>
+                <div className="seasonal-card-title">{story.title}</div>
+                <div className="seasonal-card-copy">{story.copy}</div>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -393,6 +457,12 @@ export default function CatalogPage() {
             <div className="catalog-empty-graphic">🌾</div>
             <h3>No products found</h3>
             <p>Try a different filter or jump into a trending category below.</p>
+            <div className="catalog-empty-suggestions">
+              <button data-magnetic onClick={() => setSearch("vegetables")} className="summary-action summary-action-ghost">Vegetables</button>
+              <button data-magnetic onClick={() => setSearch("fruits")} className="summary-action summary-action-ghost">Fruits</button>
+              <button data-magnetic onClick={() => setSearch("dairy")} className="summary-action summary-action-ghost">Dairy</button>
+              <button data-magnetic onClick={() => setSearch("spices")} className="summary-action summary-action-ghost">Spices</button>
+            </div>
             <div className="catalog-empty-actions">
               <button data-magnetic onClick={reset} className="summary-action summary-action-primary">Show All Products</button>
               <button data-magnetic onClick={() => { setSearch(""); setSortBy("default"); setLoc("all"); }} className="summary-action summary-action-ghost">Reset Everything</button>
@@ -404,14 +474,45 @@ export default function CatalogPage() {
               <div key={p.id || p._id} style={{ minWidth: 0, animation: `fadeUp 0.5s ease ${Math.min(i,10)*0.04}s both` }}>
                 <ProductCard
                   product={p}
-                  onQuickView={() => setQuickViewProduct(p)}
+                  onQuickView={() => { markRecentlyViewed(p); setQuickViewProduct(p); }}
                   onToggleSave={() => toggleSaved(p)}
                   onToggleCompare={() => toggleCompared(p)}
+                  onViewProduct={() => markRecentlyViewed(p)}
                   isSaved={savedIds.includes(p.id || p._id)}
                   isCompared={compareIds.includes(p.id || p._id)}
                 />
               </div>
             ))}
+          </div>
+        )}
+
+        {recentlyViewed.length > 0 && (
+          <div style={{ marginTop: 24 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 12, flexWrap: "wrap" }}>
+              <div>
+                <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: "1.2px", textTransform: "uppercase", color: tk.green4, marginBottom: 4 }}>Continue Browsing</div>
+                <h2 style={{ fontFamily: "'Playfair Display',Georgia,serif", fontSize: 22, color: tk.text, lineHeight: 1.1 }}>Recently viewed</h2>
+              </div>
+              <button data-magnetic onClick={() => setRecentlyViewed([])} className="summary-action summary-action-ghost">Clear History</button>
+            </div>
+            <div className="recently-viewed-strip">
+              {recentlyViewed.map((item, index) => (
+                <button
+                  key={item.id || index}
+                  data-magnetic
+                  type="button"
+                  className={`recently-viewed-card ${dark ? "recently-viewed-card-dark" : "recently-viewed-card-light"}`}
+                  onClick={() => setQuickViewProduct(item)}
+                >
+                  <div className="recently-viewed-thumb" style={{ backgroundImage: `url(${item.img || ""})` }} />
+                  <div className="recently-viewed-content">
+                    <div className="recently-viewed-category">{item.category || "Product"}</div>
+                    <div className="recently-viewed-name">{item.name}</div>
+                    <div className="recently-viewed-meta">₹{Number(item.price || 0).toLocaleString("en-IN")} / {item.unit || "kg"}</div>
+                  </div>
+                </button>
+              ))}
+            </div>
           </div>
         )}
       </div>

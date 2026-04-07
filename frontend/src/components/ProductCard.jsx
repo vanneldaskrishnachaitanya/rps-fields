@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useTheme, TK } from "../context/ThemeContext";
 import { useCart } from "../context/CartContext";
 
-export default function ProductCard({ product, onQuickView, onToggleSave, onToggleCompare, isSaved = false, isCompared = false }) {
+export default function ProductCard({ product, onQuickView, onToggleSave, onToggleCompare, onViewProduct, isSaved = false, isCompared = false }) {
   const navigate = useNavigate();
   const { dark } = useTheme(); const tk = TK(dark);
   const { addToCart } = useCart();
@@ -25,6 +25,11 @@ export default function ProductCard({ product, onQuickView, onToggleSave, onTogg
     addToCart(product);
     setAdded(true);
     setTimeout(() => setAdded(false), 1800);
+  };
+
+  const handleOpenProduct = () => {
+    if (onViewProduct) onViewProduct(product);
+    navigate(`/product/${product.id || product._id}`);
   };
 
   // 3D Tilt handlers
@@ -85,7 +90,7 @@ export default function ProductCard({ product, onQuickView, onToggleSave, onTogg
     >
       {/* Image */}
       <div style={{ position: "relative", height: 160, overflow: "hidden", background: tk.bgMuted, cursor: "pointer" }}
-        onClick={() => navigate(`/product/${product.id || product._id}`)}>
+        onClick={handleOpenProduct}>
         {!imgError ? (
           <>
             {!imgLoaded && (
@@ -128,7 +133,7 @@ export default function ProductCard({ product, onQuickView, onToggleSave, onTogg
           <button
             type="button"
             data-magnetic
-            onClick={(e) => { e.stopPropagation(); onQuickView ? onQuickView(product) : navigate(`/product/${product.id || product._id}`); }}
+            onClick={(e) => { e.stopPropagation(); onQuickView ? onQuickView(product) : handleOpenProduct(); }}
             className="product-quick-btn product-quick-btn-primary"
           >
             Quick View
@@ -156,7 +161,7 @@ export default function ProductCard({ product, onQuickView, onToggleSave, onTogg
 
       {/* Body */}
       <div style={{ padding: "12px 12px 10px" }}>
-        <div onClick={() => navigate(`/product/${product.id || product._id}`)} style={{ cursor: "pointer" }}>
+        <div onClick={handleOpenProduct} style={{ cursor: "pointer" }}>
           <div style={{ fontWeight: 800, fontSize: 14, color: tk.text, marginBottom: 3, lineHeight: 1.25 }}>{product.name}</div>
           <div style={{ fontSize: 12, color: tk.textLt, marginBottom: 10, display: "flex", alignItems: "center", gap: 4 }}>
             <span>🧑‍🌾</span>
@@ -184,7 +189,7 @@ export default function ProductCard({ product, onQuickView, onToggleSave, onTogg
         {/* Buttons */}
         <div style={{ display: "flex", gap: 8, alignItems: "stretch" }}>
           <button
-            onClick={() => navigate(`/product/${product.id || product._id}`)}
+            onClick={handleOpenProduct}
             style={{
               ...iosBtnBase,
               width: "100%",
