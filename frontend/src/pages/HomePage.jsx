@@ -78,37 +78,36 @@ const ScrollRevealTestimonial = ({ dark, tk }) => {
   ];
 
   useEffect(() => {
-    // 1) SVG Scroll Drawing
+    let ticking = false;
     const handleScroll = () => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const wh = window.innerHeight;
-      let p = (wh * 0.7 - rect.top) / (rect.height * 0.85);
-      p = Math.max(0, Math.min(1, p));
-      containerRef.current.style.setProperty('--scroll-p', p);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (!containerRef.current) { ticking = false; return; }
+          const rect = containerRef.current.getBoundingClientRect();
+          const wh = window.innerHeight;
+          let p = (wh * 0.7 - rect.top) / (rect.height * 0.85);
+          p = Math.max(0, Math.min(1, p));
+          containerRef.current.style.setProperty('--scroll-p', p);
+
+          const blocks = containerRef.current.querySelectorAll('.wacus-block');
+          const thresholds = [0.15, 0.45, 0.75];
+          blocks.forEach((el, index) => {
+             if (p > thresholds[index]) {
+               el.classList.add('wacus-active');
+             } else {
+               el.classList.remove('wacus-active');
+             }
+          });
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
 
-    // 2) Intersection Observer for Text Illumination
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('wacus-active');
-        } else {
-          if (e.boundingClientRect.top > window.innerHeight * 0.5) {
-             e.target.classList.remove('wacus-active');
-          }
-        }
-      });
-    }, { rootMargin: "-45% 0px -40% 0px" });
-
-    document.querySelectorAll('.wacus-block').forEach(el => obs.observe(el));
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      obs.disconnect();
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
@@ -214,9 +213,9 @@ const ScrollRevealTestimonial = ({ dark, tk }) => {
 
         {/* SVG Drawing Curve */}
         <div style={{ position: "absolute", top: 0, bottom: 0, left: 0, right: 0, zIndex: 3, pointerEvents: "none" }}>
-          <svg viewBox="0 0 1000 1000" preserveAspectRatio="none" style={{ width: "100%", height: "100%", overflow: "visible" }}>
+          <svg viewBox="0 0 1000 1000" preserveAspectRatio="none" style={{ width: "100%", height: "100%", overflow: "hidden" }}>
             <path 
-              d="M 1200, 0 C 800, 50 150, 100 200, 250 C 250, 400 850, 450 700, 600 C 550, 750 150, 850 250, 1050" 
+              d="M 1100, 0 C 800, 50 150, 100 200, 250 C 250, 400 850, 450 700, 600 C 550, 750 150, 850 250, 1050" 
               fill="none" 
               stroke="#ea580c" 
               strokeWidth="6" 
