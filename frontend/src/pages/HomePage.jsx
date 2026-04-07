@@ -184,10 +184,8 @@ export default function HomePage() {
           backgroundImage: `url(${cur.img})`,
           backgroundSize: "cover", backgroundPosition: "center",
           opacity: animating ? 0 : 1,
-          transform: animating ? "scale(1.08)" : "scale(1)",
-          transition: "opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1)",
-          animation: !animating ? "slideZoomKen 0.8s cubic-bezier(0.22,1,0.36,1)" : "none",
-          transformOrigin: "center center",
+          transform: animating ? "scale(1.03)" : "scale(1)",
+          transition: "opacity 0.55s ease, transform 0.55s ease",
         }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(100deg,rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.3) 55%,rgba(0,0,0,0.05) 100%)" }} />
 
