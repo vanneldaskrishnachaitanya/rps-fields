@@ -77,77 +77,38 @@ const ScrollRevealTestimonial = ({ dark, tk }) => {
     }
   ];
 
-  const renderTextContent = (isHighlightLayer) => (
-    <div style={{ padding: "40px 0 80px", maxWidth: 840, margin: "0 auto", position: "relative", zIndex: 2 }}>
-      {testimonials.map((t, i) => {
-        let textParts = [{ type: 'text', val: t.text }];
-        t.highlights.forEach(word => {
-          const newParts = [];
-          textParts.forEach(chunk => {
-            if (chunk.type === 'highlight') {
-              newParts.push(chunk);
-            } else {
-              const split = chunk.val.split(word);
-              split.forEach((s, idx) => {
-                if (s) newParts.push({ type: 'text', val: s });
-                if (idx < split.length - 1) newParts.push({ type: 'highlight', val: word });
-              });
-            }
-          });
-          textParts = newParts;
-        });
-
-        return (
-          <div key={i} style={{ marginBottom: 120 }}>
-            <h2 style={{ 
-              fontSize: "clamp(26px, 4vw, 36px)", 
-              fontFamily: "'Playfair Display', Georgia, serif", 
-              fontWeight: 800, 
-              lineHeight: 1.4, 
-              color: isHighlightLayer ? (dark ? "#fff" : "#111") : (dark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"),
-              marginBottom: 30
-            }}>
-              "
-              {textParts.map((chunk, cIdx) => (
-                <span key={cIdx} style={{ 
-                  color: chunk.type === 'highlight' ? (isHighlightLayer ? "#2563eb" : "inherit") : "inherit",
-                  transition: "all 0.3s ease",
-                  backgroundColor: chunk.type === 'highlight' ? (isHighlightLayer ? "rgba(37, 99, 235, 0.12)" : "transparent") : "transparent",
-                  padding: chunk.type === 'highlight' ? "2px 8px" : "0",
-                  borderRadius: "6px",
-                  display: chunk.type === 'highlight' ? "inline-block" : "inline",
-                  transform: chunk.type === 'highlight' ? "rotate(-1deg)" : "none",
-                  boxShadow: chunk.type === 'highlight' ? (isHighlightLayer ? "0 0 16px rgba(37,99,235,0.15)" : "none") : "none",
-                  margin: chunk.type === 'highlight' ? "0 4px" : "0"
-                }}>
-                  {chunk.val}
-                </span>
-              ))}
-              "
-            </h2>
-            <div style={{ fontSize: 16, fontWeight: 700, color: isHighlightLayer ? tk.text : "transparent" }}>
-              — {t.author}
-              <span style={{ fontSize: 14, fontWeight: 500, color: isHighlightLayer ? tk.textLt : "transparent", marginLeft: 12 }}>
-                {t.location}
-              </span>
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-
   useEffect(() => {
+    // 1) SVG Scroll Drawing
     const handleScroll = () => {
       if (!containerRef.current) return;
       const rect = containerRef.current.getBoundingClientRect();
       const wh = window.innerHeight;
-      const p = Math.max(0, Math.min(1, (wh * 0.7 - rect.top) / (rect.height * 0.85)));
+      let p = (wh * 0.7 - rect.top) / (rect.height * 0.85);
+      p = Math.max(0, Math.min(1, p));
       containerRef.current.style.setProperty('--scroll-p', p);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    // 2) Intersection Observer for Text Illumination
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('wacus-active');
+        } else {
+          if (e.boundingClientRect.top > window.innerHeight * 0.5) {
+             e.target.classList.remove('wacus-active');
+          }
+        }
+      });
+    }, { rootMargin: "-45% 0px -40% 0px" });
+
+    document.querySelectorAll('.wacus-block').forEach(el => obs.observe(el));
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      obs.disconnect();
+    };
   }, []);
 
   return (
@@ -156,44 +117,122 @@ const ScrollRevealTestimonial = ({ dark, tk }) => {
       {/* Title */}
       <div style={{ textAlign: "center", marginBottom: 60, position: "relative", zIndex: 3 }}>
         <div style={{ 
-            display: "inline-block", background: "rgba(37, 99, 235, 0.1)", color: "#2563eb", borderRadius: 20, padding: "6px 16px", fontSize: 12, fontWeight: 700, letterSpacing: "1.2px", textTransform: "uppercase" 
+            display: "inline-block", background: "rgba(234, 88, 12, 0.1)", color: "#ea580c", borderRadius: 20, padding: "6px 16px", fontSize: 12, fontWeight: 700, letterSpacing: "1.2px", textTransform: "uppercase" 
         }}>
            What our customers say
         </div>
       </div>
 
-      <div style={{ position: "relative", maxWidth: 1000, margin: "0 auto" }}>
+      <div style={{ position: "relative", maxWidth: 1000, margin: "0 auto", paddingBottom: 80 }}>
         
-        {/* Background Layer (Faint Text) */}
-        {renderTextContent(false)}
+        {/* Unified Text Blocks */}
+        <div style={{ position: "relative", zIndex: 2, maxWidth: 840, margin: "0 auto" }}>
+          <style>
+            {`
+              .wacus-block {
+                color: rgba(120, 130, 125, 0.3);
+                transition: color 0.6s cubic-bezier(0.22,1,0.36,1);
+              }
+              .wacus-block.wacus-active {
+                color: ${dark ? "#ffffff" : "#111111"};
+              }
+              .wacus-block .wacus-hl {
+                color: inherit;
+                transition: all 0.6s cubic-bezier(0.22,1,0.36,1);
+                background-color: transparent;
+                border-radius: 4px;
+                padding: 0;
+              }
+              .wacus-block.wacus-active .wacus-hl {
+                color: #fff;
+                background-color: #ea580c;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 100 100'%3E%3Cpath d='M0,10 Q50,0 100,10 L100,90 Q50,100 0,90 Z' fill='%23ea580c' opacity='0.9'/%3E%3C/svg%3E");
+                background-size: 100% 100%;
+                padding: 2px 8px;
+                margin: 0 4px;
+                display: inline-block;
+                transform: rotate(-1.5deg) scale(1.02);
+                box-shadow: 0 4px 14px rgba(234, 88, 12, 0.25);
+              }
+              .wacus-block .wacus-meta {
+                opacity: 0;
+                transform: translateY(15px);
+                transition: all 0.6s ease;
+              }
+              .wacus-block.wacus-active .wacus-meta {
+                opacity: 1;
+                transform: translateY(0);
+              }
+            `}
+          </style>
 
-        {/* Foreground Layer (Bright Text + SVG Curve Reveal) */}
-        <div style={{
-          position: "absolute",
-          top: 0, left: 0, right: 0, bottom: 0,
-          clipPath: "inset(0 0 calc((1 - var(--scroll-p, 0)) * 100%) 0)",
-          WebkitClipPath: "inset(0 0 calc((1 - var(--scroll-p, 0)) * 100%) 0)",
-        }}>
-          
-          {/* Sweeping SVG Curve */}
-          <div style={{ position: "absolute", top: 0, bottom: 0, left: "-15%", width: "130%", zIndex: 1, pointerEvents: "none" }}>
-            <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{ width: "100%", height: "100%" }}>
-              <path 
-                d="M 110,-10 C 60,0 20,10 30,25 C 40,40 100,50 80,65 C 60,80 10,80 20,95 C 30,110 80,100 110,115" 
-                fill="none" 
-                stroke="#2563eb" 
-                strokeWidth="6" 
-                vectorEffect="non-scaling-stroke"
-                strokeLinecap="round"
-                style={{ filter: "drop-shadow(0 0 12px rgba(37, 99, 235, 0.6))" }}
-              />
-            </svg>
-          </div>
+          {testimonials.map((t, i) => {
+            let textParts = [{ type: 'text', val: t.text }];
+            t.highlights.forEach(word => {
+              const newParts = [];
+              textParts.forEach(chunk => {
+                if (chunk.type === 'highlight') {
+                  newParts.push(chunk);
+                } else {
+                  const split = chunk.val.split(word);
+                  split.forEach((s, idx) => {
+                    if (s) newParts.push({ type: 'text', val: s });
+                    if (idx < split.length - 1) newParts.push({ type: 'highlight', val: word });
+                  });
+                }
+              });
+              textParts = newParts;
+            });
 
-          {/* Highlighted Text Over Mask */}
-          {renderTextContent(true)}
-
+            return (
+              <div key={i} className="wacus-block" style={{ marginBottom: 120 }}>
+                <h2 style={{ 
+                  fontSize: "clamp(26px, 4vw, 36px)", 
+                  fontFamily: "'Playfair Display', Georgia, serif", 
+                  fontWeight: 800, 
+                  lineHeight: 1.4, 
+                  marginBottom: 30
+                }}>
+                  "
+                  {textParts.map((chunk, cIdx) => (
+                    <span key={cIdx} className={chunk.type === 'highlight' ? "wacus-hl" : ""}>
+                      {chunk.val}
+                    </span>
+                  ))}
+                  "
+                </h2>
+                <div className="wacus-meta" style={{ fontSize: 16, fontWeight: 700, color: tk.text }}>
+                  — {t.author}
+                  <span style={{ fontSize: 14, fontWeight: 500, color: tk.textLt, marginLeft: 12 }}>
+                    {t.location}
+                  </span>
+                </div>
+              </div>
+            );
+          })}
         </div>
+
+        {/* SVG Drawing Curve */}
+        <div style={{ position: "absolute", top: 0, bottom: 0, left: 0, right: 0, zIndex: 3, pointerEvents: "none" }}>
+          <svg viewBox="0 0 1000 1000" preserveAspectRatio="none" style={{ width: "100%", height: "100%", overflow: "visible" }}>
+            <path 
+              d="M 1200, 0 C 800, 50 150, 100 200, 250 C 250, 400 850, 450 700, 600 C 550, 750 150, 850 250, 1050" 
+              fill="none" 
+              stroke="#ea580c" 
+              strokeWidth="6" 
+              vectorEffect="non-scaling-stroke"
+              strokeLinecap="round"
+              pathLength="100"
+              style={{ 
+                 strokeDasharray: "100", 
+                 strokeDashoffset: "calc(100 - (var(--scroll-p, 0) * 100))",
+                 filter: "drop-shadow(0 0 12px rgba(234, 88, 12, 0.4))",
+                 transition: "stroke-dashoffset 0.1s linear"
+              }}
+            />
+          </svg>
+        </div>
+
       </div>
     </section>
   );
