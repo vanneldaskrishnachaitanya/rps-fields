@@ -12,23 +12,6 @@ const SORT_OPTIONS = [
 ];
 
 const FEATURED_LABELS = ["Fresh Today", "Best Seller", "Low Stock", "Farm Direct"];
-const SEASONAL_STORIES = [
-  {
-    title: "Summer Specials",
-    copy: "Hydrating produce, cooling greens, and light kitchen staples for the hot season.",
-    query: "vegetables",
-  },
-  {
-    title: "Monsoon Greens",
-    copy: "Leafy harvests and earthy vegetables that shine in rainy-season cooking.",
-    query: "vegetables",
-  },
-  {
-    title: "Festival Staples",
-    copy: "Bulk-friendly essentials, premium dry fruits, and spice-forward celebratory picks.",
-    query: "dry fruits",
-  },
-];
 
 const safeStorage = {
   get(key, fallback) {
@@ -236,38 +219,8 @@ export default function CatalogPage() {
         </div>
       </div>
 
-      {/* ── Seasonal Storytelling ── */}
-      <div style={{ padding: "16px clamp(10px,2.2vw,24px) 8px" }}>
-        <div style={{ maxWidth: 1680, margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 12, flexWrap: "wrap" }}>
-            <div>
-              <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: "1.2px", textTransform: "uppercase", color: tk.green4, marginBottom: 4 }}>Seasonal Storytelling</div>
-              <h2 style={{ fontFamily: "'Playfair Display',Georgia,serif", fontSize: 22, color: tk.text, lineHeight: 1.1 }}>Browse by season</h2>
-            </div>
-            <span style={{ fontSize: 12, color: tk.textLt }}>A calmer way to discover what feels right today</span>
-          </div>
-
-          <div className="seasonal-strip">
-            {SEASONAL_STORIES.map((story, index) => (
-              <button
-                key={story.title}
-                type="button"
-                data-magnetic
-                onClick={() => applySearch(story.query)}
-                className={`seasonal-card ${dark ? "seasonal-card-dark" : "seasonal-card-light"}`}
-                style={{ animationDelay: `${index * 0.08}s` }}
-              >
-                <div className="seasonal-card-kicker">Curated Season</div>
-                <div className="seasonal-card-title">{story.title}</div>
-                <div className="seasonal-card-copy">{story.copy}</div>
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
       {/* ── Featured Picks ── */}
-      <div style={{ padding: "16px clamp(10px,2.2vw,24px) 6px" }}>
+      <div style={{ padding: "10px clamp(10px,2.2vw,24px) 4px" }}>
         <div style={{ maxWidth: 1680, margin: "0 auto" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 12, flexWrap: "wrap" }}>
             <div>
