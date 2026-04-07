@@ -194,8 +194,9 @@ export default function HomePage() {
   };
 
   useEffect(() => {
+    // Temporarily disabled for smooth scroll reveal animation (Wacus effect)
+    /*
     const onWheel = (e) => {
-      return; // Temporarily disabled for smooth scroll reveal animation (Wacus effect)
       if (snapLockRef.current) {
         e.preventDefault();
         return;
@@ -227,6 +228,7 @@ export default function HomePage() {
 
     window.addEventListener("wheel", onWheel, { passive: false });
     return () => window.removeEventListener("wheel", onWheel);
+    */
   }, [activeStep]);
 
   const sectionTransitionStyle = (idx) => {
