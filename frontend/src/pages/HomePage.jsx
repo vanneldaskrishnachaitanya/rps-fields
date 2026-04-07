@@ -164,6 +164,18 @@ export default function HomePage() {
   return (
     <div style={{ background: tk.bg, overflowX: "hidden" }}>
 
+      <div
+        style={{
+          position: "fixed",
+          inset: 0,
+          background: dark ? "rgba(3,8,6,0.34)" : "rgba(10,20,14,0.16)",
+          opacity: blurFlash ? 1 : 0,
+          transition: "opacity 0.3s cubic-bezier(0.22,1,0.36,1)",
+          pointerEvents: "none",
+          zIndex: 700,
+        }}
+      />
+
       <div ref={el => { sectionRefs.current[0] = el; }} style={sectionTransitionStyle(0)}>
       {/* ─────────────── HERO SLIDER ─────────────── */}
       <section style={{ position: "relative", height: "clamp(320px,62vh,520px)", minHeight: 320, maxHeight: 520, overflow: "hidden" }}>
