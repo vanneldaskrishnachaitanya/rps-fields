@@ -134,12 +134,12 @@ export default function HomePage() {
       setBlurFlash(true);
       scrollToStep(nextStep);
 
-      window.setTimeout(() => setBlurFlash(false), 300);
+      window.setTimeout(() => setBlurFlash(false), 360);
       window.setTimeout(() => {
         setTransitionFrom(null);
         setTransitionTo(null);
         snapLockRef.current = false;
-      }, 620);
+      }, 700);
     };
 
     window.addEventListener("wheel", onWheel, { passive: false });
@@ -150,11 +150,12 @@ export default function HomePage() {
     const outgoing = blurFlash && idx === transitionFrom;
     const incoming = blurFlash && idx === transitionTo;
     return {
-      transition: "filter 0.34s ease, opacity 0.34s ease, transform 0.34s ease",
-      filter: outgoing ? "blur(2.4px)" : incoming ? "blur(1px)" : "blur(0px)",
-      opacity: outgoing ? 0.88 : incoming ? 0.97 : 1,
-      transform: outgoing ? "scale(0.975)" : incoming ? "scale(1.01)" : "scale(1)",
+      transition: "filter 0.42s cubic-bezier(0.22,1,0.36,1), opacity 0.42s cubic-bezier(0.22,1,0.36,1), transform 0.42s cubic-bezier(0.22,1,0.36,1)",
+      filter: outgoing ? "blur(3.8px)" : incoming ? "blur(1.6px)" : "blur(0px)",
+      opacity: outgoing ? 0.72 : incoming ? 0.9 : 1,
+      transform: outgoing ? "scale(0.94)" : incoming ? "scale(1.035)" : "scale(1)",
       transformOrigin: "center top",
+      willChange: "transform, opacity, filter",
     };
   };
 
