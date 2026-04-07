@@ -27,6 +27,24 @@ const SEASONAL_STORIES = [
   },
 ];
 
+const safeStorage = {
+  get(key, fallback) {
+    try {
+      const raw = window.localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    } catch {
+      return fallback;
+    }
+  },
+  set(key, value) {
+    try {
+      window.localStorage.setItem(key, JSON.stringify(value));
+    } catch {
+      // Ignore storage failures in privacy-restricted or quota-limited browsers.
+    }
+  },
+};
+
 export default function CatalogPage() {
   const { dark } = useTheme(); const tk = TK(dark);
   const [products, setProducts] = useState([]);
@@ -73,9 +91,9 @@ export default function CatalogPage() {
 
   useEffect(() => {
     try {
-      const saved = JSON.parse(localStorage.getItem("catalog-saved-products") || "[]");
-      const compared = JSON.parse(localStorage.getItem("catalog-compared-products") || "[]");
-      const viewed = JSON.parse(localStorage.getItem("catalog-recently-viewed") || "[]");
+      const saved = safeStorage.get("catalog-saved-products", []);
+      const compared = safeStorage.get("catalog-compared-products", []);
+      const viewed = safeStorage.get("catalog-recently-viewed", []);
       setSavedIds(Array.isArray(saved) ? saved : []);
       setCompareIds(Array.isArray(compared) ? compared : []);
       setRecentlyViewed(Array.isArray(viewed) ? viewed : []);
@@ -87,15 +105,15 @@ export default function CatalogPage() {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("catalog-saved-products", JSON.stringify(savedIds));
+    safeStorage.set("catalog-saved-products", savedIds);
   }, [savedIds]);
 
   useEffect(() => {
-    localStorage.setItem("catalog-compared-products", JSON.stringify(compareIds));
+    safeStorage.set("catalog-compared-products", compareIds);
   }, [compareIds]);
 
   useEffect(() => {
-    localStorage.setItem("catalog-recently-viewed", JSON.stringify(recentlyViewed));
+    safeStorage.set("catalog-recently-viewed", recentlyViewed);
   }, [recentlyViewed]);
 
   const handleSearch = (val) => {
