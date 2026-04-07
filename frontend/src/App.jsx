@@ -6,7 +6,6 @@ import { NotificationProvider } from "./context/NotificationContext";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import CustomCursor from "./components/CustomCursor";
 import GlobalEffects from "./components/GlobalEffects";
 import AnnouncementPopups from "./components/AnnouncementPopups";
 import QuickActions from "./components/QuickActions";
@@ -163,7 +162,6 @@ export default function App() {
         <AuthProvider>
           <CartProvider>
             <NotificationProvider>
-              <CustomCursor />
               <GlobalEffects />
               <Layout />
             </NotificationProvider>
