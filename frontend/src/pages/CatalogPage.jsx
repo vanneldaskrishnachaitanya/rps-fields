@@ -138,9 +138,9 @@ export default function CatalogPage() {
               <div>
                 <div style={{ fontSize: 11, color: tk.textLt, marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.7px", fontWeight: 700 }}>By Location</div>
                 <select
+                  className={`catalog-select ${dark ? "catalog-select-dark" : "catalog-select-light"}`}
                   value={loc}
                   onChange={(e) => setLoc(e.target.value)}
-                  style={{ width: "100%", padding: "9px 12px", borderRadius: 12, border: `1.5px solid ${tk.border}`, background: dark ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.8)", color: tk.text, fontSize: 13, outline: "none", fontFamily: "'Inter',sans-serif" }}
                 >
                   {locations.map((l) => (
                     <option key={l} value={l}>{l === "all" ? "All Locations" : l}</option>
@@ -151,9 +151,9 @@ export default function CatalogPage() {
               <div>
                 <div style={{ fontSize: 11, color: tk.textLt, marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.7px", fontWeight: 700 }}>Sort</div>
                 <select
+                  className={`catalog-select ${dark ? "catalog-select-dark" : "catalog-select-light"}`}
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  style={{ width: "100%", padding: "9px 12px", borderRadius: 12, border: `1.5px solid ${tk.border}`, background: dark ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.8)", color: tk.text, fontSize: 13, outline: "none", fontFamily: "'Inter',sans-serif" }}
                 >
                   {SORT_OPTIONS.map((o) => (
                     <option key={o.value} value={o.value}>{o.label}</option>
