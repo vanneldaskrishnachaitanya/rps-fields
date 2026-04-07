@@ -16,6 +16,28 @@ const userSchema = new mongoose.Schema(
     address:  { type: String, trim: true },
     city:     { type: String, trim: true },
     status:   { type: String, enum: ["active", "suspended", "banned"], default: "active" },
+    savedProductIds: {
+      type: [String],
+      default: [],
+    },
+    comparedProductIds: {
+      type: [String],
+      default: [],
+    },
+    recentlyViewedProducts: {
+      type: [
+        {
+          id: { type: String, required: true },
+          name: { type: String, required: true },
+          img: { type: String, default: "" },
+          price: { type: Number, default: 0 },
+          unit: { type: String, default: "kg" },
+          category: { type: String, default: "" },
+          farmerLocation: { type: String, default: "" },
+        },
+      ],
+      default: [],
+    },
   },
   { timestamps: { createdAt: "createdAt", updatedAt: "updatedAt" } }
 );

@@ -1,11 +1,20 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
+const readToken = (req) => {
+  const auth = req.headers.authorization || "";
+  if (auth.startsWith("Bearer ")) return auth.slice(7).trim();
+
+  const cookieHeader = req.headers.cookie || "";
+  const match = cookieHeader.match(/(?:^|;\s*)rps_token=([^;]+)/);
+  if (match) return decodeURIComponent(match[1]);
+
+  return null;
+};
+
 // Verify JWT and attach user to req.user
 const protect = async (req, res, next) => {
-  let token;
-  const auth = req.headers.authorization || "";
-  if (auth.startsWith("Bearer ")) token = auth.slice(7).trim();
+  const token = readToken(req);
 
   if (!token) {
     return res.status(401).json({ success: false, error: "Not authorised — no token" });

@@ -5,31 +5,25 @@ export const API_BASE = process.env.REACT_APP_API_URL || "https://rps-fields-3.o
 
 export function AuthProvider({ children }) {
   const [user, setUser]   = useState(null);
-  const [token, setToken] = useState(() => localStorage.getItem("rps_token") || null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (token) {
-      fetch(`${API_BASE}/auth/me`, { headers: { Authorization: `Bearer ${token}` } })
-        .then(r => r.json())
-        .then(d => { if (d.success) setUser(normalise(d.user)); else logout(); })
-        .catch(() => logout())
-        .finally(() => setLoading(false));
-    } else {
-      setLoading(false);
-    }
+    fetch(`${API_BASE}/auth/me`, { credentials: "include" })
+      .then(r => r.json())
+      .then(d => { if (d.success) setUser(normalise(d.user)); else setUser(null); })
+      .catch(() => setUser(null))
+      .finally(() => setLoading(false));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const login = async (email, password) => {
     const res  = await fetch(`${API_BASE}/auth/login`, {
       method: "POST",
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     });
     const data = await res.json();
     if (!data.success) throw new Error(data.error || "Login failed");
-    localStorage.setItem("rps_token", data.token);
-    setToken(data.token);
     const u = normalise(data.user);
     setUser(u);
     return u;
@@ -38,36 +32,39 @@ export function AuthProvider({ children }) {
   const register = async (fields) => {
     const res  = await fetch(`${API_BASE}/auth/register`, {
       method: "POST",
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(fields),
     });
     const data = await res.json();
     if (!data.success) throw new Error(data.error || "Registration failed");
-    localStorage.setItem("rps_token", data.token);
-    setToken(data.token);
     const u = normalise(data.user);
     setUser(u);
     return u;
   };
 
-  const logout = () => {
-    localStorage.removeItem("rps_token");
-    setToken(null);
+  const logout = async () => {
+    await fetch(`${API_BASE}/auth/logout`, { method: "POST", credentials: "include" }).catch(() => {});
     setUser(null);
   };
 
-  const authFetch = (path, opts = {}) =>
-    fetch(`${API_BASE}${path}`, {
+  const authFetch = async (path, opts = {}) => {
+    const res = await fetch(`${API_BASE}${path}`, {
+      credentials: "include",
       ...opts,
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
         ...(opts.headers || {}),
       },
-    }).then(r => r.json());
+    });
+
+    const data = await res.json().catch(() => ({}));
+    if (res.status === 401) setUser(null);
+    return data;
+  };
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, register, logout, authFetch }}>
+    <AuthContext.Provider value={{ user, loading, login, register, logout, authFetch }}>
       {children}
     </AuthContext.Provider>
   );

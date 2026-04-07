@@ -6,6 +6,21 @@ const signToken = (id) =>
     expiresIn: process.env.JWT_EXPIRES_IN || "7d",
   });
 
+const getCookieOptions = () => ({
+  httpOnly: true,
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+  secure: process.env.NODE_ENV === "production",
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+});
+
+const applyAuthCookie = (res, token) => {
+  res.cookie("rps_token", token, getCookieOptions());
+};
+
+const clearAuthCookie = (res) => {
+  res.cookie("rps_token", "", { ...getCookieOptions(), maxAge: 0 });
+};
+
 // POST /api/auth/register
 const register = async (req, res) => {
   try {
@@ -47,6 +62,7 @@ const register = async (req, res) => {
 
     const token   = signToken(user._id);
     // user object from create() does NOT include password (select:false)
+    applyAuthCookie(res, token);
     res.status(201).json({ success: true, token, user });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
@@ -75,6 +91,7 @@ const login = async (req, res) => {
     const token    = signToken(user._id);
     // Fetch a clean copy without password to send back
     const safeUser = await User.findById(user._id);
+    applyAuthCookie(res, token);
     res.json({ success: true, token, user: safeUser });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
@@ -84,6 +101,50 @@ const login = async (req, res) => {
 // GET /api/auth/me
 const getMe = async (req, res) => {
   res.json({ success: true, user: req.user });
+};
+
+const logout = async (req, res) => {
+  clearAuthCookie(res);
+  res.json({ success: true, message: "Logged out" });
+};
+
+const updateCatalogState = async (req, res) => {
+  try {
+    const {
+      savedProductIds = [],
+      comparedProductIds = [],
+      recentlyViewedProducts = [],
+    } = req.body || {};
+
+    req.user.savedProductIds = Array.isArray(savedProductIds) ? savedProductIds.filter(Boolean).slice(0, 100) : [];
+    req.user.comparedProductIds = Array.isArray(comparedProductIds) ? comparedProductIds.filter(Boolean).slice(0, 20) : [];
+    req.user.recentlyViewedProducts = Array.isArray(recentlyViewedProducts)
+      ? recentlyViewedProducts
+          .filter((item) => item && item.id && item.name)
+          .slice(0, 12)
+          .map((item) => ({
+            id: String(item.id),
+            name: String(item.name),
+            img: item.img || "",
+            price: Number(item.price || 0),
+            unit: item.unit || "kg",
+            category: item.category || "",
+            farmerLocation: item.farmerLocation || "",
+          }))
+      : [];
+
+    await req.user.save();
+    res.json({
+      success: true,
+      catalogState: {
+        savedProductIds: req.user.savedProductIds,
+        comparedProductIds: req.user.comparedProductIds,
+        recentlyViewedProducts: req.user.recentlyViewedProducts,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 };
 
 
@@ -134,4 +195,4 @@ const resetPassword = async (req, res) => {
   } catch (err) { res.status(500).json({ success: false, error: err.message }); }
 };
 
-module.exports = { register, login, getMe, forgotPassword, verifyOtp, resetPassword };
+module.exports = { register, login, logout, getMe, updateCatalogState, forgotPassword, verifyOtp, resetPassword };

@@ -11,9 +11,11 @@ connectDB();
 // ── Middleware ────────────────────────────────────────────────────────────────
 // Allow ALL origins — fixes CORS blocking from Vercel
 app.use(cors({
-  origin: "*",
+  origin: true,
   methods: ["GET","POST","PUT","DELETE","OPTIONS"],
+  credentials: true,
 }));
+app.set("trust proxy", 1);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

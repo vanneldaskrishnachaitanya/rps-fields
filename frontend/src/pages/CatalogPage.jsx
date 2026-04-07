@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { useTheme, TK } from "../context/ThemeContext";
 import ProductCard from "../components/ProductCard";
-import { API_BASE } from "../context/AuthContext";
+import { API_BASE, useAuth } from "../context/AuthContext";
 
 const SORT_OPTIONS = [
   { value: "default", label: "Default" },
@@ -13,26 +13,9 @@ const SORT_OPTIONS = [
 
 const FEATURED_LABELS = ["Fresh Today", "Best Seller", "Low Stock", "Farm Direct"];
 
-const safeStorage = {
-  get(key, fallback) {
-    try {
-      const raw = window.localStorage.getItem(key);
-      return raw ? JSON.parse(raw) : fallback;
-    } catch {
-      return fallback;
-    }
-  },
-  set(key, value) {
-    try {
-      window.localStorage.setItem(key, JSON.stringify(value));
-    } catch {
-      // Ignore storage failures in privacy-restricted or quota-limited browsers.
-    }
-  },
-};
-
 export default function CatalogPage() {
   const { dark } = useTheme(); const tk = TK(dark);
+  const { user, authFetch } = useAuth();
   const [products, setProducts] = useState([]);
   const [loading,  setLoading]  = useState(true);
   const [error,    setError]    = useState("");
@@ -48,6 +31,7 @@ export default function CatalogPage() {
   const [dSearch,  setDSearch]  = useState("");
   const debounce = useRef(null);
   const filterPanelRef = useRef(null);
+  const catalogStateReadyRef = useRef(false);
 
   const load = (searchTerm) => {
     setLoading(true);
@@ -76,31 +60,23 @@ export default function CatalogPage() {
   }, []);
 
   useEffect(() => {
-    try {
-      const saved = safeStorage.get("catalog-saved-products", []);
-      const compared = safeStorage.get("catalog-compared-products", []);
-      const viewed = safeStorage.get("catalog-recently-viewed", []);
-      setSavedIds(Array.isArray(saved) ? saved : []);
-      setCompareIds(Array.isArray(compared) ? compared : []);
-      setRecentlyViewed(Array.isArray(viewed) ? viewed : []);
-    } catch {
-      setSavedIds([]);
-      setCompareIds([]);
-      setRecentlyViewed([]);
-    }
-  }, []);
+    setSavedIds(Array.isArray(user?.savedProductIds) ? user.savedProductIds : []);
+    setCompareIds(Array.isArray(user?.comparedProductIds) ? user.comparedProductIds : []);
+    setRecentlyViewed(Array.isArray(user?.recentlyViewedProducts) ? user.recentlyViewedProducts : []);
+    catalogStateReadyRef.current = !!user;
+  }, [user]);
 
   useEffect(() => {
-    safeStorage.set("catalog-saved-products", savedIds);
-  }, [savedIds]);
-
-  useEffect(() => {
-    safeStorage.set("catalog-compared-products", compareIds);
-  }, [compareIds]);
-
-  useEffect(() => {
-    safeStorage.set("catalog-recently-viewed", recentlyViewed);
-  }, [recentlyViewed]);
+    if (!catalogStateReadyRef.current || !user) return;
+    authFetch("/auth/catalog-state", {
+      method: "PUT",
+      body: JSON.stringify({
+        savedProductIds: savedIds,
+        comparedProductIds: compareIds,
+        recentlyViewedProducts: recentlyViewed,
+      }),
+    }).catch(() => {});
+  }, [savedIds, compareIds, recentlyViewed, user, authFetch]);
 
   const handleSearch = (val) => {
     setSearch(val);
@@ -151,6 +127,16 @@ export default function CatalogPage() {
     return list;
   }, [products, loc, sortBy]);
 
+  const savedProducts = useMemo(() => {
+    const byId = new Map(products.map((product) => [product.id || product._id, product]));
+    return savedIds.map((id) => byId.get(id)).filter(Boolean);
+  }, [products, savedIds]);
+
+  const comparedProducts = useMemo(() => {
+    const byId = new Map(products.map((product) => [product.id || product._id, product]));
+    return compareIds.map((id) => byId.get(id)).filter(Boolean);
+  }, [products, compareIds]);
+
   const featuredProducts = useMemo(() => {
     const ranked = [...products].sort((a, b) => {
       const aScore = Number(b.avgRating || 0) - Number(a.avgRating || 0);
@@ -195,6 +181,7 @@ export default function CatalogPage() {
       price: product.price || product.pricePerKg || 0,
       unit: product.unit || "kg",
       category: product.category,
+      farmerLocation: product.farmerLocation || product.location || "",
     };
     setRecentlyViewed((current) => [item, ...current.filter((entry) => entry.id !== item.id)].slice(0, 6));
   };
@@ -390,6 +377,8 @@ export default function CatalogPage() {
           <div className="summary-bar-left">
             <span className="summary-pill summary-pill-strong">{filteredProducts.length} items</span>
             <span className="summary-pill" style={{ background: "rgba(82,183,136,0.10)", color: tk.textMid, border: "1px solid rgba(82,183,136,0.16)" }}>{activeFilterCount} active filters</span>
+            <span className="summary-pill" style={{ background: "rgba(249,115,22,0.10)", color: tk.textMid, border: "1px solid rgba(249,115,22,0.16)" }}>{savedIds.length} saved</span>
+            <span className="summary-pill" style={{ background: "rgba(37,99,235,0.10)", color: tk.textMid, border: "1px solid rgba(37,99,235,0.16)" }}>{compareIds.length} compare</span>
             <span className="summary-copy">matching your current filters</span>
           </div>
           <div className="summary-bar-right">
@@ -401,6 +390,73 @@ export default function CatalogPage() {
         {error && (
           <div style={{ background: dark ? "rgba(220,38,38,0.12)" : "#fff3cd", border: "1px solid rgba(220,38,38,0.3)", borderRadius: 14, padding: "16px var(--page-px,clamp(16px,4vw,48px))", marginBottom: 24, color: dark ? "#fca5a5" : "#856404", fontWeight: 600 }}>
             ⚠ {error}
+          </div>
+        )}
+
+        {(savedProducts.length > 0 || comparedProducts.length > 0) && (
+          <div style={{ display: "grid", gap: 16, marginBottom: 24 }}>
+            {savedProducts.length > 0 && (
+              <section className={`catalog-collection ${dark ? "catalog-collection-dark" : "catalog-collection-light"}`}>
+                <div className="catalog-collection-head">
+                  <div>
+                    <div className="catalog-collection-kicker">Saved locally on this device</div>
+                    <h3>Saved items</h3>
+                  </div>
+                  <button data-magnetic onClick={() => setSavedIds([])} className="summary-action summary-action-ghost">Clear Saved</button>
+                </div>
+                <div className="catalog-mini-grid">
+                  {savedProducts.slice(0, 4).map((product) => (
+                    <button
+                      key={product.id || product._id}
+                      type="button"
+                      data-magnetic
+                      className={`catalog-mini-card ${dark ? "catalog-mini-card-dark" : "catalog-mini-card-light"}`}
+                      onClick={() => setQuickViewProduct(product)}
+                    >
+                      <img src={product.img || product.image} alt={product.name} className="catalog-mini-image" />
+                      <div className="catalog-mini-content">
+                        <div className="catalog-mini-category">Saved item</div>
+                        <div className="catalog-mini-name">{product.name}</div>
+                        <div className="catalog-mini-meta">₹{Number(product.price || product.pricePerKg || 0).toLocaleString("en-IN")} / {product.unit || "kg"}</div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {comparedProducts.length > 0 && (
+              <section className={`catalog-collection ${dark ? "catalog-collection-dark" : "catalog-collection-light"}`}>
+                <div className="catalog-collection-head">
+                  <div>
+                    <div className="catalog-collection-kicker">Side-by-side shortlist</div>
+                    <h3>Compare tray</h3>
+                  </div>
+                  <button data-magnetic onClick={() => setCompareIds([])} className="summary-action summary-action-ghost">Clear Compare</button>
+                </div>
+                <div className="catalog-compare-grid">
+                  {comparedProducts.slice(0, 3).map((product) => (
+                    <button
+                      key={product.id || product._id}
+                      type="button"
+                      data-magnetic
+                      className={`catalog-compare-card ${dark ? "catalog-compare-card-dark" : "catalog-compare-card-light"}`}
+                      onClick={() => setQuickViewProduct(product)}
+                    >
+                      <div className="catalog-compare-image-wrap">
+                        <img src={product.img || product.image} alt={product.name} className="catalog-compare-image" />
+                      </div>
+                      <div className="catalog-compare-content">
+                        <div className="catalog-compare-category">Compare pick</div>
+                        <div className="catalog-compare-name">{product.name}</div>
+                        <div className="catalog-compare-meta">₹{Number(product.price || product.pricePerKg || 0).toLocaleString("en-IN")} / {product.unit || "kg"}</div>
+                        <div className="catalog-compare-meta">📍 {product.farmerLocation || product.location || "Location unavailable"}</div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </section>
+            )}
           </div>
         )}
 
@@ -479,7 +535,7 @@ export default function CatalogPage() {
                 <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: "1.2px", textTransform: "uppercase", color: tk.green4, marginBottom: 4 }}>Continue Browsing</div>
                 <h2 style={{ fontFamily: "'Playfair Display',Georgia,serif", fontSize: 22, color: tk.text, lineHeight: 1.1 }}>Recently viewed</h2>
               </div>
-              <button data-magnetic onClick={() => setRecentlyViewed([])} className="summary-action summary-action-ghost">Clear History</button>
+                  <button data-magnetic onClick={() => setRecentlyViewed([])} className="summary-action summary-action-ghost">Clear History</button>
             </div>
             <div className="recently-viewed-strip">
               {recentlyViewed.map((item, index) => (

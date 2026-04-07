@@ -10,13 +10,12 @@ const A = {
   blue:"#3b82f6", red:"#ef4444", orange:"#f97316", purple:"#a855f7",
 };
 
-const getAdminToken   = ()  => localStorage.getItem("rps_admin_token")||"";
-const setAdminToken   = (t) => localStorage.setItem("rps_admin_token",t);
-const clearAdminToken = ()  => localStorage.removeItem("rps_admin_token");
-const isAdminLoggedIn = ()  => !!getAdminToken();
-
-const adminFetch = (path, opts={}) =>
-  fetch(`${API_BASE}${path}`,{...opts,headers:{"Content-Type":"application/json",Authorization:`Bearer ${getAdminToken()}`,...(opts.headers||{})}}).then(r=>r.json());
+const adminFetch = (path, opts = {}) =>
+  fetch(`${API_BASE}${path}`, {
+    ...opts,
+    credentials: "include",
+    headers: { "Content-Type": "application/json", ...(opts.headers || {}) },
+  }).then((r) => r.json());
 
 // ── Liquid Glass sidebar ──────────────────────────────────────────────────────
 function AdminSidebar() {
@@ -62,8 +61,7 @@ function AdminSidebar() {
           onMouseEnter={e=>e.currentTarget.style.color=A.green} onMouseLeave={e=>e.currentTarget.style.color=A.textLt}>
           ← Back to Site
         </NavLink>
-        <button data-magnetic onClick={()=>{clearAdminToken();window.location="/admin/login";}} style={{ display:"flex", alignItems:"center", gap:8, padding:"9px 14px", borderRadius:10, background:"rgba(239,68,68,0.1)", backdropFilter:"blur(8px)", border:"1px solid rgba(239,68,68,0.2)", color:"#fca5a5", cursor:"pointer", fontWeight:600, fontSize:13, fontFamily:"'Inter',sans-serif", width:"100%", textAlign:"left", transition:"all 0.18s" }}>
-          onMouseEnter={e=>e.currentTarget.style.background="rgba(239,68,68,0.18)"} onMouseLeave={e=>e.currentTarget.style.background="rgba(239,68,68,0.1)"}>
+        <button data-magnetic onClick={async()=>{ await fetch(`${API_BASE}/auth/logout`, { method:"POST", credentials:"include" }).catch(()=>{}); window.location="/admin/login"; }} style={{ display:"flex", alignItems:"center", gap:8, padding:"9px 14px", borderRadius:10, background:"rgba(239,68,68,0.1)", backdropFilter:"blur(8px)", border:"1px solid rgba(239,68,68,0.2)", color:"#fca5a5", cursor:"pointer", fontWeight:600, fontSize:13, fontFamily:"'Inter',sans-serif", width:"100%", textAlign:"left", transition:"all 0.18s" }}>
           🚪 Logout
         </button>
       </div>
@@ -73,8 +71,26 @@ function AdminSidebar() {
 
 export function AdminLayout({ title, children }) {
   const navigate = useNavigate();
-  useEffect(()=>{ if(!isAdminLoggedIn()) navigate("/admin/login"); }, []); // eslint-disable-line
-  if (!isAdminLoggedIn()) return null;
+  const [checking, setChecking] = useState(true);
+
+  useEffect(() => {
+    let alive = true;
+    adminFetch("/auth/me")
+      .then((data) => {
+        if (!alive) return;
+        if (!data.success || data.user?.role !== "admin") {
+          navigate("/admin/login");
+          return;
+        }
+        setChecking(false);
+      })
+      .catch(() => {
+        if (alive) navigate("/admin/login");
+      });
+    return () => { alive = false; };
+  }, [navigate]);
+
+  if (checking) return null;
   return (
     <div style={{ display:"flex", minHeight:"100vh", background:A.bg, fontFamily:"'Inter','Segoe UI',sans-serif", color:A.text }}>
       <AdminSidebar />
@@ -141,19 +157,23 @@ export function AdminLoginPage() {
   const [error,    setError]    = useState("");
   const [loading,  setLoading]  = useState(false);
 
-  useEffect(()=>{ if(isAdminLoggedIn()) navigate("/admin/dashboard"); }, []); // eslint-disable-line
+  useEffect(() => {
+    adminFetch("/auth/me")
+      .then((data) => {
+        if (data.success && data.user?.role === "admin") navigate("/admin/dashboard");
+      })
+      .catch(() => {});
+  }, [navigate]);
 
   const handleLogin = async () => {
-    if (!email||!password) { setError("Enter email and password."); return; }
+    if (!email || !password) { setError("Enter email and password."); return; }
     setLoading(true); setError("");
     try {
-      const res  = await fetch(`${API_BASE}/auth/login`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email,password})});
-      const data = await res.json();
-      if (!data.success) { setError(data.error||"Login failed"); setLoading(false); return; }
-      if (data.user?.role!=="admin") { setError("Access denied — admin only."); setLoading(false); return; }
-      setAdminToken(data.token);
+      const data = await adminFetch("/auth/login", { method: "POST", body: JSON.stringify({ email, password }) });
+      if (!data.success) { setError(data.error || "Login failed"); setLoading(false); return; }
+      if (data.user?.role !== "admin") { setError("Access denied — admin only."); setLoading(false); return; }
       navigate("/admin/dashboard");
-    } catch(e) { setError("Cannot connect to server."); setLoading(false); }
+    } catch (e) { setError("Cannot connect to server."); setLoading(false); }
   };
 
   return (

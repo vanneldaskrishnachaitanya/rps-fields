@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useTheme, TK } from "../context/ThemeContext";
+import { useAuth } from "../context/AuthContext";
 
 export default function DeliveryVerificationModal({ order, onClose, onSuccess }) {
   const { dark } = useTheme();
+  const { authFetch } = useAuth();
   const tk = TK(dark);
   const A = { text: tk.text, textMid: tk.textMid, textLt: tk.textLt, green: "#10b981", red: "#ef4444", orange: "#f59e0b" };
 
@@ -19,17 +21,13 @@ export default function DeliveryVerificationModal({ order, onClose, onSuccess })
     setLoading(true);
     setError("");
     try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`/api/orders/${order.id}/verify-otp`, {
+      const data = await authFetch(`/orders/${order.id}/verify-otp`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ otp: otp.trim() }),
       });
-
-      const data = await res.json();
       if (data.success) {
         onSuccess(data.order);
         onClose();

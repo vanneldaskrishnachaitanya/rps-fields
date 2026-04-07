@@ -2,17 +2,9 @@ import { createContext, useContext, useState, useEffect } from "react";
 const ThemeContext = createContext(null);
 
 export function ThemeProvider({ children }) {
-  const [dark, setDark] = useState(() => {
-    const saved = localStorage.getItem("rps_theme");
-    if (saved) return saved === "dark";
-    return window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? true;
-  });
+  const [dark, setDark] = useState(() => window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? true);
 
-  const toggle = () => setDark(d => {
-    const next = !d;
-    localStorage.setItem("rps_theme", next ? "dark" : "light");
-    return next;
-  });
+  const toggle = () => setDark((current) => !current);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
