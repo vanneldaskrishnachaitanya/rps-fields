@@ -258,6 +258,40 @@ button:disabled { opacity: 0.42; cursor: not-allowed; transform: none !important
   50%  { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
+/* ── Smooth Zoom Slide Animation ── */
+@keyframes zoomSlideIn {
+  from {
+    transform: scale(1.08);
+    opacity: 0.85;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes zoomSlideOut {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.05);
+    opacity: 0;
+  }
+}
+@keyframes slideZoomKen {
+  0% {
+    transform: scale(1.12);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.04);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
 
 /* ══════════════════════════════════════════════════════════════════
    ANIMATION UTILITIES
