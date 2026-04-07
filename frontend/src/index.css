@@ -619,7 +619,7 @@ img { display: block; }
   justify-content: space-between;
   align-items: center;
   gap: 14px;
-  padding: 14px 16px;
+  padding: 12px 14px;
   border-radius: 18px;
   margin-bottom: 16px;
   border: 1px solid rgba(82,183,136,0.18);
@@ -690,8 +690,8 @@ img { display: block; }
 }
 
 .catalog-empty {
-  margin-top: 18px;
-  padding: 36px 24px;
+  margin-top: 14px;
+  padding: 26px 20px;
   border-radius: 24px;
   text-align: center;
   border: 1px solid rgba(82,183,136,0.18);
@@ -707,8 +707,8 @@ img { display: block; }
 }
 
 .catalog-empty-graphic {
-  font-size: 56px;
-  margin-bottom: 10px;
+  font-size: 48px;
+  margin-bottom: 8px;
   animation: float 3s ease-in-out infinite;
 }
 
@@ -736,13 +736,13 @@ img { display: block; }
   gap: 8px;
   justify-content: center;
   flex-wrap: wrap;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .recently-viewed-strip {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: 12px;
+  gap: 10px;
 }
 
 .recently-viewed-card {
@@ -752,7 +752,7 @@ img { display: block; }
   text-align: left;
   cursor: pointer;
   display: grid;
-  grid-template-rows: 96px 1fr;
+  grid-template-rows: 88px 1fr;
   transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
   animation: fadeUp 0.5s cubic-bezier(0.22,1,0.36,1) both;
 }
@@ -828,6 +828,14 @@ img { display: block; }
   opacity: 1;
   transform: translateY(0) scale(1);
   pointer-events: auto;
+}
+
+@media (hover: none) {
+  .product-quick-actions {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
 }
 
 .product-quick-btn {
@@ -941,7 +949,7 @@ img { display: block; }
 }
 
 .catalog-modal-content {
-  padding: 28px;
+  padding: 22px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -958,7 +966,7 @@ img { display: block; }
 
 .catalog-modal-content h3 {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 32px;
+  font-size: 28px;
   line-height: 1.08;
 }
 
@@ -1007,7 +1015,7 @@ img { display: block; }
 }
 
 @media (max-width: 768px) {
-  .summary-bar { flex-direction: column; align-items: stretch; }
+  .summary-bar { flex-direction: column; align-items: stretch; padding: 10px 12px; }
   .summary-bar-right { justify-content: space-between; }
   .featured-strip { grid-template-columns: 1fr; }
   .seasonal-strip { grid-template-columns: 1fr; }
@@ -1017,7 +1025,19 @@ img { display: block; }
 }
 
 @media (max-width: 520px) {
+  .featured-chip,
+  .seasonal-card {
+    min-height: 118px;
+    padding: 16px 14px;
+  }
+  .smart-chip {
+    padding: 8px 12px;
+  }
   .recently-viewed-strip { grid-template-columns: 1fr; }
+  .catalog-empty,
+  .catalog-modal-content {
+    padding: 18px;
+  }
 }
 
 /* ══════════════════════════════════════════════════════════════════

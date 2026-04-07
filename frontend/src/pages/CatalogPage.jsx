@@ -16,14 +16,17 @@ const SEASONAL_STORIES = [
   {
     title: "Summer Specials",
     copy: "Hydrating produce, cooling greens, and light kitchen staples for the hot season.",
+    query: "vegetables",
   },
   {
     title: "Monsoon Greens",
     copy: "Leafy harvests and earthy vegetables that shine in rainy-season cooking.",
+    query: "vegetables",
   },
   {
     title: "Festival Staples",
     copy: "Bulk-friendly essentials, premium dry fruits, and spice-forward celebratory picks.",
+    query: "dry fruits",
   },
 ];
 
@@ -122,7 +125,19 @@ export default function CatalogPage() {
     debounce.current = setTimeout(() => setDSearch(val), 400);
   };
 
-  const reset = () => { setLoc("all"); setSortBy("default"); setSearch(""); setDSearch(""); };
+  const applySearch = (val) => {
+    setSearch(val);
+    setDSearch(val);
+    clearTimeout(debounce.current);
+  };
+
+  const reset = () => { setLoc("all"); setSortBy("default"); setSearch(""); setDSearch(""); setOpenMenu(null); };
+
+  const applyQuickFilter = (nextAction) => {
+    setShowFilters(true);
+    setOpenMenu(null);
+    nextAction();
+  };
 
   const locations = useMemo(() => {
     const set = new Set();
@@ -167,12 +182,12 @@ export default function CatalogPage() {
   }, [products]);
 
   const smartChips = [
-    { key: "near", label: "Near Me", action: () => setLoc(locations[1] || "all") },
-    { key: "cheap", label: "Under ₹50", action: () => setSortBy("price-low") },
-    { key: "fresh", label: "Fresh Stock", action: () => setSortBy("qty-high") },
-    { key: "seasonal", label: "Seasonal", action: () => setSearch("seasonal") },
-    { key: "organic", label: "Organic", action: () => setSearch("organic") },
-    { key: "fast", label: "Fast Delivery", action: () => setSearch("delivery") },
+    { key: "near", label: "Near Me", action: () => applyQuickFilter(() => setLoc(locations[1] || "all")) },
+    { key: "cheap", label: "Under ₹50", action: () => applyQuickFilter(() => setSortBy("price-low")) },
+    { key: "fresh", label: "Fresh Stock", action: () => applyQuickFilter(() => setSortBy("qty-high")) },
+    { key: "seasonal", label: "Seasonal", action: () => applyQuickFilter(() => applySearch("seasonal")) },
+    { key: "organic", label: "Organic", action: () => applyQuickFilter(() => applySearch("organic")) },
+    { key: "fast", label: "Fast Delivery", action: () => applyQuickFilter(() => applySearch("delivery")) },
   ];
 
   const selectedLocationLabel = loc === "all" ? "All Locations" : loc;
@@ -238,7 +253,7 @@ export default function CatalogPage() {
                 key={story.title}
                 type="button"
                 data-magnetic
-                onClick={() => setSearch(story.query)}
+                onClick={() => applySearch(story.query)}
                 className={`seasonal-card ${dark ? "seasonal-card-dark" : "seasonal-card-light"}`}
                 style={{ animationDelay: `${index * 0.08}s` }}
               >
@@ -267,7 +282,7 @@ export default function CatalogPage() {
               <button
                 key={product.id || product._id || index}
                 data-magnetic
-                onClick={() => setSearch(product.name)}
+                onClick={() => applySearch(product.name)}
                 className={`featured-chip ${dark ? "featured-chip-dark" : "featured-chip-light"}`}
               >
                 <div className="featured-chip-badge">{product.spotlight}</div>
@@ -359,7 +374,7 @@ export default function CatalogPage() {
                           type="button"
                           data-magnetic
                           className={`catalog-dropdown-item ${active ? "is-active" : ""}`}
-                          onClick={() => { setLoc(location); setOpenMenu(null); }}
+                          onClick={() => { setLoc(location); setOpenMenu(null); setShowFilters(true); }}
                         >
                           <span>{label}</span>
                           {active && <span className="catalog-dropdown-check">✓</span>}
@@ -391,7 +406,7 @@ export default function CatalogPage() {
                           type="button"
                           data-magnetic
                           className={`catalog-dropdown-item ${active ? "is-active" : ""}`}
-                          onClick={() => { setSortBy(option.value); setOpenMenu(null); }}
+                          onClick={() => { setSortBy(option.value); setOpenMenu(null); setShowFilters(true); }}
                         >
                           <span>{option.label}</span>
                           {active && <span className="catalog-dropdown-check">✓</span>}
@@ -476,10 +491,10 @@ export default function CatalogPage() {
             <h3>No products found</h3>
             <p>Try a different filter or jump into a trending category below.</p>
             <div className="catalog-empty-suggestions">
-              <button data-magnetic onClick={() => setSearch("vegetables")} className="summary-action summary-action-ghost">Vegetables</button>
-              <button data-magnetic onClick={() => setSearch("fruits")} className="summary-action summary-action-ghost">Fruits</button>
-              <button data-magnetic onClick={() => setSearch("dairy")} className="summary-action summary-action-ghost">Dairy</button>
-              <button data-magnetic onClick={() => setSearch("spices")} className="summary-action summary-action-ghost">Spices</button>
+              <button data-magnetic onClick={() => applySearch("vegetables")} className="summary-action summary-action-ghost">Vegetables</button>
+              <button data-magnetic onClick={() => applySearch("fruits")} className="summary-action summary-action-ghost">Fruits</button>
+              <button data-magnetic onClick={() => applySearch("dairy")} className="summary-action summary-action-ghost">Dairy</button>
+              <button data-magnetic onClick={() => applySearch("spices")} className="summary-action summary-action-ghost">Spices</button>
             </div>
             <div className="catalog-empty-actions">
               <button data-magnetic onClick={reset} className="summary-action summary-action-primary">Show All Products</button>
