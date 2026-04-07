@@ -333,9 +333,9 @@ export default function HomePage() {
               <p>Loading fresh products...</p>
             </div>
           ) : (
-            <div style={{ display:"flex", gap:10, alignItems:"stretch", overflowX:"auto", flexWrap:"nowrap", paddingBottom:6 }}>
+            <div style={{ display:"grid", gridTemplateColumns:"repeat(6,minmax(0,1fr))", gap:12, alignItems:"stretch" }}>
               {products.map((p, i) => (
-                <div key={p.id || p._id} data-id={`prod-${i}`} style={{ minWidth:220, flex:"0 0 220px", ...reveal(`prod-${i}`, i * 0.07) }}>
+                <div key={p.id || p._id} data-id={`prod-${i}`} style={{ minWidth:0, ...reveal(`prod-${i}`, i * 0.07) }}>
                   <ProductCard product={p} />
                 </div>
               ))}
