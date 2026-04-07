@@ -11,6 +11,8 @@ const SORT_OPTIONS = [
   { value: "qty-low", label: "Quantity: Low to High" },
 ];
 
+const FEATURED_LABELS = ["Fresh Today", "Best Seller", "Low Stock", "Farm Direct"];
+
 export default function CatalogPage() {
   const { dark } = useTheme(); const tk = TK(dark);
   const [products, setProducts] = useState([]);
@@ -20,6 +22,9 @@ export default function CatalogPage() {
   const [sortBy,   setSortBy]   = useState("default");
   const [showFilters, setShowFilters] = useState(false);
   const [openMenu, setOpenMenu] = useState(null);
+  const [quickViewProduct, setQuickViewProduct] = useState(null);
+  const [savedIds, setSavedIds] = useState([]);
+  const [compareIds, setCompareIds] = useState([]);
   const [search,   setSearch]   = useState("");
   const [dSearch,  setDSearch]  = useState("");
   const debounce = useRef(null);
@@ -50,6 +55,26 @@ export default function CatalogPage() {
     document.addEventListener("mousedown", handlePointerDown);
     return () => document.removeEventListener("mousedown", handlePointerDown);
   }, []);
+
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem("catalog-saved-products") || "[]");
+      const compared = JSON.parse(localStorage.getItem("catalog-compared-products") || "[]");
+      setSavedIds(Array.isArray(saved) ? saved : []);
+      setCompareIds(Array.isArray(compared) ? compared : []);
+    } catch {
+      setSavedIds([]);
+      setCompareIds([]);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("catalog-saved-products", JSON.stringify(savedIds));
+  }, [savedIds]);
+
+  useEffect(() => {
+    localStorage.setItem("catalog-compared-products", JSON.stringify(compareIds));
+  }, [compareIds]);
 
   const handleSearch = (val) => {
     setSearch(val);
@@ -88,8 +113,41 @@ export default function CatalogPage() {
     return list;
   }, [products, loc, sortBy]);
 
+  const featuredProducts = useMemo(() => {
+    const ranked = [...products].sort((a, b) => {
+      const aScore = Number(b.avgRating || 0) - Number(a.avgRating || 0);
+      const aPrice = Number(a.price || a.pricePerKg || 0);
+      const bPrice = Number(b.price || b.pricePerKg || 0);
+      return aScore || aPrice - bPrice;
+    });
+    return ranked.slice(0, 4).map((product, index) => ({
+      ...product,
+      spotlight: FEATURED_LABELS[index],
+    }));
+  }, [products]);
+
+  const smartChips = [
+    { key: "near", label: "Near Me", action: () => setLoc(locations[1] || "all") },
+    { key: "cheap", label: "Under ₹50", action: () => setSortBy("price-low") },
+    { key: "fresh", label: "Fresh Stock", action: () => setSortBy("qty-high") },
+    { key: "seasonal", label: "Seasonal", action: () => setSearch("seasonal") },
+    { key: "organic", label: "Organic", action: () => setSearch("organic") },
+    { key: "fast", label: "Fast Delivery", action: () => setSearch("delivery") },
+  ];
+
   const selectedLocationLabel = loc === "all" ? "All Locations" : loc;
   const selectedSortLabel = SORT_OPTIONS.find((option) => option.value === sortBy)?.label || "Default";
+  const activeFilterCount = Number(loc !== "all") + Number(sortBy !== "default") + Number(Boolean(search));
+
+  const toggleSaved = (product) => {
+    const id = product.id || product._id;
+    setSavedIds((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id]);
+  };
+
+  const toggleCompared = (product) => {
+    const id = product.id || product._id;
+    setCompareIds((current) => current.includes(id) ? current.filter((item) => item !== id) : [...current, id]);
+  };
 
   return (
     <div style={{ background: tk.bg, minHeight: "100%", fontFamily: "'Inter',sans-serif" }}>
@@ -108,6 +166,40 @@ export default function CatalogPage() {
           <p style={{ color:"rgba(255,255,255,0.7)", fontSize:13 }}>
             Search products quickly, then refine with location and sort filters
           </p>
+        </div>
+      </div>
+
+      {/* ── Featured Picks ── */}
+      <div style={{ padding: "16px clamp(10px,2.2vw,24px) 6px" }}>
+        <div style={{ maxWidth: 1680, margin: "0 auto" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 12, flexWrap: "wrap" }}>
+            <div>
+              <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: "1.2px", textTransform: "uppercase", color: tk.green4, marginBottom: 4 }}>Handpicked For You</div>
+              <h2 style={{ fontFamily: "'Playfair Display',Georgia,serif", fontSize: 22, color: tk.text, lineHeight: 1.1 }}>Featured Picks</h2>
+            </div>
+            <span style={{ fontSize: 12, color: tk.textLt }}>Curated highlights to start browsing faster</span>
+          </div>
+
+          <div className="featured-strip">
+            {featuredProducts.length > 0 ? featuredProducts.map((product, index) => (
+              <button
+                key={product.id || product._id || index}
+                data-magnetic
+                onClick={() => setSearch(product.name)}
+                className={`featured-chip ${dark ? "featured-chip-dark" : "featured-chip-light"}`}
+              >
+                <div className="featured-chip-badge">{product.spotlight}</div>
+                <div className="featured-chip-title">{product.name}</div>
+                <div className="featured-chip-meta">₹{Number(product.price || product.pricePerKg || 0).toLocaleString("en-IN")} / {product.unit || "kg"}</div>
+              </button>
+            )) : (
+              <div className={`catalog-empty ${dark ? "catalog-empty-dark" : "catalog-empty-light"}`} style={{ marginTop: 0 }}>
+                <div className="catalog-empty-graphic">✨</div>
+                <h3>Featured picks will appear here</h3>
+                <p>As soon as products load, this strip becomes a curated launchpad for the catalog.</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -145,6 +237,20 @@ export default function CatalogPage() {
             </button>
 
             {!loading && <span style={{ color: tk.textLt, fontSize: 12, flexShrink: 0 }}>{filteredProducts.length} results</span>}
+          </div>
+
+          <div className="smart-chip-row">
+            {smartChips.map((chip) => (
+              <button
+                key={chip.key}
+                data-magnetic
+                onClick={chip.action}
+                className={`smart-chip ${dark ? "smart-chip-dark" : "smart-chip-light"}`}
+                style={{ animationDelay: `${smartChips.findIndex((item) => item.key === chip.key) * 0.05}s` }}
+              >
+                {chip.label}
+              </button>
+            ))}
           </div>
 
           {showFilters && (
@@ -230,6 +336,18 @@ export default function CatalogPage() {
 
       {/* ── Products Grid ── */}
       <div style={{ maxWidth: 1680, margin: "0 auto", padding: "16px clamp(10px,2.2vw,24px) 64px" }}>
+        <div className={`summary-bar ${dark ? "summary-bar-dark" : "summary-bar-light"}`}>
+          <div className="summary-bar-left">
+            <span className="summary-pill summary-pill-strong">{filteredProducts.length} items</span>
+            <span className="summary-pill" style={{ background: "rgba(82,183,136,0.10)", color: tk.textMid, border: "1px solid rgba(82,183,136,0.16)" }}>{activeFilterCount} active filters</span>
+            <span className="summary-copy">matching your current filters</span>
+          </div>
+          <div className="summary-bar-right">
+            <button data-magnetic onClick={reset} className="summary-action summary-action-ghost">Clear All</button>
+            <button data-magnetic onClick={() => setSortBy("default")} className="summary-action summary-action-primary">Reset Sort</button>
+          </div>
+        </div>
+
         {error && (
           <div style={{ background: dark ? "rgba(220,38,38,0.12)" : "#fff3cd", border: "1px solid rgba(220,38,38,0.3)", borderRadius: 14, padding: "16px var(--page-px,clamp(16px,4vw,48px))", marginBottom: 24, color: dark ? "#fca5a5" : "#856404", fontWeight: 600 }}>
             ⚠ {error}
@@ -271,26 +389,63 @@ export default function CatalogPage() {
             ))}
           </div>
         ) : filteredProducts.length === 0 ? (
-          <div style={{ textAlign: "center", padding: "80px var(--page-px,clamp(16px,4vw,48px))" }}>
-            <div style={{ fontSize: 64, marginBottom: 16, animation: "float 3s ease-in-out infinite" }}>🔍</div>
-            <h3 style={{ fontSize: 22, color: tk.text, marginBottom: 8, fontFamily: "'Playfair Display',Georgia,serif" }}>No products found</h3>
-            <p style={{ color: tk.textLt, marginBottom: 24 }}>
-              Try another location, sort, or search term.
-            </p>
-            <button data-magnetic onClick={reset} style={{ padding: "11px 28px", background: "rgba(82,183,136,0.28)", backdropFilter: "blur(28px) saturate(200%)", WebkitBackdropFilter: "blur(28px) saturate(200%)", border: "1px solid rgba(255,255,255,0.30)", color: "#fff", boxShadow: "inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", borderRadius: 50, cursor: "pointer", fontWeight: 700, fontFamily: "'Inter',sans-serif", fontSize: 14 }}>
-              Show All Products
-            </button>
+          <div className={`catalog-empty ${dark ? "catalog-empty-dark" : "catalog-empty-light"}`}>
+            <div className="catalog-empty-graphic">🌾</div>
+            <h3>No products found</h3>
+            <p>Try a different filter or jump into a trending category below.</p>
+            <div className="catalog-empty-actions">
+              <button data-magnetic onClick={reset} className="summary-action summary-action-primary">Show All Products</button>
+              <button data-magnetic onClick={() => { setSearch(""); setSortBy("default"); setLoc("all"); }} className="summary-action summary-action-ghost">Reset Everything</button>
+            </div>
           </div>
         ) : (
           <div className="product-grid catalog-grid">
             {filteredProducts.map((p, i) => (
               <div key={p.id || p._id} style={{ minWidth: 0, animation: `fadeUp 0.5s ease ${Math.min(i,10)*0.04}s both` }}>
-                <ProductCard product={p} />
+                <ProductCard
+                  product={p}
+                  onQuickView={() => setQuickViewProduct(p)}
+                  onToggleSave={() => toggleSaved(p)}
+                  onToggleCompare={() => toggleCompared(p)}
+                  isSaved={savedIds.includes(p.id || p._id)}
+                  isCompared={compareIds.includes(p.id || p._id)}
+                />
               </div>
             ))}
           </div>
         )}
       </div>
+
+      {quickViewProduct && (
+        <div className="catalog-modal-backdrop" onClick={() => setQuickViewProduct(null)}>
+          <div className={`catalog-modal ${dark ? "catalog-modal-dark" : "catalog-modal-light"}`} onClick={(e) => e.stopPropagation()}>
+            <button className="catalog-modal-close" onClick={() => setQuickViewProduct(null)}>×</button>
+            <div className="catalog-modal-grid">
+              <div className="catalog-modal-image-wrap">
+                <img src={quickViewProduct.img || quickViewProduct.image} alt={quickViewProduct.name} className="catalog-modal-image" />
+                <div className="catalog-modal-tag">{quickViewProduct.category}</div>
+              </div>
+              <div className="catalog-modal-content">
+                <div className="catalog-modal-kicker">Quick View</div>
+                <h3>{quickViewProduct.name}</h3>
+                <p className="catalog-modal-farmer">🧑‍🌾 {quickViewProduct.farmerName || quickViewProduct.farmer || "Farmer"}</p>
+                <div className="catalog-modal-price">₹{Number(quickViewProduct.price || quickViewProduct.pricePerKg || 0).toLocaleString("en-IN")} <span>/{quickViewProduct.unit || "kg"}</span></div>
+                <div className="catalog-modal-info-row">
+                  <span>📍 {quickViewProduct.farmerLocation || quickViewProduct.location || "Location unavailable"}</span>
+                  <span>⭐ {Number(quickViewProduct.avgRating || 0).toFixed(1)}</span>
+                </div>
+                <p className="catalog-modal-description">
+                  A fast snapshot of the product so customers can decide instantly without leaving the catalog.
+                </p>
+                <div className="catalog-modal-actions">
+                  <button data-magnetic onClick={() => setQuickViewProduct(null)} className="summary-action summary-action-ghost">Keep Browsing</button>
+                  <button data-magnetic onClick={() => { setQuickViewProduct(null); toggleSaved(quickViewProduct); }} className="summary-action summary-action-primary">Save for Later</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
