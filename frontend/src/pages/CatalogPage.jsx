@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useRef } from "react";
+import { createPortal } from "react-dom";
 import { useTheme, TK } from "../context/ThemeContext";
 import ProductCard from "../components/ProductCard";
 import { API_BASE, useAuth } from "../context/AuthContext";
@@ -164,31 +165,31 @@ export default function CatalogPage() {
     <div style={{ background: tk.bg, minHeight: "100%", fontFamily: "'Inter',sans-serif" }}>
 
       {/* ── Banner ── */}
-      <div style={{ background: "linear-gradient(135deg,#040d06,#0d2b1a,#1b4332,#2d6a4f)", padding: "clamp(14px,2.1vw,22px) clamp(10px,2.2vw,24px) clamp(12px,2vw,20px)", position: "relative", overflow: "hidden" }}>
+      <div style={{ background: "linear-gradient(135deg,#040d06,#0d2b1a,#1b4332,#2d6a4f)", padding: "clamp(10px,1.6vw,14px) clamp(10px,2.2vw,24px) clamp(8px,1.4vw,12px)", position: "relative", overflow: "hidden" }}>
         <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(circle at 25% 50%,rgba(82,183,136,0.12),transparent 55%),radial-gradient(circle at 75% 40%,rgba(116,198,157,0.08),transparent 50%)", pointerEvents:"none" }} />
         <div style={{ position:"relative", textAlign:"center" }}>
-          <div style={{ display:"inline-flex", alignItems:"center", gap:6, background:"rgba(82,183,136,0.18)", backdropFilter:"blur(8px)", border:"1px solid rgba(82,183,136,0.3)", borderRadius:20, padding:"4px 16px", fontSize:11, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", color:"#74c69d", marginBottom:14 }}>
+          <div style={{ display:"inline-flex", alignItems:"center", gap:6, background:"rgba(82,183,136,0.18)", backdropFilter:"blur(8px)", border:"1px solid rgba(82,183,136,0.3)", borderRadius:20, padding:"3px 14px", fontSize:10, fontWeight:700, letterSpacing:"1.1px", textTransform:"uppercase", color:"#74c69d", marginBottom:8 }}>
             <span style={{ width:6, height:6, borderRadius:"50%", background:"#52b788", display:"inline-block", animation:"pulse 2s infinite" }} />
             Fresh Produce Direct
           </div>
-          <h1 style={{ color:"#fff", fontSize:"clamp(22px,3vw,32px)", fontFamily:"'Playfair Display',Georgia,serif", marginBottom:6, fontWeight:700 }}>
+          <h1 style={{ color:"#fff", fontSize:"clamp(20px,2.3vw,28px)", fontFamily:"'Playfair Display',Georgia,serif", marginBottom:3, fontWeight:700 }}>
             Product Catalog
           </h1>
-          <p style={{ color:"rgba(255,255,255,0.7)", fontSize:13 }}>
+          <p style={{ color:"rgba(255,255,255,0.72)", fontSize:12 }}>
             Search products quickly, then refine with location and sort filters
           </p>
         </div>
       </div>
 
       {/* ── Featured Picks ── */}
-      <div style={{ padding: "10px clamp(10px,2.2vw,24px) 4px" }}>
+      <div style={{ padding: "6px clamp(10px,2.2vw,24px) 2px" }}>
         <div style={{ maxWidth: 1680, margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 12, flexWrap: "wrap" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 8, flexWrap: "wrap" }}>
             <div>
-              <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: "1.2px", textTransform: "uppercase", color: tk.green4, marginBottom: 4 }}>Handpicked For You</div>
-              <h2 style={{ fontFamily: "'Playfair Display',Georgia,serif", fontSize: 22, color: tk.text, lineHeight: 1.1 }}>Featured Picks</h2>
+              <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: "1.1px", textTransform: "uppercase", color: tk.green4, marginBottom: 3 }}>Handpicked For You</div>
+              <h2 style={{ fontFamily: "'Playfair Display',Georgia,serif", fontSize: 20, color: tk.text, lineHeight: 1.1 }}>Featured Picks</h2>
             </div>
-            <span style={{ fontSize: 12, color: tk.textLt }}>Curated highlights to start browsing faster</span>
+            <span style={{ fontSize: 11, color: tk.textLt }}>Curated highlights to start browsing faster</span>
           </div>
 
           <div className="featured-strip">
@@ -215,7 +216,7 @@ export default function CatalogPage() {
       </div>
 
       {/* ── Search + Filters ── */}
-      <div className="sticky-filter" style={{ background: dark ? "rgba(4,13,6,0.95)" : "rgba(255,255,255,0.95)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderBottom: `1px solid ${tk.border}`, padding: "14px 0", position: "sticky", top: 64, zIndex: 900 }}>
+      <div className="sticky-filter" style={{ background: dark ? "rgba(4,13,6,0.95)" : "rgba(255,255,255,0.95)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderBottom: `1px solid ${tk.border}`, padding: "10px 0", position: "sticky", top: 64, zIndex: 900 }}>
         <div style={{ maxWidth: 1680, margin: "0 auto", padding: "0 clamp(10px,2.2vw,24px)" }}>
           <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
             <div style={{ position: "relative", flex: "1 1 320px", minWidth: 220 }}>
@@ -346,7 +347,7 @@ export default function CatalogPage() {
       </div>
 
       {/* ── Products Grid ── */}
-      <div style={{ maxWidth: 1680, margin: "0 auto", padding: "16px clamp(10px,2.2vw,24px) 64px" }}>
+      <div style={{ maxWidth: 1680, margin: "0 auto", padding: "12px clamp(10px,2.2vw,24px) 48px" }}>
         <div className={`summary-bar ${dark ? "summary-bar-dark" : "summary-bar-light"}`}>
           <div className="summary-bar-left">
             <span className="summary-pill summary-pill-strong">{filteredProducts.length} items</span>
@@ -431,12 +432,12 @@ export default function CatalogPage() {
 
         {recentlyViewed.length > 0 && (
           <div style={{ marginTop: 24 }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 12, flexWrap: "wrap" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 10, flexWrap: "wrap" }}>
               <div>
                 <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: "1.2px", textTransform: "uppercase", color: tk.green4, marginBottom: 4 }}>Continue Browsing</div>
                 <h2 style={{ fontFamily: "'Playfair Display',Georgia,serif", fontSize: 22, color: tk.text, lineHeight: 1.1 }}>Recently viewed</h2>
               </div>
-                  <button data-magnetic onClick={() => setRecentlyViewed([])} className="summary-action summary-action-ghost">Clear History</button>
+              <button data-magnetic onClick={() => setRecentlyViewed([])} className="summary-action summary-action-ghost">Clear History</button>
             </div>
             <div className="recently-viewed-strip">
               {recentlyViewed.map((item, index) => (
@@ -460,7 +461,7 @@ export default function CatalogPage() {
         )}
       </div>
 
-      {quickViewProduct && (
+      {quickViewProduct && createPortal(
         <div className="catalog-modal-backdrop" onClick={() => setQuickViewProduct(null)}>
           <div className={`catalog-modal ${dark ? "catalog-modal-dark" : "catalog-modal-light"}`} onClick={(e) => e.stopPropagation()}>
             <button className="catalog-modal-close" onClick={() => setQuickViewProduct(null)}>×</button>
@@ -487,7 +488,8 @@ export default function CatalogPage() {
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
