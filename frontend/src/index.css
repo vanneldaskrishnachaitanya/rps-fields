@@ -1350,16 +1350,8 @@ img { display: block; }
 /* ══════════════════════════════════════════════════════════════════
    QUICK ACTIONS PANEL — fixed right side on desktop
 ══════════════════════════════════════════════════════════════════ */
-.quick-actions-fixed {
-  position: fixed;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 800;
-  width: 220px;
-}
 @media (max-width: 1200px) {
-  .quick-actions-fixed { display: none; }
+  .quick-actions-widget { display: none !important; }
 }
 
 /* ══════════════════════════════════════════════════════════════════

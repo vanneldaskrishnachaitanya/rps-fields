@@ -89,12 +89,8 @@ function Layout() {
     <div style={{ fontFamily:"'Inter','Segoe UI',sans-serif", background:tk.bg, minHeight:"100vh", color:tk.text, transition:"background 0.3s,color 0.3s" }}>
       {!isAdmin && <Header />}
       <AnnouncementPopups />
-      {/* Fixed Quick Actions panel — desktop only, hidden on mobile via CSS */}
-      {!isAdmin && (
-        <div className="quick-actions-fixed">
-          <QuickActions />
-        </div>
-      )}
+      {/* Movable Quick Actions panel — desktop only, hidden on mobile via CSS */}
+      {!isAdmin && <QuickActions />}
       <main className={isAdmin ? "" : "anim-page-enter"} style={{ paddingTop:isAdmin?0:68, paddingBottom:isAdmin?0:52, minHeight:"100vh" }}>
         <Routes>
           <Route path="/"            element={<HomePage />} />
