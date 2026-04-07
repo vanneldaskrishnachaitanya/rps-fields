@@ -69,7 +69,7 @@ export default function Header() {
     ? scrolled ? "rgba(3,10,5,0.95)" : "rgba(3,10,5,0.72)"
     : scrolled ? "rgba(238,248,242,0.97)" : "rgba(240,247,242,0.85)";
 
-  const headerH = scrolled ? 58 : 68;
+  const headerH = scrolled ? 65 : 80;
 
   return (
     <>
@@ -80,25 +80,57 @@ export default function Header() {
           .rps-nav       { display: none  !important; }
           .rps-hamburger { display: flex  !important; }
         }
-        .hnav:hover {
-          background: ${dark ? "rgba(255,255,255,0.1)" : "rgba(82,183,136,0.12)"} !important;
-          color: ${dark ? "#fff" : "#1b4332"} !important;
-          border-color: ${dark ? "rgba(255,255,255,0.25)" : "rgba(82,183,136,0.4)"} !important;
+        .hnav {
+          position: relative;
+          transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
         }
-        .mlink:hover { background: rgba(82,183,136,0.12) !important; color: #74c69d !important; }
+        .hnav::before {
+          content: '';
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          width: 0;
+          height: 2px;
+          background: linear-gradient(90deg, #52b788, #d4a017, #52b788);
+          transition: width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .hnav:hover {
+          background: ${dark ? "rgba(255,255,255,0.14)" : "rgba(82,183,136,0.18)"} !important;
+          color: ${dark ? "#fff" : "#1b4332"} !important;
+          border-color: ${dark ? "rgba(255,255,255,0.35)" : "rgba(82,183,136,0.55)"} !important;
+          transform: translateY(-2px) !important;
+          box-shadow: 0 8px 16px rgba(82, 183, 136, 0.2) !important;
+        }
+        .hnav:hover::before {
+          width: 100%;
+        }
+        .mlink {
+          transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+        }
+        .mlink:hover { 
+          background: rgba(82,183,136,0.18) !important; 
+          color: #74c69d !important; 
+          transform: translateX(4px) !important;
+        }
 
-        /* Animated logo shine */
+        /* Animated logo shine with pulse and glow */
         .rps-brand-title {
-          background: linear-gradient(90deg, #52b788 0%, #95d5b2 30%, #d4a017 50%, #95d5b2 70%, #52b788 100%);
+          background: linear-gradient(90deg, #52b788 0%, #95d5b2 20%, #d4a017 50%, #95d5b2 80%, #52b788 100%);
           background-size: 300% auto;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
-          animation: logoShineAnim 5s linear infinite;
+          animation: logoShineAnim 4s linear infinite, logoPulse 3s ease-in-out infinite;
+          text-shadow: 0 0 20px rgba(82, 183, 136, 0.6), 0 0 40px rgba(212, 160, 23, 0.3);
+          filter: drop-shadow(0 0 8px rgba(82, 183, 136, 0.5));
         }
         @keyframes logoShineAnim {
           0%   { background-position: 200% center; }
           100% { background-position: -200% center; }
+        }
+        @keyframes logoPulse {
+          0%, 100% { opacity: 1; text-shadow: 0 0 20px rgba(82, 183, 136, 0.6), 0 0 40px rgba(212, 160, 23, 0.3); }
+          50% { opacity: 0.85; text-shadow: 0 0 30px rgba(82, 183, 136, 0.8), 0 0 60px rgba(212, 160, 23, 0.5); }
         }
         .rps-header-wrap {
           animation: navSlideDown 0.55s cubic-bezier(0.22,1,0.36,1) both;
@@ -106,6 +138,19 @@ export default function Header() {
         @keyframes navSlideDown {
           from { opacity:0; transform:translateY(-100%); }
           to   { opacity:1; transform:none; }
+        }
+        @keyframes iconGlowBounce {
+          0%, 100% { 
+            transform: scale(1);
+            box-shadow: 0 4px 16px rgba(82,183,136,0.4), 0 0 0 1px rgba(82,183,136,0.15), 0 0 20px rgba(82,183,136,0.3);
+          }
+          50% { 
+            transform: scale(1.08);
+            box-shadow: 0 4px 24px rgba(82,183,136,0.6), 0 0 0 2px rgba(82,183,136,0.25), 0 0 35px rgba(82,183,136,0.5);
+          }
+        }
+        .rps-logo-icon {
+          animation: iconGlowBounce 2.5s ease-in-out infinite;
         }
       `}</style>
 
@@ -129,7 +174,7 @@ export default function Header() {
 
           {/* Logo — enhanced branding */}
           <div style={{ display:"flex", alignItems:"center", gap:10, cursor:"pointer", flexShrink:0 }} onClick={() => navigate("/")}>
-            <div style={{
+            <div className="rps-logo-icon" style={{
               width: scrolled ? 30 : 36, height: scrolled ? 30 : 36,
               borderRadius: 10,
               background: "linear-gradient(135deg,#52b788 0%,#1b4332 100%)",
@@ -139,17 +184,16 @@ export default function Header() {
                 ? "0 4px 16px rgba(82,183,136,0.4), 0 0 0 1px rgba(82,183,136,0.15)"
                 : "0 4px 16px rgba(82,183,136,0.3)",
               flexShrink:0, transition:"all 0.4s ease",
-              animation: "glow 3s ease-in-out infinite",
             }}>🌿</div>
             <div style={{ lineHeight:1 }}>
               <div className="rps-brand-title" style={{
                 fontFamily:"'Playfair Display',Georgia,serif",
-                fontWeight:700,
-                fontSize: scrolled ? 16 : 19,
-                letterSpacing:"-0.3px",
+                fontWeight:900,
+                fontSize: scrolled ? 18 : 28,
+                letterSpacing:"-0.5px",
                 transition:"font-size 0.4s ease",
               }}>RPS Fields</div>
-              <div style={{ color:"rgba(82,183,136,0.7)", fontSize:7.5, letterSpacing:"2.5px", textTransform:"uppercase", marginTop:2, transition:"all 0.4s ease", opacity: scrolled ? 0 : 1, maxHeight: scrolled ? 0 : 12, overflow:"hidden" }}>Farm Fresh Direct</div>
+              <div style={{ color:"rgba(82,183,136,0.7)", fontSize:8, letterSpacing:"2.5px", textTransform:"uppercase", marginTop:2, transition:"all 0.4s ease", opacity: scrolled ? 0 : 1, maxHeight: scrolled ? 0 : 12, overflow:"hidden", fontWeight: 700 }}>Farm Fresh Direct</div>
             </div>
           </div>
 
