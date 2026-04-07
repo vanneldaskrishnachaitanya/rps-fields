@@ -418,14 +418,7 @@ input:focus, textarea:focus, select:focus {
 .recharts-tooltip-wrapper { outline: none !important; }
 img { display: block; }
 
-/* ══════════════════════════════════════════════════════════════════
-   CUSTOM CURSOR
-══════════════════════════════════════════════════════════════════ */
-@media (min-width: 769px) { html, body, body * { cursor: none !important; } }
-@media (max-width: 768px) {
-  html, body, body * { cursor: auto !important; }
-  button, a, [role="button"] { cursor: pointer !important; }
-}
+
 
 /* ══════════════════════════════════════════════════════════════════
    CATALOG & WEATHER — filter pill rows
