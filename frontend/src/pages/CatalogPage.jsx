@@ -19,9 +19,11 @@ export default function CatalogPage() {
   const [loc,      setLoc]      = useState("all");
   const [sortBy,   setSortBy]   = useState("default");
   const [showFilters, setShowFilters] = useState(false);
+  const [openMenu, setOpenMenu] = useState(null);
   const [search,   setSearch]   = useState("");
   const [dSearch,  setDSearch]  = useState("");
   const debounce = useRef(null);
+  const filterPanelRef = useRef(null);
 
   const load = (searchTerm) => {
     setLoading(true);
@@ -39,6 +41,15 @@ export default function CatalogPage() {
   };
 
   useEffect(() => { load(dSearch); }, [dSearch]); // eslint-disable-line
+
+  useEffect(() => {
+    const handlePointerDown = (event) => {
+      if (!filterPanelRef.current) return;
+      if (!filterPanelRef.current.contains(event.target)) setOpenMenu(null);
+    };
+    document.addEventListener("mousedown", handlePointerDown);
+    return () => document.removeEventListener("mousedown", handlePointerDown);
+  }, []);
 
   const handleSearch = (val) => {
     setSearch(val);
@@ -76,6 +87,9 @@ export default function CatalogPage() {
 
     return list;
   }, [products, loc, sortBy]);
+
+  const selectedLocationLabel = loc === "all" ? "All Locations" : loc;
+  const selectedSortLabel = SORT_OPTIONS.find((option) => option.value === sortBy)?.label || "Default";
 
   return (
     <div style={{ background: tk.bg, minHeight: "100%", fontFamily: "'Inter',sans-serif" }}>
@@ -134,38 +148,77 @@ export default function CatalogPage() {
           </div>
 
           {showFilters && (
-            <div style={{ marginTop: 12, display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(210px,1fr))", gap: 10 }}>
-              <div>
-                <div style={{ fontSize: 11, color: tk.textLt, marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.7px", fontWeight: 700 }}>By Location</div>
-                <select
-                  className={`catalog-select ${dark ? "catalog-select-dark" : "catalog-select-light"}`}
-                  value={loc}
-                  onChange={(e) => setLoc(e.target.value)}
+            <div ref={filterPanelRef} className="catalog-filter-panel" style={{ marginTop: 12, display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(210px,1fr))", gap: 12 }}>
+              <div className="catalog-dropdown-shell">
+                <div className="catalog-dropdown-label">By Location</div>
+                <button
+                  data-magnetic
+                  type="button"
+                  className={`catalog-dropdown-trigger ${dark ? "catalog-dropdown-dark" : "catalog-dropdown-light"}`}
+                  onClick={() => setOpenMenu((current) => current === "location" ? null : "location")}
                 >
-                  {locations.map((l) => (
-                    <option key={l} value={l}>{l === "all" ? "All Locations" : l}</option>
-                  ))}
-                </select>
+                  <span className="catalog-dropdown-value">{selectedLocationLabel}</span>
+                  <span className={`catalog-dropdown-caret ${openMenu === "location" ? "is-open" : ""}`}>▾</span>
+                </button>
+                {openMenu === "location" && (
+                  <div className={`catalog-dropdown-menu ${dark ? "catalog-dropdown-menu-dark" : "catalog-dropdown-menu-light"}`}>
+                    {locations.map((location) => {
+                      const active = loc === location;
+                      const label = location === "all" ? "All Locations" : location;
+                      return (
+                        <button
+                          key={location}
+                          type="button"
+                          data-magnetic
+                          className={`catalog-dropdown-item ${active ? "is-active" : ""}`}
+                          onClick={() => { setLoc(location); setOpenMenu(null); }}
+                        >
+                          <span>{label}</span>
+                          {active && <span className="catalog-dropdown-check">✓</span>}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
 
-              <div>
-                <div style={{ fontSize: 11, color: tk.textLt, marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.7px", fontWeight: 700 }}>Sort</div>
-                <select
-                  className={`catalog-select ${dark ? "catalog-select-dark" : "catalog-select-light"}`}
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
+              <div className="catalog-dropdown-shell">
+                <div className="catalog-dropdown-label">Sort</div>
+                <button
+                  data-magnetic
+                  type="button"
+                  className={`catalog-dropdown-trigger ${dark ? "catalog-dropdown-dark" : "catalog-dropdown-light"}`}
+                  onClick={() => setOpenMenu((current) => current === "sort" ? null : "sort")}
                 >
-                  {SORT_OPTIONS.map((o) => (
-                    <option key={o.value} value={o.value}>{o.label}</option>
-                  ))}
-                </select>
+                  <span className="catalog-dropdown-value">{selectedSortLabel}</span>
+                  <span className={`catalog-dropdown-caret ${openMenu === "sort" ? "is-open" : ""}`}>▾</span>
+                </button>
+                {openMenu === "sort" && (
+                  <div className={`catalog-dropdown-menu ${dark ? "catalog-dropdown-menu-dark" : "catalog-dropdown-menu-light"}`}>
+                    {SORT_OPTIONS.map((option) => {
+                      const active = sortBy === option.value;
+                      return (
+                        <button
+                          key={option.value}
+                          type="button"
+                          data-magnetic
+                          className={`catalog-dropdown-item ${active ? "is-active" : ""}`}
+                          onClick={() => { setSortBy(option.value); setOpenMenu(null); }}
+                        >
+                          <span>{option.label}</span>
+                          {active && <span className="catalog-dropdown-check">✓</span>}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
 
               <div style={{ display: "flex", alignItems: "end" }}>
                 <button
                   data-magnetic
-                  onClick={reset}
-                  style={{ width: "100%", padding: "9px 14px", borderRadius: 12, border: `1.5px solid ${tk.border}`, background: "transparent", color: tk.textMid, fontWeight: 700, fontSize: 13, cursor: "pointer", fontFamily: "'Inter',sans-serif" }}
+                  onClick={() => { reset(); setOpenMenu(null); }}
+                  style={{ width: "100%", minHeight: 52, padding: "9px 14px", borderRadius: 16, border: `1.5px solid ${tk.border}`, background: "linear-gradient(135deg, rgba(82,183,136,0.10), rgba(45,106,79,0.04))", color: tk.textMid, fontWeight: 800, fontSize: 13, cursor: "pointer", fontFamily: "'Inter',sans-serif" }}
                 >
                   Clear Filters
                 </button>
