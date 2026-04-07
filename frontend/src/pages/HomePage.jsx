@@ -111,7 +111,14 @@ const ScrollRevealTestimonial = ({ dark, tk }) => {
               {textParts.map((chunk, cIdx) => (
                 <span key={cIdx} style={{ 
                   color: chunk.type === 'highlight' ? (isHighlightLayer ? "#2563eb" : "inherit") : "inherit",
-                  transition: "color 0.3s ease"
+                  transition: "all 0.3s ease",
+                  backgroundColor: chunk.type === 'highlight' ? (isHighlightLayer ? "rgba(37, 99, 235, 0.12)" : "transparent") : "transparent",
+                  padding: chunk.type === 'highlight' ? "2px 8px" : "0",
+                  borderRadius: "6px",
+                  display: chunk.type === 'highlight' ? "inline-block" : "inline",
+                  transform: chunk.type === 'highlight' ? "rotate(-1deg)" : "none",
+                  boxShadow: chunk.type === 'highlight' ? (isHighlightLayer ? "0 0 16px rgba(37,99,235,0.15)" : "none") : "none",
+                  margin: chunk.type === 'highlight' ? "0 4px" : "0"
                 }}>
                   {chunk.val}
                 </span>
@@ -172,7 +179,7 @@ const ScrollRevealTestimonial = ({ dark, tk }) => {
           <div style={{ position: "absolute", top: 0, bottom: 0, left: "-15%", width: "130%", zIndex: 1, pointerEvents: "none" }}>
             <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{ width: "100%", height: "100%" }}>
               <path 
-                d="M 10,0 C 70,15 90,30 50,50 C 10,70 30,85 90,100" 
+                d="M 110,-10 C 60,0 20,10 30,25 C 40,40 100,50 80,65 C 60,80 10,80 20,95 C 30,110 80,100 110,115" 
                 fill="none" 
                 stroke="#2563eb" 
                 strokeWidth="6" 
