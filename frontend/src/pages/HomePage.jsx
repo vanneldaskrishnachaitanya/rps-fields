@@ -62,6 +62,8 @@ export default function HomePage() {
   const [visible, setVisible]     = useState({});
   const [activeStep, setActiveStep] = useState(0);
   const [blurFlash, setBlurFlash] = useState(false);
+  const [transitionFrom, setTransitionFrom] = useState(null);
+  const [transitionTo, setTransitionTo] = useState(null);
   const timerRef = useRef(null);
   const snapLockRef = useRef(false);
   const sectionRefs = useRef([]);
@@ -126,25 +128,34 @@ export default function HomePage() {
 
       e.preventDefault();
       snapLockRef.current = true;
+      setTransitionFrom(activeStep);
+      setTransitionTo(nextStep);
       setActiveStep(nextStep);
       setBlurFlash(true);
       scrollToStep(nextStep);
 
-      window.setTimeout(() => setBlurFlash(false), 420);
+      window.setTimeout(() => setBlurFlash(false), 300);
       window.setTimeout(() => {
+        setTransitionFrom(null);
+        setTransitionTo(null);
         snapLockRef.current = false;
-      }, 760);
+      }, 620);
     };
 
     window.addEventListener("wheel", onWheel, { passive: false });
     return () => window.removeEventListener("wheel", onWheel);
   }, [activeStep]);
 
-  const sectionTransitionStyle = {
-    transition: "filter 0.42s ease, opacity 0.42s ease, transform 0.42s ease",
-    filter: blurFlash ? "blur(2px)" : "blur(0px)",
-    opacity: blurFlash ? 0.93 : 1,
-    transform: blurFlash ? "translateY(6px)" : "translateY(0)",
+  const sectionTransitionStyle = (idx) => {
+    const outgoing = blurFlash && idx === transitionFrom;
+    const incoming = blurFlash && idx === transitionTo;
+    return {
+      transition: "filter 0.34s ease, opacity 0.34s ease, transform 0.34s ease",
+      filter: outgoing ? "blur(2.4px)" : incoming ? "blur(1px)" : "blur(0px)",
+      opacity: outgoing ? 0.88 : incoming ? 0.97 : 1,
+      transform: outgoing ? "scale(0.975)" : incoming ? "scale(1.01)" : "scale(1)",
+      transformOrigin: "center top",
+    };
   };
 
   const cur = SLIDES[slide];
@@ -152,7 +163,7 @@ export default function HomePage() {
   return (
     <div style={{ background: tk.bg, overflowX: "hidden" }}>
 
-      <div ref={el => { sectionRefs.current[0] = el; }} style={{ ...sectionTransitionStyle }}>
+      <div ref={el => { sectionRefs.current[0] = el; }} style={sectionTransitionStyle(0)}>
       {/* ─────────────── HERO SLIDER ─────────────── */}
       <section style={{ position: "relative", height: "clamp(320px,62vh,520px)", minHeight: 320, maxHeight: 520, overflow: "hidden" }}>
         <div style={{
@@ -259,7 +270,7 @@ export default function HomePage() {
       </div>
       </div>
 
-      <div ref={el => { sectionRefs.current[1] = el; }} style={{ ...sectionTransitionStyle }}>
+      <div ref={el => { sectionRefs.current[1] = el; }} style={sectionTransitionStyle(1)}>
       {/* ─────────────── CATEGORIES ─────────────── */}
       <section style={{ padding: "clamp(10px,2.2vw,24px) var(--page-px,clamp(10px,2.2vw,24px))", background: tk.bg }}>
         <div style={{ maxWidth: "var(--content-max)", margin: "0 auto" }}>
@@ -331,7 +342,7 @@ export default function HomePage() {
       </section>
       </div>
 
-      <div ref={el => { sectionRefs.current[2] = el; }} style={{ ...sectionTransitionStyle }}>
+      <div ref={el => { sectionRefs.current[2] = el; }} style={sectionTransitionStyle(2)}>
       {/* ─────────────── TESTIMONIAL + WHY GRID ─────────────── */}
       <section style={{ padding:"clamp(10px,2vw,20px) var(--page-px,clamp(10px,2.2vw,24px)) clamp(18px,2.8vw,30px)", background:tk.bg }}>
         <div style={{ maxWidth:"var(--content-max)", margin:"0 auto", display:"grid", gridTemplateColumns:"minmax(280px,360px) 1fr", gap:14, alignItems:"start" }}>
