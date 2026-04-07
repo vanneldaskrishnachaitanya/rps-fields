@@ -406,8 +406,13 @@ img { display: block; }
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 24px;
+  gap: 16px;
   width: 100%;
+}
+
+.catalog-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 14px !important;
 }
 
 /* ══════════════════════════════════════════════════════════════════
@@ -454,6 +459,7 @@ html, body { overflow-x: hidden; max-width: 100vw; }
     --section-py: 40px;
   }
   .product-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)) !important; gap: 14px !important; }
+  .catalog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 12px !important; }
   .weather-current    { flex-direction: column !important; }
   .weather-stats-grid { grid-template-columns: repeat(2,1fr) !important; }
   .detail-hero-grid, .cart-grid, .checkout-grid { grid-template-columns: 1fr !important; }
@@ -465,8 +471,17 @@ html, body { overflow-x: hidden; max-width: 100vw; }
 }
 @media (max-width: 480px) {
   .product-grid  { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
+  .catalog-grid  { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
   .cart-grid, .checkout-grid { grid-template-columns: 1fr !important; }
   .stat-grid     { grid-template-columns: 1fr 1fr !important; }
+}
+
+@media (max-width: 1280px) {
+  .catalog-grid { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+}
+
+@media (max-width: 1024px) {
+  .catalog-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
 }
 @media (hover: none) {
   .hover-lift:hover { transform: none !important; }
