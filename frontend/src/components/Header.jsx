@@ -158,13 +158,13 @@ export default function Header() {
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000,
         height: headerH,
         background: headerBg,
-        backdropFilter: "blur(28px) saturate(220%)",
-        WebkitBackdropFilter: "blur(28px) saturate(220%)",
+        backdropFilter: "blur(20px) saturate(180%)",
+        WebkitBackdropFilter: "blur(20px) saturate(180%)",
         borderBottom: `1px solid ${scrolled
-          ? (dark ? "rgba(82,183,136,0.22)" : "rgba(82,183,136,0.28)")
-          : (dark ? "rgba(255,255,255,0.07)" : "rgba(82,183,136,0.15)")}`,
+          ? (dark ? "rgba(82,183,136,0.22)" : "rgba(82,183,136,0.35)")
+          : (dark ? "rgba(255,255,255,0.07)" : "rgba(82,183,136,0.18)")}`,
         boxShadow: scrolled
-          ? (dark ? "0 4px 32px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06)" : "0 4px 24px rgba(27,67,50,0.12)")
+          ? (dark ? "0 12px 48px rgba(0,0,0,0.6), inset 0 -1px 0 rgba(82,183,136,0.1), inset 0 1px 0 rgba(255,255,255,0.08)" : "0 12px 32px rgba(27,67,50,0.18), inset 0 -1px 0 rgba(82,183,136,0.15)")
           : "none",
         transition: "height 0.4s ease, background 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease",
         display: "flex", alignItems: "center",

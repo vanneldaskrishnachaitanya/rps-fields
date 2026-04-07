@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
  */
 export default function CustomCursor() {
   const dotRef = useRef(null);
+  const ambientRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -39,6 +40,10 @@ export default function CustomCursor() {
         dotRef.current.style.left = curX + "px";
         dotRef.current.style.top = curY + "px";
       }
+      if (ambientRef.current) {
+        ambientRef.current.style.left = curX + "px";
+        ambientRef.current.style.top = curY + "px";
+      }
       animId = requestAnimationFrame(render);
     };
 
@@ -54,24 +59,43 @@ export default function CustomCursor() {
   if (isMobile) return null;
 
   return (
-    <div
-      ref={dotRef}
-      id="rps-cursor"
-      style={{
-        position: "fixed",
-        left: "-100px",
-        top: "-100px",
-        width: "10px",
-        height: "10px",
-        borderRadius: "50%",
-        background: "#00d4ff",
-        transform: "translate(-50%, -50%)",
-        pointerEvents: "none",
-        zIndex: 99999,
-        boxShadow:
-          "0 0 6px 2px rgba(0,212,255,0.6), 0 0 14px 4px rgba(0,212,255,0.35), 0 0 28px 8px rgba(0,212,255,0.15)",
-        mixBlendMode: "screen",
-      }}
-    />
+    <>
+      <div
+        ref={ambientRef}
+        style={{
+          position: "fixed",
+          left: "-1000px",
+          top: "-1000px",
+          width: "600px",
+          height: "600px",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(116,198,157,0.06) 0%, rgba(0,212,255,0.02) 40%, transparent 70%)",
+          transform: "translate(-50%, -50%) translateZ(0)",
+          willChange: "transform",
+          pointerEvents: "none",
+          zIndex: 9998,
+        }}
+      />
+      <div
+        ref={dotRef}
+        id="rps-cursor"
+        style={{
+          position: "fixed",
+          left: "-100px",
+          top: "-100px",
+          width: "12px",
+          height: "12px",
+          borderRadius: "50%",
+          background: "#00d4ff",
+          transform: "translate(-50%, -50%) translateZ(0)",
+          willChange: "transform",
+          pointerEvents: "none",
+          zIndex: 99999,
+          boxShadow:
+            "0 0 8px 3px rgba(0,212,255,0.7), 0 0 20px 6px rgba(0,212,255,0.4), inset 0 0 4px rgba(255,255,255,0.8)",
+          mixBlendMode: "screen",
+        }}
+      />
+    </>
   );
 }

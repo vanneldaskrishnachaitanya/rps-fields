@@ -173,9 +173,9 @@ export default function GlobalEffects() {
         const glow = () => {
           if (btn.offsetWidth < 28) return;
           const orig = btn.style.boxShadow || "";
-          btn.style.boxShadow = orig + ", 0 0 15px 4px rgba(255,255,255,0.2), 0 0 30px 8px rgba(82,183,136,0.1)";
-          btn.style.transition = "box-shadow 0.08s ease-out";
-          setTimeout(() => { btn.style.boxShadow = orig; btn.style.transition = "box-shadow 0.4s ease-out"; }, 200);
+          btn.style.boxShadow = orig + ", 0 0 24px 8px rgba(255,255,255,0.3), 0 0 60px 15px rgba(82,183,136,0.6), inset 0 0 20px rgba(255,255,255,0.4)";
+          btn.style.transition = "box-shadow 0.05s ease-out";
+          setTimeout(() => { btn.style.boxShadow = orig; btn.style.transition = "box-shadow 0.6s cubic-bezier(0.22,1,0.36,1)"; }, 250);
         };
         btn.addEventListener("click", ripple);
         btn.addEventListener("mousedown", glow);
@@ -193,9 +193,11 @@ export default function GlobalEffects() {
         const rect = el.getBoundingClientRect();
         if (rect.top > window.innerHeight * 0.75) {
           el.dataset.gfxR = "1";
-          const d = Math.min((i % 8) * 0.06, 0.42);
-          el.style.opacity = "0"; el.style.transform = "translateY(25px) scale(0.98)"; el.style.filter = "blur(3px)";
-          el.style.transition = `opacity 0.55s cubic-bezier(0.22,1,0.36,1) ${d}s, transform 0.55s cubic-bezier(0.22,1,0.36,1) ${d}s, filter 0.55s ease ${d}s`;
+          const d = Math.min((i % 8) * 0.05, 0.4);
+          el.style.opacity = "0"; 
+          el.style.transform = "perspective(1200px) rotateX(12deg) translateY(40px) scale(0.92)"; 
+          el.style.filter = "blur(8px)";
+          el.style.transition = `opacity 0.65s cubic-bezier(0.34,1.56,0.64,1) ${d}s, transform 0.65s cubic-bezier(0.34,1.56,0.64,1) ${d}s, filter 0.65s ease ${d}s`;
           revealObs.observe(el);
         }
       });
@@ -245,66 +247,68 @@ export default function GlobalEffects() {
       });
 
       // ═══════════════════════════════════════
-      // 7. SVG FLOATING DECORATIONS
+      // 7. HARDWARE-ACCELERATED AURORA BG
       // ═══════════════════════════════════════
-      if (!document.getElementById("gfx-svg-deco")) {
-        const svgContainer = document.createElement("div");
-        svgContainer.id = "gfx-svg-deco";
-        Object.assign(svgContainer.style, {
+      if (!document.getElementById("gfx-aurora-bg")) {
+        const bgContainer = document.createElement("div");
+        bgContainer.id = "gfx-aurora-bg";
+        Object.assign(bgContainer.style, {
           position: "fixed", top: "0", left: "0", width: "100%", height: "100%",
-          pointerEvents: "none", zIndex: "0", overflow: "hidden",
+          pointerEvents: "none", zIndex: "-1", overflow: "hidden", mixBlendMode: "screen"
         });
-        svgContainer.innerHTML = `
-          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <radialGradient id="gfx-g1" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="rgba(82,183,136,0.06)"/>
-                <stop offset="100%" stop-color="transparent"/>
-              </radialGradient>
-              <radialGradient id="gfx-g2" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="rgba(0,212,255,0.04)"/>
-                <stop offset="100%" stop-color="transparent"/>
-              </radialGradient>
-            </defs>
-            <circle cx="15%" cy="20%" r="120" fill="url(#gfx-g1)">
-              <animate attributeName="cy" values="20%;25%;20%" dur="8s" repeatCount="indefinite"/>
-              <animate attributeName="r" values="120;140;120" dur="6s" repeatCount="indefinite"/>
-            </circle>
-            <circle cx="85%" cy="70%" r="100" fill="url(#gfx-g2)">
-              <animate attributeName="cy" values="70%;65%;70%" dur="10s" repeatCount="indefinite"/>
-              <animate attributeName="cx" values="85%;82%;85%" dur="12s" repeatCount="indefinite"/>
-            </circle>
-            <circle cx="50%" cy="90%" r="80" fill="url(#gfx-g1)" opacity="0.5">
-              <animate attributeName="cy" values="90%;85%;90%" dur="7s" repeatCount="indefinite"/>
-            </circle>
-            <circle cx="30%" cy="50%" r="60" fill="url(#gfx-g2)" opacity="0.4">
-              <animate attributeName="cx" values="30%;35%;30%" dur="9s" repeatCount="indefinite"/>
-              <animate attributeName="cy" values="50%;45%;50%" dur="11s" repeatCount="indefinite"/>
-            </circle>
-            <!-- Floating lines -->
-            <line x1="10%" y1="30%" x2="25%" y2="35%" stroke="rgba(82,183,136,0.06)" stroke-width="1">
-              <animate attributeName="y1" values="30%;28%;30%" dur="5s" repeatCount="indefinite"/>
-              <animate attributeName="y2" values="35%;33%;35%" dur="5s" repeatCount="indefinite"/>
-            </line>
-            <line x1="75%" y1="15%" x2="90%" y2="20%" stroke="rgba(0,212,255,0.04)" stroke-width="1">
-              <animate attributeName="x1" values="75%;78%;75%" dur="7s" repeatCount="indefinite"/>
-            </line>
-            <!-- Pulsing dots -->
-            <circle cx="20%" cy="80%" r="3" fill="rgba(82,183,136,0.15)">
-              <animate attributeName="r" values="3;5;3" dur="3s" repeatCount="indefinite"/>
-              <animate attributeName="opacity" values="0.15;0.3;0.15" dur="3s" repeatCount="indefinite"/>
-            </circle>
-            <circle cx="70%" cy="25%" r="2" fill="rgba(0,212,255,0.12)">
-              <animate attributeName="r" values="2;4;2" dur="4s" repeatCount="indefinite"/>
-              <animate attributeName="opacity" values="0.12;0.25;0.12" dur="4s" repeatCount="indefinite"/>
-            </circle>
-            <circle cx="90%" cy="50%" r="2.5" fill="rgba(82,183,136,0.1)">
-              <animate attributeName="r" values="2.5;4.5;2.5" dur="5s" repeatCount="indefinite"/>
-            </circle>
-          </svg>
-        `;
-        document.body.appendChild(svgContainer);
-        cleanups.push(() => { if (svgContainer.parentNode) svgContainer.remove(); });
+        
+        // CSS animations appended to head
+        if (!document.getElementById("aurora-styles")) {
+          const style = document.createElement("style");
+          style.id = "aurora-styles";
+          style.innerHTML = `
+            @keyframes auroraMove1 {
+              0% { transform: translate(0%, 0%) rotate(0deg) scale(1.2); }
+              33% { transform: translate(15%, -15%) rotate(15deg) scale(1); }
+              66% { transform: translate(-10%, 10%) rotate(-5deg) scale(1.1); }
+              100% { transform: translate(0%, 0%) rotate(0deg) scale(1.2); }
+            }
+            @keyframes auroraMove2 {
+              0% { transform: translate(0%, 0%) scale(1); }
+              50% { transform: translate(-20%, -10%) scale(1.2); }
+              100% { transform: translate(0%, 0%) scale(1); }
+            }
+            @keyframes auroraMove3 {
+              0% { transform: translate(0%, 0%) rotate(0deg) scale(1); }
+              50% { transform: translate(10%, 20%) rotate(-10deg) scale(1.3); }
+              100% { transform: translate(0%, 0%) rotate(0deg) scale(1); }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+
+        const createOrb = (color, size, anim, top, left) => {
+          const orb = document.createElement("div");
+          Object.assign(orb.style, {
+            position: "absolute", top, left,
+            width: size, height: size,
+            background: `radial-gradient(circle at center, ${color} 10%, transparent 65%)`,
+            transformOrigin: "center center",
+            animation: `${anim} ease-in-out infinite alternate`,
+            opacity: "0.5",
+            willChange: "transform",
+            transform: "translateZ(0)"
+          });
+          return orb;
+        };
+
+        const isDark = document.body.dataset.theme !== "light";
+        // Deep emerald/teal/gold for dark, subtle mint/blue for light
+        const c1 = isDark ? "rgba(82,183,136,0.35)" : "rgba(82,183,136,0.15)";
+        const c2 = isDark ? "rgba(0,212,255,0.25)" : "rgba(0,180,255,0.1)";
+        const c3 = isDark ? "rgba(212,160,23,0.15)" : "rgba(200,150,15,0.08)";
+
+        bgContainer.appendChild(createOrb(c1, "80vw", "auroraMove1 22s", "-20%", "-10%"));
+        bgContainer.appendChild(createOrb(c2, "90vw", "auroraMove2 28s", "40%", "40%"));
+        bgContainer.appendChild(createOrb(c3, "70vw", "auroraMove3 20s", "-10%", "50%"));
+
+        document.body.appendChild(bgContainer);
+        cleanups.push(() => { if (bgContainer.parentNode) bgContainer.remove(); });
       }
 
       // ═══════════════════════════════════════
@@ -317,8 +321,8 @@ export default function GlobalEffects() {
         ["gfxR","gfxT","gfxSpot","gfxMag","gfxRip","gfxGlow","gfxC","gfxCounted"].forEach(a => {
           document.querySelectorAll(`[data-${a.replace(/[A-Z]/g, m => "-" + m.toLowerCase())}]`).forEach(el => delete el.dataset[a]);
         });
-        const svg = document.getElementById("gfx-svg-deco");
-        if (svg) svg.remove();
+        const bg = document.getElementById("gfx-aurora-bg");
+        if (bg) bg.remove();
       };
     }
 

@@ -223,25 +223,10 @@ export default function HomePage() {
               opacity: animating ? 0 : 1, transform: animating ? "translateY(18px)" : "none",
               transition: "all 0.5s ease 0.34s",
             }}>
-              <button data-magnetic onClick={() => navigate("/catalog")} style={{
-                background: "linear-gradient(135deg,#f3c84b,#d4a017)", color: "#1a2a0f",
-                border: "1px solid rgba(255,230,140,0.6)", padding: "13px 30px", borderRadius: 50,
-                cursor: "pointer", fontWeight: 800, fontSize: 15, fontFamily: "inherit",
-                boxShadow: "0 8px 24px rgba(212,160,23,0.45), inset 0 1px 0 rgba(255,248,200,0.6)", letterSpacing: "0.2px",
-                transition: "all 0.25s",
-              }}
-                onMouseEnter={e => { e.target.style.transform = "translateY(-2px)"; e.target.style.boxShadow = "0 12px 30px rgba(212,160,23,0.55), inset 0 1px 0 rgba(255,248,200,0.7)"; }}
-                onMouseLeave={e => { e.target.style.transform = "none"; e.target.style.boxShadow = "0 8px 24px rgba(212,160,23,0.45), inset 0 1px 0 rgba(255,248,200,0.6)"; }}
+              <button data-magnetic className="ios-btn ios-btn-gold" onClick={() => navigate("/catalog")}
               >{cur.cta} →</button>
 
-              <button data-magnetic onClick={() => navigate("/register")} style={{
-                background: "rgba(255,255,255,0.1)", backdropFilter: "blur(8px)",
-                color: "#fff", border: "1px solid rgba(255,255,255,0.3)",
-                padding: "14px 28px", borderRadius: 50, cursor: "pointer",
-                fontWeight: 700, fontSize: 15, fontFamily: "inherit", transition: "all 0.25s",
-              }}
-                onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.2)"; }}
-                onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.1)"; }}
+              <button data-magnetic className="ios-btn" onClick={() => navigate("/register")} style={{ background: "rgba(255,255,255,0.1)", backdropFilter: "blur(28px)", color:"#fff" }}
               >Join as Farmer / Agent</button>
             </div>
           </div>
@@ -289,20 +274,17 @@ export default function HomePage() {
         <div style={{ maxWidth: "var(--content-max)", margin: "0 auto" }}>
           <div data-id="cat-hd" style={{ textAlign:"center", marginBottom:16, ...reveal("cat-hd") }}>
             <span style={{ display:"inline-block", background: dark?"#1c3525":"#e8f5ee", color:"#40916c", borderRadius:20, padding:"4px 16px", fontSize:11, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", marginBottom:14 }}>Shop by Category</span>
-            <h2 style={{ fontSize:"clamp(28px,4vw,40px)", fontFamily:"'Playfair Display',Georgia,serif", color:tk.text, marginBottom:10 }}>Find What You're Looking For</h2>
+            <h2 className="grad-text" style={{ fontSize:"clamp(28px,4vw,40px)", fontFamily:"'Playfair Display',Georgia,serif", fontWeight:900, marginBottom:10 }}>Find What You're Looking For</h2>
             <p style={{ color:tk.textLt, fontSize:15, maxWidth:460, margin:"0 auto" }}>From crisp vegetables to premium dry fruits — all direct from farms</p>
           </div>
           <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(150px,1fr))", gap:10 }}>
             {CATEGORIES.map((cat, i) => (
-              <div key={cat.name} data-id={`cat-${i}`} data-tilt onClick={() => navigate("/catalog")} style={{
+              <div key={cat.name} data-id={`cat-${i}`} data-tilt className={dark ? "liquid-glass-dark hover-lift" : "liquid-glass hover-lift"} onClick={() => navigate("/catalog")} style={{
                 borderRadius:14, overflow:"hidden", cursor:"pointer",
                 position:"relative", height:150,
-                boxShadow:"0 4px 20px rgba(0,0,0,0.12)",
                 transition:"all 0.3s ease",
                 ...reveal(`cat-${i}`, i * 0.08),
               }}
-                onMouseEnter={e => { e.currentTarget.style.transform="translateY(-7px) scale(1.02)"; e.currentTarget.style.boxShadow="0 14px 40px rgba(0,0,0,0.2)"; }}
-                onMouseLeave={e => { e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow="0 4px 20px rgba(0,0,0,0.12)"; }}
               >
                 <img src={cat.img} alt={cat.name} style={{ width:"100%", height:"100%", objectFit:"cover", transition:"transform 0.5s ease" }}
                   onMouseEnter={e => e.target.style.transform="scale(1.1)"}
@@ -323,7 +305,7 @@ export default function HomePage() {
         <div style={{ maxWidth:"var(--content-max)", margin:"0 auto" }}>
           <div data-id="feat-hd" style={{ textAlign:"center", marginBottom:10, ...reveal("feat-hd") }}>
             <span style={{ display:"inline-block", background: dark?"#1c3525":"#e8f5ee", color:"#40916c", borderRadius:20, padding:"4px 16px", fontSize:11, fontWeight:700, letterSpacing:"1.2px", textTransform:"uppercase", marginBottom:14 }}>Featured This Week</span>
-            <h2 style={{ fontSize:"clamp(28px,4vw,40px)", fontFamily:"'Playfair Display',Georgia,serif", color:tk.text, marginBottom:10 }}>Handpicked Fresh Arrivals</h2>
+            <h2 className="grad-text-animated" style={{ fontSize:"clamp(28px,4vw,40px)", fontFamily:"'Playfair Display',Georgia,serif", fontWeight:900, marginBottom:10 }}>Handpicked Fresh Arrivals</h2>
             <p style={{ color:tk.textLt, fontSize:15 }}>Curated by our farmers — freshest produce available right now</p>
           </div>
 
@@ -342,13 +324,8 @@ export default function HomePage() {
             </div>
           )}
 
-          <div data-id="view-all" style={{ textAlign:"center", marginTop:8, ...reveal("view-all") }}>
-            <button data-magnetic onClick={() => navigate("/catalog")} style={{
-              background:"linear-gradient(135deg,rgba(116,198,157,0.52),rgba(45,106,79,0.72))", color:"#fff",
-              border:"1px solid rgba(199,240,220,0.55)", padding:"13px 38px", borderRadius:50, cursor:"pointer",
-              fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif",
-              boxShadow:"0 8px 24px rgba(82,183,136,0.4), inset 0 1px 0 rgba(255,255,255,0.35)", transition:"all 0.25s",
-            }}
+          <div data-id="view-all" style={{ textAlign:"center", marginTop:16, ...reveal("view-all") }}>
+            <button data-magnetic className="ios-btn" onClick={() => navigate("/catalog")}
             >View All Products →</button>
           </div>
         </div>
@@ -361,12 +338,9 @@ export default function HomePage() {
         <div style={{ maxWidth:"var(--content-max)", margin:"0 auto", display:"grid", gridTemplateColumns:"minmax(280px,360px) 1fr", gap:14, alignItems:"start" }}>
 
           {/* Testimonial card */}
-          <div data-id="trust" style={{
-            background: "linear-gradient(135deg,rgba(45,106,79,0.38),rgba(27,67,50,0.58))",
-            border:`1px solid ${dark ? "rgba(116,198,157,0.35)" : "rgba(45,106,79,0.3)"}`,
+          <div data-id="trust" className={dark ? "liquid-glass-dark" : "liquid-glass"} style={{
             borderRadius:18,
             padding:"16px 14px",
-            backdropFilter:"blur(12px)",
             ...reveal("trust"),
           }}>
             <div style={{ fontSize:22, marginBottom:6 }}>⭐⭐⭐⭐⭐</div>
@@ -389,17 +363,15 @@ export default function HomePage() {
           <div>
             <div data-id="why-hd" style={{ marginBottom:10, ...reveal("why-hd") }}>
               <span style={{ display:"inline-block", background: dark?"#1c3525":"#e8f5ee", color:"#40916c", borderRadius:20, padding:"4px 14px", fontSize:10.5, fontWeight:700, letterSpacing:"1.1px", textTransform:"uppercase", marginBottom:8 }}>Why RPS Fields</span>
-              <h2 style={{ fontSize:"clamp(24px,3vw,34px)", fontFamily:"'Playfair Display',Georgia,serif", color:tk.text }}>What Makes Us Different</h2>
+              <h2 className="grad-text" style={{ fontSize:"clamp(24px,3vw,34px)", fontFamily:"'Playfair Display',Georgia,serif", fontWeight:900, marginBottom:8 }}>What Makes Us Different</h2>
             </div>
             <div style={{ display:"grid", gridTemplateColumns:"repeat(3,minmax(0,1fr))", gap:10 }}>
               {WHY.map((w, i) => (
-                <div key={w.title} data-id={`why-${i}`} data-tilt style={{
-                  background:tk.bgCard, borderRadius:14, padding:"14px 12px",
-                  border:`1px solid ${tk.border}`, transition:"all 0.3s ease",
+                <div key={w.title} data-id={`why-${i}`} data-tilt className={dark ? "liquid-glass-dark hover-lift" : "liquid-glass hover-lift"} style={{
+                  borderRadius:14, padding:"14px 12px",
+                  transition:"all 0.3s cubic-bezier(0.34,1.56,0.64,1)",
                   ...reveal(`why-${i}`, i * 0.05),
                 }}
-                  onMouseEnter={e => { e.currentTarget.style.transform="translateY(-4px)"; e.currentTarget.style.boxShadow="0 10px 30px rgba(27,67,50,0.14)"; e.currentTarget.style.borderColor="#52b788"; }}
-                  onMouseLeave={e => { e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow="none"; e.currentTarget.style.borderColor=tk.border; }}
                 >
                   <div style={{ width:36, height:36, borderRadius:10, background: dark?"#1c3525":"#e8f5ee", display:"flex", alignItems:"center", justifyContent:"center", fontSize:17, marginBottom:8 }}>{w.icon}</div>
                   <div style={{ fontWeight:800, fontSize:13.5, color:tk.text, marginBottom:4 }}>{w.title}</div>
@@ -421,10 +393,10 @@ export default function HomePage() {
           <p style={{ color:tk.textLt, fontSize:14, lineHeight:1.6, maxWidth:520, margin:"0 auto 16px" }}>
             Join the RPS Fields network. List your produce, reach thousands of customers across Telangana, and earn more by cutting out the middleman.
           </p>
-          <div style={{ display:"flex", gap:10, justifyContent:"center", flexWrap:"wrap" }}>
-            <button data-magnetic onClick={() => navigate("/register/farmer")} style={{ background:"rgba(82,183,136,0.25)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.12), 0 8px 28px rgba(0,0,0,0.22), 0 6px 24px rgba(27,67,50,0.3)", border:"1px solid rgba(255,255,255,0.28)", color:"#fff", padding:"11px 24px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:14, fontFamily:"'Inter',sans-serif", transition:"all 0.25s" }}
+          <div style={{ display:"flex", gap:10, justifyContent:"center", flexWrap:"wrap", marginTop: 12 }}>
+            <button data-magnetic className="ios-btn" onClick={() => navigate("/register/farmer")}
             >🌾 Join as Farmer</button>
-            <button data-magnetic onClick={() => navigate("/register/agent")} style={{ background:"rgba(59,130,246,0.25)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.12), 0 8px 28px rgba(0,0,0,0.22), 0 6px 24px rgba(30,64,175,0.3)", padding:"11px 24px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:14, fontFamily:"'Inter',sans-serif", transition:"all 0.25s" }}
+            <button data-magnetic className="ios-btn" onClick={() => navigate("/register/agent")}
             >🏢 Join as Agent</button>
           </div>
         </div>

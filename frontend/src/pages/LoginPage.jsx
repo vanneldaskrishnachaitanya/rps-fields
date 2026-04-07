@@ -113,12 +113,10 @@ export default function LoginPage() {
   });
 
   const btnStyle = (loading2) => ({
-    background: loading2 ? tk.border : "linear-gradient(135deg,#2d6a4f,#52b788)",
-    color:"#fff", border:"none", width:"100%", padding:"14px",
-    borderRadius:12, cursor: loading2?"not-allowed":"pointer",
-    fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif",
-    boxShadow: loading2?"none":"0 6px 20px rgba(82,183,136,0.35)",
-    transition:"all 0.25s", opacity: loading2?0.75:1,
+    width:"100%", padding:"14px",
+    cursor: loading2?"not-allowed":"pointer",
+    opacity: loading2?0.75:1,
+    marginTop: 10
   });
 
   return (
@@ -126,14 +124,14 @@ export default function LoginPage() {
       <div style={{ width:"100%", maxWidth:460, animation:"fadeInUp 0.5s ease both" }}>
 
         {/* Main Card */}
-        <div data-tilt style={{ background:tk.bgCard, borderRadius:24, padding:"44px 40px", boxShadow: dark?"0 20px 60px rgba(0,0,0,0.5)":"0 20px 60px rgba(27,67,50,0.12)", border:`1px solid ${tk.border}`, marginBottom:16 }}>
+        <div data-tilt className={dark ? "liquid-glass-dark" : "liquid-glass"} style={{ borderRadius:24, padding:"44px 40px", marginBottom:16 }}>
 
           {!forgotMode ? (
             <>
               <div style={{ textAlign:"center", marginBottom:32 }}>
                 <div style={{ width:70, height:70, borderRadius:"50%", background:"linear-gradient(135deg,#2d6a4f,#1b4332)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:30, margin:"0 auto 18px", boxShadow:"0 8px 24px rgba(82,183,136,0.3)" }}>🔑</div>
-                <h2 style={{ fontSize:28, fontFamily:"'Playfair Display',Georgia,serif", color:tk.text, marginBottom:6 }}>Welcome Back</h2>
-                <p style={{ color:tk.textLt, fontSize:14 }}>Sign in to your RPS Fields account</p>
+                <h2 className="grad-text" style={{ fontSize:32, fontFamily:"'Playfair Display',Georgia,serif", fontWeight: 900, marginBottom:6 }}>Welcome Back</h2>
+                <p style={{ color:tk.textLt, fontSize:15 }}>Sign in to your RPS Fields account</p>
               </div>
 
               {apiError && (
@@ -165,9 +163,7 @@ export default function LoginPage() {
                 <span onClick={() => { setForgotMode("email"); setFpEmail(email); setFpError(""); setFpMsg(""); }} style={{ color:tk.green4, fontSize:12, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>Forgot password?</span>
               </div>
 
-              <button onClick={handleLogin} disabled={loading} style={btnStyle(loading)}
-                onMouseEnter={e => { if (!loading) { e.target.style.transform="translateY(-1px)"; e.target.style.boxShadow="0 10px 28px rgba(82,183,136,0.45)"; }}}
-                onMouseLeave={e => { e.target.style.transform="none"; e.target.style.boxShadow="0 6px 20px rgba(82,183,136,0.35)"; }}
+              <button onClick={handleLogin} disabled={loading} style={btnStyle(loading)} className="ios-btn"
               >{loading ? "Signing In..." : "Sign In →"}</button>
 
               <div style={{ marginTop:20, padding:"14px 16px", background:tk.bgMuted, borderRadius:14, border:`1px solid ${tk.border}` }}>
@@ -269,9 +265,7 @@ export default function LoginPage() {
         </div>
 
         {/* Admin Link */}
-        <div data-tilt onClick={() => navigate("/admin/login")} style={{ background: dark?"#0f1f14":"#e8f0f8", borderRadius:16, padding:"16px 22px", border:`1px solid ${dark?"#2a5a8c":"#b0c8e8"}`, cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"space-between", transition:"all 0.2s" }}
-          onMouseEnter={e => { e.currentTarget.style.transform="translateY(-2px)"; e.currentTarget.style.boxShadow="0 8px 24px rgba(0,0,0,0.15)"; }}
-          onMouseLeave={e => { e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow="none"; }}
+        <div data-tilt onClick={() => navigate("/admin/login")} className={dark ? "liquid-glass-dark hover-lift" : "liquid-glass hover-lift"} style={{ borderRadius:16, padding:"16px 22px", cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"space-between", transition:"all 0.3s" }}
         >
           <div style={{ display:"flex", alignItems:"center", gap:12 }}>
             <span style={{ fontSize:26 }}>🛡</span>
