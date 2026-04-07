@@ -56,80 +56,137 @@ const WHY = [
 const ScrollRevealTestimonial = ({ dark, tk }) => {
   const containerRef = useRef(null);
 
+  const testimonials = [
+    {
+      text: "The delivery is incredibly fast, and the farm freshness is unmatched. I won't buy my vegetables anywhere else.",
+      author: "Rajesh K.",
+      location: "Verified Customer",
+      highlights: ["incredibly fast", "unmatched"]
+    },
+    {
+      text: "Since ordering directly from the farmers here, we've seen a huge difference in taste. Healthy, organic, and highly recommended.",
+      author: "Priya M.",
+      location: "Verified Mother",
+      highlights: ["huge difference in taste", "highly recommended"]
+    },
+    {
+      text: "A truly wonderful initiative that supports local agriculture while giving us access to the freshest ingredients perfectly packaged.",
+      author: "Arun V.",
+      location: "Verified Chef",
+      highlights: ["freshest ingredients", "supports local agriculture"]
+    }
+  ];
+
+  const renderTextContent = (isHighlightLayer) => (
+    <div style={{ padding: "40px 0 80px", maxWidth: 840, margin: "0 auto", position: "relative", zIndex: 2 }}>
+      {testimonials.map((t, i) => {
+        let textParts = [{ type: 'text', val: t.text }];
+        t.highlights.forEach(word => {
+          const newParts = [];
+          textParts.forEach(chunk => {
+            if (chunk.type === 'highlight') {
+              newParts.push(chunk);
+            } else {
+              const split = chunk.val.split(word);
+              split.forEach((s, idx) => {
+                if (s) newParts.push({ type: 'text', val: s });
+                if (idx < split.length - 1) newParts.push({ type: 'highlight', val: word });
+              });
+            }
+          });
+          textParts = newParts;
+        });
+
+        return (
+          <div key={i} style={{ marginBottom: 120 }}>
+            <h2 style={{ 
+              fontSize: "clamp(26px, 4vw, 36px)", 
+              fontFamily: "'Playfair Display', Georgia, serif", 
+              fontWeight: 800, 
+              lineHeight: 1.4, 
+              color: isHighlightLayer ? (dark ? "#fff" : "#111") : (dark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.06)"),
+              marginBottom: 30
+            }}>
+              "
+              {textParts.map((chunk, cIdx) => (
+                <span key={cIdx} style={{ 
+                  color: chunk.type === 'highlight' ? (isHighlightLayer ? "#2563eb" : "inherit") : "inherit",
+                  transition: "color 0.3s ease"
+                }}>
+                  {chunk.val}
+                </span>
+              ))}
+              "
+            </h2>
+            <div style={{ fontSize: 16, fontWeight: 700, color: isHighlightLayer ? tk.text : "transparent" }}>
+              — {t.author}
+              <span style={{ fontSize: 14, fontWeight: 500, color: isHighlightLayer ? tk.textLt : "transparent", marginLeft: 12 }}>
+                {t.location}
+              </span>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+
   useEffect(() => {
     const handleScroll = () => {
       if (!containerRef.current) return;
       const rect = containerRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-      const sectionTop = rect.top;
-      const sectionHeight = rect.height;
-      const viewportCenter = windowHeight / 2;
-      const progressPixels = viewportCenter - sectionTop;
-      let p = progressPixels / (sectionHeight * 0.6);
-      p = Math.max(0, Math.min(1, p));
+      const wh = window.innerHeight;
+      const p = Math.max(0, Math.min(1, (wh * 0.7 - rect.top) / (rect.height * 0.85)));
       containerRef.current.style.setProperty('--scroll-p', p);
     };
-
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <section ref={containerRef} style={{ padding: "clamp(60px, 8vw, 120px) var(--page-px)", background: tk.bg, borderTop: `1px solid ${tk.border}`, overflow: "hidden" }}>
-      <div style={{ maxWidth: "800px", margin: "0 auto", display: 'flex', gap: "30px", alignItems: 'stretch' }}>
+    <section ref={containerRef} style={{ padding: "100px var(--page-px)", background: tk.bg, position: "relative", overflow: "hidden" }}>
+      
+      {/* Title */}
+      <div style={{ textAlign: "center", marginBottom: 60, position: "relative", zIndex: 3 }}>
+        <div style={{ 
+            display: "inline-block", background: "rgba(37, 99, 235, 0.1)", color: "#2563eb", borderRadius: 20, padding: "6px 16px", fontSize: 12, fontWeight: 700, letterSpacing: "1.2px", textTransform: "uppercase" 
+        }}>
+           What our customers say
+        </div>
+      </div>
+
+      <div style={{ position: "relative", maxWidth: 1000, margin: "0 auto" }}>
         
-        {/* The Track and Line */}
-        <div style={{ width: "4px", background: dark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.08)", borderRadius: "2px", position: "relative", overflow: "hidden", flexShrink: 0 }}>
-          <div style={{ 
-            position: "absolute", top: 0, left: 0, right: 0, 
-            background: "#2563eb", 
-            height: "calc(var(--scroll-p, 0) * 100%)",
-            transition: "height 0.1s linear"
-          }} />
-        </div>
+        {/* Background Layer (Faint Text) */}
+        {renderTextContent(false)}
 
-        {/* The Text */}
-        <div style={{ flex: 1, padding: "20px 0" }}>
-          <div style={{ 
-             display: "inline-block", background: "rgba(37, 99, 235, 0.1)", color: "#2563eb", borderRadius: 20, padding: "4px 14px", fontSize: 11, fontWeight: 700, letterSpacing: "1.1px", textTransform: "uppercase", marginBottom: 16 
-          }}>
-             What our customers say
-          </div>
+        {/* Foreground Layer (Bright Text + SVG Curve Reveal) */}
+        <div style={{
+          position: "absolute",
+          top: 0, left: 0, right: 0, bottom: 0,
+          clipPath: "inset(0 0 calc((1 - var(--scroll-p, 0)) * 100%) 0)",
+          WebkitClipPath: "inset(0 0 calc((1 - var(--scroll-p, 0)) * 100%) 0)",
+        }}>
           
-          <h2 style={{ 
-            fontSize: "clamp(28px, 4.5vw, 42px)", 
-            fontFamily: "'Playfair Display', Georgia, serif", 
-            fontWeight: 800, 
-            lineHeight: 1.3, 
-            position: "relative",
-            color: dark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.15)", /* Faded base color */
-          }}>
-            {/* Outline / Faded Text */}
-            "The freshest produce I've ever received, straight from the farm to my kitchen. The delivery is incredibly fast, and the quality is unmatched. I won't buy my vegetables anywhere else."
-
-            {/* The colored overlay text */}
-            <div style={{
-              position: "absolute",
-              inset: 0,
-              color: "#2563eb", /* Blue color */
-              clipPath: "inset(0 0 calc((1 - var(--scroll-p, 0)) * 100%) 0)",
-              WebkitClipPath: "inset(0 0 calc((1 - var(--scroll-p, 0)) * 100%) 0)",
-              transition: "clip-path 0.1s linear, -webkit-clip-path 0.1s linear"
-            }}>
-              "The freshest produce I've ever received, straight from the farm to my kitchen. The delivery is incredibly fast, and the quality is unmatched. I won't buy my vegetables anywhere else."
-            </div>
-            
-          </h2>
-          
-          <div style={{ 
-            marginTop: 30, opacity: "var(--scroll-p, 0)", transition: "opacity 0.3s ease", transform: `translateY(calc((1 - var(--scroll-p, 0)) * 20px))`
-          }}>
-            <div style={{ fontWeight: 800, fontSize: 16, color: tk.text }}>— Rajesh K.</div>
-            <div style={{ fontSize: 13, color: tk.textLt }}>Verified Customer, Hyderabad</div>
+          {/* Sweeping SVG Curve */}
+          <div style={{ position: "absolute", top: 0, bottom: 0, left: "-15%", width: "130%", zIndex: 1, pointerEvents: "none" }}>
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{ width: "100%", height: "100%" }}>
+              <path 
+                d="M 10,0 C 70,15 90,30 50,50 C 10,70 30,85 90,100" 
+                fill="none" 
+                stroke="#2563eb" 
+                strokeWidth="6" 
+                vectorEffect="non-scaling-stroke"
+                strokeLinecap="round"
+                style={{ filter: "drop-shadow(0 0 12px rgba(37, 99, 235, 0.6))" }}
+              />
+            </svg>
           </div>
-        </div>
 
+          {/* Highlighted Text Over Mask */}
+          {renderTextContent(true)}
+
+        </div>
       </div>
     </section>
   );
