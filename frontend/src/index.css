@@ -66,75 +66,6 @@ body {
 [data-theme="light"] ::-webkit-scrollbar-track { background: rgba(82,183,136,0.06); }
 [data-theme="light"] ::-webkit-scrollbar-thumb { background: linear-gradient(180deg,#40916c,#2d6a4f); }
 
-/* Light theme readability pass */
-[data-theme="light"] {
-  color-scheme: light;
-}
-[data-theme="light"] .liquid-glass {
-  background: linear-gradient(145deg, rgba(255,255,255,0.94), rgba(243,250,246,0.9));
-  border: 1px solid rgba(27,67,50,0.22);
-  box-shadow: 0 14px 34px rgba(10,26,12,0.12), inset 0 1px 0 rgba(255,255,255,0.75);
-}
-[data-theme="light"] .grad-text {
-  background: linear-gradient(135deg, #1f7a4f, #9a6f08);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-[data-theme="light"] .grad-text-animated {
-  background: linear-gradient(270deg, #20784f, #11805f, #9a6f08, #20784f);
-  background-size: 300% auto;
-}
-[data-theme="light"] .ios-btn {
-  background: linear-gradient(135deg, #2f8d61 0%, #256f4d 100%);
-  color: #ffffff;
-  border: 1px solid rgba(26,74,40,0.38);
-  text-shadow: 0 1px 1px rgba(0,0,0,0.25);
-  box-shadow: inset 0 1px 1px rgba(255,255,255,0.4), 0 8px 18px rgba(45,106,79,0.25);
-}
-[data-theme="light"] .ios-btn:hover {
-  background: linear-gradient(135deg, #3b9b6d 0%, #2c7f57 100%);
-}
-[data-theme="light"] .ios-btn-gold {
-  background: linear-gradient(135deg, #c48a08 0%, #ab7300 100%);
-  color: #ffffff;
-  border-color: rgba(122,84,5,0.45);
-}
-[data-theme="light"] .ios-btn-blue {
-  background: linear-gradient(135deg, #2f6fda 0%, #2459b9 100%);
-  color: #ffffff;
-  border-color: rgba(29,78,216,0.45);
-}
-[data-theme="light"] .ios-btn-danger {
-  background: linear-gradient(135deg, #c63737 0%, #a72020 100%);
-  color: #ffffff;
-  border-color: rgba(127,29,29,0.4);
-}
-[data-theme="light"] .ios-btn-ghost {
-  background: rgba(27,67,50,0.1);
-  border: 1px solid rgba(27,67,50,0.25);
-  color: #143122;
-}
-[data-theme="light"] .summary-copy,
-[data-theme="light"] .featured-chip-meta,
-[data-theme="light"] .catalog-empty p,
-[data-theme="light"] .catalog-empty-light p {
-  color: #355a46;
-}
-[data-theme="light"] .summary-pill-strong,
-[data-theme="light"] .featured-chip-badge,
-[data-theme="light"] .seasonal-card-kicker {
-  color: #1f7a4f;
-}
-[data-theme="light"] .product-quick-btn-primary {
-  background: linear-gradient(135deg, #2f8d61, #256f4d);
-  color: #ffffff;
-  border: 1px solid rgba(26,74,40,0.42);
-}
-[data-theme="light"] .hnav {
-  color: rgba(10,26,12,0.9);
-}
-
 /* ══════════════════════════════════════════════════════════════════
    FULL-WIDTH LAYOUT SYSTEM
    All sections go edge-to-edge. Content is constrained by padding only.
@@ -472,8 +403,7 @@ input:focus, textarea:focus, select:focus {
   .rps-nav       { display: none  !important; }
   .rps-hamburger { display: flex  !important; }
 }
-.hnav:hover { background: rgba(255,255,255,0.1) !important; color: inherit !important; border-color: rgba(255,255,255,0.25) !important; }
-[data-theme="light"] .hnav:hover { background: rgba(82,183,136,0.16) !important; color: #1b4332 !important; border-color: rgba(82,183,136,0.45) !important; }
+.hnav:hover { background: rgba(255,255,255,0.1) !important; color: #fff !important; border-color: rgba(255,255,255,0.25) !important; }
 .mlink:hover { background: rgba(82,183,136,0.12) !important; color: #74c69d !important; }
 .nav-pill-active {
   background: rgba(82,183,136,0.25) !important;
