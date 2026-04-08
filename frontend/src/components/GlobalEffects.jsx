@@ -312,7 +312,41 @@ export default function GlobalEffects() {
       }
 
       // ═══════════════════════════════════════
+      // 8. MESCUBOOK BACKGROUND THEME
+      // ═══════════════════════════════════════
+      if (!document.getElementById("gfx-mescubook-theme")) {
+        const themeWrapper = document.createElement("div");
+        themeWrapper.id = "gfx-mescubook-theme";
+        Object.assign(themeWrapper.style, {
+          position: "fixed", inset: "0", pointerEvents: "none", zIndex: "-1"
+        });
+        
+        // Vignette Overlay (now in background!)
+        const vignette = document.createElement("div");
+        Object.assign(vignette.style, {
+          position: "absolute", inset: "0",
+          background: "radial-gradient(circle at center, transparent 30%, rgba(2, 6, 4, 0.95) 100%)",
+          mixBlendMode: "multiply",
+        });
+
+        // Film Grain Texture
+        const grain = document.createElement("div");
+        Object.assign(grain.style, {
+          position: "absolute", inset: "0",
+          background: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.35'/%3E%3C/svg%3E")`,
+          mixBlendMode: "hard-light",
+          opacity: "0.2" // Toned down slightly for background
+        });
+
+        themeWrapper.appendChild(vignette);
+        themeWrapper.appendChild(grain);
+        document.body.appendChild(themeWrapper);
+        cleanups.push(() => { if (themeWrapper.parentNode) themeWrapper.remove(); });
+      }
+
+      // ═══════════════════════════════════════
       // CLEANUP
+
       // ═══════════════════════════════════════
       cleanupRef.current = () => {
         revealObs.disconnect();
@@ -323,10 +357,14 @@ export default function GlobalEffects() {
         });
         const bg = document.getElementById("gfx-aurora-bg");
         if (bg) bg.remove();
+        const theme = document.getElementById("gfx-mescubook-theme");
+        if (theme) theme.remove();
       };
     }
 
+
     return () => {
+
       clearTimeout(t1); clearTimeout(t2);
       if (cleanupRef.current) cleanupRef.current();
     };

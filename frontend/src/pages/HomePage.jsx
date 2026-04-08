@@ -2,7 +2,10 @@
 import { useNavigate } from 'react-router-dom';
 import { useTheme, TK } from "../context/ThemeContext";
 import ProductCard from "../components/ProductCard";
+import MagneticText from "../components/MagneticText";
 import { useState, useEffect, useRef } from "react";
+
+
 import { API_BASE } from "../context/AuthContext";
 import { CATEGORIES } from "../data/products";
 
@@ -297,42 +300,29 @@ export default function HomePage() {
   };
 
   useEffect(() => {
-    // Temporarily disabled for smooth scroll reveal animation (Wacus effect)
-    /*
-    const onWheel = (e) => {
-      if (snapLockRef.current) {
+    let isSnapping = false;
+    const handleWheel = (e) => {
+      // Only snap if user is at the absolute top of the page and scrolling down
+      if (window.scrollY < 50 && e.deltaY > 0 && !isSnapping) {
         e.preventDefault();
-        return;
+        isSnapping = true;
+        
+        const target = sectionRefs.current[1];
+        if (target) {
+          const top = target.getBoundingClientRect().top + window.scrollY - headerOffset;
+          window.scrollTo({ top, behavior: "smooth" });
+        }
+        
+        // Cooldown before they can snap again (allows smooth scroll to finish)
+        setTimeout(() => { isSnapping = false; }, 800);
       }
-      if (Math.abs(e.deltaY) < 8) return;
-
-      const dir = e.deltaY > 0 ? 1 : -1;
-      const nextStep = Math.max(0, Math.min(2, activeStep + dir));
-      if (nextStep === activeStep) return;
-
-      const target = sectionRefs.current[nextStep];
-      if (!target) return;
-
-      e.preventDefault();
-      snapLockRef.current = true;
-      setTransitionFrom(activeStep);
-      setTransitionTo(nextStep);
-      setActiveStep(nextStep);
-      setBlurFlash(true);
-      scrollToStep(nextStep);
-
-      window.setTimeout(() => setBlurFlash(false), 360);
-      window.setTimeout(() => {
-        setTransitionFrom(null);
-        setTransitionTo(null);
-        snapLockRef.current = false;
-      }, 700);
     };
 
-    window.addEventListener("wheel", onWheel, { passive: false });
-    return () => window.removeEventListener("wheel", onWheel);
-    */
-  }, [activeStep]);
+    // We must use passive: false to allow e.preventDefault() for overriding the scroll
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    return () => window.removeEventListener("wheel", handleWheel);
+  }, [headerOffset]);
+
 
   const sectionTransitionStyle = (idx) => {
     const outgoing = blurFlash && idx === transitionFrom;
@@ -397,7 +387,10 @@ export default function HomePage() {
               fontWeight: 700, lineHeight: 1.1, marginBottom: 20,
               opacity: animating ? 0 : 1, transform: animating ? "translateY(18px)" : "none",
               transition: "all 0.5s ease 0.18s", whiteSpace: "pre-line",
-            }}>{cur.title}</h1>
+            }}>
+              <MagneticText text={cur.title} />
+            </h1>
+
 
             <p style={{
               color: "rgba(255,255,255,0.8)", fontSize: 16, lineHeight: 1.7,
@@ -444,6 +437,7 @@ export default function HomePage() {
 
       {/* ─────────────── STATS BAR ─────────────── */}
       <div style={{ background: dark ? "#0f2018" : "#1b4332", borderBottom: "3px solid #52b788", width:"100%" }}>
+
         <div style={{ maxWidth: "var(--content-max)", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4,minmax(150px,220px))", justifyContent:"center", padding:"0 var(--page-px, clamp(10px,2.2vw,24px))" }}>
           {STATS.map((s, i) => (
             <div key={i} data-id={`stat-${i}`} style={{ textAlign:"center", padding:"22px 16px", borderRight: i < 3 ? "1px solid rgba(255,255,255,0.08)" : "none", ...reveal(`stat-${i}`, i * 0.08) }}>

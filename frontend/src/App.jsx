@@ -9,6 +9,8 @@ import Footer from "./components/Footer";
 import GlobalEffects from "./components/GlobalEffects";
 import AnnouncementPopups from "./components/AnnouncementPopups";
 import QuickActions from "./components/QuickActions";
+import CustomCursor from "./components/CustomCursor";
+
 
 import HomePage           from "./pages/HomePage";
 import CatalogPage        from "./pages/CatalogPage";
@@ -162,10 +164,12 @@ export default function App() {
         <AuthProvider>
           <CartProvider>
             <NotificationProvider>
+              <CustomCursor />
               <GlobalEffects />
               <Layout />
             </NotificationProvider>
           </CartProvider>
+
         </AuthProvider>
       </ThemeProvider>
     </BrowserRouter>
