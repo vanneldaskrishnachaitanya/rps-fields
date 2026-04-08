@@ -8,7 +8,7 @@ export function ThemeProvider({ children }) {
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
-    document.body.style.background = dark ? "#080f12" : "#f0f7f2";
+    document.body.style.background = dark ? "#121b20" : "#f0f7f2";
     document.body.style.color = dark ? "#e4f0f0" : "#0a1a0c";
   }, [dark]);
 
@@ -17,11 +17,11 @@ export function ThemeProvider({ children }) {
 export const useTheme = () => useContext(ThemeContext);
 
 export const TK = (dark) => ({
-  bg:       dark ? "#080f12"  : "#f0f7f2",
-  bgCard:   dark ? "#0e1a1f"  : "#ffffff",
-  bgMuted:  dark ? "#121f26"  : "#e8f5eb",
-  bgInput:  dark ? "#121f26"  : "#f0f7f2",
-  border:   dark ? "#1a3333"  : "#c2dfc9",
+  bg:       dark ? "#121b20"  : "#f0f7f2",
+  bgCard:   dark ? "#18242b"  : "#ffffff",
+  bgMuted:  dark ? "#1d2b33"  : "#e8f5eb",
+  bgInput:  dark ? "#1d2b33"  : "#f0f7f2",
+  border:   dark ? "#28434a"  : "#c2dfc9",
   text:     dark ? "#e4f0f0"  : "#0a1a0c",
   textMid:  dark ? "#74c69d"  : "#1a4a28",
   textLt:   dark ? "#44746a"  : "#5a8a68",
@@ -42,8 +42,8 @@ export const TK = (dark) => ({
   shadow:   dark ? "0 2px 20px rgba(0,0,0,0.6)"  : "0 2px 12px rgba(10,26,12,0.08)",
   shadowMd: dark ? "0 4px 32px rgba(0,0,0,0.65)" : "0 4px 20px rgba(10,26,12,0.12)",
   shadowLg: dark ? "0 8px 52px rgba(0,0,0,0.7)"  : "0 8px 36px rgba(10,26,12,0.15)",
-  headerBg: dark ? "rgba(8,15,18,0.94)"  : "rgba(240,247,242,0.95)",
-  footerBg: dark ? "rgba(8,15,18,0.96)"  : "rgba(240,247,242,0.98)",
+  headerBg: dark ? "rgba(18,27,32,0.94)" : "rgba(240,247,242,0.95)",
+  footerBg: dark ? "rgba(18,27,32,0.96)" : "rgba(240,247,242,0.98)",
   chartGrid: dark ? "#1a3333" : "#c2dfc9",
   // Glass surface tones
   glass:    dark ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.7)",
