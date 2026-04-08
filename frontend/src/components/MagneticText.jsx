@@ -9,15 +9,15 @@ export default function MagneticText({ text, as: Component = 'span', className, 
   const containerRef = useRef(null);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    const container = containerRef.current;
+    if (!container) return;
     
     // Disable only on small screens
     if (window.innerWidth <= 768) {
       return;
     }
 
-
-    const chars = containerRef.current.querySelectorAll('.mag-char');
+  const chars = container.querySelectorAll('.mag-char');
     let mouseX = -1000;
     let mouseY = -1000;
     let isHovering = false;
@@ -31,8 +31,8 @@ export default function MagneticText({ text, as: Component = 'span', className, 
     const onMouseLeave = () => isHovering = false;
 
     window.addEventListener('mousemove', onMouseMove);
-    containerRef.current.addEventListener('mouseenter', onMouseEnter);
-    containerRef.current.addEventListener('mouseleave', onMouseLeave);
+    container.addEventListener('mouseenter', onMouseEnter);
+    container.addEventListener('mouseleave', onMouseLeave);
     
     let animId;
 
@@ -74,10 +74,8 @@ export default function MagneticText({ text, as: Component = 'span', className, 
 
     return () => {
       window.removeEventListener('mousemove', onMouseMove);
-      if (containerRef.current) {
-        containerRef.current.removeEventListener('mouseenter', onMouseEnter);
-        containerRef.current.removeEventListener('mouseleave', onMouseLeave);
-      }
+      container.removeEventListener('mouseenter', onMouseEnter);
+      container.removeEventListener('mouseleave', onMouseLeave);
       cancelAnimationFrame(animId);
     };
   }, [text]);
