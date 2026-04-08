@@ -11,7 +11,9 @@ export default function FarmerDashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    document.title = "Farmer Dashboard | RPS Fields";
     if (!user) return;
+
     const uid = user.id || user._id;
     Promise.all([
       authFetch(`/products?farmerId=${uid}`),
@@ -43,6 +45,7 @@ export default function FarmerDashboard() {
     <div style={{ background:tk.bg, minHeight:"100%", fontFamily:"'Inter',sans-serif" }}>
 
       {/* ── Hero Banner ── */}
+
       <div style={{
         background: "linear-gradient(135deg,#040d06 0%,#0d2b1a 40%,#1b4332 70%,#2d6a4f 100%)",
         padding:"52px var(--page-px,clamp(16px,4vw,48px)) 44px", position:"relative", overflow:"hidden",
@@ -128,7 +131,8 @@ export default function FarmerDashboard() {
         </div>
 
         {/* ── Rating + Quick Actions row ── */}
-        <div style={{ display:"grid", gridTemplateColumns:"1fr auto", gap:16, marginBottom:24 }}>
+        <div style={{ marginBottom:24 }}>
+
           {/* Rating card */}
           <div style={{
             background: dark?"rgba(12,26,15,0.95)":"#fff",
@@ -168,13 +172,15 @@ export default function FarmerDashboard() {
                 onMouseEnter={e=>e.currentTarget.style.transform="translateY(-1px)"}
                 onMouseLeave={e=>e.currentTarget.style.transform="none"}
               >🤝 Find Agents</button>
-              <button data-magnetic onClick={()=>navigate("/farmer/my-agents")} style={{ padding:"10px 18px", background:"transparent", border:`1.5px solid ${tk.green5}`, color:tk.green5, borderRadius:50, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif", fontSize:13, transition:"all 0.2s" }}>
+              <button data-magnetic onClick={()=>navigate("/farmer/my-agents")} style={{ padding:"10px 18px", background:"transparent", border:`1.5px solid ${tk.green5}`, color:tk.green5, borderRadius:50, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif", fontSize:13, transition:"all 0.2s" }}
                 onMouseEnter={e=>{ e.currentTarget.style.background=tk.green5; e.currentTarget.style.color="#fff"; }}
                 onMouseLeave={e=>{ e.currentTarget.style.background="transparent"; e.currentTarget.style.color=tk.green5; }}
               >My Agents</button>
+
             </div>
           </div>
         </div>
+
 
         {/* ── Products Table ── */}
         <div style={{ animation:"fadeUp 0.55s ease 0.35s both" }}>
