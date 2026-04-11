@@ -66,6 +66,7 @@ export default function ProductCard({ product, onQuickView, onViewProduct }) {
   return (
     <div
       ref={cardRef}
+      className="product-card"
       onMouseEnter={() => setHovered(true)}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -81,7 +82,7 @@ export default function ProductCard({ product, onQuickView, onViewProduct }) {
       }}
     >
       {/* Image */}
-      <div style={{ position: "relative", height: 160, overflow: "hidden", background: tk.bgMuted, cursor: "pointer" }}
+      <div className="product-card-image" style={{ position: "relative", height: 160, overflow: "hidden", background: tk.bgMuted, cursor: "pointer" }}
         onClick={handleOpenProduct}>
         {!imgError ? (
           <>
@@ -134,7 +135,7 @@ export default function ProductCard({ product, onQuickView, onViewProduct }) {
       </div>
 
       {/* Body */}
-      <div style={{ padding: "12px 12px 10px" }}>
+      <div className="product-card-body" style={{ padding: "12px 12px 10px" }}>
         <div onClick={handleOpenProduct} style={{ cursor: "pointer" }}>
           <div style={{ fontWeight: 800, fontSize: 14, color: tk.text, marginBottom: 3, lineHeight: 1.25 }}>{product.name}</div>
           <div style={{ fontSize: 12, color: tk.textLt, marginBottom: 10, display: "flex", alignItems: "center", gap: 4 }}>
@@ -161,8 +162,9 @@ export default function ProductCard({ product, onQuickView, onViewProduct }) {
         </div>
 
         {/* Buttons */}
-        <div style={{ display: "flex", gap: 8, alignItems: "stretch" }}>
+        <div className="product-card-actions" style={{ display: "flex", gap: 8, alignItems: "stretch" }}>
           <button
+            className="product-card-action-btn product-card-action-btn-details"
             onClick={handleOpenProduct}
             style={{
               ...iosBtnBase,
@@ -188,6 +190,7 @@ export default function ProductCard({ product, onQuickView, onViewProduct }) {
 
           {!outOfStock && (
             <button
+              className="product-card-action-btn product-card-action-btn-cart"
               onClick={handleAddToCart}
               style={{
                 ...iosBtnBase,
