@@ -1,10 +1,11 @@
-const CACHE_VERSION = 'rps-fields-v1';
+const CACHE_VERSION = 'rps-fields-v2';
 const APP_SHELL_CACHE = `app-shell-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `runtime-${CACHE_VERSION}`;
 
 const APP_SHELL_ASSETS = [
   '/',
   '/index.html',
+  '/offline.html',
   '/manifest.json',
   '/favicon.png',
   '/icon-192.png',
@@ -52,7 +53,9 @@ self.addEventListener('fetch', (event) => {
         .catch(async () => {
           const cachedPage = await caches.match(request);
           if (cachedPage) return cachedPage;
-          return caches.match('/index.html');
+          const appShell = await caches.match('/index.html');
+          if (appShell) return appShell;
+          return caches.match('/offline.html');
         })
     );
     return;

@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import GlobalEffects from "./components/GlobalEffects";
 import AnnouncementPopups from "./components/AnnouncementPopups";
 import QuickActions from "./components/QuickActions";
+import PwaInstallPrompt from "./components/PwaInstallPrompt";
 
 
 import HomePage           from "./pages/HomePage";
@@ -92,6 +93,7 @@ function Layout() {
       <AnnouncementPopups />
       {/* Movable Quick Actions panel — desktop only, hidden on mobile via CSS */}
       {!isAdmin && <QuickActions />}
+      {!isAdmin && <PwaInstallPrompt />}
       <main className={isAdmin ? "" : "anim-page-enter"} style={{ paddingTop:isAdmin?0:68, paddingBottom:isAdmin?0:52, minHeight:"100vh" }}>
         <Routes>
           <Route path="/"            element={<HomePage />} />

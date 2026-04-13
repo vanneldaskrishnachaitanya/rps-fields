@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1b4332" />
+    <title>Offline | RPS Fields</title>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Inter, Segoe UI, sans-serif;
+        background:
+          radial-gradient(circle at 15% 20%, rgba(82, 183, 136, 0.22), transparent 45%),
+          radial-gradient(circle at 80% 90%, rgba(45, 106, 79, 0.18), transparent 45%),
+          linear-gradient(160deg, #06110b 0%, #0d2b1a 60%, #081a10 100%);
+        color: #edf8f1;
+        display: grid;
+        place-items: center;
+        padding: 22px;
+      }
+      .card {
+        width: min(520px, 100%);
+        border-radius: 24px;
+        padding: 28px 24px;
+        text-align: center;
+        background: rgba(8, 23, 14, 0.9);
+        border: 1px solid rgba(116, 198, 157, 0.28);
+        box-shadow: 0 24px 50px rgba(0, 0, 0, 0.4);
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border-radius: 999px;
+        background: rgba(82, 183, 136, 0.16);
+        border: 1px solid rgba(82, 183, 136, 0.34);
+        color: #9fe3c2;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+        padding: 6px 12px;
+        margin-bottom: 14px;
+      }
+      h1 {
+        margin: 0 0 10px;
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: clamp(26px, 8vw, 38px);
+        line-height: 1.1;
+      }
+      p {
+        margin: 0;
+        color: rgba(235, 248, 240, 0.8);
+        font-size: 15px;
+        line-height: 1.7;
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+      }
+      .btn {
+        border: none;
+        border-radius: 14px;
+        padding: 11px 16px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .btn-primary {
+        color: #fff;
+        background: linear-gradient(135deg, #52b788, #2d6a4f);
+      }
+      .btn-secondary {
+        color: #c7efda;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(198, 255, 226, 0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <div class="badge">🌿 RPS Fields</div>
+      <h1>You are offline</h1>
+      <p>
+        The internet connection is unavailable right now. Previously visited pages
+        are still available, and you can retry once your network returns.
+      </p>
+      <div class="actions">
+        <button class="btn btn-primary" onclick="window.location.reload()">Retry</button>
+        <button class="btn btn-secondary" onclick="window.location.href='/'">Go Home</button>
+      </div>
+    </main>
+  </body>
+</html>
