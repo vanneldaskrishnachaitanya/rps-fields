@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { useAuth } from "./AuthContext";
 
 const CartContext = createContext(null);
@@ -21,6 +21,11 @@ const normalizeCart = (items) => {
 export function CartProvider({ children }) {
   const { user, authFetch } = useAuth();
   const [cart, setCart] = useState([]);
+  const authFetchRef = useRef(authFetch);
+
+  useEffect(() => {
+    authFetchRef.current = authFetch;
+  }, [authFetch]);
 
   useEffect(() => {
     let active = true;
@@ -31,7 +36,7 @@ export function CartProvider({ children }) {
         return;
       }
 
-      const data = await authFetch("/auth/cart");
+      const data = await authFetchRef.current("/auth/cart");
       if (active && data?.success) {
         setCart(normalizeCart(data.cartItems));
       }
@@ -43,7 +48,7 @@ export function CartProvider({ children }) {
 
   const syncCartToDB = async (nextCart) => {
     if (!user) return;
-    await authFetch("/auth/cart", {
+    await authFetchRef.current("/auth/cart", {
       method: "PUT",
       body: JSON.stringify({ cartItems: nextCart }),
     });
