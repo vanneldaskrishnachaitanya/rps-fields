@@ -38,6 +38,22 @@ const userSchema = new mongoose.Schema(
       ],
       default: [],
     },
+    cartItems: {
+      type: [
+        {
+          id: { type: String, required: true },
+          name: { type: String, default: "" },
+          img: { type: String, default: "" },
+          price: { type: Number, default: 0 },
+          unit: { type: String, default: "kg" },
+          category: { type: String, default: "" },
+          farmerName: { type: String, default: "" },
+          farmerLocation: { type: String, default: "" },
+          qty: { type: Number, default: 1, min: 1 },
+        },
+      ],
+      default: [],
+    },
   },
   { timestamps: { createdAt: "createdAt", updatedAt: "updatedAt" } }
 );

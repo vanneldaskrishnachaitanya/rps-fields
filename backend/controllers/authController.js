@@ -21,6 +21,28 @@ const clearAuthCookie = (res) => {
   res.cookie("rps_token", "", { ...getCookieOptions(), maxAge: 0 });
 };
 
+const normalizeCartItems = (cartItems = []) => {
+  if (!Array.isArray(cartItems)) return [];
+  return cartItems
+    .map((item) => {
+      const id = String(item?.id || item?._id || "").trim();
+      if (!id) return null;
+      return {
+        id,
+        name: String(item?.name || ""),
+        img: String(item?.img || item?.image || ""),
+        price: Number(item?.price || item?.pricePerKg || 0),
+        unit: String(item?.unit || "kg"),
+        category: String(item?.category || ""),
+        farmerName: String(item?.farmerName || item?.farmer || ""),
+        farmerLocation: String(item?.farmerLocation || item?.location || ""),
+        qty: Math.max(1, Number(item?.qty || 1)),
+      };
+    })
+    .filter(Boolean)
+    .slice(0, 100);
+};
+
 // POST /api/auth/register
 const register = async (req, res) => {
   try {
@@ -147,6 +169,22 @@ const updateCatalogState = async (req, res) => {
   }
 };
 
+// GET /api/auth/cart
+const getCart = async (req, res) => {
+  res.json({ success: true, cartItems: req.user.cartItems || [] });
+};
+
+// PUT /api/auth/cart
+const updateCart = async (req, res) => {
+  try {
+    req.user.cartItems = normalizeCartItems(req.body?.cartItems);
+    await req.user.save();
+    res.json({ success: true, cartItems: req.user.cartItems });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+};
+
 
 // ── In-memory OTP store (10 min expiry per email) ──
 const otpStore = new Map();
@@ -195,4 +233,4 @@ const resetPassword = async (req, res) => {
   } catch (err) { res.status(500).json({ success: false, error: err.message }); }
 };
 
-module.exports = { register, login, logout, getMe, updateCatalogState, forgotPassword, verifyOtp, resetPassword };
+module.exports = { register, login, logout, getMe, updateCatalogState, getCart, updateCart, forgotPassword, verifyOtp, resetPassword };
