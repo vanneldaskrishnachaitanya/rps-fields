@@ -152,7 +152,7 @@ export default function LoginPage() {
             backgroundSize:"cover",
             backgroundPosition:"center",
             backgroundRepeat:"no-repeat",
-            transform:"rotate(-2.4deg) scale(1.06)",
+            transform:"rotate(-3.2deg) scale(1.07)",
             transformOrigin:"center",
             filter: dark ? "saturate(108%) contrast(106%)" : "saturate(112%) contrast(102%)",
           }}
@@ -173,7 +173,7 @@ export default function LoginPage() {
             top:"8%",
             width:"62%",
             height:"34%",
-            transform:"rotate(-11deg)",
+            transform:"rotate(-13deg)",
             borderRadius:32,
             background: dark
               ? "linear-gradient(90deg, rgba(82,183,136,0.12), rgba(82,183,136,0.00))"
