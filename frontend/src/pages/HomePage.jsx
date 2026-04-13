@@ -339,6 +339,45 @@ export default function HomePage() {
 
   const cur = SLIDES[slide];
 
+  const homeBtnBase = {
+    border: "none",
+    borderRadius: 16,
+    padding: "12px 24px",
+    fontSize: 15,
+    fontWeight: 800,
+    fontFamily: "'Inter','Segoe UI',sans-serif",
+    cursor: "pointer",
+    lineHeight: 1,
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    transition: "all 0.25s cubic-bezier(0.22,1,0.36,1)",
+    boxShadow: "0 10px 24px rgba(0,0,0,0.22)",
+  };
+
+  const homeBtnPrimary = {
+    ...homeBtnBase,
+    color: "#ffffff",
+    background: "linear-gradient(135deg,#d4a017,#b8860b)",
+    border: "1px solid rgba(255,220,120,0.5)",
+  };
+
+  const homeBtnGreen = {
+    ...homeBtnBase,
+    color: "#ffffff",
+    background: "linear-gradient(135deg,#52b788,#2d6a4f)",
+    border: "1px solid rgba(149,213,178,0.45)",
+  };
+
+  const homeBtnGhost = {
+    ...homeBtnBase,
+    color: "#ffffff",
+    background: "rgba(255,255,255,0.16)",
+    border: "1px solid rgba(255,255,255,0.38)",
+    backdropFilter: "blur(18px)",
+  };
+
   return (
     <div style={{ background: tk.bg, overflowX: "hidden" }}>
 
@@ -404,11 +443,25 @@ export default function HomePage() {
               opacity: animating ? 0 : 1, transform: animating ? "translateY(18px)" : "none",
               transition: "all 0.5s ease 0.34s",
             }}>
-              <button data-magnetic className="ios-btn ios-btn-gold" onClick={() => navigate("/catalog")}
-              >{cur.cta} →</button>
+              <button
+                data-magnetic
+                onClick={() => navigate("/catalog")}
+                style={homeBtnPrimary}
+                onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-2px)"; e.currentTarget.style.filter="brightness(1.06)";}}
+                onMouseLeave={e=>{e.currentTarget.style.transform="none"; e.currentTarget.style.filter="none";}}
+              >
+                {cur.cta} →
+              </button>
 
-              <button data-magnetic className="ios-btn" onClick={() => navigate("/register")} style={{ background: "rgba(255,255,255,0.1)", backdropFilter: "blur(28px)", color:"#fff" }}
-              >Join as Farmer / Agent</button>
+              <button
+                data-magnetic
+                onClick={() => navigate("/register")}
+                style={homeBtnGhost}
+                onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-2px)"; e.currentTarget.style.background="rgba(255,255,255,0.24)";}}
+                onMouseLeave={e=>{e.currentTarget.style.transform="none"; e.currentTarget.style.background="rgba(255,255,255,0.16)";}}
+              >
+                Join as Farmer / Agent
+              </button>
             </div>
           </div>
         </div>
@@ -507,13 +560,15 @@ export default function HomePage() {
           )}
 
           <div data-id="view-all" style={{ textAlign:"center", marginTop:16, ...reveal("view-all") }}>
-            <button data-magnetic className="ios-btn" onClick={() => navigate("/catalog")}
-              style={{
-                border:"1px solid rgba(178,255,216,0.42)",
-                boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.62), inset 0 -1px 0 rgba(0,0,0,0.18), 0 10px 28px rgba(82,183,136,0.44), 0 24px 50px rgba(20,72,50,0.30)",
-                textShadow:"0 1px 4px rgba(0,0,0,0.34)",
-              }}
-            >View All Products →</button>
+            <button
+              data-magnetic
+              onClick={() => navigate("/catalog")}
+              style={homeBtnGreen}
+              onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-2px)"; e.currentTarget.style.filter="brightness(1.06)";}}
+              onMouseLeave={e=>{e.currentTarget.style.transform="none"; e.currentTarget.style.filter="none";}}
+            >
+              View All Products →
+            </button>
           </div>
         </div>
       </section>
@@ -583,10 +638,24 @@ export default function HomePage() {
             Join the RPS Fields network. List your produce, reach thousands of customers across Telangana, and earn more by cutting out the middleman.
           </p>
           <div style={{ display:"flex", gap:10, justifyContent:"center", flexWrap:"wrap", marginTop: 12 }}>
-            <button data-magnetic className="ios-btn" onClick={() => navigate("/register/farmer")}
-            >🌾 Join as Farmer</button>
-            <button data-magnetic className="ios-btn" onClick={() => navigate("/register/agent")}
-            >🏢 Join as Agent</button>
+            <button
+              data-magnetic
+              onClick={() => navigate("/register/farmer")}
+              style={homeBtnGreen}
+              onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-2px)"; e.currentTarget.style.filter="brightness(1.06)";}}
+              onMouseLeave={e=>{e.currentTarget.style.transform="none"; e.currentTarget.style.filter="none";}}
+            >
+              🌾 Join as Farmer
+            </button>
+            <button
+              data-magnetic
+              onClick={() => navigate("/register/agent")}
+              style={homeBtnPrimary}
+              onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-2px)"; e.currentTarget.style.filter="brightness(1.06)";}}
+              onMouseLeave={e=>{e.currentTarget.style.transform="none"; e.currentTarget.style.filter="none";}}
+            >
+              🏢 Join as Agent
+            </button>
           </div>
         </div>
       </section>
