@@ -2,10 +2,47 @@ import { useNavigate } from "react-router-dom";
 import { useTheme, TK } from "../context/ThemeContext";
 
 const OPTIONS = [
-  { icon:"🛒", title:"I'm a Customer",  desc:"Buy fresh produce directly from verified farmers. Farm-fresh quality at fair prices.", btn:"Register as Customer", path:"/register/customer", color:"#40916c", grad:"rgba(82,183,136,0.28)" },
-  { icon:"🌾", title:"I'm a Farmer",    desc:"List your produce and connect with agents. Reach thousands of customers without middlemen.", btn:"Register as Farmer",   path:"/register/farmer",   color:"#d4a017", grad:"rgba(200,150,12,0.32)" },
-  { icon:"🏢", title:"I'm an Agent",    desc:"Partner with farmers, add products to the catalog and manage sales on their behalf.", btn:"Register as Agent",    path:"/register/agent",    color:"#3b82f6", grad:"rgba(59,130,246,0.28)" },
-  { icon:"🛡", title:"Admin Access",    desc:"Platform management for RPS Fields staff only. Restricted access.", btn:"Admin Login", path:"/admin/login", color:"#8b5cf6", grad:"linear-gradient(135deg,#8b5cf6,#6d28d9)", badge:"Staff Only" },
+  {
+    icon:"🛒",
+    title:"I'm a Customer",
+    desc:"Buy fresh produce directly from verified farmers. Farm-fresh quality at fair prices.",
+    btn:"Register as Customer",
+    path:"/register/customer",
+    color:"#2d9f73",
+    iconBg:"linear-gradient(145deg, rgba(143,228,193,0.45), rgba(64,145,108,0.28))",
+    btnGrad:"linear-gradient(135deg,#58c59a,#2f8f69)",
+  },
+  {
+    icon:"🌾",
+    title:"I'm a Farmer",
+    desc:"List your produce and connect with agents. Reach thousands of customers without middlemen.",
+    btn:"Register as Farmer",
+    path:"/register/farmer",
+    color:"#c9951f",
+    iconBg:"linear-gradient(145deg, rgba(249,223,150,0.50), rgba(201,149,31,0.28))",
+    btnGrad:"linear-gradient(135deg,#e3b84b,#b88312)",
+  },
+  {
+    icon:"🏢",
+    title:"I'm an Agent",
+    desc:"Partner with farmers, add products to the catalog and manage sales on their behalf.",
+    btn:"Register as Agent",
+    path:"/register/agent",
+    color:"#3d7ee8",
+    iconBg:"linear-gradient(145deg, rgba(174,201,252,0.50), rgba(61,126,232,0.26))",
+    btnGrad:"linear-gradient(135deg,#6ca0ef,#3d7ee8)",
+  },
+  {
+    icon:"🛡",
+    title:"Admin Access",
+    desc:"Platform management for RPS Fields staff only. Restricted access.",
+    btn:"Admin Login",
+    path:"/admin/login",
+    color:"#8b5cf6",
+    iconBg:"linear-gradient(145deg, rgba(196,172,252,0.48), rgba(139,92,246,0.30))",
+    btnGrad:"linear-gradient(135deg,#8b5cf6,#6d28d9)",
+    badge:"Staff Only"
+  },
 ];
 
 export default function RegisterPage() {
@@ -50,7 +87,7 @@ export default function RegisterPage() {
             )}
 
             <div style={{
-              width:64, height:64, borderRadius:18, background:opt.grad,
+              width:64, height:64, borderRadius:18, background:opt.iconBg,
               display:"flex", alignItems:"center", justifyContent:"center",
               fontSize:28, margin:"0 auto 18px",
               boxShadow:`0 8px 24px ${opt.color}30`,
@@ -60,7 +97,23 @@ export default function RegisterPage() {
             <p style={{ color:tk.textLt, fontSize:13, lineHeight:1.7, marginBottom:24, minHeight:54 }}>{opt.desc}</p>
 
             <button data-magnetic onClick={e => { e.stopPropagation(); navigate(opt.path); }}
-              style={{ background:opt.grad, backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", color:"#fff", border:"1px solid rgba(255,255,255,0.28)", width:"100%", padding:"12px 0", borderRadius:50, boxShadow:`inset 0 1.5px 0 rgba(255,255,255,0.5), inset 0 -1px 0 rgba(0,0,0,0.12), 0 6px 20px rgba(0,0,0,0.2), 0 4px 16px ${opt.color}35`, cursor:"pointer", fontWeight:800, fontSize:14, fontFamily:"'Inter',sans-serif", transition:"all 0.2s" }}
+              style={{
+                background:opt.btnGrad,
+                backdropFilter:"blur(18px) saturate(170%)",
+                WebkitBackdropFilter:"blur(18px) saturate(170%)",
+                color:"#fff",
+                border:"1px solid rgba(255,255,255,0.48)",
+                width:"100%",
+                padding:"12px 0",
+                borderRadius:50,
+                textShadow:"0 1px 4px rgba(0,0,0,0.30)",
+                boxShadow:`inset 0 1.5px 0 rgba(255,255,255,0.58), inset 0 -1px 0 rgba(0,0,0,0.16), 0 8px 24px ${opt.color}66, 0 2px 8px rgba(0,0,0,0.12)`,
+                cursor:"pointer",
+                fontWeight:800,
+                fontSize:14,
+                fontFamily:"'Inter',sans-serif",
+                transition:"all 0.2s"
+              }}
             >{opt.btn} →</button>
           </div>
         ))}
