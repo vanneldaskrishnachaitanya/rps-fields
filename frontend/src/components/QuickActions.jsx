@@ -45,106 +45,17 @@ export default function QuickActions({ collapsed: defaultCollapsed = false }) {
   const [isDragging, setIsDragging] = useState(false);
   const [dockedSide, setDockedSide] = useState("none");
   const [isHovered, setIsHovered] = useState(false);
-  const widgetRef = useRef(null);
   const dragRef = useRef({ startX: 0, startY: 0, initialX: 0, initialY: 0 });
-
-  const getWidgetBounds = useCallback(() => {
-    const width = widgetRef.current?.offsetWidth ?? (collapsed ? 48 : 220);
-    const height = widgetRef.current?.offsetHeight ?? 260;
-    return { width, height };
-  }, [collapsed]);
-
-  const clampToViewport = useCallback((nextX, nextY) => {
-    if (typeof window === "undefined") return { x: nextX, y: nextY };
-
-    const { width, height } = getWidgetBounds();
-    const maxX = Math.max(0, window.innerWidth - width);
-    const maxY = Math.max(0, window.innerHeight - height);
-
-    return {
-      x: Math.max(0, Math.min(nextX, maxX)),
-      y: Math.max(0, Math.min(nextY, maxY)),
-    };
-  }, [getWidgetBounds]);
-
-  const dockToSide = useCallback((side) => {
-    if (typeof window === "undefined") return;
-
-    const { width, height } = getWidgetBounds();
-    const maxX = Math.max(0, window.innerWidth - width);
-    const maxY = Math.max(0, window.innerHeight - height);
-
-    setDockedSide(side);
-    setPos((curr) => {
-      const clampedX = Math.max(0, Math.min(curr.x, maxX));
-      const clampedY = Math.max(0, Math.min(curr.y, maxY));
-
-      if (side === "left") return { x: 0, y: clampedY };
-      if (side === "right") return { x: maxX, y: clampedY };
-      if (side === "top") return { x: clampedX, y: 0 };
-      if (side === "bottom") return { x: clampedX, y: maxY };
-      return clampToViewport(clampedX, clampedY);
-    });
-  }, [clampToViewport, getWidgetBounds]);
 
   // Initialize position on mount
   useEffect(() => {
     if (pos.x === -1 && typeof window !== "undefined") {
-      const { width, height } = getWidgetBounds();
-      const initialX = window.innerWidth - width - 16;
-      const initialY = window.innerHeight / 2 - height / 2;
-      setPos(clampToViewport(initialX, initialY));
-    }
-  }, [clampToViewport, getWidgetBounds, pos.x]);
-
-  useEffect(() => {
-    if (pos.x === -1 || typeof window === "undefined") return;
-
-    setPos((curr) => {
-      if (dockedSide === "left") return { x: 0, y: clampToViewport(curr.x, curr.y).y };
-      if (dockedSide === "right") {
-        const { width, height } = getWidgetBounds();
-        const maxX = Math.max(0, window.innerWidth - width);
-        const maxY = Math.max(0, window.innerHeight - height);
-        return { x: maxX, y: Math.max(0, Math.min(curr.y, maxY)) };
-      }
-      if (dockedSide === "top") return { x: clampToViewport(curr.x, curr.y).x, y: 0 };
-      if (dockedSide === "bottom") {
-        const { width, height } = getWidgetBounds();
-        const maxX = Math.max(0, window.innerWidth - width);
-        const maxY = Math.max(0, window.innerHeight - height);
-        return { x: Math.max(0, Math.min(curr.x, maxX)), y: maxY };
-      }
-      return clampToViewport(curr.x, curr.y);
-    });
-  }, [clampToViewport, dockedSide, getWidgetBounds, pos.x, collapsed]);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return undefined;
-
-    const handleResize = () => {
-      setPos((curr) => {
-        if (dockedSide === "left") return { x: 0, y: clampToViewport(curr.x, curr.y).y };
-        if (dockedSide === "right") {
-          const { width, height } = getWidgetBounds();
-          const maxX = Math.max(0, window.innerWidth - width);
-          const maxY = Math.max(0, window.innerHeight - height);
-          return { x: maxX, y: Math.max(0, Math.min(curr.y, maxY)) };
-        }
-        if (dockedSide === "top") return { x: clampToViewport(curr.x, curr.y).x, y: 0 };
-        if (dockedSide === "bottom") {
-          const { width, height } = getWidgetBounds();
-          const maxX = Math.max(0, window.innerWidth - width);
-          const maxY = Math.max(0, window.innerHeight - height);
-          return { x: Math.max(0, Math.min(curr.x, maxX)), y: maxY };
-        }
-        return clampToViewport(curr.x, curr.y);
+      setPos({ 
+        x: window.innerWidth - 240, 
+        y: window.innerHeight / 2 - 200 
       });
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [clampToViewport, dockedSide, getWidgetBounds]);
+    }
+  }, [pos.x]);
 
   const actions = user?.role === "customer" ? CUSTOMER_ACTIONS
     : user?.role === "farmer"   ? FARMER_ACTIONS
@@ -155,56 +66,50 @@ export default function QuickActions({ collapsed: defaultCollapsed = false }) {
 
   const startDrag = (e) => {
     if (e.target.closest('.no-drag')) return;
-    if (e.button != null && e.button !== 0) return;
     setIsDragging(true);
     setDockedSide("none");
 
-    const clientX = e.clientX ?? e.touches?.[0]?.clientX;
-    const clientY = e.clientY ?? e.touches?.[0]?.clientY;
+    const clientX = e.clientX || e.touches?.[0]?.clientX;
+    const clientY = e.clientY || e.touches?.[0]?.clientY;
 
     dragRef.current = {
       startX: clientX,
       startY: clientY,
-      pointerId: e.pointerId,
       initialX: pos.x,
       initialY: pos.y
     };
-
-    e.currentTarget.setPointerCapture?.(e.pointerId);
   };
 
   const handlePointerMove = useCallback((e) => {
     if (!isDragging) return;
-    if (dragRef.current.pointerId != null && e.pointerId != null && e.pointerId !== dragRef.current.pointerId) return;
-
-    const clientX = e.clientX ?? e.touches?.[0]?.clientX;
-    const clientY = e.clientY ?? e.touches?.[0]?.clientY;
+    const clientX = e.clientX || e.touches?.[0]?.clientX;
+    const clientY = e.clientY || e.touches?.[0]?.clientY;
     if (clientX === undefined || clientY === undefined) return;
     
-    if (e.cancelable) e.preventDefault();
+    // Prevent document scrolling on touch drag
+    if (e.type === "touchmove" && e.cancelable) e.preventDefault();
 
     const dx = clientX - dragRef.current.startX;
     const dy = clientY - dragRef.current.startY;
-    setPos(clampToViewport(
-      dragRef.current.initialX + dx,
-      dragRef.current.initialY + dy
-    ));
-  }, [clampToViewport, isDragging]);
+    setPos({
+      x: dragRef.current.initialX + dx,
+      y: dragRef.current.initialY + dy
+    });
+  }, [isDragging]);
 
-  const handlePointerUp = useCallback((e) => {
+  const handlePointerUp = useCallback(() => {
     if (!isDragging) return;
-    if (dragRef.current.pointerId != null && e?.pointerId != null && e.pointerId !== dragRef.current.pointerId) return;
     setIsDragging(false);
     
     setPos(curr => {
       let { x, y } = curr;
-      const { width, height } = getWidgetBounds();
+      const w = collapsed ? 50 : 220; 
       const th = 60; // snap threshold
       let newSide = "none";
       
       // Boundaries
-      const maxX = Math.max(0, window.innerWidth - width);
-      const maxY = Math.max(0, window.innerHeight - height);
+      const maxX = Math.max(0, window.innerWidth - w);
+      const maxY = Math.max(0, window.innerHeight - 80);
       
       if (x < th) { newSide = "left"; x = 0; }
       else if (x > maxX - th) { newSide = "right"; x = maxX; }
@@ -218,19 +123,20 @@ export default function QuickActions({ collapsed: defaultCollapsed = false }) {
       setDockedSide(newSide);
       return { x, y };
     });
-    dragRef.current.pointerId = null;
-  }, [getWidgetBounds, isDragging]);
+  }, [isDragging, collapsed]);
 
   useEffect(() => {
     if (isDragging) {
       window.addEventListener("pointermove", handlePointerMove, { passive: false });
       window.addEventListener("pointerup", handlePointerUp);
-      window.addEventListener("pointercancel", handlePointerUp);
+      window.addEventListener("touchmove", handlePointerMove, { passive: false });
+      window.addEventListener("touchend", handlePointerUp);
     }
     return () => {
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerup", handlePointerUp);
-      window.removeEventListener("pointercancel", handlePointerUp);
+      window.removeEventListener("touchmove", handlePointerMove);
+      window.removeEventListener("touchend", handlePointerUp);
     };
   }, [isDragging, handlePointerMove, handlePointerUp]);
 
@@ -247,7 +153,6 @@ export default function QuickActions({ collapsed: defaultCollapsed = false }) {
 
   return (
     <div
-      ref={widgetRef}
       className="quick-actions-widget"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -284,6 +189,7 @@ export default function QuickActions({ collapsed: defaultCollapsed = false }) {
       {/* Header / Drag Handle */}
       <div
         onPointerDown={startDrag}
+        onTouchStart={startDrag}
         style={{
           padding: collapsed ? "12px" : "14px 18px 10px",
           display: "flex", alignItems: "center",
@@ -293,94 +199,26 @@ export default function QuickActions({ collapsed: defaultCollapsed = false }) {
           borderBottom: collapsed ? "none" : `1px solid ${dark ? "rgba(82,183,136,0.1)" : "rgba(82,183,136,0.15)"}`,
         }}
       >
-        {!collapsed ? (
-          <>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, pointerEvents: "none" }}>
-              <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#52b788", animation: "pulse 2s infinite" }} />
-              <span style={{ fontSize: 11, fontWeight: 800, color: dark ? "rgba(255,255,255,0.5)" : "#5a8a68", textTransform: "uppercase", letterSpacing: "1.2px", fontFamily: "'Inter',sans-serif" }}>
-                Quick Actions
-              </span>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-              <button
-                type="button"
-                className="no-drag"
-                onClick={(e) => { e.stopPropagation(); dockToSide("left"); }}
-                aria-label="Hide quick actions on the left"
-                style={{
-                  width: 28, height: 28, borderRadius: 999,
-                  background: dark ? "rgba(82,183,136,0.12)" : "rgba(82,183,136,0.1)",
-                  border: `1px solid ${dark ? "rgba(82,183,136,0.2)" : "rgba(82,183,136,0.25)"}`,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 13, transition: "all 0.2s", cursor: "pointer", color: dark ? "#dff8e9" : "#1a3a24",
-                }}
-              >
-                ◀
-              </button>
-              <button
-                type="button"
-                className="no-drag"
-                onClick={(e) => { e.stopPropagation(); setDockedSide("none"); setPos((curr) => clampToViewport(curr.x, curr.y)); }}
-                aria-label="Center quick actions"
-                style={{
-                  width: 28, height: 28, borderRadius: 999,
-                  background: dark ? "rgba(82,183,136,0.12)" : "rgba(82,183,136,0.1)",
-                  border: `1px solid ${dark ? "rgba(82,183,136,0.2)" : "rgba(82,183,136,0.25)"}`,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 11, transition: "all 0.2s", cursor: "pointer", color: dark ? "#dff8e9" : "#1a3a24",
-                }}
-              >
-                ●
-              </button>
-              <button
-                type="button"
-                className="no-drag"
-                onClick={(e) => { e.stopPropagation(); dockToSide("right"); }}
-                aria-label="Hide quick actions on the right"
-                style={{
-                  width: 28, height: 28, borderRadius: 999,
-                  background: dark ? "rgba(82,183,136,0.12)" : "rgba(82,183,136,0.1)",
-                  border: `1px solid ${dark ? "rgba(82,183,136,0.2)" : "rgba(82,183,136,0.25)"}`,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 13, transition: "all 0.2s", cursor: "pointer", color: dark ? "#dff8e9" : "#1a3a24",
-                }}
-              >
-                ▶
-              </button>
-              <button
-                type="button"
-                className="no-drag"
-                onClick={(e) => { e.stopPropagation(); setCollapsed((c) => !c); }}
-                aria-label={collapsed ? "Expand quick actions" : "Collapse quick actions"}
-                style={{
-                  width: 28, height: 28, borderRadius: "50%",
-                  background: dark ? "rgba(82,183,136,0.12)" : "rgba(82,183,136,0.1)",
-                  border: `1px solid ${dark ? "rgba(82,183,136,0.2)" : "rgba(82,183,136,0.25)"}`,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 13, transition: "all 0.2s", cursor: "pointer", pointerEvents: "auto", color: dark ? "#dff8e9" : "#1a3a24",
-                }}
-              >
-                {collapsed ? "⚡" : "✕"}
-              </button>
-            </div>
-          </>
-        ) : (
-          <button
-            type="button"
-            className="no-drag"
-            onClick={(e) => { e.stopPropagation(); setCollapsed(false); }}
-            aria-label="Expand quick actions"
-            style={{
-              width: 28, height: 28, borderRadius: "50%",
-              background: dark ? "rgba(82,183,136,0.12)" : "rgba(82,183,136,0.1)",
-              border: `1px solid ${dark ? "rgba(82,183,136,0.2)" : "rgba(82,183,136,0.25)"}`,
-              display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: 13, transition: "all 0.2s", cursor: "pointer", color: dark ? "#dff8e9" : "#1a3a24",
-            }}
-          >
-            ⚡
-          </button>
+        {!collapsed && (
+          <div style={{ display: "flex", alignItems: "center", gap: 8, pointerEvents: "none" }}>
+            <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#52b788", animation: "pulse 2s infinite" }} />
+            <span style={{ fontSize: 11, fontWeight: 800, color: dark ? "rgba(255,255,255,0.5)" : "#5a8a68", textTransform: "uppercase", letterSpacing: "1.2px", fontFamily: "'Inter',sans-serif" }}>
+              Quick Actions
+            </span>
+          </div>
         )}
+        <div
+          className="no-drag"
+          onClick={() => setCollapsed(c => !c)}
+          style={{
+          width: 28, height: 28, borderRadius: "50%",
+          background: dark ? "rgba(82,183,136,0.12)" : "rgba(82,183,136,0.1)",
+          border: `1px solid ${dark ? "rgba(82,183,136,0.2)" : "rgba(82,183,136,0.25)"}`,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          fontSize: 13, transition: "all 0.2s", cursor: "pointer", pointerEvents: "auto",
+        }}>
+          {collapsed ? "⚡" : "✕"}
+        </div>
       </div>
 
       {/* Cart badge when collapsed */}
