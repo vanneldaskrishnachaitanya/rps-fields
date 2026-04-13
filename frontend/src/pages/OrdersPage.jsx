@@ -135,25 +135,25 @@ export default function OrdersPage() {
                     <button
                       onClick={()=>scrollOrderItems(ordId, -1)}
                       aria-label="Scroll products left"
-                      style={{ position:"absolute", left:2, top:"50%", transform:"translateY(-50%)", width:30, height:30, borderRadius:999, border:`1px solid ${tk.border}`, background:tk.bgMuted, color:tk.text, fontWeight:900, cursor:"pointer", lineHeight:1, zIndex:2 }}
+                      style={{ position:"absolute", left:4, top:"50%", transform:"translateY(-50%)", width:34, height:34, borderRadius:999, border:dark?"1px solid rgba(116,198,157,0.65)":"1px solid rgba(45,106,79,0.45)", background:dark?"linear-gradient(135deg,#153a2a,#0c2419)":"linear-gradient(135deg,#f2fff7,#dcf4e5)", color:dark?"#d9ffea":"#0f3a28", fontWeight:900, fontSize:18, cursor:"pointer", lineHeight:1, zIndex:3, boxShadow:dark?"0 8px 18px rgba(0,0,0,0.36), 0 0 0 1px rgba(82,183,136,0.25)":"0 8px 18px rgba(18,72,49,0.18)" }}
                     >
-                      {'<'}
+                      {'‹'}
                     </button>
                     <button
                       onClick={()=>scrollOrderItems(ordId, 1)}
                       aria-label="Scroll products right"
-                      style={{ position:"absolute", right:2, top:"50%", transform:"translateY(-50%)", width:30, height:30, borderRadius:999, border:`1px solid ${tk.border}`, background:tk.bgMuted, color:tk.text, fontWeight:900, cursor:"pointer", lineHeight:1, zIndex:2 }}
+                      style={{ position:"absolute", right:4, top:"50%", transform:"translateY(-50%)", width:34, height:34, borderRadius:999, border:dark?"1px solid rgba(116,198,157,0.65)":"1px solid rgba(45,106,79,0.45)", background:dark?"linear-gradient(135deg,#153a2a,#0c2419)":"linear-gradient(135deg,#f2fff7,#dcf4e5)", color:dark?"#d9ffea":"#0f3a28", fontWeight:900, fontSize:18, cursor:"pointer", lineHeight:1, zIndex:3, boxShadow:dark?"0 8px 18px rgba(0,0,0,0.36), 0 0 0 1px rgba(82,183,136,0.25)":"0 8px 18px rgba(18,72,49,0.18)" }}
                     >
-                      {'>'}
+                      {'›'}
                     </button>
-                    <div style={{ position:"absolute", left:34, top:0, bottom:2, width:24, pointerEvents:"none", zIndex:1, background:`linear-gradient(to right, ${tk.bgCard}, rgba(0,0,0,0))` }} />
-                    <div style={{ position:"absolute", right:34, top:0, bottom:2, width:24, pointerEvents:"none", zIndex:1, background:`linear-gradient(to left, ${tk.bgCard}, rgba(0,0,0,0))` }} />
+                    <div style={{ position:"absolute", left:40, top:0, bottom:2, width:58, pointerEvents:"none", zIndex:2, background:dark?"linear-gradient(to right, rgba(10,29,20,0.96), rgba(10,29,20,0.68) 45%, rgba(10,29,20,0))":"linear-gradient(to right, rgba(233,247,239,0.98), rgba(233,247,239,0.68) 45%, rgba(233,247,239,0))" }} />
+                    <div style={{ position:"absolute", right:40, top:0, bottom:2, width:58, pointerEvents:"none", zIndex:2, background:dark?"linear-gradient(to left, rgba(10,29,20,0.96), rgba(10,29,20,0.68) 45%, rgba(10,29,20,0))":"linear-gradient(to left, rgba(233,247,239,0.98), rgba(233,247,239,0.68) 45%, rgba(233,247,239,0))" }} />
                   </>
                 )}
                 <div
                   ref={(el)=>{ itemScrollRefs.current[ordId] = el; }}
                   className="order-items-strip"
-                  style={{ display:"flex", gap:8, overflowX:"auto", scrollBehavior:"smooth", paddingBottom:2, paddingLeft:hasManyItems?36:0, paddingRight:hasManyItems?36:0 }}
+                  style={{ display:"flex", gap:8, overflowX:"auto", scrollBehavior:"smooth", paddingBottom:2, paddingLeft:hasManyItems?44:0, paddingRight:hasManyItems?44:0 }}
                 >
                 {items.map((item,j) => {
                   const itemKey = `${ordId}-${item.productId||item.id}`;
