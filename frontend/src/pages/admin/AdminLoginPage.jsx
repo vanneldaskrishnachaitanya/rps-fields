@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import { API_BASE } from "../../context/AuthContext";
-import { useTilt } from "../../hooks/useTilt";
 
 const A = {
   bg:"#030a05", card:"rgba(10,20,12,0.85)", border:"rgba(82,183,136,0.15)",
@@ -151,7 +150,6 @@ function StatCard({ icon, label, value, sub, color=A.green }) {
 // ── Admin Login Page ──────────────────────────────────────────────────────────
 export function AdminLoginPage() {
   const navigate = useNavigate();
-  const tiltRef = useTilt();
   const [email,    setEmail]    = useState("");
   const [password, setPassword] = useState("");
   const [error,    setError]    = useState("");
@@ -183,11 +181,11 @@ export function AdminLoginPage() {
       <div style={{ position:"absolute", bottom:"10%", right:"15%", width:250, height:250, borderRadius:"50%", background:"rgba(40,100,70,0.08)", filter:"blur(40px)", pointerEvents:"none" }} />
 
       <div style={{ width:"100%", maxWidth:420, animation:"scaleIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both" }}>
-        <div ref={tiltRef} data-tilt style={{ background:"rgba(8,18,10,0.88)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", borderRadius:24, padding:"44px 40px", border:"1px solid rgba(82,183,136,0.15)", boxShadow:"0 24px 64px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.05)", marginBottom:16, perspective:"1000px" }}>
+        <div style={{ background:"linear-gradient(165deg, rgba(8,18,10,0.96), rgba(6,14,9,0.98))", backdropFilter:"blur(18px) saturate(160%)", WebkitBackdropFilter:"blur(18px) saturate(160%)", borderRadius:24, padding:"44px 40px", border:"1px solid rgba(82,183,136,0.24)", boxShadow:"0 26px 70px rgba(0,0,0,0.72), 0 0 0 1px rgba(82,183,136,0.08), inset 0 1px 0 rgba(255,255,255,0.10)", marginBottom:16 }}>
           <div style={{ textAlign:"center", marginBottom:32 }}>
             <div style={{ width:68, height:68, borderRadius:18, background:"rgba(82,183,136,0.28)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:30, margin:"0 auto 18px", boxShadow:"0 10px 30px rgba(82,183,136,0.4)", animation:"anim-glow 2s ease-in-out infinite" }}>🛡</div>
             <h1 style={{ fontSize:26, fontFamily:"'Playfair Display',Georgia,serif", color:"#fff", margin:"0 0 6px" }}>Admin Login</h1>
-            <p style={{ color:A.textLt, fontSize:13, margin:0 }}>RPS Fields — Staff Access Only</p>
+            <p style={{ color:"rgba(184,228,205,0.78)", fontSize:13, margin:0 }}>RPS Fields — Staff Access Only</p>
           </div>
 
           {error && (
@@ -197,23 +195,23 @@ export function AdminLoginPage() {
           {[["Admin Email","email","email","admin@rpsfields.in",email,setEmail],["Password","password","password","••••••••",password,setPassword]].map(([lbl,name,type,ph,val,setVal])=>(
             <div key={name} style={{ marginBottom:16 }}>
               <label style={{ display:"block", fontSize:11, fontWeight:700, color:A.textMid, textTransform:"uppercase", letterSpacing:"0.5px", marginBottom:7 }}>{lbl}</label>
-              <input type={type} style={{ width:"100%", padding:"12px 16px", borderRadius:12, border:"1.5px solid rgba(82,183,136,0.18)", background:"rgba(255,255,255,0.04)", backdropFilter:"blur(8px)", color:A.text, fontSize:14, fontFamily:"'Inter',sans-serif", outline:"none", boxSizing:"border-box", transition:"all 0.2s" }}
+              <input type={type} style={{ width:"100%", padding:"12px 16px", borderRadius:12, border:"1.5px solid rgba(82,183,136,0.30)", background:"rgba(255,255,255,0.08)", backdropFilter:"blur(8px)", color:"#f2fff7", fontSize:14, fontFamily:"'Inter',sans-serif", outline:"none", boxSizing:"border-box", transition:"all 0.2s" }}
                 placeholder={ph} value={val} onChange={e=>{setVal(e.target.value); setError("");}}
                 onKeyDown={e=>e.key==="Enter"&&handleLogin()}
-                onFocus={e=>{e.target.style.borderColor="#52b788"; e.target.style.boxShadow="0 0 0 3px rgba(82,183,136,0.2)";}}
-                onBlur={e=>{e.target.style.borderColor="rgba(82,183,136,0.18)"; e.target.style.boxShadow="none";}}
+                onFocus={e=>{e.target.style.borderColor="#6bd6a4"; e.target.style.boxShadow="0 0 0 3px rgba(82,183,136,0.24)"; e.target.style.background="rgba(255,255,255,0.10)";}}
+                onBlur={e=>{e.target.style.borderColor="rgba(82,183,136,0.30)"; e.target.style.boxShadow="none"; e.target.style.background="rgba(255,255,255,0.08)";}}
               />
             </div>
           ))}
 
-          <button data-magnetic onClick={handleLogin} disabled={loading} style={{ width:"100%", padding:"14px", background:loading?"rgba(82,183,136,0.2)":"rgba(82,183,136,0.28)", color:"#fff", border:"none", borderRadius:14, cursor:loading?"not-allowed":"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", boxShadow:loading?"none":"0 6px 20px rgba(82,183,136,0.4)", transition:"all 0.25s", opacity:loading?0.75:1, marginTop:8 }}
-            onMouseEnter={e=>{ if(!loading){e.target.style.transform="translateY(-1px)"; e.target.style.boxShadow="0 10px 28px rgba(82,183,136,0.5)";}}}
-            onMouseLeave={e=>{e.target.style.transform="none"; e.target.style.boxShadow=loading?"none":"0 6px 20px rgba(82,183,136,0.4)";}}>
+          <button data-magnetic onClick={handleLogin} disabled={loading} style={{ width:"100%", padding:"14px", background:loading?"linear-gradient(135deg,rgba(69,150,114,0.80),rgba(41,102,74,0.82))":"linear-gradient(135deg,rgba(93,198,150,0.96),rgba(47,131,94,0.98))", color:"#fff", textShadow:"0 1px 4px rgba(0,0,0,0.30)", border:"1px solid rgba(194,255,226,0.44)", borderRadius:14, cursor:loading?"not-allowed":"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", boxShadow:loading?"0 8px 20px rgba(28,120,86,0.24)":"inset 0 1.5px 0 rgba(255,255,255,0.62), inset 0 -1px 0 rgba(0,0,0,0.18), 0 10px 30px rgba(28,120,86,0.50)", transition:"all 0.25s", opacity:loading?0.78:1, marginTop:8 }}
+            onMouseEnter={e=>{ if(!loading){e.target.style.transform="translateY(-1px)"; e.target.style.boxShadow="inset 0 1.5px 0 rgba(255,255,255,0.68), inset 0 -1px 0 rgba(0,0,0,0.18), 0 14px 34px rgba(28,120,86,0.58)";}}}
+            onMouseLeave={e=>{e.target.style.transform="none"; e.target.style.boxShadow=loading?"0 8px 20px rgba(28,120,86,0.24)":"inset 0 1.5px 0 rgba(255,255,255,0.62), inset 0 -1px 0 rgba(0,0,0,0.18), 0 10px 30px rgba(28,120,86,0.50)";}}>
             {loading?"Signing in...":"Sign in to Admin →"}
           </button>
 
           {/* Demo creds */}
-          <div style={{ marginTop:20, padding:"14px 16px", background:"rgba(255,255,255,0.03)", backdropFilter:"blur(8px)", border:"1px solid rgba(82,183,136,0.1)", borderRadius:14 }}>
+          <div style={{ marginTop:20, padding:"14px 16px", background:"rgba(255,255,255,0.05)", backdropFilter:"blur(8px)", border:"1px solid rgba(82,183,136,0.18)", borderRadius:14 }}>
             <div style={{ fontSize:10, color:A.textLt, fontWeight:700, textTransform:"uppercase", letterSpacing:"0.5px", marginBottom:10 }}>Demo credentials</div>
             <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center" }}>
               <div style={{ fontSize:12, color:A.textMid }}>
