@@ -40,10 +40,17 @@ export default function CustomerDashboard() {
     <button data-magnetic onClick={()=>navigate(to)} style={{
       display:"flex", alignItems:"center", gap:12, padding:"14px 18px",
       borderRadius:14, cursor:"pointer", fontFamily:"'Inter',sans-serif", fontWeight:700, fontSize:14,
-      background: primary ? "rgba(82,183,136,0.28)" : tk.bgCard,
-      color: primary ? "#fff" : tk.text,
-      border: `1.5px solid ${primary?"transparent":tk.border}`,
-      boxShadow: primary ? "0 4px 16px rgba(82,183,136,0.3)" : "none",
+      background: primary
+        ? (dark
+          ? "linear-gradient(135deg,rgba(93,198,150,0.94),rgba(47,131,94,0.96))"
+          : "linear-gradient(135deg,rgba(78,176,133,0.96),rgba(43,120,86,0.98))")
+        : tk.bgCard,
+      color: primary ? "#ffffff" : tk.text,
+      border: `1.5px solid ${primary ? "rgba(194,255,226,0.46)" : tk.border}`,
+      boxShadow: primary
+        ? "inset 0 1.5px 0 rgba(255,255,255,0.60), inset 0 -1px 0 rgba(0,0,0,0.16), 0 10px 24px rgba(28,120,86,0.42)"
+        : "none",
+      textShadow: primary ? "0 1px 4px rgba(0,0,0,0.28)" : "none",
       transition:"all 0.2s", textAlign:"left", width:"100%",
     }}
       onMouseEnter={e=>{e.currentTarget.style.transform="translateX(3px)"; if(!primary) e.currentTarget.style.borderColor="#52b788";}}
@@ -117,7 +124,7 @@ export default function CustomerDashboard() {
                     <span style={{ background:"rgba(16,185,129,0.15)", color:"#10b981", border:"1px solid rgba(16,185,129,0.3)", borderRadius:20, padding:"3px 12px", fontSize:11, fontWeight:700, display:"block", marginBottom:4 }}>
                       ✓ {ord.status}
                     </span>
-                    <div style={{ color:"#52b788", fontWeight:900, fontSize:17 }}>₹{ord.total||ord.totalPrice}</div>
+                    <div style={{ color: dark ? "#52b788" : "#2f8f69", fontWeight:900, fontSize:17 }}>₹{ord.total||ord.totalPrice}</div>
                   </div>
                 </div>
 
@@ -130,18 +137,18 @@ export default function CustomerDashboard() {
                     return (
                       <div key={`${ord.id||ord._id}-${idx}`} style={{ display:"flex", alignItems:"center", gap:12, background:tk.bgMuted, border:`1px solid ${tk.border}`, borderRadius:12, padding:"9px 10px" }}>
                         {imgSrc ? (
-                          <img src={imgSrc} alt={item.name} style={{ width:58, height:58, objectFit:"cover", borderRadius:12, flexShrink:0, border:`1px solid ${tk.border}` }} onError={e=>{e.currentTarget.style.display="none";}} />
+                          <img src={imgSrc} alt={item.name} style={{ width:72, height:72, objectFit:"cover", borderRadius:12, flexShrink:0, border:`1px solid ${tk.border}` }} onError={e=>{e.currentTarget.style.display="none";}} />
                         ) : (
-                          <div style={{ width:58, height:58, borderRadius:12, flexShrink:0, display:"flex", alignItems:"center", justifyContent:"center", background:dark?"rgba(82,183,136,0.12)":"rgba(82,183,136,0.10)", border:`1px solid ${tk.border}`, fontSize:22 }}>🌿</div>
+                          <div style={{ width:72, height:72, borderRadius:12, flexShrink:0, display:"flex", alignItems:"center", justifyContent:"center", background:dark?"rgba(82,183,136,0.12)":"rgba(82,183,136,0.10)", border:`1px solid ${tk.border}`, fontSize:24 }}>🌿</div>
                         )}
                         <div style={{ minWidth:0, flex:1 }}>
-                          <div style={{ color:"#e9fff2", fontWeight:900, fontSize:20, lineHeight:1.2, textShadow:"0 1px 6px rgba(0,0,0,0.25)", whiteSpace:"nowrap", textOverflow:"ellipsis", overflow:"hidden" }}>{item.name}</div>
-                          <div style={{ marginTop:5, display:"inline-flex", alignItems:"center", gap:6, background:dark?"rgba(82,183,136,0.22)":"rgba(82,183,136,0.16)", border:"1px solid rgba(82,183,136,0.45)", borderRadius:999, padding:"3px 11px", color:"#74c69d", fontWeight:900, fontSize:13 }}>
+                          <div style={{ color: dark ? "#e9fff2" : "#123c2a", fontWeight:900, fontSize:20, lineHeight:1.2, textShadow: dark ? "0 1px 6px rgba(0,0,0,0.25)" : "none", whiteSpace:"nowrap", textOverflow:"ellipsis", overflow:"hidden" }}>{item.name}</div>
+                          <div style={{ marginTop:5, display:"inline-flex", alignItems:"center", gap:6, background:dark?"rgba(82,183,136,0.22)":"rgba(82,183,136,0.18)", border:"1px solid rgba(82,183,136,0.48)", borderRadius:999, padding:"3px 11px", color: dark ? "#74c69d" : "#1f6b4c", fontWeight:900, fontSize:13 }}>
                             Qty {itemQty}{unit}
                           </div>
                         </div>
                         <div style={{ textAlign:"right", minWidth:72 }}>
-                          <div style={{ color:"#52b788", fontWeight:900, fontSize:22, lineHeight:1 }}>₹{itemTotal}</div>
+                          <div style={{ color: dark ? "#52b788" : "#2f8f69", fontWeight:900, fontSize:22, lineHeight:1 }}>₹{itemTotal}</div>
                         </div>
                       </div>
                     );
