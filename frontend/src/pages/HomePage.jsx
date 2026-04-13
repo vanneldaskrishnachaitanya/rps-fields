@@ -508,6 +508,11 @@ export default function HomePage() {
 
           <div data-id="view-all" style={{ textAlign:"center", marginTop:16, ...reveal("view-all") }}>
             <button data-magnetic className="ios-btn" onClick={() => navigate("/catalog")}
+              style={{
+                border:"1px solid rgba(178,255,216,0.42)",
+                boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.62), inset 0 -1px 0 rgba(0,0,0,0.18), 0 10px 28px rgba(82,183,136,0.44), 0 24px 50px rgba(20,72,50,0.30)",
+                textShadow:"0 1px 4px rgba(0,0,0,0.34)",
+              }}
             >View All Products →</button>
           </div>
         </div>

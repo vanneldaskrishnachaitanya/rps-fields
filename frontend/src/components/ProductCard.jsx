@@ -55,11 +55,12 @@ export default function ProductCard({ product, onQuickView, onViewProduct }) {
     fontWeight: 700, fontSize: 12, fontFamily: "'Inter',sans-serif",
     display: "inline-flex", alignItems: "center", justifyContent: "center",
     minHeight: 40, height: 40, lineHeight: 1, whiteSpace: "nowrap", textAlign: "center",
-    border: "1px solid rgba(255,255,255,0.45)",
+    border: "1px solid rgba(255,255,255,0.58)",
     backdropFilter: "blur(20px) saturate(180%)",
     WebkitBackdropFilter: "blur(20px) saturate(180%)",
     transition: "all 0.22s cubic-bezier(0.34,1.56,0.64,1)",
-    boxShadow: "inset 0 1.5px 0 rgba(255,255,255,0.58), inset 0 -1px 0 rgba(0,0,0,0.1), 0 6px 16px rgba(0,0,0,0.2)",
+    boxShadow: "inset 0 1.5px 0 rgba(255,255,255,0.65), inset 0 -1px 0 rgba(0,0,0,0.14), 0 8px 20px rgba(0,0,0,0.26)",
+    textShadow: "0 1px 4px rgba(0,0,0,0.30)",
     position: "relative", overflow: "hidden",
   };
 
@@ -171,7 +172,7 @@ export default function ProductCard({ product, onQuickView, onViewProduct }) {
               width: "100%",
               background: outOfStock
                 ? (dark ? "rgba(120,120,120,0.25)" : "rgba(170,170,170,0.26)")
-                : (dark ? "linear-gradient(135deg,rgba(116,198,157,0.48),rgba(45,106,79,0.62))" : "linear-gradient(135deg,rgba(82,183,136,0.28),rgba(45,106,79,0.34))"),
+                : (dark ? "linear-gradient(135deg,rgba(118,208,165,0.90),rgba(42,118,84,0.96))" : "linear-gradient(135deg,rgba(93,198,150,0.96),rgba(47,131,94,0.98))"),
               color: outOfStock ? "rgba(240,240,240,0.82)" : "#ffffff",
             }}
             onMouseEnter={e => {
@@ -195,13 +196,16 @@ export default function ProductCard({ product, onQuickView, onViewProduct }) {
               style={{
                 ...iosBtnBase,
                 background: added
-                  ? (dark ? "linear-gradient(135deg,rgba(16,185,129,0.55),rgba(5,150,105,0.7))" : "linear-gradient(135deg,rgba(16,185,129,0.36),rgba(5,150,105,0.42))")
-                  : "linear-gradient(135deg,rgba(244,197,66,0.88),rgba(200,148,6,0.88))",
-                color: added ? "#ffffff" : "#2f2300",
+                  ? (dark ? "linear-gradient(135deg,rgba(34,197,140,0.90),rgba(4,155,108,0.96))" : "linear-gradient(135deg,rgba(34,197,140,0.94),rgba(4,155,108,0.98))")
+                  : "linear-gradient(135deg,rgba(248,201,72,0.98),rgba(204,147,8,1))",
+                color: "#ffffff",
                 minWidth: 40,
                 flex: added ? 1 : "0 0 40px",
                 fontSize: added ? 12 : 18,
-                borderColor: "rgba(255,240,178,0.75)",
+                borderColor: added ? "rgba(180,255,228,0.70)" : "rgba(255,236,163,0.82)",
+                boxShadow: added
+                  ? "inset 0 1.5px 0 rgba(255,255,255,0.56), inset 0 -1px 0 rgba(0,0,0,0.18), 0 10px 24px rgba(5,150,105,0.45), 0 2px 8px rgba(0,0,0,0.16)"
+                  : "inset 0 1.5px 0 rgba(255,245,205,0.65), inset 0 -1px 0 rgba(0,0,0,0.16), 0 10px 24px rgba(204,147,8,0.45), 0 2px 8px rgba(0,0,0,0.16)",
               }}
               onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.05) translateY(-1px)"; e.currentTarget.style.filter = "brightness(1.08)"; }}
               onMouseLeave={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.filter = "none"; }}
