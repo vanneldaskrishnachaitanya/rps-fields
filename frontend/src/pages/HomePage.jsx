@@ -476,10 +476,13 @@ export default function HomePage() {
         </div>
 
         {/* Dots */}
-        <div style={{ position: "absolute", bottom: 26, left: "50%", transform: "translateX(-50%)", display: "flex", gap: 8, zIndex: 3 }}>
+        <div className="home-hero-dots" style={{ position: "absolute", bottom: 26, left: "50%", transform: "translateX(-50%)", display: "flex", gap: 8, zIndex: 3 }}>
           {SLIDES.map((_, i) => (
-            <button data-magnetic key={i} onClick={() => changeSlide(i)} style={{
-              width: i === slide ? 28 : 8, height: 8, borderRadius: 4, border: "none", cursor: "pointer", padding: 0,
+            <button data-magnetic className="home-hero-dot" key={i} onClick={() => changeSlide(i)} style={{
+              width: isMobile ? 7 : (i === slide ? 28 : 8),
+              height: isMobile ? 7 : 8,
+              borderRadius: isMobile ? "50%" : 4,
+              border: "none", cursor: "pointer", padding: 0,
               background: i === slide ? "#52b788" : "rgba(255,255,255,0.38)",
               transition: "all 0.35s ease",
             }} />
@@ -561,7 +564,7 @@ export default function HomePage() {
           ) : (
             <div className="home-product-grid" style={{ display:"grid", gridTemplateColumns:"repeat(6,minmax(0,1fr))", gap:12, alignItems:"stretch" }}>
               {visibleProducts.map((p, i) => (
-                <div key={p.id || p._id} data-id={`prod-${i}`} style={{ minWidth:0, ...reveal(`prod-${i}`, i * 0.07) }}>
+                <div className="home-product-slide" key={p.id || p._id} data-id={`prod-${i}`} style={{ minWidth:0, ...reveal(`prod-${i}`, i * 0.07) }}>
                   <ProductCard product={p} />
                 </div>
               ))}
