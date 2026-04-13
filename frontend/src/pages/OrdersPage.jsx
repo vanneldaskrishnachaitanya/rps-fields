@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme, TK } from "../context/ThemeContext";
 import { useAuth } from "../context/AuthContext";
@@ -19,6 +19,7 @@ export default function OrdersPage() {
   const [loading,   setLoading]   = useState(true);
   const [rateModal, setRateModal] = useState(null);
   const [ratedItems, setRatedItems] = useState(new Set()); // track what user already rated
+  const itemScrollRefs = useRef({});
 
   useEffect(() => {
     if (!user) { navigate("/login"); return; }
@@ -42,6 +43,13 @@ export default function OrdersPage() {
     borderRadius:20, cursor:"pointer", fontSize:12, fontWeight:700,
     fontFamily:"'Inter',sans-serif", transition:"all 0.2s", whiteSpace:"nowrap",
   });
+
+  const scrollOrderItems = (orderId, direction) => {
+    const strip = itemScrollRefs.current[orderId];
+    if (!strip) return;
+    const step = Math.max(240, Math.round(strip.clientWidth * 0.75));
+    strip.scrollBy({ left: direction * step, behavior:"smooth" });
+  };
 
   return (
     <div style={{ background:tk.bg, minHeight:"100%", animation:"fadeIn 0.4s ease" }}>
@@ -69,16 +77,18 @@ export default function OrdersPage() {
             </button>
           </div>
         ) : (
-          <div className="orders-grid" style={{ display:"grid", gridTemplateColumns:"repeat(2,minmax(0,1fr))", gap:12, alignItems:"start" }}>
+          <div className="orders-grid" style={{ display:"grid", gridTemplateColumns:"repeat(2,minmax(0,1fr))", gap:12, alignItems:"stretch" }}>
             {orders.map((ord,i) => {
           const ordId = ord._id||ord.id;
           const ss = STATUS_STYLE[ord.status] || STATUS_STYLE.pending;
+          const items = ord.items||[];
+          const hasManyItems = items.length > 1;
           return (
-            <div key={ordId} data-no-tilt style={{ background:tk.bgCard, borderRadius:16, padding:"12px 14px", border:`1px solid ${tk.border}`, animation:`fadeUp 0.5s ease ${i*0.07}s both`, transition:"all 0.25s" }}
+            <div key={ordId} data-no-tilt style={{ background:tk.bgCard, borderRadius:16, padding:"10px 12px", border:`1px solid ${tk.border}`, minHeight:278, height:"100%", display:"flex", flexDirection:"column", animation:`fadeUp 0.5s ease ${i*0.07}s both`, transition:"all 0.25s" }}
               onMouseEnter={e=>{e.currentTarget.style.boxShadow=tk.shadowMd; e.currentTarget.style.borderColor=dark?"#52b78833":"#2d6a4f44";}}
               onMouseLeave={e=>{e.currentTarget.style.boxShadow="none"; e.currentTarget.style.borderColor=tk.border;}}
             >
-              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:10, flexWrap:"wrap", gap:10 }}>
+              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:8, flexWrap:"wrap", gap:8, minHeight:92 }}>
                 <div>
                   <div style={{ fontWeight:900, fontSize:14, color:tk.text, marginBottom:4, fontFamily:"monospace", letterSpacing:"0.5px" }}>
                     #{ordId?.toString().slice(-10).toUpperCase()}
@@ -116,8 +126,31 @@ export default function OrdersPage() {
                 </div>
               </div>
 
-              <div className="order-items-grid" style={{ display:"grid", gridTemplateColumns:"repeat(2,minmax(0,1fr))", gap:8, marginBottom:10 }}>
-                {(ord.items||[]).map((item,j) => {
+              <div style={{ position:"relative", marginBottom:8 }}>
+                {hasManyItems && (
+                  <div style={{ position:"absolute", right:0, top:-34, display:"flex", gap:6 }}>
+                    <button
+                      onClick={()=>scrollOrderItems(ordId, -1)}
+                      aria-label="Scroll products left"
+                      style={{ width:26, height:26, borderRadius:999, border:`1px solid ${tk.border}`, background:tk.bgMuted, color:tk.text, fontWeight:900, cursor:"pointer", lineHeight:1 }}
+                    >
+                      {'<'}
+                    </button>
+                    <button
+                      onClick={()=>scrollOrderItems(ordId, 1)}
+                      aria-label="Scroll products right"
+                      style={{ width:26, height:26, borderRadius:999, border:`1px solid ${tk.border}`, background:tk.bgMuted, color:tk.text, fontWeight:900, cursor:"pointer", lineHeight:1 }}
+                    >
+                      {'>'}
+                    </button>
+                  </div>
+                )}
+                <div
+                  ref={(el)=>{ itemScrollRefs.current[ordId] = el; }}
+                  className="order-items-strip"
+                  style={{ display:"flex", gap:8, overflowX:"auto", scrollBehavior:"smooth", paddingBottom:2 }}
+                >
+                {items.map((item,j) => {
                   const itemKey = `${ordId}-${item.productId||item.id}`;
                   const alreadyRated = ratedItems.has(itemKey);
                   // Only show Rate button if: order delivered AND customer is the buyer
@@ -126,22 +159,23 @@ export default function OrdersPage() {
                   const unit = getUnitLabel(item.unit);
                   const unitPrice = item.pricePerKg||item.price||0;
                   const total = item.totalPrice||(unitPrice*qty);
+                  const cardWidth = hasManyItems ? 332 : "100%";
                   return (
-                    <div key={j} style={{ display:"flex", alignItems:"center", gap:12, padding:"9px 10px", background:tk.bgMuted, borderRadius:12, border:`1px solid ${tk.border}` }}>
+                    <div key={j} style={{ display:"flex", alignItems:"center", gap:10, padding:"8px 9px", background:tk.bgMuted, borderRadius:12, border:`1px solid ${tk.border}`, flex:`0 0 ${cardWidth}`, minWidth:cardWidth }}>
                       {(item.image||item.img) && (
-                        <img src={item.image||item.img} alt={item.name} style={{ width:72, height:72, borderRadius:12, objectFit:"cover", flexShrink:0 }} onError={e=>e.target.style.display="none"} />
+                        <img src={item.image||item.img} alt={item.name} style={{ width:66, height:66, borderRadius:12, objectFit:"cover", flexShrink:0 }} onError={e=>e.target.style.display="none"} />
                       )}
                       <div style={{ flex:1 }}>
-                        <div style={{ fontWeight:900, color:dark?"#e9fff2":"#123c2a", fontSize:20, lineHeight:1.15, marginBottom:4 }}>{item.name}</div>
-                        <div style={{ display:"inline-flex", alignItems:"center", gap:6, marginBottom:4, background:dark?"rgba(82,183,136,0.18)":"rgba(82,183,136,0.16)", border:"1px solid rgba(82,183,136,0.42)", color:dark?"#74c69d":"#1f6b4c", borderRadius:999, padding:"3px 10px", fontWeight:900, fontSize:13 }}>
+                        <div style={{ fontWeight:900, color:dark?"#e9fff2":"#123c2a", fontSize:17, lineHeight:1.15, marginBottom:4, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis", maxWidth:"100%" }}>{item.name}</div>
+                        <div style={{ display:"inline-flex", alignItems:"center", gap:6, marginBottom:4, background:dark?"rgba(82,183,136,0.18)":"rgba(82,183,136,0.16)", border:"1px solid rgba(82,183,136,0.42)", color:dark?"#74c69d":"#1f6b4c", borderRadius:999, padding:"2px 8px", fontWeight:900, fontSize:12 }}>
                           Qty {qty}{unit}
                         </div>
-                        <div style={{ fontSize:13, color:tk.textMid, fontWeight:700 }}>
+                        <div style={{ fontSize:12, color:tk.textMid, fontWeight:700 }}>
                           ₹{unitPrice}/{unit}
                         </div>
                       </div>
-                      <div style={{ textAlign:"right", minWidth:80 }}>
-                        <div style={{ fontSize:28, lineHeight:1, color:dark?"#52b788":"#2f8f69", fontWeight:900, fontFamily:"'Inter',sans-serif" }}>₹{total}</div>
+                      <div style={{ textAlign:"right", minWidth:72 }}>
+                        <div style={{ fontSize:24, lineHeight:1, color:dark?"#52b788":"#2f8f69", fontWeight:900, fontFamily:"'Inter',sans-serif" }}>₹{total}</div>
                       </div>
                       {canRate && (
                         <button
@@ -158,9 +192,10 @@ export default function OrdersPage() {
                     </div>
                   );
                 })}
+                </div>
               </div>
 
-              <div style={{ fontSize:12, color:tk.textLt, paddingTop:10, borderTop:`1px solid ${tk.border}`, display:"flex", flexWrap:"wrap", gap:10 }}>
+              <div style={{ fontSize:12, color:tk.textLt, paddingTop:8, borderTop:`1px solid ${tk.border}`, display:"flex", flexWrap:"wrap", gap:10, marginTop:"auto" }}>
                 <span>📍 {ord.deliveryAddress||ord.address}, {ord.city}</span>
                 <span>📞 {ord.phone}</span>
                 {(ord.deliveryStatus==="processing"||ord.status==="confirmed") && <span style={{ color:tk.green5, fontWeight:700 }}>🕐 Est. delivery: ~24 hours</span>}
