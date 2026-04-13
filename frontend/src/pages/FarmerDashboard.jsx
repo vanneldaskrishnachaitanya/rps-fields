@@ -48,13 +48,13 @@ export default function FarmerDashboard() {
 
       <div style={{
         background: "linear-gradient(135deg,#040d06 0%,#0d2b1a 40%,#1b4332 70%,#2d6a4f 100%)",
-        padding:"52px var(--page-px,clamp(16px,4vw,48px)) 44px", position:"relative", overflow:"hidden",
+        padding:"clamp(26px,3.2vw,38px) var(--page-px,clamp(16px,3.2vw,36px))", position:"relative", overflow:"hidden",
       }}>
         {/* Decorative orbs */}
         <div style={{ position:"absolute", top:-40, right:-40, width:200, height:200, borderRadius:"50%", background:"rgba(82,183,136,0.08)", pointerEvents:"none" }} />
         <div style={{ position:"absolute", bottom:-20, left:"30%", width:140, height:140, borderRadius:"50%", background:"rgba(116,198,157,0.06)", pointerEvents:"none" }} />
 
-        <div style={{ maxWidth:1100, margin:"0 auto", position:"relative" }}>
+        <div style={{ maxWidth:"var(--content-max,1680px)", margin:"0 auto", position:"relative" }}>
           <div style={{ display:"flex", alignItems:"center", gap:16, flexWrap:"wrap" }}>
             <div style={{
               width:58, height:58, borderRadius:16,
@@ -73,12 +73,12 @@ export default function FarmerDashboard() {
         </div>
       </div>
 
-      <div style={{ maxWidth:1100, margin:"0 auto", padding:"28px var(--page-px,clamp(16px,4vw,48px)) 100px" }}>
+      <div style={{ maxWidth:"var(--content-max,1680px)", margin:"0 auto", padding:"clamp(18px,2.6vw,30px) var(--page-px,clamp(16px,3.2vw,36px)) 64px" }}>
 
         {/* ── Sub Nav ── */}
         <div style={{
-          display:"flex", gap:6, marginBottom:28, flexWrap:"wrap",
-          padding:"8px", borderRadius:14,
+          display:"flex", gap:6, marginBottom:18, flexWrap:"wrap",
+          padding:"7px", borderRadius:14,
           background: dark?"rgba(17,31,20,0.8)":"rgba(232,245,235,0.8)",
           backdropFilter:"blur(8px)", WebkitBackdropFilter:"blur(8px)",
           border:`1px solid ${tk.border}`,
@@ -102,7 +102,7 @@ export default function FarmerDashboard() {
         </div>
 
         {/* ── Stat Cards ── */}
-        <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:16, marginBottom:24 }}>
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))", gap:10, marginBottom:16 }}>
           {[
             { icon:"📦", val: data.products.length, lbl:"Products", color:"#40916c", grad:"linear-gradient(135deg,#40916c22,#2d6a4f11)", to:"/farmer/products" },
             { icon:"🛒", val: data.orders.length,   lbl:"Orders",   color:"#2563eb", grad:"linear-gradient(135deg,#2563eb22,#1d4ed811)", to:"/farmer/orders" },
@@ -111,7 +111,7 @@ export default function FarmerDashboard() {
           ].map(({ icon,val,lbl,color,grad,to },i)=>(
             <div key={lbl} data-tilt onClick={()=>navigate(to)} style={{
               background: dark ? `${grad}, rgba(12,26,15,0.95)` : `${grad}, rgba(255,255,255,0.95)`,
-              borderRadius:18, padding:"22px var(--page-px,clamp(16px,4vw,48px))",
+              borderRadius:16, padding:"14px 12px", minHeight:108,
               border:`1px solid ${color}30`,
               cursor:"pointer", textAlign:"center",
               boxShadow: dark?"0 2px 16px rgba(0,0,0,0.4)":"0 2px 12px rgba(0,0,0,0.06)",
@@ -123,20 +123,20 @@ export default function FarmerDashboard() {
               onMouseLeave={e=>{ e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow=dark?"0 2px 16px rgba(0,0,0,0.4)":"0 2px 12px rgba(0,0,0,0.06)"; e.currentTarget.style.borderColor=`${color}30`; }}
             >
               <div style={{ position:"absolute", top:-8, right:-8, width:50, height:50, borderRadius:"50%", background:`${color}12`, pointerEvents:"none" }} />
-              <div style={{ fontSize:26, marginBottom:10 }}>{icon}</div>
-              <div className="num" style={{ fontSize:26, fontWeight:900, color, fontFamily:"'Inter',sans-serif", fontFeatureSettings:'"tnum"', letterSpacing:"-0.5px", marginBottom:4 }}>{val}</div>
+              <div style={{ fontSize:24, marginBottom:4 }}>{icon}</div>
+              <div className="num" style={{ fontSize:34, lineHeight:1, fontWeight:900, color, fontFamily:"'Inter',sans-serif", fontFeatureSettings:'"tnum"', letterSpacing:"-0.5px", marginBottom:3 }}>{val}</div>
               <div style={{ fontSize:11, color:tk.textLt, textTransform:"uppercase", letterSpacing:"1px", fontWeight:600 }}>{lbl}</div>
             </div>
           ))}
         </div>
 
         {/* ── Rating + Quick Actions row ── */}
-        <div style={{ marginBottom:24 }}>
+        <div style={{ marginBottom:16 }}>
 
           {/* Rating card */}
           <div style={{
             background: dark?"rgba(12,26,15,0.95)":"#fff",
-            borderRadius:18, padding:"22px 26px",
+            borderRadius:16, padding:"16px 18px",
             border:`1px solid ${tk.border}`,
             display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:16,
             animation:"fadeUp 0.55s ease 0.28s both",
@@ -203,7 +203,7 @@ export default function FarmerDashboard() {
               </button>
             </div>
           ) : (
-            <div style={{ background: dark?"rgba(12,26,15,0.95)":"#fff", borderRadius:18, border:`1px solid ${tk.border}`, overflow:"hidden", boxShadow: dark?"0 2px 16px rgba(0,0,0,0.4)":"0 2px 12px rgba(0,0,0,0.06)" }}>
+            <div style={{ background: dark?"rgba(12,26,15,0.95)":"#fff", borderRadius:16, border:`1px solid ${tk.border}`, overflow:"hidden", boxShadow: dark?"0 2px 16px rgba(0,0,0,0.4)":"0 2px 12px rgba(0,0,0,0.06)" }}>
               <table style={{ width:"100%", borderCollapse:"collapse" }}>
                 <thead>
                   <tr style={{ borderBottom:`1px solid ${tk.border}`, background: dark?"rgba(17,31,20,0.6)":"rgba(240,247,242,0.8)" }}>

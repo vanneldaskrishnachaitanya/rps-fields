@@ -17,10 +17,10 @@ export function AgentNav() {
 
 function GlassBanner({ title, sub }) {
   return (
-    <div style={{ background:"linear-gradient(135deg,#030818,#0f1f5a,#1e3a8a)", padding:"52px var(--page-px,clamp(16px,4vw,48px)) 44px", position:"relative", overflow:"hidden" }}>
+    <div style={{ background:"linear-gradient(135deg,#030818,#0f1f5a,#1e3a8a)", padding:"clamp(26px,3.2vw,38px) var(--page-px,clamp(16px,3.2vw,36px))", position:"relative", overflow:"hidden" }}>
       <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(circle at 25% 50%,rgba(59,130,246,0.15),transparent 55%),radial-gradient(circle at 75% 30%,rgba(99,102,241,0.1),transparent 50%)", pointerEvents:"none" }} />
       <div style={{ position:"absolute", top:"-20%", right:"5%", width:250, height:250, borderRadius:"50%", background:"rgba(59,130,246,0.06)", pointerEvents:"none" }} />
-      <div style={{ maxWidth:1100, margin:"0 auto", position:"relative", animation:"fadeUp 0.5s ease both" }}>
+      <div style={{ maxWidth:"var(--content-max,1680px)", margin:"0 auto", position:"relative", animation:"fadeUp 0.5s ease both" }}>
         <div style={{ display:"inline-flex", alignItems:"center", gap:6, background:"rgba(59,130,246,0.18)", backdropFilter:"blur(8px)", border:"1px solid rgba(59,130,246,0.3)", borderRadius:20, padding:"4px 14px", marginBottom:14 }}>
           <span style={{ width:6, height:6, borderRadius:"50%", background:"#60a5fa", display:"inline-block", animation:"pulse 2s infinite" }} />
           <span style={{ color:"#93c5fd", fontSize:11, fontWeight:700, letterSpacing:"1.5px", textTransform:"uppercase" }}>🏢 Agent Dashboard</span>
@@ -59,11 +59,11 @@ export default function AgentDashboard() {
   return (
     <div style={{ background:tk.bg, minHeight:"100%", fontFamily:"'Inter',sans-serif" }}>
       <GlassBanner title={`Welcome, ${user?.fullName?.split(" ")[0]||user?.name?.split(" ")[0]} 👋`} sub={`${user?.email} · 📍 ${user?.location||user?.city}`} />
-      <div style={{ maxWidth:1100, margin:"0 auto", padding:"28px var(--page-px,clamp(16px,4vw,48px)) 100px" }}>
+      <div style={{ maxWidth:"var(--content-max,1680px)", margin:"0 auto", padding:"clamp(18px,2.6vw,30px) var(--page-px,clamp(16px,3.2vw,36px)) 64px" }}>
         <AgentNav />
 
         {/* Stats */}
-        <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:16, marginBottom:28 }}>
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))", gap:10, marginBottom:16 }}>
           {[
             { icon:"📦", val:stats.products, lbl:"Products", color:"#3b82f6", grad:"linear-gradient(135deg,#3b82f622,#1e40af11)", to:"/agent/products" },
             { icon:"🛒", val:stats.orders,   lbl:"Orders",   color:"#059669", grad:"linear-gradient(135deg,#05966922,#04785411)", to:"/agent/orders" },
@@ -73,7 +73,7 @@ export default function AgentDashboard() {
             <div key={lbl} data-tilt onClick={()=>navigate(to)} style={{
               background: dark?`${grad},rgba(12,22,15,0.85)`:`${grad},rgba(255,255,255,0.85)`,
               backdropFilter:"blur(24px) saturate(180%)", WebkitBackdropFilter:"blur(24px) saturate(180%)",
-              border:`1px solid ${color}25`, borderRadius:20, padding:"22px 18px", textAlign:"center", cursor:"pointer",
+              border:`1px solid ${color}25`, borderRadius:16, padding:"14px 12px", minHeight:108, textAlign:"center", cursor:"pointer",
               boxShadow: dark?"0 4px 24px rgba(0,0,0,0.4)":"0 4px 24px rgba(0,0,0,0.07)",
               transition:"all 0.28s cubic-bezier(0.34,1.56,0.64,1)",
               animation:`fadeUp 0.55s ease ${i*0.07}s both`, position:"relative", overflow:"hidden",
@@ -82,14 +82,14 @@ export default function AgentDashboard() {
               onMouseLeave={e=>{e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow=dark?"0 4px 24px rgba(0,0,0,0.4)":"0 4px 24px rgba(0,0,0,0.07)";}}
             >
               <div style={{ position:"absolute", top:-10, right:-10, width:50, height:50, borderRadius:"50%", background:`${color}12`, pointerEvents:"none" }} />
-              <div style={{ fontSize:26, marginBottom:10 }}>{icon}</div>
-              <div className="num" style={{ fontSize:24, fontWeight:900, color, fontFamily:"'Inter',sans-serif", fontFeatureSettings:'"tnum"', marginBottom:4 }}>{val}</div>
+              <div style={{ fontSize:24, marginBottom:4 }}>{icon}</div>
+              <div className="num" style={{ fontSize:34, lineHeight:1, fontWeight:900, color, fontFamily:"'Inter',sans-serif", fontFeatureSettings:'"tnum"', marginBottom:3 }}>{val}</div>
               <div style={{ fontSize:10, color:tk.textLt, textTransform:"uppercase", letterSpacing:"1px", fontWeight:600 }}>{lbl}</div>
             </div>
           ))}
         </div>
 
-        <div style={{ display:"grid", gridTemplateColumns:"1fr 320px", gap:22 }}>
+        <div style={{ display:"grid", gridTemplateColumns:"minmax(0,1.52fr) minmax(280px,1fr)", gap:14, alignItems:"start" }}>
           {/* Recent orders */}
           <div>
             <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16 }}>
@@ -105,7 +105,7 @@ export default function AgentDashboard() {
                 </button>
               </div>
             ) : recentOrders.map((ord,i)=>(
-              <div key={ord._id||ord.id} data-tilt style={{ ...gc, borderRadius:18, padding:20, marginBottom:12, transition:"all 0.2s", animation:`fadeUp 0.5s ease ${i*0.06}s both`, position:"relative", overflow:"hidden" }}
+              <div key={ord._id||ord.id} data-tilt style={{ ...gc, borderRadius:16, padding:14, marginBottom:8, transition:"all 0.2s", animation:`fadeUp 0.5s ease ${i*0.06}s both`, position:"relative", overflow:"hidden" }}
                 onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-2px)";}} onMouseLeave={e=>{e.currentTarget.style.transform="none";}}>
                 <div style={{ display:"flex", justifyContent:"space-between", marginBottom:8 }}>
                   <div>
