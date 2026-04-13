@@ -150,7 +150,7 @@ function RegistrationForm({ type }) {
 
   return (
     <div style={{ background: tk.bg, minHeight: "100%", padding: "50px var(--page-px,clamp(16px,4vw,48px))" }}>
-      <div style={{ maxWidth: 560, margin: "0 auto", background: tk.bgCard, borderRadius: 20, padding: "40px 40px 36px", boxShadow: tk.shadowLg, border: `2px solid ${cfg.color}40` }} data-tilt>
+      <div className="registration-card" style={{ maxWidth: 560, margin: "0 auto", background: tk.bgCard, borderRadius: 20, padding: "40px 40px 36px", boxShadow: tk.shadowLg, border: `2px solid ${cfg.color}40` }} data-tilt>
 
         <div style={{ textAlign: "center", marginBottom: 28 }}>
           <div style={{ fontSize: 46, marginBottom: 10 }}>{cfg.icon}</div>
@@ -164,7 +164,7 @@ function RegistrationForm({ type }) {
           </div>
         )}
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 16px" }}>
+        <div className="registration-form-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 16px" }}>
 
           <div style={{ marginBottom: 14, gridColumn: "1 / -1" }}>
             {lbl("Full Name")}

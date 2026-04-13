@@ -20,7 +20,7 @@ const adminFetch = (path, opts = {}) =>
 function AdminSidebar() {
   const links = [["📊","Dashboard","/admin/dashboard"],["👥","Users","/admin/users"],["🌾","Farmers","/admin/farmers"],["🏢","Agents","/admin/agents"],["📦","Products","/admin/products"],["🛒","Orders","/admin/orders"]];
   return (
-    <aside style={{
+    <aside className="rps-admin-sidebar" style={{
       width:230, flexShrink:0, minHeight:"100vh",
       background:"rgba(3,10,5,0.92)",
       backdropFilter:"blur(24px) saturate(200%)", WebkitBackdropFilter:"blur(24px) saturate(200%)",
@@ -91,9 +91,25 @@ export function AdminLayout({ title, children }) {
 
   if (checking) return null;
   return (
-    <div style={{ display:"flex", minHeight:"100vh", background:A.bg, fontFamily:"'Inter','Segoe UI',sans-serif", color:A.text }}>
+    <div className="rps-admin-shell" style={{ display:"flex", minHeight:"100vh", background:A.bg, fontFamily:"'Inter','Segoe UI',sans-serif", color:A.text }}>
+      <style>{`
+        @media (max-width: 900px) {
+          .rps-admin-shell {
+            flex-direction: column;
+          }
+          .rps-admin-sidebar {
+            width: 100% !important;
+            min-height: auto !important;
+            border-right: none !important;
+            border-bottom: 1px solid rgba(82,183,136,0.12);
+          }
+          .rps-admin-main {
+            padding: 18px 14px !important;
+          }
+        }
+      `}</style>
       <AdminSidebar />
-      <main style={{ flex:1, padding:"36px 40px", overflowY:"auto" }}>
+      <main className="rps-admin-main" style={{ flex:1, padding:"36px 40px", overflowY:"auto" }}>
         {title && <h1 style={{ fontSize:26, fontFamily:"'Playfair Display',Georgia,serif", color:A.text, marginBottom:28, marginTop:0, animation:"fadeUp 0.4s ease both" }}>{title}</h1>}
         {children}
       </main>
@@ -104,7 +120,7 @@ export function AdminLayout({ title, children }) {
 // ── Glass table ───────────────────────────────────────────────────────────────
 function AdminTable({ headers, rows }) {
   return (
-    <div style={{ background:"rgba(10,20,12,0.8)", backdropFilter:"blur(20px) saturate(180%)", WebkitBackdropFilter:"blur(20px) saturate(180%)", border:"1px solid rgba(82,183,136,0.12)", borderRadius:18, overflow:"hidden", boxShadow:"0 4px 24px rgba(0,0,0,0.4)" }}>
+    <div className="rps-admin-table" style={{ background:"rgba(10,20,12,0.8)", backdropFilter:"blur(20px) saturate(180%)", WebkitBackdropFilter:"blur(20px) saturate(180%)", border:"1px solid rgba(82,183,136,0.12)", borderRadius:18, overflow:"hidden", boxShadow:"0 4px 24px rgba(0,0,0,0.4)", overflowX:"auto" }}>
       <table style={{ width:"100%", borderCollapse:"collapse" }}>
         <thead>
           <tr style={{ borderBottom:"1px solid rgba(82,183,136,0.1)", background:"rgba(82,183,136,0.06)" }}>

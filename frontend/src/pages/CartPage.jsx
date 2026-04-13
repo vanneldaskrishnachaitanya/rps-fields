@@ -104,7 +104,7 @@ export default function CartPage() {
           {/* Items */}
           <div>
             {cart.map((item,i) => (
-              <div key={item.id} style={{ background:tk.bgCard, borderRadius:18, padding:20, marginBottom:14, border:`1px solid ${tk.border}`, display:"flex", gap:16, alignItems:"center", animation:`fadeUp 0.4s ease ${i*0.07}s both`, transition:"all 0.2s" }}
+              <div className="cart-item-card" key={item.id} style={{ background:tk.bgCard, borderRadius:18, padding:20, marginBottom:14, border:`1px solid ${tk.border}`, display:"flex", gap:16, alignItems:"center", animation:`fadeUp 0.4s ease ${i*0.07}s both`, transition:"all 0.2s" }}
                 onMouseEnter={e => { e.currentTarget.style.boxShadow=tk.shadowMd; e.currentTarget.style.borderColor="#52b788"; }}
                 onMouseLeave={e => { e.currentTarget.style.boxShadow="none"; e.currentTarget.style.borderColor=tk.border; }}
               >
@@ -119,14 +119,14 @@ export default function CartPage() {
                   <div style={{ fontSize:12, color:tk.textLt, marginBottom:6 }}>🧑‍🌾 {item.farmerName||item.farmer}{(item.farmerLocation||item.location) && ` · 📍 ${item.farmerLocation||item.location}`}</div>
                   <div style={{ fontSize:16, fontWeight:900, color:tk.green5 }}>₹{item.price}/{getUnitLabel(item.unit)}</div>
                 </div>
-                <div style={{ display:"flex", alignItems:"center", gap:0, border:`1.5px solid ${tk.border}`, borderRadius:12, overflow:"hidden" }}>
+                <div className="cart-item-qty" style={{ display:"flex", alignItems:"center", gap:0, border:`1.5px solid ${tk.border}`, borderRadius:12, overflow:"hidden" }}>
                   <button data-magnetic onClick={()=>updateQty(item.id,-1)} style={{ width:32, height:32, background:tk.bgMuted, border:"none", cursor:"pointer", fontSize:18, color:tk.text, fontFamily:"'Inter',sans-serif", transition:"background 0.2s" }}
                     onMouseEnter={e=>e.target.style.background=tk.border} onMouseLeave={e=>e.target.style.background=tk.bgMuted}>−</button>
                   <span style={{ width:36, textAlign:"center", fontWeight:800, fontSize:14, color:tk.text }}>{item.qty}</span>
                   <button data-magnetic onClick={()=>updateQty(item.id,1)} style={{ width:32, height:32, background:tk.bgMuted, border:"none", cursor:"pointer", fontSize:18, color:tk.text, fontFamily:"'Inter',sans-serif", transition:"background 0.2s" }}
                     onMouseEnter={e=>e.target.style.background=tk.border} onMouseLeave={e=>e.target.style.background=tk.bgMuted}>+</button>
                 </div>
-                <div style={{ textAlign:"right", minWidth:88 }}>
+                <div className="cart-item-total" style={{ textAlign:"right", minWidth:88 }}>
                   <div style={{ fontWeight:900, fontSize:18, color:tk.text, marginBottom:8 }}>₹{item.price*item.qty}</div>
                   <button data-magnetic onClick={()=>removeFromCart(item.id)} style={{ background:"linear-gradient(135deg,rgba(239,68,68,0.94),rgba(190,24,24,0.98))", border:"1px solid rgba(255,189,189,0.54)", color:"#fff", textShadow:"0 1px 4px rgba(0,0,0,0.25)", boxShadow:"inset 0 1px 0 rgba(255,255,255,0.45), inset 0 -1px 0 rgba(0,0,0,0.18), 0 8px 20px rgba(185,28,28,0.35)", padding:"6px 12px", borderRadius:10, cursor:"pointer", fontSize:12, fontWeight:700, fontFamily:"'Inter',sans-serif", transition:"all 0.2s" }}>
                     Remove
