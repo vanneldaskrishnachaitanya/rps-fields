@@ -146,8 +146,6 @@ export default function OrdersPage() {
                     >
                       {'›'}
                     </button>
-                    <div style={{ position:"absolute", left:40, top:0, bottom:2, width:58, pointerEvents:"none", zIndex:2, background:dark?"linear-gradient(to right, rgba(10,29,20,0.96), rgba(10,29,20,0.68) 45%, rgba(10,29,20,0))":"linear-gradient(to right, rgba(233,247,239,0.98), rgba(233,247,239,0.68) 45%, rgba(233,247,239,0))" }} />
-                    <div style={{ position:"absolute", right:40, top:0, bottom:2, width:58, pointerEvents:"none", zIndex:2, background:dark?"linear-gradient(to left, rgba(10,29,20,0.96), rgba(10,29,20,0.68) 45%, rgba(10,29,20,0))":"linear-gradient(to left, rgba(233,247,239,0.98), rgba(233,247,239,0.68) 45%, rgba(233,247,239,0))" }} />
                   </>
                 )}
                 <div
