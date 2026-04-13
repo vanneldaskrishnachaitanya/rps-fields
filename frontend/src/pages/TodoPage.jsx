@@ -20,6 +20,7 @@ export default function TodoPage() {
       return;
     }
     fetchTodos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const fetchTodos = async () => {
