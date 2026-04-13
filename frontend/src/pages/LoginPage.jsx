@@ -127,7 +127,7 @@ export default function LoginPage() {
       overflow:"hidden",
       background: dark
         ? "linear-gradient(180deg, rgba(11,18,14,0.82), rgba(11,18,14,0.88)), radial-gradient(circle at top, rgba(82,183,136,0.16), transparent 38%), linear-gradient(135deg, #09130d 0%, #102016 45%, #173123 100%)"
-        : "linear-gradient(180deg, rgba(246,250,245,0.84), rgba(240,247,242,0.92)), radial-gradient(circle at top, rgba(82,183,136,0.14), transparent 38%), linear-gradient(135deg, #eef8f1 0%, #f7fbf7 45%, #eef6f0 100%)",
+        : "linear-gradient(180deg, rgba(236,245,238,0.74), rgba(227,239,231,0.82)), radial-gradient(circle at top, rgba(82,183,136,0.12), transparent 40%), linear-gradient(135deg, #e8f2ea 0%, #f1f7f2 45%, #e5efe7 100%)",
       minHeight:"100%",
       display:"flex",
       alignItems:"center",
@@ -148,7 +148,7 @@ export default function LoginPage() {
           style={{
             position:"absolute",
             inset:"-7% -5%",
-            backgroundImage:`linear-gradient(180deg, ${dark ? "rgba(7,14,10,0.54), rgba(7,14,10,0.70)" : "rgba(255,255,255,0.36), rgba(255,255,255,0.52)"}), url(${LOGIN_BG_IMAGE})`,
+            backgroundImage:`linear-gradient(180deg, ${dark ? "rgba(7,14,10,0.54), rgba(7,14,10,0.70)" : "rgba(242,248,244,0.18), rgba(242,248,244,0.30)"}), url(${LOGIN_BG_IMAGE})`,
             backgroundSize:"cover",
             backgroundPosition:"center",
             backgroundRepeat:"no-repeat",
@@ -163,7 +163,21 @@ export default function LoginPage() {
             inset:0,
             background: dark
               ? "linear-gradient(120deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.12) 38%, rgba(0,0,0,0.28) 100%)"
-              : "linear-gradient(120deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.05) 38%, rgba(255,255,255,0.20) 100%)",
+              : "linear-gradient(120deg, rgba(14,36,24,0.30) 0%, rgba(14,36,24,0.12) 38%, rgba(14,36,24,0.24) 100%)",
+          }}
+        />
+        <div
+          style={{
+            position:"absolute",
+            left:"50%",
+            top:"52%",
+            width:"min(760px, 82vw)",
+            height:"min(760px, 82vw)",
+            transform:"translate(-50%, -50%)",
+            borderRadius:"50%",
+            background: dark
+              ? "radial-gradient(circle, rgba(82,183,136,0.18) 0%, rgba(82,183,136,0.08) 36%, rgba(0,0,0,0) 72%)"
+              : "radial-gradient(circle, rgba(18,47,32,0.30) 0%, rgba(18,47,32,0.16) 38%, rgba(18,47,32,0) 72%)",
           }}
         />
         <div
@@ -206,15 +220,15 @@ export default function LoginPage() {
         </div>
 
         {/* Main Card */}
-        <div data-tilt className={dark ? "liquid-glass-dark" : "liquid-glass"} style={{ borderRadius:24, padding:"44px 40px", marginBottom:16, position:"relative", overflow:"hidden" }}>
+        <div data-tilt className={dark ? "liquid-glass-dark" : "liquid-glass"} style={{ borderRadius:24, padding:"44px 40px", marginBottom:16, position:"relative", overflow:"hidden", background: dark ? undefined : "linear-gradient(160deg, rgba(255,255,255,0.74), rgba(245,251,247,0.56))", border: dark ? undefined : "1px solid rgba(255,255,255,0.58)", boxShadow: dark ? undefined : "0 26px 60px rgba(14,38,26,0.30), inset 0 1px 0 rgba(255,255,255,0.75)" }}>
           <div aria-hidden="true" style={{ position:"absolute", inset:0, background: dark ? "linear-gradient(135deg, rgba(82,183,136,0.08), rgba(0,0,0,0))" : "linear-gradient(135deg, rgba(82,183,136,0.12), rgba(255,255,255,0))" }} />
 
           {!forgotMode ? (
             <>
               <div style={{ textAlign:"center", marginBottom:32 }}>
                 <div style={{ width:70, height:70, borderRadius:"50%", background:"linear-gradient(135deg,#2d6a4f,#1b4332)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:30, margin:"0 auto 18px", boxShadow:"0 8px 24px rgba(82,183,136,0.3)" }}>🔑</div>
-                <h2 className="grad-text" style={{ fontSize:32, fontFamily:"'Playfair Display',Georgia,serif", fontWeight: 900, marginBottom:6 }}>Welcome Back</h2>
-                <p style={{ color:tk.textLt, fontSize:15 }}>Sign in to your RPS Fields account</p>
+                <h2 className={dark ? "grad-text" : ""} style={{ fontSize:32, fontFamily:"'Playfair Display',Georgia,serif", fontWeight: 900, marginBottom:6, color: dark ? undefined : "#173f2c", textShadow: dark ? "none" : "0 1px 0 rgba(255,255,255,0.35)" }}>Welcome Back</h2>
+                <p style={{ color: dark ? tk.textLt : "#2a5a44", fontSize:15 }}>Sign in to your RPS Fields account</p>
               </div>
 
               {apiError && (
