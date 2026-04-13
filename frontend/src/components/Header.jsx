@@ -98,8 +98,8 @@ export default function Header() {
           background: ${dark ? "rgba(255,255,255,0.14)" : "rgba(82,183,136,0.18)"} !important;
           color: ${dark ? "#fff" : "#1b4332"} !important;
           border-color: ${dark ? "rgba(255,255,255,0.35)" : "rgba(82,183,136,0.55)"} !important;
-          transform: translateY(-2px) !important;
-          box-shadow: 0 8px 16px rgba(82, 183, 136, 0.2) !important;
+          transform: none !important;
+          box-shadow: 0 6px 14px rgba(82, 183, 136, 0.18) !important;
         }
         .hnav:hover::before {
           width: 100%;

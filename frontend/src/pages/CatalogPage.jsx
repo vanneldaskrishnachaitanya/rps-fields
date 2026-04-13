@@ -12,6 +12,25 @@ const SORT_OPTIONS = [
   { value: "qty-low", label: "Quantity: Low to High" },
 ];
 
+const PRODUCT_TYPE_OPTIONS = [
+  { value: "all", label: "All Types" },
+  { value: "vegetables", label: "Vegetables" },
+  { value: "fruits", label: "Fruits" },
+  { value: "dairy", label: "Dairy" },
+  { value: "dry-fruits", label: "Dry Fruits" },
+  { value: "grains", label: "Grains" },
+  { value: "spices", label: "Spices" },
+];
+
+const PRODUCT_TYPE_KEYWORDS = {
+  vegetables: ["vegetable", "vegetables", "veggie", "veggies"],
+  fruits: ["fruit", "fruits"],
+  dairy: ["dairy", "diary", "milk", "paneer", "curd", "ghee", "butter", "cheese"],
+  "dry-fruits": ["dry fruit", "dry fruits", "nuts", "almond", "cashew", "pista", "walnut", "raisin"],
+  grains: ["grain", "grains", "rice", "wheat", "millet", "dal", "pulse", "pulses"],
+  spices: ["spice", "spices", "masala", "turmeric", "chilli", "pepper", "cumin", "cardamom"],
+};
+
 const FEATURED_LABELS = ["Fresh Today", "Best Seller", "Low Stock", "Farm Direct"];
 
 export default function CatalogPage() {
@@ -21,6 +40,7 @@ export default function CatalogPage() {
   const [loading,  setLoading]  = useState(true);
   const [error,    setError]    = useState("");
   const [loc,      setLoc]      = useState("all");
+  const [productType, setProductType] = useState("all");
   const [sortBy,   setSortBy]   = useState("default");
   const [showFilters, setShowFilters] = useState(false);
   const [openMenu, setOpenMenu] = useState(null);
@@ -88,6 +108,7 @@ export default function CatalogPage() {
   const reset = () => {
     clearTimeout(debounce.current);
     setLoc("all");
+    setProductType("all");
     setSortBy("default");
     setSearch("");
     setDSearch("");
@@ -116,6 +137,18 @@ export default function CatalogPage() {
 
   const filteredProducts = useMemo(() => {
     let list = [...products];
+
+    if (productType !== "all") {
+      const keywords = PRODUCT_TYPE_KEYWORDS[productType] || [];
+      list = list.filter((p) => {
+        const haystack = [p.category, p.name, p.type]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
+        return keywords.some((word) => haystack.includes(word));
+      });
+    }
+
     if (loc !== "all") {
       list = list.filter((p) => {
         const l = (p.farmerLocation || p.location || "").toLowerCase();
@@ -132,7 +165,7 @@ export default function CatalogPage() {
     if (sortBy === "qty-low") list.sort((a, b) => getQty(a) - getQty(b));
 
     return list;
-  }, [products, loc, sortBy]);
+  }, [products, productType, loc, sortBy]);
 
   const featuredProducts = useMemo(() => {
     const ranked = [...products].sort((a, b) => {
@@ -157,8 +190,9 @@ export default function CatalogPage() {
   ];
 
   const selectedLocationLabel = loc === "all" ? "All Locations" : loc;
+  const selectedProductTypeLabel = PRODUCT_TYPE_OPTIONS.find((option) => option.value === productType)?.label || "All Types";
   const selectedSortLabel = SORT_OPTIONS.find((option) => option.value === sortBy)?.label || "Default";
-  const activeFilterCount = Number(loc !== "all") + Number(sortBy !== "default") + Number(Boolean(search));
+  const activeFilterCount = Number(loc !== "all") + Number(productType !== "all") + Number(sortBy !== "default") + Number(Boolean(search));
 
   const markRecentlyViewed = (product) => {
     const item = {
@@ -188,7 +222,7 @@ export default function CatalogPage() {
             Product Catalog
           </h1>
           <p style={{ color:"rgba(255,255,255,0.72)", fontSize:12 }}>
-            Search products quickly, then refine with location and sort filters
+            Search products quickly, then refine with product type, location and sort filters
           </p>
         </div>
       </div>
@@ -313,6 +347,38 @@ export default function CatalogPage() {
               </div>
 
               <div className="catalog-dropdown-shell">
+                <div className="catalog-dropdown-label">Product Type</div>
+                <button
+                  data-magnetic
+                  type="button"
+                  className={`catalog-dropdown-trigger ${dark ? "catalog-dropdown-dark" : "catalog-dropdown-light"}`}
+                  onClick={() => setOpenMenu((current) => current === "type" ? null : "type")}
+                >
+                  <span className="catalog-dropdown-value">{selectedProductTypeLabel}</span>
+                  <span className={`catalog-dropdown-caret ${openMenu === "type" ? "is-open" : ""}`}>▾</span>
+                </button>
+                {openMenu === "type" && (
+                  <div className={`catalog-dropdown-menu ${dark ? "catalog-dropdown-menu-dark" : "catalog-dropdown-menu-light"}`}>
+                    {PRODUCT_TYPE_OPTIONS.map((option) => {
+                      const active = productType === option.value;
+                      return (
+                        <button
+                          key={option.value}
+                          type="button"
+                          data-magnetic
+                          className={`catalog-dropdown-item ${active ? "is-active" : ""}`}
+                          onClick={() => { setProductType(option.value); setOpenMenu(null); setShowFilters(true); }}
+                        >
+                          <span>{option.label}</span>
+                          {active && <span className="catalog-dropdown-check">✓</span>}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
+              <div className="catalog-dropdown-shell">
                 <div className="catalog-dropdown-label">Sort</div>
                 <button
                   data-magnetic
@@ -379,9 +445,14 @@ export default function CatalogPage() {
           </div>
         )}
 
-        {(loc !== "all" || search || sortBy !== "default") && (
+        {(loc !== "all" || productType !== "all" || search || sortBy !== "default") && (
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14, flexWrap: "wrap" }}>
             <span style={{ fontSize: 13, color: tk.textMid, fontWeight: 600 }}>Active filters:</span>
+            {productType !== "all" && (
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 5, background: "rgba(16,185,129,0.12)", border: "1px solid rgba(16,185,129,0.28)", borderRadius: 20, padding: "3px 12px", fontSize: 12, color: "#34d399", fontWeight: 600 }}>
+                🧺 {selectedProductTypeLabel}
+              </span>
+            )}
             {loc !== "all" && (
               <span style={{ display: "inline-flex", alignItems: "center", gap: 5, background: "rgba(82,183,136,0.12)", border: "1px solid rgba(82,183,136,0.25)", borderRadius: 20, padding: "3px 12px", fontSize: 12, color: tk.green4, fontWeight: 600 }}>
                 📍 {loc}
@@ -426,7 +497,7 @@ export default function CatalogPage() {
             </div>
             <div className="catalog-empty-actions">
               <button data-magnetic onClick={reset} className="summary-action summary-action-primary">Show All Products</button>
-              <button data-magnetic onClick={() => { setSearch(""); setSortBy("default"); setLoc("all"); }} className="summary-action summary-action-ghost">Reset Everything</button>
+              <button data-magnetic onClick={() => { setSearch(""); setSortBy("default"); setLoc("all"); setProductType("all"); }} className="summary-action summary-action-ghost">Reset Everything</button>
             </div>
           </div>
         ) : (

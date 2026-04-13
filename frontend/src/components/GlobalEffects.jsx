@@ -125,6 +125,7 @@ export default function GlobalEffects() {
       document.querySelectorAll("button, a.hnav, .mlink, [data-magnetic], [role='button']").forEach(btn => {
         if (btn.dataset.gfxMag) return;
         if (btn.offsetWidth < 20 || btn.offsetHeight < 20) return;
+        if (btn.closest("header")) return;
         btn.dataset.gfxMag = "1";
         const baseTransform = btn.style.transform || "";
         const onMove = e => {
