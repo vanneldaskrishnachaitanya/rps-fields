@@ -89,16 +89,16 @@ export default function TrackingPage() {
   const progressColor = isDelivered ? "#10b981" : isOutForDelivery ? "#3b82f6" : "#f59e0b";
 
   return (
-    <div style={{ background:tk.bg, minHeight:"100vh", padding:"36px var(--page-px,clamp(16px,4vw,48px)) 80px" }}>
-      <div style={{ maxWidth:780, margin:"0 auto" }}>
+    <div style={{ background:tk.bg, minHeight:"100vh", padding:"18px var(--page-px,clamp(16px,4vw,48px)) 40px" }}>
+      <div style={{ maxWidth:"var(--content-max,1320px)", margin:"0 auto" }}>
 
         {/* Back */}
-        <button onClick={()=>navigate("/orders")} style={{ marginBottom:24, padding:"9px 18px", background:dark?"rgba(59,130,246,0.12)":"rgba(37,99,235,0.1)", border:"1px solid rgba(59,130,246,0.35)", color:"#3b82f6", borderRadius:12, cursor:"pointer", fontFamily:"'Inter',sans-serif", fontWeight:700, display:"inline-flex", alignItems:"center", gap:8, fontSize:13 }}>
+        <button onClick={()=>navigate("/orders")} style={{ marginBottom:12, padding:"8px 16px", background:dark?"rgba(59,130,246,0.12)":"rgba(37,99,235,0.1)", border:"1px solid rgba(59,130,246,0.35)", color:"#3b82f6", borderRadius:12, cursor:"pointer", fontFamily:"'Inter',sans-serif", fontWeight:700, display:"inline-flex", alignItems:"center", gap:8, fontSize:13 }}>
           ← Back to Orders
         </button>
 
         {/* Header */}
-        <div style={{ marginBottom:28 }}>
+        <div style={{ marginBottom:16 }}>
           <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:6 }}>
             <h1 style={{ fontSize:26, fontWeight:800, color:tk.text, fontFamily:"'Playfair Display',Georgia,serif", margin:0 }}>Live Order Tracking</h1>
             {/* Live indicator */}
@@ -115,7 +115,7 @@ export default function TrackingPage() {
 
         {/* Delivered banner */}
         {isDelivered && (
-          <div className="anim-fade-up" style={{ background:"linear-gradient(135deg,rgba(16,185,129,0.15),rgba(5,150,105,0.08))", border:"2px solid rgba(16,185,129,0.4)", borderRadius:20, padding:"24px 28px", marginBottom:28, display:"flex", alignItems:"center", gap:18 }}>
+          <div className="anim-fade-up" style={{ background:"linear-gradient(135deg,rgba(16,185,129,0.15),rgba(5,150,105,0.08))", border:"2px solid rgba(16,185,129,0.4)", borderRadius:20, padding:"16px 20px", marginBottom:16, display:"flex", alignItems:"center", gap:14 }}>
             <div style={{ fontSize:44 }}>🎉</div>
             <div>
               <div style={{ fontSize:18, fontWeight:800, color:"#10b981", marginBottom:4, fontFamily:"'Inter',sans-serif" }}>Order Delivered!</div>
@@ -126,8 +126,9 @@ export default function TrackingPage() {
           </div>
         )}
 
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(360px,1fr))", gap:12, marginBottom:12 }}>
         {/* Progress card */}
-        <div style={{ background:tk.bgCard, borderRadius:20, padding:24, marginBottom:24, border:`1px solid ${tk.border}`, boxShadow:tk.shadow }}>
+        <div style={{ background:tk.bgCard, borderRadius:20, padding:18, border:`1px solid ${tk.border}`, boxShadow:tk.shadow }}>
           <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16, flexWrap:"wrap", gap:12 }}>
             <div>
               <div style={{ fontSize:12, color:tk.textLt, marginBottom:4, fontFamily:"'Inter',sans-serif" }}>Delivery Progress</div>
@@ -142,12 +143,12 @@ export default function TrackingPage() {
           </div>
 
           {/* Progress bar */}
-          <div style={{ width:"100%", height:10, background:tk.bgMuted, borderRadius:5, overflow:"hidden", marginBottom:20 }}>
+          <div style={{ width:"100%", height:10, background:tk.bgMuted, borderRadius:5, overflow:"hidden", marginBottom:14 }}>
             <div style={{ width:`${Math.min(100, progressPercentage||0)}%`, height:"100%", background:`linear-gradient(90deg,${progressColor},${progressColor}bb)`, borderRadius:5, transition:"width 0.8s cubic-bezier(0.34,1.56,0.64,1)", boxShadow:`0 0 8px ${progressColor}66` }} />
           </div>
 
           {/* Est delivery */}
-          <div style={{ display:"grid", gridTemplateColumns:actualDeliveryTime?"1fr 1fr":"1fr", gap:16 }}>
+          <div style={{ display:"grid", gridTemplateColumns:actualDeliveryTime?"1fr 1fr":"1fr", gap:12 }}>
             <div>
               <div style={{ fontSize:11, color:tk.textLt, marginBottom:4, fontFamily:"'Inter',sans-serif" }}>ESTIMATED DELIVERY</div>
               <div style={{ fontSize:14, fontWeight:700, color:tk.text, fontFamily:"'Inter',sans-serif" }}>{fmt(estimatedDeliveryTime) || "Within 24 hours"}</div>
@@ -162,8 +163,8 @@ export default function TrackingPage() {
         </div>
 
         {/* 4-step visual tracker */}
-        <div style={{ background:tk.bgCard, borderRadius:20, padding:"28px 24px", marginBottom:24, border:`1px solid ${tk.border}` }}>
-          <h2 style={{ fontSize:15, fontWeight:700, color:tk.text, marginBottom:24, fontFamily:"'Inter',sans-serif" }}>Delivery Status</h2>
+        <div style={{ background:tk.bgCard, borderRadius:20, padding:"16px 16px", border:`1px solid ${tk.border}` }}>
+          <h2 style={{ fontSize:15, fontWeight:700, color:tk.text, marginBottom:14, fontFamily:"'Inter',sans-serif" }}>Delivery Status</h2>
           <div style={{ display:"flex", alignItems:"flex-start", gap:0, overflowX:"auto", paddingBottom:8 }}>
             {STEPS.map((step, idx) => {
               const done = STATUS_ORDER[deliveryStatus] >= idx;
@@ -173,11 +174,11 @@ export default function TrackingPage() {
                   <div style={{ display:"flex", flexDirection:"column", alignItems:"center", flex:1 }}>
                     {/* Circle */}
                     <div style={{
-                      width:48, height:48, borderRadius:"50%",
+                      width:40, height:40, borderRadius:"50%",
                       background: done ? (isDelivered && idx===3 ? "#10b981" : "#52b788") : tk.bgMuted,
                       border: active ? `3px solid ${progressColor}` : done ? "none" : `2px solid ${tk.border}`,
                       display:"flex", alignItems:"center", justifyContent:"center",
-                      fontSize:20, flexShrink:0, zIndex:1,
+                      fontSize:18, flexShrink:0, zIndex:1,
                       boxShadow: active ? `0 0 16px ${progressColor}66` : done ? "0 4px 12px rgba(82,183,136,0.3)" : "none",
                       transition:"all 0.4s ease",
                       animation: active && !isDelivered ? "pulse 2s infinite" : "none",
@@ -186,7 +187,7 @@ export default function TrackingPage() {
                     </div>
 
                     {/* Label */}
-                    <div style={{ textAlign:"center", marginTop:10, padding:"0 4px" }}>
+                    <div style={{ textAlign:"center", marginTop:8, padding:"0 4px" }}>
                       <div style={{ fontSize:11, fontWeight:700, color: done ? tk.text : tk.textLt, fontFamily:"'Inter',sans-serif", lineHeight:1.3 }}>{step.label}</div>
                       {/* Time from timeline */}
                       {timeline?.[idx]?.time && (
@@ -198,7 +199,7 @@ export default function TrackingPage() {
                   {/* Connector line */}
                   {idx < STEPS.length - 1 && (
                     <div style={{
-                      height:3, flex:1, marginTop:22,
+                      height:3, flex:1, marginTop:18,
                       background: STATUS_ORDER[deliveryStatus] > idx
                         ? "linear-gradient(90deg,#52b788,#74c69d)"
                         : tk.bgMuted,
@@ -210,20 +211,21 @@ export default function TrackingPage() {
             })}
           </div>
         </div>
+        </div>
 
         {/* OTP Card — shown when out for delivery and not yet verified */}
         {(isOutForDelivery) && !otpVerified && deliveryOTP && (
-          <div className="anim-fade-up" style={{ background: dark?"rgba(245,158,11,0.08)":"rgba(245,158,11,0.06)", border:"2px solid rgba(245,158,11,0.5)", borderRadius:20, padding:"24px 28px", marginBottom:24, boxShadow:"0 4px 24px rgba(245,158,11,0.15)" }}>
+          <div className="anim-fade-up" style={{ background: dark?"rgba(245,158,11,0.08)":"rgba(245,158,11,0.06)", border:"2px solid rgba(245,158,11,0.5)", borderRadius:20, padding:"16px 18px", marginBottom:12, boxShadow:"0 4px 24px rgba(245,158,11,0.15)" }}>
             <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:16 }}>
               <span style={{ fontSize:22 }}>🔐</span>
               <div style={{ fontSize:16, fontWeight:800, color:"#f59e0b", fontFamily:"'Inter',sans-serif" }}>Delivery OTP</div>
             </div>
-            <p style={{ color:tk.textMid, marginBottom:20, fontSize:13, lineHeight:1.6, fontFamily:"'Inter',sans-serif" }}>
+            <p style={{ color:tk.textMid, marginBottom:12, fontSize:13, lineHeight:1.5, fontFamily:"'Inter',sans-serif" }}>
               Your delivery is on the way! Share this OTP <strong>only with the delivery agent</strong> when they arrive at your door. Delivery will be confirmed after OTP verification.
             </p>
-            <div style={{ background:dark?"rgba(0,0,0,0.3)":"rgba(255,255,255,0.8)", borderRadius:16, padding:"20px 24px", textAlign:"center", border:`1px solid rgba(245,158,11,0.3)` }}>
+            <div style={{ background:dark?"rgba(0,0,0,0.3)":"rgba(255,255,255,0.8)", borderRadius:16, padding:"14px 16px", textAlign:"center", border:`1px solid rgba(245,158,11,0.3)` }}>
               <div style={{ fontSize:11, color:tk.textLt, marginBottom:10, letterSpacing:"1.5px", textTransform:"uppercase", fontFamily:"'Inter',sans-serif" }}>Your One-Time Password</div>
-              <div style={{ fontSize:42, fontWeight:900, color:"#f59e0b", letterSpacing:10, fontFamily:"'JetBrains Mono','Courier New',monospace" }}>
+              <div style={{ fontSize:36, fontWeight:900, color:"#f59e0b", letterSpacing:8, fontFamily:"'JetBrains Mono','Courier New',monospace" }}>
                 {deliveryOTP}
               </div>
               <div style={{ fontSize:11, color:tk.textLt, marginTop:12, fontFamily:"'Inter',sans-serif" }}>🔒 Do not share with anyone other than the delivery agent</div>
@@ -233,22 +235,22 @@ export default function TrackingPage() {
 
         {/* OTP verified badge */}
         {otpVerified && (
-          <div style={{ background:dark?"rgba(16,185,129,0.08)":"rgba(5,150,105,0.06)", border:"1px solid rgba(16,185,129,0.3)", borderRadius:14, padding:"14px var(--page-px,clamp(16px,4vw,48px))", marginBottom:24, display:"flex", alignItems:"center", gap:10 }}>
+          <div style={{ background:dark?"rgba(16,185,129,0.08)":"rgba(5,150,105,0.06)", border:"1px solid rgba(16,185,129,0.3)", borderRadius:14, padding:"12px 14px", marginBottom:12, display:"flex", alignItems:"center", gap:10 }}>
             <span style={{ fontSize:18 }}>✅</span>
             <span style={{ color:"#10b981", fontWeight:700, fontSize:13, fontFamily:"'Inter',sans-serif" }}>OTP verified — delivery confirmed!</span>
           </div>
         )}
 
         {/* Timeline detail */}
-        <div style={{ background:tk.bgCard, borderRadius:20, padding:24, border:`1px solid ${tk.border}` }}>
-          <h2 style={{ fontSize:15, fontWeight:700, color:tk.text, marginBottom:20, fontFamily:"'Inter',sans-serif" }}>📋 Detailed Timeline</h2>
+        <div style={{ background:tk.bgCard, borderRadius:20, padding:18, border:`1px solid ${tk.border}` }}>
+          <h2 style={{ fontSize:15, fontWeight:700, color:tk.text, marginBottom:14, fontFamily:"'Inter',sans-serif" }}>📋 Detailed Timeline</h2>
           <div style={{ display:"flex", flexDirection:"column", gap:0 }}>
             {(timeline||[]).map((item, idx) => (
-              <div key={idx} style={{ display:"flex", gap:16, paddingBottom: idx < (timeline.length-1) ? 24 : 0, position:"relative" }}>
+              <div key={idx} style={{ display:"flex", gap:12, paddingBottom: idx < (timeline.length-1) ? 16 : 0, position:"relative" }}>
                 {idx < timeline.length - 1 && (
                   <div style={{ position:"absolute", left:19, top:40, width:2, height:"calc(100% - 16px)", background: item.status==="completed" ? "linear-gradient(to bottom,#52b788,#74c69d44)" : tk.bgMuted }} />
                 )}
-                <div style={{ width:40, height:40, borderRadius:"50%", flexShrink:0, zIndex:1, display:"flex", alignItems:"center", justifyContent:"center", fontSize:16,
+                  <div style={{ width:34, height:34, borderRadius:"50%", flexShrink:0, zIndex:1, display:"flex", alignItems:"center", justifyContent:"center", fontSize:14,
                   background: item.status==="completed" ? "#52b788" : item.status==="active" ? progressColor : tk.bgMuted,
                   boxShadow: item.status==="completed" ? "0 4px 12px rgba(82,183,136,0.35)" : "none",
                 }}>
@@ -269,7 +271,7 @@ export default function TrackingPage() {
         </div>
 
         {/* Manual refresh */}
-        <div style={{ textAlign:"center", marginTop:28 }}>
+        <div style={{ textAlign:"center", marginTop:14 }}>
           <button onClick={()=>fetchTracking(true)} disabled={refreshing} style={{ padding:"10px 24px", background:dark?"rgba(59,130,246,0.1)":"rgba(37,99,235,0.08)", border:"1px solid rgba(59,130,246,0.4)", color:"#3b82f6", borderRadius:12, cursor:refreshing?"not-allowed":"pointer", fontFamily:"'Inter',sans-serif", fontWeight:700, fontSize:13, opacity:refreshing?0.7:1 }}>
             {refreshing ? `🔄 Refreshing${dots}` : "🔄 Refresh Now"}
           </button>

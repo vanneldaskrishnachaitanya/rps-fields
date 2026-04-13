@@ -53,7 +53,7 @@ export default function OrdersPage() {
         </div>
       </div>
 
-      <div style={{ maxWidth:"var(--content-max,1680px)", margin:"0 auto", padding:"clamp(18px,2.6vw,30px) var(--page-px,clamp(16px,3.2vw,36px)) 64px" }}>
+      <div style={{ maxWidth:"var(--content-max,1680px)", margin:"0 auto", padding:"clamp(14px,2.1vw,24px) var(--page-px,clamp(16px,3.2vw,36px)) 44px" }}>
         {loading ? (
           <div style={{ textAlign:"center", padding:"80px 0", color:tk.textLt }}>
             <div style={{ fontSize:48, marginBottom:14, animation:"float 2s ease-in-out infinite" }}>📦</div>
@@ -68,11 +68,13 @@ export default function OrdersPage() {
               Browse Catalog →
             </button>
           </div>
-        ) : orders.map((ord,i) => {
+        ) : (
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(520px,1fr))", gap:12, alignItems:"start" }}>
+            {orders.map((ord,i) => {
           const ordId = ord._id||ord.id;
           const ss = STATUS_STYLE[ord.status] || STATUS_STYLE.pending;
           return (
-            <div key={ordId} data-no-tilt style={{ background:tk.bgCard, borderRadius:16, padding:"14px 16px", marginBottom:10, border:`1px solid ${tk.border}`, animation:`fadeUp 0.5s ease ${i*0.07}s both`, transition:"all 0.25s" }}
+            <div key={ordId} data-no-tilt style={{ background:tk.bgCard, borderRadius:16, padding:"12px 14px", border:`1px solid ${tk.border}`, animation:`fadeUp 0.5s ease ${i*0.07}s both`, transition:"all 0.25s" }}
               onMouseEnter={e=>{e.currentTarget.style.boxShadow=tk.shadowMd; e.currentTarget.style.borderColor=dark?"#52b78833":"#2d6a4f44";}}
               onMouseLeave={e=>{e.currentTarget.style.boxShadow="none"; e.currentTarget.style.borderColor=tk.border;}}
             >
@@ -114,7 +116,7 @@ export default function OrdersPage() {
                 </div>
               </div>
 
-              <div style={{ display:"flex", flexDirection:"column", gap:8, marginBottom:10 }}>
+              <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(300px,1fr))", gap:8, marginBottom:10 }}>
                 {(ord.items||[]).map((item,j) => {
                   const itemKey = `${ordId}-${item.productId||item.id}`;
                   const alreadyRated = ratedItems.has(itemKey);
@@ -125,12 +127,12 @@ export default function OrdersPage() {
                   const unitPrice = item.pricePerKg||item.price||0;
                   const total = item.totalPrice||(unitPrice*qty);
                   return (
-                    <div key={j} style={{ display:"flex", alignItems:"center", gap:14, padding:"10px 12px", background:tk.bgMuted, borderRadius:12, border:`1px solid ${tk.border}` }}>
+                    <div key={j} style={{ display:"flex", alignItems:"center", gap:12, padding:"9px 10px", background:tk.bgMuted, borderRadius:12, border:`1px solid ${tk.border}` }}>
                       {(item.image||item.img) && (
                         <img src={item.image||item.img} alt={item.name} style={{ width:72, height:72, borderRadius:12, objectFit:"cover", flexShrink:0 }} onError={e=>e.target.style.display="none"} />
                       )}
                       <div style={{ flex:1 }}>
-                        <div style={{ fontWeight:900, color:dark?"#e9fff2":"#123c2a", fontSize:22, lineHeight:1.15, marginBottom:4 }}>{item.name}</div>
+                        <div style={{ fontWeight:900, color:dark?"#e9fff2":"#123c2a", fontSize:20, lineHeight:1.15, marginBottom:4 }}>{item.name}</div>
                         <div style={{ display:"inline-flex", alignItems:"center", gap:6, marginBottom:4, background:dark?"rgba(82,183,136,0.18)":"rgba(82,183,136,0.16)", border:"1px solid rgba(82,183,136,0.42)", color:dark?"#74c69d":"#1f6b4c", borderRadius:999, padding:"3px 10px", fontWeight:900, fontSize:13 }}>
                           Qty {qty}{unit}
                         </div>
@@ -138,8 +140,8 @@ export default function OrdersPage() {
                           ₹{unitPrice}/{unit}
                         </div>
                       </div>
-                      <div style={{ textAlign:"right", minWidth:86 }}>
-                        <div style={{ fontSize:30, lineHeight:1, color:dark?"#52b788":"#2f8f69", fontWeight:900, fontFamily:"'Inter',sans-serif" }}>₹{total}</div>
+                      <div style={{ textAlign:"right", minWidth:80 }}>
+                        <div style={{ fontSize:28, lineHeight:1, color:dark?"#52b788":"#2f8f69", fontWeight:900, fontFamily:"'Inter',sans-serif" }}>₹{total}</div>
                       </div>
                       {canRate && (
                         <button
@@ -167,6 +169,8 @@ export default function OrdersPage() {
             </div>
           );
         })}
+          </div>
+        )}
       </div>
 
       {rateModal && (
