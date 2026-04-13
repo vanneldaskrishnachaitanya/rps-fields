@@ -221,7 +221,7 @@ export default function LoginPage() {
 
         {/* Main Card */}
         <div data-tilt className={dark ? "liquid-glass-dark" : "liquid-glass"} style={{ borderRadius:24, padding:"44px 40px", marginBottom:16, position:"relative", overflow:"hidden", background: dark ? undefined : "linear-gradient(160deg, rgba(255,255,255,0.90), rgba(242,249,245,0.82))", border: dark ? undefined : "1px solid rgba(255,255,255,0.76)", boxShadow: dark ? undefined : "0 28px 64px rgba(14,38,26,0.36), inset 0 1px 0 rgba(255,255,255,0.88)", backdropFilter: dark ? undefined : "blur(18px) saturate(140%)", WebkitBackdropFilter: dark ? undefined : "blur(18px) saturate(140%)" }}>
-          <div aria-hidden="true" style={{ position:"absolute", inset:0, background: dark ? "linear-gradient(135deg, rgba(82,183,136,0.08), rgba(0,0,0,0))" : "linear-gradient(135deg, rgba(82,183,136,0.12), rgba(255,255,255,0))" }} />
+          <div aria-hidden="true" style={{ position:"absolute", inset:0, pointerEvents:"none", background: dark ? "linear-gradient(135deg, rgba(82,183,136,0.08), rgba(0,0,0,0))" : "linear-gradient(135deg, rgba(82,183,136,0.12), rgba(255,255,255,0))" }} />
 
           {!forgotMode ? (
             <>
