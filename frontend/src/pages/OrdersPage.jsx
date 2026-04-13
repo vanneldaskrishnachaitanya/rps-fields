@@ -146,6 +146,8 @@ export default function OrdersPage() {
                     >
                       {'>'}
                     </button>
+                    <div style={{ position:"absolute", left:34, top:0, bottom:2, width:24, pointerEvents:"none", zIndex:1, background:`linear-gradient(to right, ${tk.bgCard}, rgba(0,0,0,0))` }} />
+                    <div style={{ position:"absolute", right:34, top:0, bottom:2, width:24, pointerEvents:"none", zIndex:1, background:`linear-gradient(to left, ${tk.bgCard}, rgba(0,0,0,0))` }} />
                   </>
                 )}
                 <div
