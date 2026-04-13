@@ -63,7 +63,7 @@ export default function CartPage() {
         <div style={{ paddingTop:14, fontSize:13, color:tk.textMid }}>📦 Delivering to {order.city} · 📞 {order.phone}</div>
       </div>
       <div style={{ display:"flex", gap:12, flexWrap:"wrap", justifyContent:"center" }}>
-        <button data-magnetic onClick={()=>navigate("/catalog")} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"13px 28px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif" }}>
+        <button data-magnetic onClick={()=>navigate("/catalog")} style={{ background:"linear-gradient(135deg,rgba(93,198,150,0.96),rgba(47,131,94,0.98))", backdropFilter:"blur(18px) saturate(170%)", WebkitBackdropFilter:"blur(18px) saturate(170%)", border:"1px solid rgba(194,255,226,0.44)", color:"#fff", textShadow:"0 1px 4px rgba(0,0,0,0.30)", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.62),inset 0 -1px 0 rgba(0,0,0,0.18),0 10px 30px rgba(28,120,86,0.45)", padding:"13px 28px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif" }}>
           Continue Shopping
         </button>
         <button data-magnetic onClick={()=>navigate("/orders")} style={{ background:"transparent", border:`2px solid ${tk.green6}`, color:tk.green6, padding:"13px 28px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif" }}>
@@ -78,7 +78,7 @@ export default function CartPage() {
       <div style={{ fontSize:80, marginBottom:16, animation:"float 3s ease-in-out infinite" }}>🛒</div>
       <h2 style={{ fontSize:28, color:tk.text, marginBottom:8, fontFamily:"'Playfair Display',Georgia,serif" }}>Your cart is empty</h2>
       <p style={{ color:tk.textLt, marginBottom:28, fontSize:15 }}>Browse our catalog and add fresh produce.</p>
-      <button data-magnetic onClick={()=>navigate("/catalog")} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"14px 32px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif" }}>
+      <button data-magnetic onClick={()=>navigate("/catalog")} style={{ background:"linear-gradient(135deg,rgba(93,198,150,0.96),rgba(47,131,94,0.98))", backdropFilter:"blur(18px) saturate(170%)", WebkitBackdropFilter:"blur(18px) saturate(170%)", border:"1px solid rgba(194,255,226,0.44)", color:"#fff", textShadow:"0 1px 4px rgba(0,0,0,0.30)", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.62),inset 0 -1px 0 rgba(0,0,0,0.18),0 10px 30px rgba(28,120,86,0.45)", padding:"14px 32px", borderRadius:50, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif" }}>
         Browse Catalog →
       </button>
     </div>
@@ -123,7 +123,7 @@ export default function CartPage() {
                 </div>
                 <div style={{ textAlign:"right", minWidth:88 }}>
                   <div style={{ fontWeight:900, fontSize:18, color:tk.text, marginBottom:8 }}>₹{item.price*item.qty}</div>
-                  <button data-magnetic onClick={()=>removeFromCart(item.id)} style={{ background:"transparent", border:"1.5px solid rgba(239,68,68,0.4)", color:"#ef4444", padding:"5px 12px", borderRadius:8, cursor:"pointer", fontSize:12, fontWeight:700, fontFamily:"'Inter',sans-serif", transition:"all 0.2s" }}>
+                  <button data-magnetic onClick={()=>removeFromCart(item.id)} style={{ background:"linear-gradient(135deg,rgba(239,68,68,0.94),rgba(190,24,24,0.98))", border:"1px solid rgba(255,189,189,0.54)", color:"#fff", textShadow:"0 1px 4px rgba(0,0,0,0.25)", boxShadow:"inset 0 1px 0 rgba(255,255,255,0.45), inset 0 -1px 0 rgba(0,0,0,0.18), 0 8px 20px rgba(185,28,28,0.35)", padding:"6px 12px", borderRadius:10, cursor:"pointer", fontSize:12, fontWeight:700, fontFamily:"'Inter',sans-serif", transition:"all 0.2s" }}>
                     Remove
                   </button>
                 </div>
@@ -152,12 +152,12 @@ export default function CartPage() {
                 <>
                   {!user && <div style={{ background: dark?"rgba(212,160,23,0.1)":"#fffbeb", border:"1px solid rgba(212,160,23,0.3)", borderRadius:10, padding:"10px 14px", fontSize:12, color:"#92400e", marginBottom:14 }}>⚠ Please login to checkout</div>}
                   <button data-magnetic onClick={()=>{ if(!user) navigate("/login"); else setShowCheckout(true); }}
-                    style={{ background:"rgba(200,150,12,0.32)", color:"#1b2e10", border:"none", width:"100%", padding:14, borderRadius:14, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", boxShadow:"0 6px 20px rgba(212,160,23,0.35)", transition:"all 0.2s", marginBottom:10 }}
-                    onMouseEnter={e=>{e.target.style.transform="translateY(-1px)";e.target.style.boxShadow="0 10px 28px rgba(212,160,23,0.5)";}}
-                    onMouseLeave={e=>{e.target.style.transform="none";e.target.style.boxShadow="0 6px 20px rgba(212,160,23,0.35)";}}>
+                    style={{ background:"linear-gradient(135deg,rgba(248,201,72,0.98),rgba(204,147,8,1))", color:"#fff", textShadow:"0 1px 4px rgba(0,0,0,0.32)", border:"1px solid rgba(255,236,163,0.82)", width:"100%", padding:14, borderRadius:14, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", boxShadow:"inset 0 1.5px 0 rgba(255,245,205,0.62), inset 0 -1px 0 rgba(0,0,0,0.18), 0 10px 28px rgba(212,160,23,0.52)", transition:"all 0.2s", marginBottom:10 }}
+                    onMouseEnter={e=>{e.target.style.transform="translateY(-1px)";e.target.style.boxShadow="inset 0 1.5px 0 rgba(255,245,205,0.68), inset 0 -1px 0 rgba(0,0,0,0.18), 0 14px 34px rgba(212,160,23,0.62)";}}
+                    onMouseLeave={e=>{e.target.style.transform="none";e.target.style.boxShadow="inset 0 1.5px 0 rgba(255,245,205,0.62), inset 0 -1px 0 rgba(0,0,0,0.18), 0 10px 28px rgba(212,160,23,0.52)";}}>
                     {user ? "Proceed to Checkout →" : "Login to Checkout →"}
                   </button>
-                  <button data-magnetic onClick={()=>navigate("/catalog")} style={{ background:"transparent", border:`2px solid ${tk.border}`, color:tk.textMid, width:"100%", padding:12, borderRadius:14, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif", transition:"all 0.2s", boxSizing:"border-box" }}>
+                  <button data-magnetic onClick={()=>navigate("/catalog")} style={{ background: dark ? "linear-gradient(135deg,rgba(21,56,40,0.86),rgba(14,40,28,0.90))" : "linear-gradient(135deg,rgba(242,250,245,0.95),rgba(224,241,231,0.96))", border: dark ? "1px solid rgba(126,216,177,0.35)" : "1px solid rgba(45,106,79,0.35)", color: dark ? "#c2f2da" : "#1f573d", width:"100%", padding:12, borderRadius:14, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif", transition:"all 0.2s", boxSizing:"border-box", boxShadow: dark ? "inset 0 1px 0 rgba(255,255,255,0.14), 0 8px 20px rgba(7,20,14,0.28)" : "inset 0 1px 0 rgba(255,255,255,0.75), 0 8px 20px rgba(24,79,54,0.22)" }}>
                     Continue Shopping
                   </button>
                 </>
@@ -173,10 +173,10 @@ export default function CartPage() {
                     </div>
                   ))}
                   <button data-magnetic onClick={handleCheckout} disabled={loading}
-                    style={{ background:"rgba(200,150,12,0.32)", color:"#1b2e10", border:"none", width:"100%", padding:14, borderRadius:14, cursor:loading?"not-allowed":"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", marginTop:8, opacity:loading?0.75:1, transition:"all 0.2s" }}>
+                    style={{ background:"linear-gradient(135deg,rgba(248,201,72,0.98),rgba(204,147,8,1))", color:"#fff", textShadow:"0 1px 4px rgba(0,0,0,0.32)", border:"1px solid rgba(255,236,163,0.82)", width:"100%", padding:14, borderRadius:14, cursor:loading?"not-allowed":"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", marginTop:8, opacity:loading?0.75:1, transition:"all 0.2s", boxShadow:"inset 0 1.5px 0 rgba(255,245,205,0.62), inset 0 -1px 0 rgba(0,0,0,0.18), 0 10px 28px rgba(212,160,23,0.52)" }}>
                     {loading ? "Placing Order..." : `✓ Place Order · ₹${total}`}
                   </button>
-                  <button data-magnetic onClick={()=>setShowCheckout(false)} style={{ background:"transparent", border:`1px solid ${tk.border}`, color:tk.textMid, width:"100%", padding:10, borderRadius:10, cursor:"pointer", fontSize:13, fontFamily:"'Inter',sans-serif", marginTop:8, boxSizing:"border-box" }}>
+                  <button data-magnetic onClick={()=>setShowCheckout(false)} style={{ background: dark ? "linear-gradient(135deg,rgba(21,56,40,0.86),rgba(14,40,28,0.90))" : "linear-gradient(135deg,rgba(242,250,245,0.95),rgba(224,241,231,0.96))", border: dark ? "1px solid rgba(126,216,177,0.35)" : "1px solid rgba(45,106,79,0.35)", color: dark ? "#c2f2da" : "#1f573d", width:"100%", padding:10, borderRadius:10, cursor:"pointer", fontSize:13, fontFamily:"'Inter',sans-serif", marginTop:8, boxSizing:"border-box", boxShadow: dark ? "inset 0 1px 0 rgba(255,255,255,0.14), 0 8px 20px rgba(7,20,14,0.28)" : "inset 0 1px 0 rgba(255,255,255,0.75), 0 8px 20px rgba(24,79,54,0.22)" }}>
                     ← Back
                   </button>
                 </div>
