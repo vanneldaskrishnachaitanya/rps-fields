@@ -45,7 +45,6 @@ export default function QuickActions({ collapsed: defaultCollapsed = false }) {
   const [isDragging, setIsDragging] = useState(false);
   const [dockedSide, setDockedSide] = useState("none");
   const [isHovered, setIsHovered] = useState(false);
-  const [dockMenuOpen, setDockMenuOpen] = useState(false);
   const widgetRef = useRef(null);
   const dragRef = useRef({ startX: 0, startY: 0, initialX: 0, initialY: 0 });
 
@@ -87,11 +86,6 @@ export default function QuickActions({ collapsed: defaultCollapsed = false }) {
       return clampToViewport(clampedX, clampedY);
     });
   }, [clampToViewport, getWidgetBounds]);
-
-  const handleDockAction = useCallback((side) => {
-    dockToSide(side);
-    setDockMenuOpen(false);
-  }, [dockToSide]);
 
   // Initialize position on mount
   useEffect(() => {
@@ -164,7 +158,6 @@ export default function QuickActions({ collapsed: defaultCollapsed = false }) {
     if (e.button != null && e.button !== 0) return;
     setIsDragging(true);
     setDockedSide("none");
-    setDockMenuOpen(false);
 
     const clientX = e.clientX ?? e.touches?.[0]?.clientX;
     const clientY = e.clientY ?? e.touches?.[0]?.clientY;
@@ -251,34 +244,6 @@ export default function QuickActions({ collapsed: defaultCollapsed = false }) {
     if (dockedSide === "bottom") return "translateY(calc(100% - 22px))";
     return "translateZ(0)";
   };
-
-  const renderDockButton = (label, side, ariaLabel) => (
-    <button
-      type="button"
-      className="no-drag"
-      onClick={(e) => {
-        e.stopPropagation();
-        handleDockAction(side);
-      }}
-      aria-label={ariaLabel}
-      style={{
-        width: 28,
-        height: 28,
-        borderRadius: 999,
-        background: dark ? "rgba(82,183,136,0.12)" : "rgba(82,183,136,0.1)",
-        border: `1px solid ${dark ? "rgba(82,183,136,0.2)" : "rgba(82,183,136,0.25)"}`,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontSize: 13,
-        transition: "all 0.2s",
-        cursor: "pointer",
-        color: dark ? "#dff8e9" : "#1a3a24",
-      }}
-    >
-      {label}
-    </button>
-  );
 
   return (
     <div
@@ -400,49 +365,21 @@ export default function QuickActions({ collapsed: defaultCollapsed = false }) {
             </div>
           </>
         ) : (
-          <div style={{ display: "flex", alignItems: "center", gap: 6, position: "relative" }}>
-            {dockMenuOpen && (
-              <div
-                style={{
-                  position: "absolute",
-                  right: "100%",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 6,
-                  padding: 6,
-                  marginRight: 8,
-                  borderRadius: 999,
-                  background: dark ? "rgba(8,18,12,0.96)" : "rgba(240,248,242,0.98)",
-                  border: `1px solid ${dark ? "rgba(82,183,136,0.18)" : "rgba(82,183,136,0.25)"}`,
-                  boxShadow: dark
-                    ? "0 8px 24px rgba(0,0,0,0.35)"
-                    : "0 8px 24px rgba(27,67,50,0.12)",
-                  zIndex: 2,
-                }}
-              >
-                {renderDockButton("◀", "left", "Hide quick actions on the left")}
-                {renderDockButton("●", "none", "Center quick actions")}
-                {renderDockButton("▶", "right", "Hide quick actions on the right")}
-              </div>
-            )}
-            <button
-              type="button"
-              className="no-drag"
-              onClick={(e) => { e.stopPropagation(); setDockMenuOpen((open) => !open); }}
-              aria-label="Open quick actions controls"
-              style={{
-                width: 28, height: 28, borderRadius: "50%",
-                background: dark ? "rgba(82,183,136,0.12)" : "rgba(82,183,136,0.1)",
-                border: `1px solid ${dark ? "rgba(82,183,136,0.2)" : "rgba(82,183,136,0.25)"}`,
-                display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: 13, transition: "all 0.2s", cursor: "pointer", color: dark ? "#dff8e9" : "#1a3a24",
-              }}
-            >
-              ⚡
-            </button>
-          </div>
+          <button
+            type="button"
+            className="no-drag"
+            onClick={(e) => { e.stopPropagation(); setCollapsed(false); }}
+            aria-label="Expand quick actions"
+            style={{
+              width: 28, height: 28, borderRadius: "50%",
+              background: dark ? "rgba(82,183,136,0.12)" : "rgba(82,183,136,0.1)",
+              border: `1px solid ${dark ? "rgba(82,183,136,0.2)" : "rgba(82,183,136,0.25)"}`,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: 13, transition: "all 0.2s", cursor: "pointer", color: dark ? "#dff8e9" : "#1a3a24",
+            }}
+          >
+            ⚡
+          </button>
         )}
       </div>
 
