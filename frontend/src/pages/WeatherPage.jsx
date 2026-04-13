@@ -154,13 +154,13 @@ export default function WeatherPage() {
           <button data-magnetic onClick={()=>fetchWeather(input)} disabled={loading} style={{
             padding:"12px 24px", borderRadius:14, cursor:loading?"not-allowed":"pointer",
             fontWeight:700, fontSize:15, fontFamily:"'Inter',sans-serif",
-            background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)",
-            border:"1px solid rgba(255,255,255,0.30)", color:"#fff",
-            boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.5),inset 0 -1px 0 rgba(0,0,0,0.1),0 6px 20px rgba(0,0,0,0.2)",
+            background:dark ? "rgba(82,183,136,0.30)" : "rgba(45,106,79,0.16)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)",
+            border:dark ? "1px solid rgba(255,255,255,0.30)" : "1px solid rgba(45,106,79,0.30)", color:dark ? "#ffffff" : "#1b4332",
+            boxShadow:dark ? "inset 0 1.5px 0 rgba(255,255,255,0.5),inset 0 -1px 0 rgba(0,0,0,0.1),0 6px 20px rgba(0,0,0,0.2)" : "inset 0 1px 0 rgba(255,255,255,0.7),inset 0 -1px 0 rgba(45,106,79,0.08),0 6px 18px rgba(26,74,52,0.18)",
             transition:"all 0.22s cubic-bezier(0.34,1.56,0.64,1)", opacity:loading?0.7:1,
           }}
-            onMouseEnter={e=>{if(!loading){e.currentTarget.style.transform="scale(1.04) translateY(-1px)"; e.currentTarget.style.background="rgba(82,183,136,0.42)";}}}
-            onMouseLeave={e=>{e.currentTarget.style.transform="none"; e.currentTarget.style.background="rgba(82,183,136,0.28)";}}>
+            onMouseEnter={e=>{if(!loading){e.currentTarget.style.transform="scale(1.04) translateY(-1px)"; e.currentTarget.style.background = dark ? "rgba(82,183,136,0.42)" : "rgba(45,106,79,0.24)";}}}
+            onMouseLeave={e=>{e.currentTarget.style.transform="none"; e.currentTarget.style.background = dark ? "rgba(82,183,136,0.30)" : "rgba(45,106,79,0.16)";}}>
             {loading ? "⏳" : "🔍 Search"}
           </button>
         </div>

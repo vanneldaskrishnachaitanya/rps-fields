@@ -89,7 +89,7 @@ export default function TrackingPage() {
   const progressColor = isDelivered ? "#10b981" : isOutForDelivery ? "#3b82f6" : "#f59e0b";
 
   return (
-    <div style={{ background:tk.bg, minHeight:"100vh", padding:"18px var(--page-px,clamp(16px,4vw,48px)) 40px" }}>
+    <div data-no-tilt style={{ background:tk.bg, minHeight:"100vh", padding:"18px var(--page-px,clamp(16px,4vw,48px)) 40px" }}>
       <div style={{ maxWidth:"var(--content-max,1320px)", margin:"0 auto" }}>
 
         {/* Back */}

@@ -586,16 +586,16 @@ export default function HomePage() {
             ...reveal("trust"),
           }}>
             <div style={{ fontSize:22, marginBottom:6 }}>⭐⭐⭐⭐⭐</div>
-            <h3 style={{ color:"#fff", fontSize:"clamp(17px,1.8vw,22px)", fontFamily:"'Playfair Display',Georgia,serif", lineHeight:1.3, marginBottom:8, fontStyle:"italic" }}>
+            <h3 style={{ color:dark ? "#f8fafc" : "#163524", fontSize:"clamp(17px,1.8vw,22px)", fontFamily:"'Playfair Display',Georgia,serif", lineHeight:1.3, marginBottom:8, fontStyle:"italic" }}>
               "The freshest produce I've ever received, straight from the farm to my kitchen."
             </h3>
-            <p style={{ color:"#74c69d", fontSize:11.5, fontWeight:700, marginBottom:10 }}>— Priya M., Hyderabad customer since 2024</p>
+            <p style={{ color:dark ? "#74c69d" : "#2d6a4f", fontSize:11.5, fontWeight:700, marginBottom:10 }}>— Priya M., Hyderabad customer since 2024</p>
             <div data-id="trust2" style={{ display:"grid", gridTemplateColumns:"repeat(2,1fr)", gap:8, ...reveal("trust2", 0.12) }}>
               {[["🌾","500+","Verified Farmers"],["📦","10K+","Orders Delivered"],["⭐","4.8/5","Avg Rating"],["🗺","15+","States Covered"]].map(([icon,num,label]) => (
-                <div key={label} style={{ textAlign:"center", padding:"6px 4px", borderRadius:10, background:"rgba(0,0,0,0.12)" }}>
+                <div key={label} style={{ textAlign:"center", padding:"6px 4px", borderRadius:10, background:dark ? "rgba(255,255,255,0.08)" : "rgba(16,53,36,0.08)" }}>
                   <div style={{ fontSize:15 }}>{icon}</div>
-                  <div className="num" style={{ color:"#fff", fontSize:17, fontWeight:900, fontFamily:"'Inter',sans-serif" }}>{num}</div>
-                  <div style={{ color:"rgba(255,255,255,0.62)", fontSize:10 }}>{label}</div>
+                  <div className="num" style={{ color:dark ? "#ffffff" : "#163524", fontSize:17, fontWeight:900, fontFamily:"'Inter',sans-serif" }}>{num}</div>
+                  <div style={{ color:dark ? "rgba(255,255,255,0.72)" : "rgba(22,53,36,0.72)", fontSize:10 }}>{label}</div>
                 </div>
               ))}
             </div>
