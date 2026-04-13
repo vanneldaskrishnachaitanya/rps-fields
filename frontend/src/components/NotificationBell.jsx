@@ -5,13 +5,24 @@ import { useNavigate } from "react-router-dom";
 export default function NotificationBell() {
   const { notifications, unreadCount, markAllRead, clearAll } = useNotifications();
   const [open, setOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 768);
   const ref = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const close = e => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
     document.addEventListener("mousedown", close);
-    return () => document.removeEventListener("mousedown", close);
+    document.addEventListener("touchstart", close);
+    return () => {
+      document.removeEventListener("mousedown", close);
+      document.removeEventListener("touchstart", close);
+    };
+  }, []);
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", onResize, { passive: true });
+    return () => window.removeEventListener("resize", onResize);
   }, []);
 
   const typeIcon = (type) => type === "placed" ? "🎉" : type === "delivery" ? "🚚" : "✅";
@@ -47,8 +58,13 @@ export default function NotificationBell() {
 
       {open && (
         <div className="anim-slide-down" style={{
-          position: "absolute", top: "calc(100% + 10px)", right: 0,
-          width: 340, maxHeight: 420, overflowY: "auto",
+          position: isMobile ? "fixed" : "absolute",
+          top: isMobile ? 74 : "calc(100% + 10px)",
+          right: isMobile ? 8 : 0,
+          left: isMobile ? 8 : "auto",
+          width: isMobile ? "auto" : 340,
+          maxHeight: isMobile ? "calc(100dvh - 88px)" : 420,
+          overflowY: "auto",
           background: "rgba(4,13,6,0.97)",
           backdropFilter: "blur(28px) saturate(200%)",
           WebkitBackdropFilter: "blur(28px) saturate(200%)",

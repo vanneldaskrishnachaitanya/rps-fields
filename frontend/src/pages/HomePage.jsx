@@ -245,6 +245,7 @@ export default function HomePage() {
   const { dark }  = useTheme();
   const tk        = TK(dark);
   const [products, setProducts]   = useState([]);
+  const [isMobile, setIsMobile]   = useState(() => window.innerWidth <= 768);
   const [slide, setSlide]         = useState(0);
   const [animating, setAnimating] = useState(false);
   const [visible, setVisible]     = useState({});
@@ -258,11 +259,19 @@ export default function HomePage() {
   const headerOffset = 72;
 
   useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", onResize, { passive: true });
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  useEffect(() => {
     fetch(`${API_BASE}/products`)
       .then(r => r.json())
-      .then(d => { if (d.success) setProducts(d.products.slice(0, 6)); })
+      .then(d => { if (d.success) setProducts(d.products || []); })
       .catch(() => {});
   }, []);
+
+  const visibleProducts = products.slice(0, isMobile ? 3 : 6);
 
   const startTimer = () => {
     clearInterval(timerRef.current);
@@ -493,10 +502,10 @@ export default function HomePage() {
 
         <div className="home-stats-grid" style={{ maxWidth: "var(--content-max)", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4,minmax(150px,220px))", justifyContent:"center", padding:"0 var(--page-px, clamp(10px,2.2vw,24px))" }}>
           {STATS.map((s, i) => (
-            <div key={i} data-id={`stat-${i}`} style={{ textAlign:"center", padding:"22px 16px", borderRight: i < 3 ? "1px solid rgba(255,255,255,0.08)" : "none", ...reveal(`stat-${i}`, i * 0.08) }}>
-              <div style={{ fontSize:22, marginBottom:4 }}>{s.icon}</div>
-              <div style={{ fontSize:26, fontWeight:900, color:"#74c69d", fontFamily:"'Inter',sans-serif", fontFeatureSettings:'"tnum"' }}>{s.num}</div>
-              <div style={{ fontSize:10, color:"rgba(255,255,255,0.55)", textTransform:"uppercase", letterSpacing:"1.2px", marginTop:2 }}>{s.label}</div>
+            <div className="home-stat-item" key={i} data-id={`stat-${i}`} style={{ textAlign:"center", padding:"22px 16px", borderRight: i < 3 ? "1px solid rgba(255,255,255,0.08)" : "none", ...reveal(`stat-${i}`, i * 0.08) }}>
+              <div className="home-stat-icon" style={{ fontSize:22, marginBottom:4 }}>{s.icon}</div>
+              <div className="home-stat-num" style={{ fontSize:26, fontWeight:900, color:"#74c69d", fontFamily:"'Inter',sans-serif", fontFeatureSettings:'"tnum"' }}>{s.num}</div>
+              <div className="home-stat-label" style={{ fontSize:10, color:"rgba(255,255,255,0.55)", textTransform:"uppercase", letterSpacing:"1.2px", marginTop:2 }}>{s.label}</div>
             </div>
           ))}
         </div>
@@ -544,14 +553,14 @@ export default function HomePage() {
             <p style={{ color:tk.textLt, fontSize:15 }}>Curated by our farmers — freshest produce available right now</p>
           </div>
 
-          {products.length === 0 ? (
+          {visibleProducts.length === 0 ? (
             <div style={{ textAlign:"center", padding:"60px 0", color:tk.textLt }}>
               <div style={{ fontSize:48, marginBottom:12 }}>🌾</div>
               <p>Loading fresh products...</p>
             </div>
           ) : (
-            <div style={{ display:"grid", gridTemplateColumns:"repeat(6,minmax(0,1fr))", gap:12, alignItems:"stretch" }}>
-              {products.map((p, i) => (
+            <div className="home-product-grid" style={{ display:"grid", gridTemplateColumns:"repeat(6,minmax(0,1fr))", gap:12, alignItems:"stretch" }}>
+              {visibleProducts.map((p, i) => (
                 <div key={p.id || p._id} data-id={`prod-${i}`} style={{ minWidth:0, ...reveal(`prod-${i}`, i * 0.07) }}>
                   <ProductCard product={p} />
                 </div>
@@ -577,7 +586,7 @@ export default function HomePage() {
       <div ref={el => { sectionRefs.current[2] = el; }} style={sectionTransitionStyle(2)}>
       {/* ─────────────── TESTIMONIAL + WHY GRID ─────────────── */}
       <section style={{ padding:"clamp(10px,2vw,20px) var(--page-px,clamp(10px,2.2vw,24px)) clamp(18px,2.8vw,30px)", background:tk.bg }}>
-        <div style={{ maxWidth:"var(--content-max)", margin:"0 auto", display:"grid", gridTemplateColumns:"minmax(280px,360px) 1fr", gap:14, alignItems:"start" }}>
+        <div className="home-trust-grid" style={{ maxWidth:"var(--content-max)", margin:"0 auto", display:"grid", gridTemplateColumns:"minmax(280px,360px) 1fr", gap:14, alignItems:"start" }}>
 
           {/* Testimonial card */}
           <div data-id="trust" className={dark ? "liquid-glass-dark" : "liquid-glass"} style={{
@@ -590,7 +599,7 @@ export default function HomePage() {
               "The freshest produce I've ever received, straight from the farm to my kitchen."
             </h3>
             <p style={{ color:dark ? "#74c69d" : "#2d6a4f", fontSize:11.5, fontWeight:700, marginBottom:10 }}>— Priya M., Hyderabad customer since 2024</p>
-            <div data-id="trust2" style={{ display:"grid", gridTemplateColumns:"repeat(2,1fr)", gap:8, ...reveal("trust2", 0.12) }}>
+            <div className="home-trust-metrics" data-id="trust2" style={{ display:"grid", gridTemplateColumns:"repeat(2,1fr)", gap:8, ...reveal("trust2", 0.12) }}>
               {[["🌾","500+","Verified Farmers"],["📦","10K+","Orders Delivered"],["⭐","4.8/5","Avg Rating"],["🗺","15+","States Covered"]].map(([icon,num,label]) => (
                 <div key={label} style={{ textAlign:"center", padding:"6px 4px", borderRadius:10, background:dark ? "rgba(255,255,255,0.08)" : "rgba(16,53,36,0.08)" }}>
                   <div style={{ fontSize:15 }}>{icon}</div>
@@ -607,7 +616,7 @@ export default function HomePage() {
               <span style={{ display:"inline-block", background: dark?"#1c3525":"#e8f5ee", color:"#40916c", borderRadius:20, padding:"4px 14px", fontSize:10.5, fontWeight:700, letterSpacing:"1.1px", textTransform:"uppercase", marginBottom:8 }}>Why RPS Fields</span>
               <h2 className="grad-text" style={{ fontSize:"clamp(24px,3vw,34px)", fontFamily:"'Playfair Display',Georgia,serif", fontWeight:900, marginBottom:8 }}>What Makes Us Different</h2>
             </div>
-            <div style={{ display:"grid", gridTemplateColumns:"repeat(3,minmax(0,1fr))", gap:10 }}>
+            <div className="home-why-grid" style={{ display:"grid", gridTemplateColumns:"repeat(3,minmax(0,1fr))", gap:10 }}>
               {WHY.map((w, i) => (
                 <div key={w.title} data-id={`why-${i}`} data-tilt className={dark ? "liquid-glass-dark hover-lift" : "liquid-glass hover-lift"} style={{
                   borderRadius:14, padding:"14px 12px",
