@@ -17,7 +17,7 @@ const ROLE_DEST = {
   admin:    "/admin/dashboard",
 };
 
-const LOGIN_BG_IMAGE = "/login-farming-collage.png";
+const LOGIN_BG_IMAGE = "/gandr-collage.jpg";
 
 export default function LoginPage() {
   const navigate = useNavigate();
