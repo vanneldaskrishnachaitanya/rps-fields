@@ -198,36 +198,36 @@ export default function WeatherPage() {
         {weather && curr && !loading && (<>
 
           {/* ── Current weather card ── */}
-          <div data-tilt style={{ background:"linear-gradient(135deg,#040d06,#0d2b1a,#1b4332)", borderRadius:16, padding:"16px 16px", marginBottom:14, border:"1px solid rgba(82,183,136,0.15)", boxShadow:"0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06)", position:"relative", overflow:"hidden" }}>
-            <div style={{ position:"absolute", top:"-30%", right:"-5%", width:250, height:250, borderRadius:"50%", background:"rgba(82,183,136,0.06)", pointerEvents:"none" }} />
-            <div style={{ position:"absolute", bottom:"-20%", left:"20%", width:180, height:180, borderRadius:"50%", background:"rgba(82,183,136,0.04)", pointerEvents:"none" }} />
+          <div data-tilt style={{ background:"linear-gradient(135deg,#040d06,#0d2b1a,#1b4332)", borderRadius:16, padding:"14px 14px", marginBottom:12, border:"1px solid rgba(82,183,136,0.15)", boxShadow:"0 8px 28px rgba(0,0,0,0.36), inset 0 1px 0 rgba(255,255,255,0.06)", position:"relative", overflow:"hidden" }}>
+            <div style={{ position:"absolute", top:"-34%", right:"-7%", width:190, height:190, borderRadius:"50%", background:"rgba(82,183,136,0.05)", pointerEvents:"none" }} />
+            <div style={{ position:"absolute", bottom:"-24%", left:"18%", width:130, height:130, borderRadius:"50%", background:"rgba(82,183,136,0.03)", pointerEvents:"none" }} />
 
-            <div className="weather-current" style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", flexWrap:"wrap", gap:20, position:"relative" }}>
+            <div className="weather-current" style={{ display:"grid", gridTemplateColumns:"minmax(220px,1.1fr) minmax(520px,1.9fr)", alignItems:"center", gap:14, position:"relative" }}>
               <div>
                 <div style={{ display:"inline-flex", alignItems:"center", gap:6, background:"rgba(82,183,136,0.18)", backdropFilter:"blur(8px)", border:"1px solid rgba(82,183,136,0.25)", borderRadius:20, padding:"4px 12px", fontSize:10, fontWeight:700, letterSpacing:"1px", textTransform:"uppercase", color:"#74c69d", marginBottom:10 }}>
                   <span style={{ width:6, height:6, borderRadius:"50%", background:"#52b788", display:"inline-block", animation:"pulse 2s infinite" }} />
                   📍 {weather.cityName}, {weather.country}
                 </div>
-                <div style={{ fontSize:72, fontWeight:900, color:"#fff", lineHeight:1, fontFamily:"'Inter',sans-serif", fontFeatureSettings:'"tnum"', letterSpacing:"-3px" }}>
-                  {Math.round(curr.temperature_2m)}<span style={{ fontSize:34, fontWeight:400, letterSpacing:0, opacity:0.7 }}>°C</span>
+                <div style={{ fontSize:66, fontWeight:900, color:"#fff", lineHeight:1, fontFamily:"'Inter',sans-serif", fontFeatureSettings:'"tnum"', letterSpacing:"-2px" }}>
+                  {Math.round(curr.temperature_2m)}<span style={{ fontSize:30, fontWeight:500, letterSpacing:0, opacity:0.7 }}>°C</span>
                 </div>
-                <div style={{ fontSize:20, marginTop:6, color:"rgba(255,255,255,0.88)", display:"flex", alignItems:"center", gap:8 }}>
-                  <span style={{ fontSize:24 }}>{wmo.emoji}</span> {wmo.label}
+                <div style={{ fontSize:18, marginTop:4, color:"rgba(255,255,255,0.88)", display:"flex", alignItems:"center", gap:8 }}>
+                  <span style={{ fontSize:21 }}>{wmo.emoji}</span> {wmo.label}
                 </div>
-                <div style={{ fontSize:13, color:"rgba(255,255,255,0.5)", marginTop:6 }}>Feels like {Math.round(curr.apparent_temperature)}°C</div>
+                <div style={{ fontSize:12, color:"rgba(255,255,255,0.5)", marginTop:4 }}>Feels like {Math.round(curr.apparent_temperature)}°C</div>
               </div>
 
-              {/* Stat grid */}
-              <div className="weather-stats-grid" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10, minWidth:220 }}>
+              {/* Stat cards in a straight row */}
+              <div className="weather-stats-grid" style={{ display:"grid", gridTemplateColumns:"repeat(4, minmax(96px,1fr))", gap:10, minWidth:0 }}>
                 {[
                   ["💧",`${curr.relative_humidity_2m}%`,"Humidity","#60a5fa"],
                   ["💨",`${curr.wind_speed_10m} km/h`,"Wind Speed","#a3e635"],
                   ["🌡️",`${Math.round(curr.apparent_temperature)}°C`,"Feels Like","#fb923c"],
                   ["☀️",`${curr.uv_index}/11`,"UV Index","#fcd34d"],
                 ].map(([icon,val,lbl,color])=>(
-                  <div key={lbl} style={{ background:"rgba(255,255,255,0.07)", backdropFilter:"blur(12px)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:14, padding:"12px 10px", textAlign:"center", boxShadow:"inset 0 1px 0 rgba(255,255,255,0.1)" }}>
-                    <div style={{ fontSize:22, marginBottom:4 }}>{icon}</div>
-                    <div style={{ fontSize:18, fontWeight:800, color, fontFamily:"'Inter',sans-serif", fontFeatureSettings:'"tnum"' }}>{val}</div>
+                  <div key={lbl} style={{ background:"rgba(255,255,255,0.07)", backdropFilter:"blur(12px)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:12, padding:"10px 8px", textAlign:"center", boxShadow:"inset 0 1px 0 rgba(255,255,255,0.1)" }}>
+                    <div style={{ fontSize:20, marginBottom:3 }}>{icon}</div>
+                    <div style={{ fontSize:16, fontWeight:800, color, fontFamily:"'Inter',sans-serif", fontFeatureSettings:'"tnum"' }}>{val}</div>
                     <div style={{ fontSize:10, color:"rgba(255,255,255,0.45)", textTransform:"uppercase", letterSpacing:"0.5px", marginTop:3 }}>{lbl}</div>
                   </div>
                 ))}
