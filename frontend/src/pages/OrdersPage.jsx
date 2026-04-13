@@ -69,7 +69,7 @@ export default function OrdersPage() {
             </button>
           </div>
         ) : (
-          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(520px,1fr))", gap:12, alignItems:"start" }}>
+          <div className="orders-grid" style={{ display:"grid", gridTemplateColumns:"repeat(2,minmax(0,1fr))", gap:12, alignItems:"start" }}>
             {orders.map((ord,i) => {
           const ordId = ord._id||ord.id;
           const ss = STATUS_STYLE[ord.status] || STATUS_STYLE.pending;
@@ -116,7 +116,7 @@ export default function OrdersPage() {
                 </div>
               </div>
 
-              <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(300px,1fr))", gap:8, marginBottom:10 }}>
+              <div className="order-items-grid" style={{ display:"grid", gridTemplateColumns:"repeat(2,minmax(0,1fr))", gap:8, marginBottom:10 }}>
                 {(ord.items||[]).map((item,j) => {
                   const itemKey = `${ordId}-${item.productId||item.id}`;
                   const alreadyRated = ratedItems.has(itemKey);
