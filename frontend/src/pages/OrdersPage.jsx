@@ -47,7 +47,10 @@ export default function OrdersPage() {
   const scrollOrderItems = (orderId, direction) => {
     const strip = itemScrollRefs.current[orderId];
     if (!strip) return;
-    const step = Math.max(240, Math.round(strip.clientWidth * 0.75));
+    const firstCard = strip.querySelector("[data-order-item-card='true']");
+    const step = firstCard
+      ? ((firstCard.getBoundingClientRect().width + 8) * 2)
+      : strip.clientWidth;
     strip.scrollBy({ left: direction * step, behavior:"smooth" });
   };
 
@@ -128,27 +131,27 @@ export default function OrdersPage() {
 
               <div style={{ position:"relative", marginBottom:8 }}>
                 {hasManyItems && (
-                  <div style={{ position:"absolute", right:0, top:-34, display:"flex", gap:6 }}>
+                  <>
                     <button
                       onClick={()=>scrollOrderItems(ordId, -1)}
                       aria-label="Scroll products left"
-                      style={{ width:26, height:26, borderRadius:999, border:`1px solid ${tk.border}`, background:tk.bgMuted, color:tk.text, fontWeight:900, cursor:"pointer", lineHeight:1 }}
+                      style={{ position:"absolute", left:2, top:"50%", transform:"translateY(-50%)", width:30, height:30, borderRadius:999, border:`1px solid ${tk.border}`, background:tk.bgMuted, color:tk.text, fontWeight:900, cursor:"pointer", lineHeight:1, zIndex:2 }}
                     >
                       {'<'}
                     </button>
                     <button
                       onClick={()=>scrollOrderItems(ordId, 1)}
                       aria-label="Scroll products right"
-                      style={{ width:26, height:26, borderRadius:999, border:`1px solid ${tk.border}`, background:tk.bgMuted, color:tk.text, fontWeight:900, cursor:"pointer", lineHeight:1 }}
+                      style={{ position:"absolute", right:2, top:"50%", transform:"translateY(-50%)", width:30, height:30, borderRadius:999, border:`1px solid ${tk.border}`, background:tk.bgMuted, color:tk.text, fontWeight:900, cursor:"pointer", lineHeight:1, zIndex:2 }}
                     >
                       {'>'}
                     </button>
-                  </div>
+                  </>
                 )}
                 <div
                   ref={(el)=>{ itemScrollRefs.current[ordId] = el; }}
                   className="order-items-strip"
-                  style={{ display:"flex", gap:8, overflowX:"auto", scrollBehavior:"smooth", paddingBottom:2 }}
+                  style={{ display:"flex", gap:8, overflowX:"auto", scrollBehavior:"smooth", paddingBottom:2, paddingLeft:hasManyItems?36:0, paddingRight:hasManyItems?36:0 }}
                 >
                 {items.map((item,j) => {
                   const itemKey = `${ordId}-${item.productId||item.id}`;
@@ -159,9 +162,9 @@ export default function OrdersPage() {
                   const unit = getUnitLabel(item.unit);
                   const unitPrice = item.pricePerKg||item.price||0;
                   const total = item.totalPrice||(unitPrice*qty);
-                  const cardWidth = hasManyItems ? 332 : "100%";
+                  const cardWidth = hasManyItems ? "calc((100% - 8px) / 2)" : "100%";
                   return (
-                    <div key={j} style={{ display:"flex", alignItems:"center", gap:10, padding:"8px 9px", background:tk.bgMuted, borderRadius:12, border:`1px solid ${tk.border}`, flex:`0 0 ${cardWidth}`, minWidth:cardWidth }}>
+                    <div data-order-item-card="true" key={j} style={{ display:"flex", alignItems:"center", gap:10, padding:"8px 9px", background:tk.bgMuted, borderRadius:12, border:`1px solid ${tk.border}`, flex:`0 0 ${cardWidth}`, minWidth:cardWidth }}>
                       {(item.image||item.img) && (
                         <img src={item.image||item.img} alt={item.name} style={{ width:66, height:66, borderRadius:12, objectFit:"cover", flexShrink:0 }} onError={e=>e.target.style.display="none"} />
                       )}
