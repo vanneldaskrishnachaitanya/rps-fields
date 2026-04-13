@@ -15,6 +15,7 @@ import HomePage           from "./pages/HomePage";
 import CatalogPage        from "./pages/CatalogPage";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
 import WeatherPage        from "./pages/WeatherPage";
+import TodoPage           from "./pages/TodoPage";
 import FaqPage            from "./pages/FaqPage";
 import { AboutPage, ContactPage, PrivacyPage, TermsPage, NotFoundPage } from "./pages/StaticPages";
 
@@ -97,6 +98,7 @@ function Layout() {
           <Route path="/catalog"     element={<CatalogPage />} />
           <Route path="/product/:id" element={<ProductDetailsPage />} />
           <Route path="/weather"     element={<WeatherPage />} />
+          <Route path="/todos"       element={<RequireAuth><TodoPage /></RequireAuth>} />
           <Route path="/about"       element={<AboutPage />} />
           <Route path="/contact"     element={<ContactPage />} />
           <Route path="/faq"         element={<FaqPage />} />

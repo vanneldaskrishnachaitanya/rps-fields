@@ -202,6 +202,7 @@ export default function Header() {
             <NavLink to="/" end className="hnav" style={({isActive})=>nbLight(isActive)}>🏠 Home</NavLink>
             <NavLink to="/catalog" className="hnav" style={({isActive})=>nbLight(isActive)}>🛒 Catalog</NavLink>
             <NavLink to="/weather" className="hnav" style={({isActive})=>nbLight(isActive)}>🌤 Weather</NavLink>
+            {user && <NavLink to="/todos" className="hnav" style={({isActive})=>nbLight(isActive)}>📋 Tasks</NavLink>}
 
             {user?.role==="farmer" && (<>
               <NavLink to="/farmer/dashboard" className="hnav" style={({isActive})=>nbLight(isActive,{color:isActive?"#fcd34d":(dark?"rgba(255,255,255,0.82)":"rgba(15,30,15,0.8)")})}>🌾 My Farm</NavLink>
@@ -304,6 +305,7 @@ export default function Header() {
                 {[["🏠","Home","/"],[" 🛒","Catalog","/catalog"],["🌤","Weather","/weather"]].map(([e,l,to])=>(
                   <button key={to} onClick={()=>goTo(to)} className="mlink" style={ml()}>{e} {l}</button>
                 ))}
+                {user && <button onClick={()=>goTo("/todos")} className="mlink" style={ml()}>📋 Tasks</button>}
                 {user?.role==="farmer"&&<><button onClick={()=>goTo("/farmer/dashboard")} className="mlink" style={ml("#fcd34d")}>🌾 My Farm</button><button onClick={()=>goTo("/farmer/orders")} className="mlink" style={ml()}>📦 Orders</button><button onClick={()=>goTo("/farmer/find-agents")} className="mlink" style={ml()}>🤝 Find Agents</button><button onClick={()=>goTo("/farmer/revenue")} className="mlink" style={ml()}>💰 Revenue</button></>}
                 {user?.role==="agent"&&<><button onClick={()=>goTo("/agent/dashboard")} className="mlink" style={ml("#93c5fd")}>🏢 Dashboard</button><button onClick={()=>goTo("/agent/products")} className="mlink" style={ml()}>📦 Products</button><button onClick={()=>goTo("/agent/orders")} className="mlink" style={ml()}>🛒 Orders</button><button onClick={()=>goTo("/agent/requests")} className="mlink" style={ml()}>📬 Requests</button></>}
                 {user?.role==="customer"&&<><button onClick={()=>goTo("/customer/dashboard")} className="mlink" style={ml()}>📊 Dashboard</button><button onClick={()=>goTo("/orders")} className="mlink" style={ml()}>📦 My Orders</button><button onClick={()=>goTo("/profile")} className="mlink" style={ml()}>👤 Profile</button></>}
