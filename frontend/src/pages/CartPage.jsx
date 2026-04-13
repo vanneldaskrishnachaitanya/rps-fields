@@ -17,6 +17,11 @@ export default function CartPage() {
   const [apiErr,  setApiErr]  = useState("");
 
   const set = k => e => setForm(f=>({...f,[k]:e.target.value}));
+  const getUnitLabel = (unit) => {
+    const u = String(unit || "kg").toLowerCase();
+    if (["l", "lt", "ltr", "liter", "litre", "liters", "litres"].includes(u)) return "L";
+    return "kg";
+  };
 
   const validate = () => {
     const e = {};
@@ -112,7 +117,7 @@ export default function CartPage() {
                 <div style={{ flex:1 }}>
                   <div style={{ fontWeight:800, fontSize:15, color:tk.text, marginBottom:3 }}>{item.name}</div>
                   <div style={{ fontSize:12, color:tk.textLt, marginBottom:6 }}>🧑‍🌾 {item.farmerName||item.farmer}{(item.farmerLocation||item.location) && ` · 📍 ${item.farmerLocation||item.location}`}</div>
-                  <div style={{ fontSize:16, fontWeight:900, color:tk.green5 }}>₹{item.price}/kg</div>
+                  <div style={{ fontSize:16, fontWeight:900, color:tk.green5 }}>₹{item.price}/{getUnitLabel(item.unit)}</div>
                 </div>
                 <div style={{ display:"flex", alignItems:"center", gap:0, border:`1.5px solid ${tk.border}`, borderRadius:12, overflow:"hidden" }}>
                   <button data-magnetic onClick={()=>updateQty(item.id,-1)} style={{ width:32, height:32, background:tk.bgMuted, border:"none", cursor:"pointer", fontSize:18, color:tk.text, fontFamily:"'Inter',sans-serif", transition:"background 0.2s" }}
@@ -137,7 +142,7 @@ export default function CartPage() {
               <h3 style={{ fontSize:18, fontWeight:800, color:tk.text, marginBottom:18, paddingBottom:14, borderBottom:`1px solid ${tk.border}` }}>Order Summary</h3>
               {cart.map(item=>(
                 <div key={item.id} style={{ display:"flex", justifyContent:"space-between", marginBottom:8, fontSize:13, color:tk.textMid }}>
-                  <span>{item.name} × {item.qty}kg</span><span style={{ fontWeight:700, color:tk.text }}>₹{item.price*item.qty}</span>
+                  <span>{item.name} × {item.qty}{getUnitLabel(item.unit)}</span><span style={{ fontWeight:700, color:tk.text }}>₹{item.price*item.qty}</span>
                 </div>
               ))}
               <div style={{ borderTop:`2px solid ${tk.border}`, marginTop:14, paddingTop:16, marginBottom:20 }}>
@@ -150,7 +155,7 @@ export default function CartPage() {
 
               {!showCheckout ? (
                 <>
-                  {!user && <div style={{ background: dark?"rgba(212,160,23,0.1)":"#fffbeb", border:"1px solid rgba(212,160,23,0.3)", borderRadius:10, padding:"10px 14px", fontSize:12, color:"#92400e", marginBottom:14 }}>⚠ Please login to checkout</div>}
+                  {!user && <div style={{ background: dark?"rgba(212,160,23,0.14)":"#fffbeb", border:"1px solid rgba(212,160,23,0.36)", borderRadius:10, padding:"10px 14px", fontSize:12, color: dark ? "#fcd34d" : "#92400e", marginBottom:14, fontWeight:700 }}>⚠ Please login to checkout</div>}
                   <button data-magnetic onClick={()=>{ if(!user) navigate("/login"); else setShowCheckout(true); }}
                     style={{ background:"linear-gradient(135deg,rgba(248,201,72,0.98),rgba(204,147,8,1))", color:"#fff", textShadow:"0 1px 4px rgba(0,0,0,0.32)", border:"1px solid rgba(255,236,163,0.82)", width:"100%", padding:14, borderRadius:14, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", boxShadow:"inset 0 1.5px 0 rgba(255,245,205,0.62), inset 0 -1px 0 rgba(0,0,0,0.18), 0 10px 28px rgba(212,160,23,0.52)", transition:"all 0.2s", marginBottom:10 }}
                     onMouseEnter={e=>{e.target.style.transform="translateY(-1px)";e.target.style.boxShadow="inset 0 1.5px 0 rgba(255,245,205,0.68), inset 0 -1px 0 rgba(0,0,0,0.18), 0 14px 34px rgba(212,160,23,0.62)";}}

@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme, TK } from "../context/ThemeContext";
 import { useCart } from "../context/CartContext";
@@ -11,7 +11,6 @@ export default function ProductCard({ product, onQuickView, onViewProduct }) {
   const [imgError,  setImgError]  = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
   const [added,     setAdded]     = useState(false);
-  const cardRef = useRef(null);
 
   const farmerName = product.farmerName || product.farmer || "Farmer";
   const farmerLoc  = product.farmerLocation || product.location || "";
@@ -32,23 +31,6 @@ export default function ProductCard({ product, onQuickView, onViewProduct }) {
     navigate(`/product/${product.id || product._id}`);
   };
 
-  // 3D Tilt handlers
-  const handleMouseMove = useCallback((e) => {
-    if (!cardRef.current) return;
-    const r = cardRef.current.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width;
-    const y = (e.clientY - r.top) / r.height;
-    const rx = (y - 0.5) * -14;
-    const ry = (x - 0.5) * 14;
-    cardRef.current.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px) scale(1.02)`;
-  }, []);
-
-  const handleMouseLeave = useCallback(() => {
-    if (!cardRef.current) return;
-    cardRef.current.style.transform = "perspective(800px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)";
-    setHovered(false);
-  }, []);
-
   const iosBtnBase = {
     flex: 1, padding: "10px 8px",
     borderRadius: 12, cursor: outOfStock ? "not-allowed" : "pointer",
@@ -66,11 +48,10 @@ export default function ProductCard({ product, onQuickView, onViewProduct }) {
 
   return (
     <div
-      ref={cardRef}
+      data-no-tilt
       className="product-card"
       onMouseEnter={() => setHovered(true)}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
+      onMouseLeave={() => setHovered(false)}
       style={{
         background: tk.bgCard, borderRadius: 16, overflow: "hidden",
         border: `1px solid ${hovered ? (dark ? "#52b788" : "#2d6a4f") : tk.border}`,
@@ -78,8 +59,6 @@ export default function ProductCard({ product, onQuickView, onViewProduct }) {
           ? (dark ? "0 20px 60px rgba(27,67,50,0.35), 0 0 0 1px rgba(82,183,136,0.2)" : "0 20px 60px rgba(27,67,50,0.2)")
           : tk.shadow,
         transition: "border-color 0.3s ease, box-shadow 0.3s ease",
-        transformStyle: "preserve-3d",
-        willChange: "transform",
       }}
     >
       {/* Image */}

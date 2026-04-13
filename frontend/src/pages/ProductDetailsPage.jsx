@@ -18,6 +18,10 @@ export default function ProductDetailsPage() {
   const [imgErr,  setImgErr]    = useState(false);
   const [error,   setError]     = useState("");
   const [qty,     setQty]       = useState(1);
+  const unitLabel = (() => {
+    const u = String(product?.unit || "kg").toLowerCase();
+    return ["l", "lt", "ltr", "liter", "litre", "liters", "litres"].includes(u) ? "L" : "kg";
+  })();
 
   useEffect(() => {
     setLoading(true); setImgErr(false); setError(""); setQty(1);
@@ -129,7 +133,7 @@ export default function ProductDetailsPage() {
               <span className="num" style={{ fontSize:52, fontWeight:900, color:tk.green6, fontFamily:"'Inter',sans-serif", lineHeight:1 }}>
                 ₹{Number(product.price || product.pricePerKg || 0).toLocaleString("en-IN")}
               </span>
-              <span style={{ fontSize:16, color:tk.textLt, fontWeight:400 }}>per kg</span>
+              <span style={{ fontSize:16, color:tk.textLt, fontWeight:400 }}>per {unitLabel}</span>
             </div>
 
             {product.avgRating > 0 && (
@@ -151,7 +155,7 @@ export default function ProductDetailsPage() {
             <div style={{ display:"flex", alignItems:"center", gap:8, marginBottom:24 }}>
               <div style={{ width:8, height:8, borderRadius:"50%", background: product.qty > 20 ? "#52b788" : product.qty > 0 ? "#f59e0b" : "#ef4444", animation:"pulse 2s infinite" }} />
               <span style={{ fontSize:13, fontWeight:700, color: product.qty > 20 ? "#52b788" : product.qty > 0 ? "#f59e0b" : "#ef4444" }}>
-                {product.qty > 20 ? `In Stock · ${product.qty} kg available` : product.qty > 0 ? `Low Stock · Only ${product.qty} kg left` : "Out of Stock"}
+                {product.qty > 20 ? `In Stock · ${product.qty} ${unitLabel} available` : product.qty > 0 ? `Low Stock · Only ${product.qty} ${unitLabel} left` : "Out of Stock"}
               </span>
             </div>
 
@@ -159,7 +163,7 @@ export default function ProductDetailsPage() {
             {product.qty > 0 ? (
               <div>
                 <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:16 }}>
-                  <span style={{ fontSize:13, fontWeight:700, color:tk.textMid }}>Quantity (kg):</span>
+                  <span style={{ fontSize:13, fontWeight:700, color:tk.textMid }}>Quantity ({unitLabel}):</span>
                   <div style={{ display:"flex", alignItems:"center", gap:0, border:`1.5px solid ${tk.border}`, borderRadius:12, overflow:"hidden" }}>
                     <button data-magnetic onClick={() => setQty(q => Math.max(1,q-1))} style={{ width:36, height:36, background:tk.bgMuted, border:"none", cursor:"pointer", fontSize:18, fontFamily:"'Inter',sans-serif", color:tk.text, transition:"background 0.2s" }}
                       onMouseEnter={e=>e.target.style.background=tk.border} onMouseLeave={e=>e.target.style.background=tk.bgMuted}>−</button>
@@ -175,20 +179,22 @@ export default function ProductDetailsPage() {
                 <div style={{ display:"flex", gap:12 }}>
                   <button data-magnetic onClick={handleAdd} style={{
                     flex:1, padding:"15px", fontSize:16, fontWeight:800,
-                    background: added ? "linear-gradient(135deg,#10b981,#059669)" : "rgba(82,183,136,0.28)",
-                    color:"#fff", border:"none", borderRadius:14, cursor:"pointer", fontFamily:"'Inter',sans-serif",
-                    boxShadow: added ? "0 6px 20px rgba(16,185,129,0.4)" : "0 6px 20px rgba(82,183,136,0.35)",
+                    background: added
+                      ? "linear-gradient(135deg,rgba(34,197,140,0.96),rgba(4,155,108,1))"
+                      : "linear-gradient(135deg,rgba(93,198,150,0.96),rgba(47,131,94,0.98))",
+                    color:"#fff", textShadow:"0 1px 4px rgba(0,0,0,0.30)", border:"1px solid rgba(194,255,226,0.44)", borderRadius:14, cursor:"pointer", fontFamily:"'Inter',sans-serif",
+                    boxShadow: added
+                      ? "inset 0 1.5px 0 rgba(255,255,255,0.62), inset 0 -1px 0 rgba(0,0,0,0.18), 0 12px 30px rgba(4,155,108,0.48)"
+                      : "inset 0 1.5px 0 rgba(255,255,255,0.62), inset 0 -1px 0 rgba(0,0,0,0.18), 0 12px 30px rgba(28,120,86,0.50)",
                     transition:"all 0.3s ease",
                     transform: added ? "scale(0.98)" : "scale(1)",
                   }}>
-                    {added ? `✓ Added ${qty}kg to Cart!` : `🛒 Add to Cart`}
+                    {added ? `✓ Added ${qty}${unitLabel} to Cart!` : `🛒 Add to Cart`}
                   </button>
                   <button
                     data-magnetic
                     onClick={() => navigate("/cart")}
-                    style={{ padding:"15px var(--page-px,clamp(16px,4vw,48px))", background:"transparent", border:`2px solid ${tk.green6}`, color:tk.green6, borderRadius:14, cursor:"pointer", fontWeight:700, fontSize:14, fontFamily:"'Inter',sans-serif", transition:"all 0.2s" }}
-                    onMouseEnter={e => { e.currentTarget.style.background=tk.green6; e.currentTarget.style.color="#fff"; }}
-                    onMouseLeave={e => { e.currentTarget.style.background="transparent"; e.currentTarget.style.color=tk.green6; }}
+                    style={{ padding:"15px var(--page-px,clamp(16px,4vw,48px))", background:"linear-gradient(135deg,rgba(248,201,72,0.98),rgba(204,147,8,1))", border:"1px solid rgba(255,236,163,0.82)", color:"#fff", textShadow:"0 1px 4px rgba(0,0,0,0.30)", borderRadius:14, cursor:"pointer", fontWeight:800, fontSize:14, fontFamily:"'Inter',sans-serif", transition:"all 0.2s", boxShadow:"inset 0 1.5px 0 rgba(255,245,205,0.62), inset 0 -1px 0 rgba(0,0,0,0.18), 0 12px 30px rgba(212,160,23,0.52)" }}
                   >
                     Cart →
                   </button>
