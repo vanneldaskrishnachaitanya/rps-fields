@@ -140,13 +140,47 @@ export default function LoginPage() {
           position:"absolute",
           inset:0,
           pointerEvents:"none",
-          backgroundImage:`linear-gradient(180deg, ${dark ? "rgba(7,14,10,0.58), rgba(7,14,10,0.72)" : "rgba(255,255,255,0.42), rgba(255,255,255,0.56)"}), url(${LOGIN_BG_IMAGE})`,
-          backgroundSize:"cover",
-          backgroundPosition:"center",
-          backgroundRepeat:"no-repeat",
+          overflow:"hidden",
           opacity:0.98,
         }}
       >
+        <div
+          style={{
+            position:"absolute",
+            inset:"-7% -5%",
+            backgroundImage:`linear-gradient(180deg, ${dark ? "rgba(7,14,10,0.54), rgba(7,14,10,0.70)" : "rgba(255,255,255,0.36), rgba(255,255,255,0.52)"}), url(${LOGIN_BG_IMAGE})`,
+            backgroundSize:"cover",
+            backgroundPosition:"center",
+            backgroundRepeat:"no-repeat",
+            transform:"rotate(-2.4deg) scale(1.06)",
+            transformOrigin:"center",
+            filter: dark ? "saturate(108%) contrast(106%)" : "saturate(112%) contrast(102%)",
+          }}
+        />
+        <div
+          style={{
+            position:"absolute",
+            inset:0,
+            background: dark
+              ? "linear-gradient(120deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.12) 38%, rgba(0,0,0,0.28) 100%)"
+              : "linear-gradient(120deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.05) 38%, rgba(255,255,255,0.20) 100%)",
+          }}
+        />
+        <div
+          style={{
+            position:"absolute",
+            left:"-16%",
+            top:"8%",
+            width:"62%",
+            height:"34%",
+            transform:"rotate(-11deg)",
+            borderRadius:32,
+            background: dark
+              ? "linear-gradient(90deg, rgba(82,183,136,0.12), rgba(82,183,136,0.00))"
+              : "linear-gradient(90deg, rgba(27,67,50,0.08), rgba(27,67,50,0.00))",
+            filter:"blur(1px)",
+          }}
+        />
         <div style={{ position:"absolute", right:"-10%", top:"14%", width:"38vw", height:"38vw", borderRadius:"50%", background:"radial-gradient(circle, rgba(82,183,136,0.20) 0%, rgba(82,183,136,0.06) 34%, transparent 70%)", filter:"blur(4px)" }} />
         <div style={{ position:"absolute", left:"-12%", bottom:"-10%", width:"32vw", height:"32vw", borderRadius:"50%", background:"radial-gradient(circle, rgba(214,153,58,0.16) 0%, rgba(214,153,58,0.05) 35%, transparent 72%)", filter:"blur(4px)" }} />
       </div>
