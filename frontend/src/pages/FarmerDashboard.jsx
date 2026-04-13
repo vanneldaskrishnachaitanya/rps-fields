@@ -88,10 +88,15 @@ export default function FarmerDashboard() {
             return (
               <button data-magnetic key={to} onClick={()=>navigate(to)} style={{
                 padding:"8px 14px", borderRadius:10, cursor:"pointer", fontFamily:"'Inter',sans-serif", fontWeight:600, fontSize:13,
-                background: active ? "rgba(82,183,136,0.28)" : "transparent",
-                color: active ? "#fff" : tk.textMid,
+                background: active
+                  ? (dark
+                    ? "linear-gradient(135deg,rgba(93,198,150,0.92),rgba(47,131,94,0.95))"
+                    : "linear-gradient(135deg,rgba(78,176,133,0.95),rgba(43,120,86,0.98))")
+                  : "transparent",
+                color: active ? "#ffffff" : tk.textMid,
                 border: active ? "none" : "none",
                 boxShadow: active ? "0 3px 12px rgba(64,145,108,0.3)" : "none",
+                textShadow: active ? "0 1px 4px rgba(0,0,0,0.24)" : "none",
                 transition:"all 0.2s",
               }}
                 onMouseEnter={e=>{ if(!active){ e.currentTarget.style.background=dark?"rgba(64,145,108,0.15)":"rgba(64,145,108,0.1)"; e.currentTarget.style.color="#40916c"; }}}
@@ -168,13 +173,13 @@ export default function FarmerDashboard() {
               </div>
             </div>
             <div style={{ display:"flex", gap:8 }}>
-              <button data-magnetic onClick={()=>navigate("/farmer/find-agents")} style={{ padding:"10px 18px", background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", borderRadius:50, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif", fontSize:13, transition:"all 0.2s" }}
+              <button data-magnetic onClick={()=>navigate("/farmer/find-agents")} style={{ padding:"10px 18px", background: dark ? "linear-gradient(135deg,rgba(93,198,150,0.94),rgba(47,131,94,0.96))" : "linear-gradient(135deg,rgba(78,176,133,0.96),rgba(43,120,86,0.98))", border:"1px solid rgba(194,255,226,0.44)", color:"#fff", textShadow:"0 1px 4px rgba(0,0,0,0.28)", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.16), 0 10px 24px rgba(28,120,86,0.42)", borderRadius:50, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif", fontSize:13, transition:"all 0.2s" }}
                 onMouseEnter={e=>e.currentTarget.style.transform="translateY(-1px)"}
                 onMouseLeave={e=>e.currentTarget.style.transform="none"}
               >🤝 Find Agents</button>
-              <button data-magnetic onClick={()=>navigate("/farmer/my-agents")} style={{ padding:"10px 18px", background:"transparent", border:`1.5px solid ${tk.green5}`, color:tk.green5, borderRadius:50, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif", fontSize:13, transition:"all 0.2s" }}
-                onMouseEnter={e=>{ e.currentTarget.style.background=tk.green5; e.currentTarget.style.color="#fff"; }}
-                onMouseLeave={e=>{ e.currentTarget.style.background="transparent"; e.currentTarget.style.color=tk.green5; }}
+              <button data-magnetic onClick={()=>navigate("/farmer/my-agents")} style={{ padding:"10px 18px", background: dark ? "rgba(21,56,40,0.86)" : "rgba(230,245,236,0.95)", border:`1.5px solid ${dark ? "rgba(126,216,177,0.45)" : "rgba(45,106,79,0.45)"}`, color: dark ? "#c2f2da" : "#1f573d", borderRadius:50, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif", fontSize:13, transition:"all 0.2s" }}
+                onMouseEnter={e=>{ e.currentTarget.style.background=dark?"rgba(34,88,62,0.92)":"rgba(212,236,220,0.98)"; }}
+                onMouseLeave={e=>{ e.currentTarget.style.background=dark?"rgba(21,56,40,0.86)":"rgba(230,245,236,0.95)"; }}
               >My Agents</button>
 
             </div>
@@ -198,7 +203,7 @@ export default function FarmerDashboard() {
               <div style={{ fontSize:52, marginBottom:16, animation:"float 3s ease-in-out infinite" }}>📦</div>
               <h3 style={{ color:tk.text, marginBottom:8, fontSize:18, fontFamily:"'Playfair Display',Georgia,serif" }}>No products yet</h3>
               <p style={{ color:tk.textLt, marginBottom:22, fontSize:14 }}>Connect with an agent to start listing your produce.</p>
-              <button data-magnetic onClick={()=>navigate("/farmer/find-agents")} style={{ background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.30)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"12px 28px", borderRadius:50, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>
+              <button data-magnetic onClick={()=>navigate("/farmer/find-agents")} style={{ background: dark ? "linear-gradient(135deg,rgba(93,198,150,0.94),rgba(47,131,94,0.96))" : "linear-gradient(135deg,rgba(78,176,133,0.96),rgba(43,120,86,0.98))", border:"1px solid rgba(194,255,226,0.44)", color:"#fff", textShadow:"0 1px 4px rgba(0,0,0,0.28)", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.16), 0 10px 24px rgba(28,120,86,0.42)", padding:"12px 28px", borderRadius:50, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>
                 Find Agents →
               </button>
             </div>

@@ -7,9 +7,9 @@ export function AgentNav() {
   const { dark } = useTheme(); const tk = TK(dark);
   const links = [["📊","Dashboard","/agent/dashboard"],["➕","Add Product","/agent/add-product"],["📦","Products","/agent/products"],["🛒","Orders","/agent/orders"],["🌾","Farmers","/agent/farmers"],["📬","Requests","/agent/requests"]];
   return (
-    <div style={{ display:"flex", gap:6, marginBottom:28, flexWrap:"wrap", padding:8, borderRadius:16, background: dark?"rgba(12,22,15,0.7)":"rgba(240,248,255,0.8)", backdropFilter:"blur(16px)", WebkitBackdropFilter:"blur(16px)", border:`1px solid ${dark?"rgba(59,130,246,0.12)":"rgba(255,255,255,0.9)"}`, boxShadow: dark?"0 4px 20px rgba(0,0,0,0.3)":"0 4px 20px rgba(0,0,0,0.06)" }}>
+    <div style={{ display:"flex", gap:6, marginBottom:18, flexWrap:"wrap", padding:7, borderRadius:16, background: dark?"rgba(12,22,15,0.7)":"rgba(240,248,255,0.8)", backdropFilter:"blur(16px)", WebkitBackdropFilter:"blur(16px)", border:`1px solid ${dark?"rgba(59,130,246,0.12)":"rgba(255,255,255,0.9)"}`, boxShadow: dark?"0 4px 20px rgba(0,0,0,0.3)":"0 4px 20px rgba(0,0,0,0.06)" }}>
       {links.map(([icon,lbl,to])=>(
-        <NavLink key={to} to={to} style={({isActive})=>({ padding:"8px 14px", borderRadius:10, textDecoration:"none", fontWeight:600, fontSize:13, fontFamily:"'Inter',sans-serif", background: isActive?"rgba(59,130,246,0.28)":"transparent", color: isActive?"#fff":tk.textMid, boxShadow: isActive?"0 3px 12px rgba(59,130,246,0.3)":"none", border:"none", transition:"all 0.2s" })}>{icon} {lbl}</NavLink>
+        <NavLink key={to} to={to} style={({isActive})=>({ padding:"8px 14px", borderRadius:10, textDecoration:"none", fontWeight:600, fontSize:13, fontFamily:"'Inter',sans-serif", background: isActive ? (dark ? "linear-gradient(135deg,rgba(96,165,250,0.88),rgba(59,130,246,0.95))" : "linear-gradient(135deg,rgba(55,125,230,0.96),rgba(35,95,188,0.98))") : "transparent", color: isActive?"#fff":tk.textMid, boxShadow: isActive?"0 3px 12px rgba(59,130,246,0.3)":"none", border:"none", transition:"all 0.2s", textShadow:isActive?"0 1px 4px rgba(0,0,0,0.24)":"none" })}>{icon} {lbl}</NavLink>
       ))}
     </div>
   );
@@ -100,7 +100,7 @@ export default function AgentDashboard() {
               <div style={{ ...gc, borderRadius:20, padding:36, textAlign:"center" }}>
                 <div style={{ fontSize:44, marginBottom:10, animation:"float 3s ease-in-out infinite" }}>🛒</div>
                 <p style={{ color:tk.textLt, marginBottom:16 }}>No orders yet. Add products to start selling.</p>
-                <button data-magnetic onClick={()=>navigate("/agent/add-product")} style={{ background:"rgba(59,130,246,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", border:"1px solid rgba(255,255,255,0.28)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", padding:"11px 24px", borderRadius:50, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>
+                <button data-magnetic onClick={()=>navigate("/agent/add-product")} style={{ background: dark ? "linear-gradient(135deg,rgba(96,165,250,0.92),rgba(59,130,246,0.96))" : "linear-gradient(135deg,rgba(55,125,230,0.96),rgba(35,95,188,0.98))", border:"1px solid rgba(191,219,254,0.52)", color:"#fff", textShadow:"0 1px 4px rgba(0,0,0,0.28)", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.16), 0 10px 24px rgba(37,99,235,0.42)", padding:"11px 24px", borderRadius:50, cursor:"pointer", fontWeight:700, fontFamily:"'Inter',sans-serif" }}>
                   Add First Product →
                 </button>
               </div>
