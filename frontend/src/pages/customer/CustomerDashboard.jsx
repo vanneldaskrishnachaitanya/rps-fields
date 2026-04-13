@@ -19,6 +19,11 @@ export default function CustomerDashboard() {
   const recent     = [...orders].reverse().slice(0,3);
   const totalSpent = orders.reduce((s,o)=>s+(o.total||o.totalPrice||0),0);
   const delivered  = orders.filter(o=>o.status==="delivered").length;
+  const getUnitLabel = (unit) => {
+    const u = String(unit || "kg").toLowerCase();
+    if (["l", "lt", "ltr", "liter", "litre", "liters", "litres"].includes(u)) return "L";
+    return "kg";
+  };
 
   const StatCard = ({ icon, value, label, to, color="#52b788" }) => (
     <div data-tilt onClick={() => navigate(to)} style={{ background:tk.bgCard, borderRadius:20, padding:"22px var(--page-px,clamp(16px,4vw,48px))", border:`1px solid ${tk.border}`, cursor:"pointer", textAlign:"center", transition:"all 0.25s", position:"relative", overflow:"hidden" }}
@@ -52,9 +57,9 @@ export default function CustomerDashboard() {
   return (
     <div style={{ background:tk.bg, minHeight:"100%", animation:"fadeIn 0.4s ease" }}>
       {/* Hero banner */}
-      <div style={{ background:"linear-gradient(135deg,#0d2b1a,#1b4332,#2d6a4f)", padding:"clamp(40px,5vw,60px) var(--page-px,clamp(16px,4vw,48px))", position:"relative", overflow:"hidden" }}>
+      <div style={{ background:"linear-gradient(135deg,#0d2b1a,#1b4332,#2d6a4f)", padding:"clamp(26px,3.2vw,38px) var(--page-px,clamp(16px,3.2vw,36px))", position:"relative", overflow:"hidden" }}>
         <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(circle at 80% 50%,rgba(82,183,136,0.12),transparent 55%)", pointerEvents:"none" }} />
-        <div style={{ maxWidth:1400, margin:"0 auto", position:"relative" }}>
+        <div style={{ maxWidth:"var(--content-max,1680px)", margin:"0 auto", position:"relative" }}>
           <div style={{ display:"flex", alignItems:"center", gap:16, flexWrap:"wrap" }}>
             <div style={{ width:60, height:60, borderRadius:"50%", background:"rgba(82,183,136,0.28)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:26, boxShadow:"0 8px 24px rgba(82,183,136,0.3)", flexShrink:0 }}>👤</div>
             <div>
@@ -68,9 +73,9 @@ export default function CustomerDashboard() {
         </div>
       </div>
 
-      <div style={{ maxWidth:1400, margin:"0 auto", padding:"clamp(24px,4vw,40px) var(--page-px,clamp(16px,4vw,48px)) 100px" }}>
+      <div style={{ maxWidth:"var(--content-max,1680px)", margin:"0 auto", padding:"clamp(18px,2.6vw,30px) var(--page-px,clamp(16px,3.2vw,36px)) 64px" }}>
         {/* Stats */}
-        <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(200px,1fr))", gap:16, marginBottom:36 }}>
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))", gap:14, marginBottom:22 }}>
           {[["📦", orders.length, "Total Orders", "/orders", "#3b82f6"],
             ["💰", `₹${totalSpent}`, "Total Spent", "/orders", "#8b5cf6"],
             ["✅", delivered, "Delivered", "/orders", "#10b981"],
@@ -82,7 +87,7 @@ export default function CustomerDashboard() {
           ))}
         </div>
 
-        <div style={{ display:"grid", gridTemplateColumns:"1fr 300px", gap:28 }}>
+        <div style={{ display:"grid", gridTemplateColumns:"minmax(0,1.7fr) minmax(280px,1fr)", gap:18, alignItems:"start" }}>
           {/* Recent orders */}
           <div>
             <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:18 }}>
@@ -100,7 +105,7 @@ export default function CustomerDashboard() {
                 </button>
               </div>
             ) : recent.map((ord,i)=>(
-              <div key={ord.id||ord._id} data-tilt style={{ background:tk.bgCard, borderRadius:18, padding:"18px 22px", marginBottom:12, border:`1px solid ${tk.border}`, animation:`fadeUp 0.5s ease ${i*0.08}s both`, transition:"all 0.2s", position:"relative", overflow:"hidden" }}
+              <div key={ord.id||ord._id} style={{ background:tk.bgCard, borderRadius:18, padding:"16px 18px", marginBottom:10, border:`1px solid ${tk.border}`, animation:`fadeUp 0.5s ease ${i*0.08}s both`, transition:"all 0.2s", position:"relative", overflow:"hidden" }}
                 onMouseEnter={e=>{e.currentTarget.style.boxShadow=tk.shadow; e.currentTarget.style.borderColor="#52b78833";}}
                 onMouseLeave={e=>{e.currentTarget.style.boxShadow="none"; e.currentTarget.style.borderColor=tk.border;}}>
                 <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:8 }}>
@@ -115,7 +120,31 @@ export default function CustomerDashboard() {
                     <div style={{ color:"#52b788", fontWeight:900, fontSize:17 }}>₹{ord.total||ord.totalPrice}</div>
                   </div>
                 </div>
-                <div style={{ fontSize:13, color:tk.textMid }}>{(ord.items||[]).map(i=>`${i.name} ×${i.qty||i.quantity}kg`).join(" · ")}</div>
+
+                <div style={{ display:"grid", gap:8 }}>
+                  {(ord.items||[]).slice(0,2).map((item, idx) => {
+                    const imgSrc = item.img || item.image;
+                    const unit = getUnitLabel(item.unit);
+                    return (
+                      <div key={`${ord.id||ord._id}-${idx}`} style={{ display:"flex", alignItems:"center", gap:10, background:tk.bgMuted, border:`1px solid ${tk.border}`, borderRadius:12, padding:"8px 10px" }}>
+                        {imgSrc ? (
+                          <img src={imgSrc} alt={item.name} style={{ width:44, height:44, objectFit:"cover", borderRadius:10, flexShrink:0 }} onError={e=>{e.currentTarget.style.display="none";}} />
+                        ) : (
+                          <div style={{ width:44, height:44, borderRadius:10, flexShrink:0, display:"flex", alignItems:"center", justifyContent:"center", background:dark?"rgba(82,183,136,0.12)":"rgba(82,183,136,0.10)", border:`1px solid ${tk.border}`, fontSize:18 }}>🌿</div>
+                        )}
+                        <div style={{ minWidth:0, flex:1 }}>
+                          <div style={{ color:tk.text, fontWeight:800, fontSize:14, lineHeight:1.2, whiteSpace:"nowrap", textOverflow:"ellipsis", overflow:"hidden" }}>{item.name}</div>
+                          <div style={{ marginTop:4, display:"inline-flex", alignItems:"center", gap:6, background:dark?"rgba(82,183,136,0.14)":"rgba(82,183,136,0.12)", border:"1px solid rgba(82,183,136,0.30)", borderRadius:999, padding:"2px 10px", color:"#52b788", fontWeight:800, fontSize:12 }}>
+                            Qty {item.qty||item.quantity||1}{unit}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                  {(ord.items||[]).length > 2 && (
+                    <div style={{ fontSize:12, color:tk.textLt, fontWeight:600 }}>+ {(ord.items||[]).length - 2} more item(s)</div>
+                  )}
+                </div>
               </div>
             ))}
           </div>
