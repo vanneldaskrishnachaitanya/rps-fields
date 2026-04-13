@@ -17,6 +17,39 @@ const ROLE_DEST = {
   admin:    "/admin/dashboard",
 };
 
+const FARMING_COLLAGE = [
+  {
+    title: "Fresh fields",
+    image: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=900&q=80",
+    size: "34%",
+  },
+  {
+    title: "Harvest baskets",
+    image: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=900&q=80",
+    size: "28%",
+  },
+  {
+    title: "Irrigated rows",
+    image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=80",
+    size: "30%",
+  },
+  {
+    title: "Hands in soil",
+    image: "https://images.unsplash.com/photo-1500932338760-5bf2d6f1f49c?auto=format&fit=crop&w=900&q=80",
+    size: "26%",
+  },
+  {
+    title: "Golden crop",
+    image: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=1200&q=80",
+    size: "32%",
+  },
+  {
+    title: "Farm delivery",
+    image: "https://images.unsplash.com/photo-1574943320219-553eb213f72c?auto=format&fit=crop&w=900&q=80",
+    size: "27%",
+  },
+];
+
 export default function LoginPage() {
   const navigate = useNavigate();
   const { dark } = useTheme(); const tk = TK(dark);
@@ -120,11 +153,77 @@ export default function LoginPage() {
   });
 
   return (
-    <div style={{ background:tk.bg, minHeight:"100%", display:"flex", alignItems:"center", justifyContent:"center", padding:"60px var(--page-px,clamp(16px,4vw,48px))" }}>
-      <div style={{ width:"100%", maxWidth:460, animation:"fadeInUp 0.5s ease both" }}>
+    <div style={{
+      position:"relative",
+      overflow:"hidden",
+      background: dark
+        ? "linear-gradient(180deg, rgba(11,18,14,0.82), rgba(11,18,14,0.88)), radial-gradient(circle at top, rgba(82,183,136,0.16), transparent 38%), linear-gradient(135deg, #09130d 0%, #102016 45%, #173123 100%)"
+        : "linear-gradient(180deg, rgba(246,250,245,0.84), rgba(240,247,242,0.92)), radial-gradient(circle at top, rgba(82,183,136,0.14), transparent 38%), linear-gradient(135deg, #eef8f1 0%, #f7fbf7 45%, #eef6f0 100%)",
+      minHeight:"100%",
+      display:"flex",
+      alignItems:"center",
+      justifyContent:"center",
+      padding:"60px var(--page-px,clamp(16px,4vw,48px))",
+    }}>
+      <div aria-hidden="true" style={{ position:"absolute", inset:0, pointerEvents:"none", opacity:0.95 }}>
+        <div style={{ position:"absolute", inset:"-12% -8% auto -8%", height:"60%", transform:"rotate(-7deg)", filter:"blur(0.2px)" }}>
+          {FARMING_COLLAGE.map((tile, index) => {
+            const row = Math.floor(index / 3);
+            const col = index % 3;
+            const left = `${8 + col * 31 + (row % 2) * 6}%`;
+            const top = `${6 + row * 29 + (col % 2) * 4}%`;
+            const rotate = [-9, 6, -4, 8, -7, 5][index];
+            return (
+              <div
+                key={tile.title}
+                style={{
+                  position:"absolute",
+                  left,
+                  top,
+                  width: tile.size,
+                  aspectRatio:"4 / 3",
+                  borderRadius: 22,
+                  backgroundImage:`linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.34)), url(${tile.image})`,
+                  backgroundSize:"cover",
+                  backgroundPosition:"center",
+                  boxShadow: dark
+                    ? "0 20px 45px rgba(0,0,0,0.34)"
+                    : "0 18px 40px rgba(27,67,50,0.15)",
+                  border: dark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(255,255,255,0.75)",
+                  transform:`rotate(${rotate}deg)`,
+                }}
+              />
+            );
+          })}
+        </div>
+
+        <div style={{ position:"absolute", right:"-10%", top:"14%", width:"38vw", height:"38vw", borderRadius:"50%", background:"radial-gradient(circle, rgba(82,183,136,0.20) 0%, rgba(82,183,136,0.06) 34%, transparent 70%)", filter:"blur(4px)" }} />
+        <div style={{ position:"absolute", left:"-12%", bottom:"-10%", width:"32vw", height:"32vw", borderRadius:"50%", background:"radial-gradient(circle, rgba(214,153,58,0.16) 0%, rgba(214,153,58,0.05) 35%, transparent 72%)", filter:"blur(4px)" }} />
+      </div>
+
+      <div style={{ position:"relative", zIndex:1, width:"100%", maxWidth:460, animation:"fadeInUp 0.5s ease both" }}>
+        <div style={{ textAlign:"center", marginBottom:18 }}>
+          <div style={{
+            display:"inline-flex",
+            alignItems:"center",
+            gap:10,
+            padding:"10px 18px",
+            borderRadius:999,
+            background: dark ? "rgba(8,18,12,0.48)" : "rgba(255,255,255,0.68)",
+            border:`1px solid ${dark ? "rgba(82,183,136,0.18)" : "rgba(82,183,136,0.18)"}`,
+            boxShadow: dark ? "0 10px 30px rgba(0,0,0,0.22)" : "0 10px 30px rgba(27,67,50,0.10)",
+            backdropFilter:"blur(18px) saturate(160%)",
+            WebkitBackdropFilter:"blur(18px) saturate(160%)",
+            marginBottom:14,
+          }}>
+            <div style={{ width:10, height:10, borderRadius:"50%", background:"#52b788", boxShadow:"0 0 0 6px rgba(82,183,136,0.16)" }} />
+            <span style={{ color: dark ? "#dff8e9" : "#1b4332", fontSize:12, fontWeight:800, letterSpacing:"1.5px", textTransform:"uppercase" }}>RPS Fields</span>
+          </div>
+        </div>
 
         {/* Main Card */}
-        <div data-tilt className={dark ? "liquid-glass-dark" : "liquid-glass"} style={{ borderRadius:24, padding:"44px 40px", marginBottom:16 }}>
+        <div data-tilt className={dark ? "liquid-glass-dark" : "liquid-glass"} style={{ borderRadius:24, padding:"44px 40px", marginBottom:16, position:"relative", overflow:"hidden" }}>
+          <div aria-hidden="true" style={{ position:"absolute", inset:0, background: dark ? "linear-gradient(135deg, rgba(82,183,136,0.08), rgba(0,0,0,0))" : "linear-gradient(135deg, rgba(82,183,136,0.12), rgba(255,255,255,0))" }} />
 
           {!forgotMode ? (
             <>
