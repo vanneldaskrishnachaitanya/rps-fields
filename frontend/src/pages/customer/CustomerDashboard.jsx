@@ -26,13 +26,13 @@ export default function CustomerDashboard() {
   };
 
   const StatCard = ({ icon, value, label, to, color="#52b788" }) => (
-    <div data-tilt onClick={() => navigate(to)} style={{ background:tk.bgCard, borderRadius:20, padding:"22px var(--page-px,clamp(16px,4vw,48px))", border:`1px solid ${tk.border}`, cursor:"pointer", textAlign:"center", transition:"all 0.25s", position:"relative", overflow:"hidden" }}
+    <div data-tilt onClick={() => navigate(to)} style={{ background:tk.bgCard, borderRadius:16, padding:"14px 12px", border:`1px solid ${tk.border}`, cursor:"pointer", textAlign:"center", transition:"all 0.25s", position:"relative", overflow:"hidden", minHeight:108 }}
       onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-4px)"; e.currentTarget.style.boxShadow=tk.shadowMd; e.currentTarget.style.borderColor=color+"66";}}
       onMouseLeave={e=>{e.currentTarget.style.transform="none"; e.currentTarget.style.boxShadow="none"; e.currentTarget.style.borderColor=tk.border;}}>
       <div style={{ position:"absolute", top:-16, right:-16, width:60, height:60, borderRadius:"50%", background:color+"15", pointerEvents:"none" }} />
-      <div style={{ fontSize:28, marginBottom:8 }}>{icon}</div>
-      <div className="num" style={{ fontSize:28, fontWeight:900, color, fontFamily:"'Inter',sans-serif", marginBottom:4 }}>{value}</div>
-      <div style={{ fontSize:11, color:tk.textLt, textTransform:"uppercase", letterSpacing:"0.8px" }}>{label}</div>
+      <div style={{ fontSize:24, marginBottom:4 }}>{icon}</div>
+      <div className="num" style={{ fontSize:40, lineHeight:1, fontWeight:900, color, fontFamily:"'Inter',sans-serif", marginBottom:3 }}>{value}</div>
+      <div style={{ fontSize:10, color:tk.textLt, textTransform:"uppercase", letterSpacing:"0.8px" }}>{label}</div>
     </div>
   );
 
@@ -75,7 +75,7 @@ export default function CustomerDashboard() {
 
       <div style={{ maxWidth:"var(--content-max,1680px)", margin:"0 auto", padding:"clamp(18px,2.6vw,30px) var(--page-px,clamp(16px,3.2vw,36px)) 64px" }}>
         {/* Stats */}
-        <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))", gap:14, marginBottom:22 }}>
+        <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))", gap:10, marginBottom:16 }}>
           {[["📦", orders.length, "Total Orders", "/orders", "#3b82f6"],
             ["💰", `₹${totalSpent}`, "Total Spent", "/orders", "#8b5cf6"],
             ["✅", delivered, "Delivered", "/orders", "#10b981"],
@@ -87,7 +87,7 @@ export default function CustomerDashboard() {
           ))}
         </div>
 
-        <div style={{ display:"grid", gridTemplateColumns:"minmax(0,1.7fr) minmax(280px,1fr)", gap:18, alignItems:"start" }}>
+        <div style={{ display:"grid", gridTemplateColumns:"minmax(0,1.52fr) minmax(280px,1fr)", gap:14, alignItems:"start" }}>
           {/* Recent orders */}
           <div>
             <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:18 }}>
@@ -105,10 +105,10 @@ export default function CustomerDashboard() {
                 </button>
               </div>
             ) : recent.map((ord,i)=>(
-              <div key={ord.id||ord._id} style={{ background:tk.bgCard, borderRadius:18, padding:"16px 18px", marginBottom:10, border:`1px solid ${tk.border}`, animation:`fadeUp 0.5s ease ${i*0.08}s both`, transition:"all 0.2s", position:"relative", overflow:"hidden" }}
+              <div key={ord.id||ord._id} data-no-tilt style={{ background:tk.bgCard, borderRadius:16, padding:"12px 14px", marginBottom:8, border:`1px solid ${tk.border}`, animation:`fadeUp 0.5s ease ${i*0.08}s both`, transition:"all 0.2s", position:"relative", overflow:"hidden" }}
                 onMouseEnter={e=>{e.currentTarget.style.boxShadow=tk.shadow; e.currentTarget.style.borderColor="#52b78833";}}
                 onMouseLeave={e=>{e.currentTarget.style.boxShadow="none"; e.currentTarget.style.borderColor=tk.border;}}>
-                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:8 }}>
+                <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:6 }}>
                   <div>
                     <div style={{ fontWeight:800, color:tk.text, fontSize:13, fontFamily:"monospace" }}>{(ord.id||ord._id)?.toString().slice(-8).toUpperCase()}</div>
                     <div style={{ fontSize:11, color:tk.textLt, marginTop:2 }}>{new Date(ord.createdAt).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"})}</div>
@@ -121,22 +121,27 @@ export default function CustomerDashboard() {
                   </div>
                 </div>
 
-                <div style={{ display:"grid", gap:8 }}>
+                <div style={{ display:"grid", gap:6 }}>
                   {(ord.items||[]).slice(0,2).map((item, idx) => {
                     const imgSrc = item.img || item.image;
                     const unit = getUnitLabel(item.unit);
+                    const itemQty = item.qty||item.quantity||1;
+                    const itemTotal = item.totalPrice || (item.pricePerKg||item.price||0) * itemQty;
                     return (
-                      <div key={`${ord.id||ord._id}-${idx}`} style={{ display:"flex", alignItems:"center", gap:10, background:tk.bgMuted, border:`1px solid ${tk.border}`, borderRadius:12, padding:"8px 10px" }}>
+                      <div key={`${ord.id||ord._id}-${idx}`} style={{ display:"flex", alignItems:"center", gap:12, background:tk.bgMuted, border:`1px solid ${tk.border}`, borderRadius:12, padding:"9px 10px" }}>
                         {imgSrc ? (
-                          <img src={imgSrc} alt={item.name} style={{ width:44, height:44, objectFit:"cover", borderRadius:10, flexShrink:0 }} onError={e=>{e.currentTarget.style.display="none";}} />
+                          <img src={imgSrc} alt={item.name} style={{ width:58, height:58, objectFit:"cover", borderRadius:12, flexShrink:0, border:`1px solid ${tk.border}` }} onError={e=>{e.currentTarget.style.display="none";}} />
                         ) : (
-                          <div style={{ width:44, height:44, borderRadius:10, flexShrink:0, display:"flex", alignItems:"center", justifyContent:"center", background:dark?"rgba(82,183,136,0.12)":"rgba(82,183,136,0.10)", border:`1px solid ${tk.border}`, fontSize:18 }}>🌿</div>
+                          <div style={{ width:58, height:58, borderRadius:12, flexShrink:0, display:"flex", alignItems:"center", justifyContent:"center", background:dark?"rgba(82,183,136,0.12)":"rgba(82,183,136,0.10)", border:`1px solid ${tk.border}`, fontSize:22 }}>🌿</div>
                         )}
                         <div style={{ minWidth:0, flex:1 }}>
-                          <div style={{ color:tk.text, fontWeight:800, fontSize:14, lineHeight:1.2, whiteSpace:"nowrap", textOverflow:"ellipsis", overflow:"hidden" }}>{item.name}</div>
-                          <div style={{ marginTop:4, display:"inline-flex", alignItems:"center", gap:6, background:dark?"rgba(82,183,136,0.14)":"rgba(82,183,136,0.12)", border:"1px solid rgba(82,183,136,0.30)", borderRadius:999, padding:"2px 10px", color:"#52b788", fontWeight:800, fontSize:12 }}>
-                            Qty {item.qty||item.quantity||1}{unit}
+                          <div style={{ color:"#e9fff2", fontWeight:900, fontSize:20, lineHeight:1.2, textShadow:"0 1px 6px rgba(0,0,0,0.25)", whiteSpace:"nowrap", textOverflow:"ellipsis", overflow:"hidden" }}>{item.name}</div>
+                          <div style={{ marginTop:5, display:"inline-flex", alignItems:"center", gap:6, background:dark?"rgba(82,183,136,0.22)":"rgba(82,183,136,0.16)", border:"1px solid rgba(82,183,136,0.45)", borderRadius:999, padding:"3px 11px", color:"#74c69d", fontWeight:900, fontSize:13 }}>
+                            Qty {itemQty}{unit}
                           </div>
+                        </div>
+                        <div style={{ textAlign:"right", minWidth:72 }}>
+                          <div style={{ color:"#52b788", fontWeight:900, fontSize:22, lineHeight:1 }}>₹{itemTotal}</div>
                         </div>
                       </div>
                     );
