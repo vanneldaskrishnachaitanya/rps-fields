@@ -107,9 +107,9 @@ export default function LoginPage() {
 
   const inp = hasErr => ({
     width:"100%", padding:"12px 16px", borderRadius:12,
-    border:`1.5px solid ${hasErr ? "#e74c3c" : tk.border}`,
-    background: hasErr ? (dark?"#2a1010":"#fff0f0") : tk.bgInput,
-    color:tk.text, fontSize:14, boxSizing:"border-box",
+    border:`1.5px solid ${hasErr ? "#e74c3c" : (dark ? tk.border : "rgba(17,58,38,0.28)")}`,
+    background: hasErr ? (dark?"#2a1010":"#fff0f0") : (dark ? tk.bgInput : "rgba(255,255,255,0.88)"),
+    color: dark ? tk.text : "#163c2a", fontSize:14, boxSizing:"border-box",
     outline:"none", fontFamily:"'Inter',sans-serif",
     transition:"border-color 0.2s, box-shadow 0.2s",
   });
@@ -177,7 +177,7 @@ export default function LoginPage() {
             borderRadius:"50%",
             background: dark
               ? "radial-gradient(circle, rgba(82,183,136,0.18) 0%, rgba(82,183,136,0.08) 36%, rgba(0,0,0,0) 72%)"
-              : "radial-gradient(circle, rgba(18,47,32,0.30) 0%, rgba(18,47,32,0.16) 38%, rgba(18,47,32,0) 72%)",
+              : "radial-gradient(circle, rgba(18,47,32,0.38) 0%, rgba(18,47,32,0.22) 38%, rgba(18,47,32,0) 72%)",
           }}
         />
         <div
@@ -220,7 +220,7 @@ export default function LoginPage() {
         </div>
 
         {/* Main Card */}
-        <div data-tilt className={dark ? "liquid-glass-dark" : "liquid-glass"} style={{ borderRadius:24, padding:"44px 40px", marginBottom:16, position:"relative", overflow:"hidden", background: dark ? undefined : "linear-gradient(160deg, rgba(255,255,255,0.74), rgba(245,251,247,0.56))", border: dark ? undefined : "1px solid rgba(255,255,255,0.58)", boxShadow: dark ? undefined : "0 26px 60px rgba(14,38,26,0.30), inset 0 1px 0 rgba(255,255,255,0.75)" }}>
+        <div data-tilt className={dark ? "liquid-glass-dark" : "liquid-glass"} style={{ borderRadius:24, padding:"44px 40px", marginBottom:16, position:"relative", overflow:"hidden", background: dark ? undefined : "linear-gradient(160deg, rgba(255,255,255,0.90), rgba(242,249,245,0.82))", border: dark ? undefined : "1px solid rgba(255,255,255,0.76)", boxShadow: dark ? undefined : "0 28px 64px rgba(14,38,26,0.36), inset 0 1px 0 rgba(255,255,255,0.88)", backdropFilter: dark ? undefined : "blur(18px) saturate(140%)", WebkitBackdropFilter: dark ? undefined : "blur(18px) saturate(140%)" }}>
           <div aria-hidden="true" style={{ position:"absolute", inset:0, background: dark ? "linear-gradient(135deg, rgba(82,183,136,0.08), rgba(0,0,0,0))" : "linear-gradient(135deg, rgba(82,183,136,0.12), rgba(255,255,255,0))" }} />
 
           {!forgotMode ? (
@@ -362,16 +362,16 @@ export default function LoginPage() {
         </div>
 
         {/* Admin Link */}
-        <div data-tilt onClick={() => navigate("/admin/login")} className={dark ? "liquid-glass-dark hover-lift" : "liquid-glass hover-lift"} style={{ borderRadius:16, padding:"16px 22px", cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"space-between", transition:"all 0.3s" }}
+        <div data-tilt onClick={() => navigate("/admin/login")} className={dark ? "liquid-glass-dark hover-lift" : "liquid-glass hover-lift"} style={{ borderRadius:16, padding:"16px 22px", cursor:"pointer", display:"flex", alignItems:"center", justifyContent:"space-between", transition:"all 0.3s", background: dark ? undefined : "linear-gradient(160deg, rgba(245,251,247,0.88), rgba(232,243,236,0.78))", border: dark ? undefined : "1px solid rgba(255,255,255,0.74)", boxShadow: dark ? undefined : "0 18px 44px rgba(13,38,26,0.30), inset 0 1px 0 rgba(255,255,255,0.85)", backdropFilter: dark ? undefined : "blur(16px) saturate(145%)", WebkitBackdropFilter: dark ? undefined : "blur(16px) saturate(145%)" }}
         >
           <div style={{ display:"flex", alignItems:"center", gap:12 }}>
             <span style={{ fontSize:26 }}>🛡</span>
             <div>
-              <div style={{ color: dark?"#7eb8f7":"#2563eb", fontWeight:800, fontSize:14 }}>Admin Panel Login</div>
-              <div style={{ color: dark?"rgba(126,184,247,0.6)":"rgba(37,99,235,0.5)", fontSize:12, marginTop:2 }}>Staff only · admin@rpsfields.in</div>
+              <div style={{ color: dark?"#7eb8f7":"#174a34", fontWeight:800, fontSize:14 }}>Admin Panel Login</div>
+              <div style={{ color: dark?"rgba(126,184,247,0.6)":"rgba(23,74,52,0.74)", fontSize:12, marginTop:2 }}>Staff only · admin@rpsfields.in</div>
             </div>
           </div>
-          <span style={{ color: dark?"#7eb8f7":"#2563eb", fontSize:18 }}>→</span>
+          <span style={{ color: dark?"#7eb8f7":"#174a34", fontSize:18 }}>→</span>
         </div>
       </div>
     </div>
