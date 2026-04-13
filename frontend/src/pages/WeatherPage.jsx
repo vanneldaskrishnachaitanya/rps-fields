@@ -103,7 +103,7 @@ export default function WeatherPage() {
     backdropFilter:"blur(20px) saturate(180%)", WebkitBackdropFilter:"blur(20px) saturate(180%)",
     border:`1px solid ${dark?"rgba(82,183,136,0.12)":"rgba(255,255,255,0.9)"}`,
     boxShadow: dark?"0 4px 24px rgba(0,0,0,0.4)":"0 4px 24px rgba(0,0,0,0.07)",
-    borderRadius:18, padding:"22px 24px",
+    borderRadius:16, padding:"16px 18px",
   };
 
   const tabBtn = (key, lbl) => (
@@ -123,36 +123,36 @@ export default function WeatherPage() {
   return (
     <div style={{ background:tk.bg, minHeight:"100%", fontFamily:"'Inter',sans-serif" }}>
       {/* ── Hero Banner ── */}
-      <div style={{ background:"linear-gradient(135deg,#040d06,#0d2b1a,#1b4332,#2d6a4f)", padding:"52px var(--page-px,clamp(16px,4vw,48px)) 44px", position:"relative", overflow:"hidden" }}>
+      <div style={{ background:"linear-gradient(135deg,#040d06,#0d2b1a,#1b4332,#2d6a4f)", padding:"clamp(26px,3.2vw,38px) var(--page-px,clamp(16px,3.2vw,36px))", position:"relative", overflow:"hidden" }}>
         <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(circle at 30% 50%,rgba(82,183,136,0.1),transparent 55%),radial-gradient(circle at 70% 30%,rgba(116,198,157,0.07),transparent 50%)", pointerEvents:"none" }} />
         <div style={{ position:"absolute", top:"-20%", right:"5%", width:300, height:300, borderRadius:"50%", background:"rgba(82,183,136,0.04)", pointerEvents:"none" }} />
         <div style={{ textAlign:"center", position:"relative", animation:"fadeUp 0.5s ease both" }}>
-          <div style={{ fontSize:52, marginBottom:12, animation:"float 3s ease-in-out infinite" }}>⛅</div>
-          <h1 style={{ color:"#fff", fontSize:"clamp(28px,4vw,44px)", fontFamily:"'Playfair Display',Georgia,serif", marginBottom:8, fontWeight:700 }}>
+          <div style={{ fontSize:44, marginBottom:8, animation:"float 3s ease-in-out infinite" }}>⛅</div>
+          <h1 style={{ color:"#fff", fontSize:"clamp(28px,3.8vw,42px)", fontFamily:"'Playfair Display',Georgia,serif", marginBottom:4, fontWeight:700 }}>
             Weather Dashboard
           </h1>
-          <p style={{ color:"rgba(255,255,255,0.65)", fontSize:15 }}>
+          <p style={{ color:"rgba(255,255,255,0.65)", fontSize:13 }}>
             Real-time weather — live data from Open-Meteo
           </p>
         </div>
       </div>
 
-      <div style={{ maxWidth:980, margin:"0 auto", padding:"32px var(--page-px,clamp(16px,4vw,48px)) 100px" }}>
+      <div style={{ maxWidth:"var(--content-max,1680px)", margin:"0 auto", padding:"clamp(18px,2.6vw,30px) var(--page-px,clamp(16px,3.2vw,36px)) 64px" }}>
 
         {/* ── Search bar ── */}
-        <div style={{ display:"flex", gap:10, marginBottom:16 }}>
+        <div style={{ display:"flex", gap:10, marginBottom:12 }}>
           <div style={{ flex:1, position:"relative" }}>
             <span style={{ position:"absolute", left:16, top:"50%", transform:"translateY(-50%)", fontSize:16, pointerEvents:"none" }}>📍</span>
             <input value={input} onChange={e=>setInput(e.target.value)}
               onKeyDown={e=>e.key==="Enter"&&fetchWeather(input)}
               placeholder="Search any city... e.g. Warangal, Karimnagar"
-              style={{ width:"100%", padding:"14px 16px 14px 44px", borderRadius:16, border:`1.5px solid ${tk.border}`, background: dark?"rgba(255,255,255,0.05)":"rgba(255,255,255,0.9)", backdropFilter:"blur(12px)", color:tk.text, fontSize:15, outline:"none", fontFamily:"'Inter',sans-serif", boxSizing:"border-box", transition:"all 0.2s" }}
+              style={{ width:"100%", padding:"12px 14px 12px 42px", borderRadius:14, border:`1.5px solid ${tk.border}`, background: dark?"rgba(255,255,255,0.05)":"rgba(255,255,255,0.9)", backdropFilter:"blur(12px)", color:tk.text, fontSize:15, outline:"none", fontFamily:"'Inter',sans-serif", boxSizing:"border-box", transition:"all 0.2s" }}
               onFocus={e=>{e.target.style.borderColor="#52b788"; e.target.style.boxShadow="0 0 0 3px rgba(82,183,136,0.2)";}}
               onBlur={e=>{e.target.style.borderColor=tk.border; e.target.style.boxShadow="none";}}
             />
           </div>
           <button data-magnetic onClick={()=>fetchWeather(input)} disabled={loading} style={{
-            padding:"14px 28px", borderRadius:16, cursor:loading?"not-allowed":"pointer",
+            padding:"12px 24px", borderRadius:14, cursor:loading?"not-allowed":"pointer",
             fontWeight:700, fontSize:15, fontFamily:"'Inter',sans-serif",
             background:"rgba(82,183,136,0.28)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)",
             border:"1px solid rgba(255,255,255,0.30)", color:"#fff",
@@ -166,7 +166,7 @@ export default function WeatherPage() {
         </div>
 
         {/* ── Quick city pills ── */}
-        <div className="filter-pills" style={{ display:"flex", gap:8, flexWrap:"wrap", marginBottom:28 }}>
+        <div className="filter-pills" style={{ display:"flex", gap:8, flexWrap:"wrap", marginBottom:16 }}>
           {QUICK_CITIES.map(c=>(
             <button data-magnetic key={c} onClick={()=>{setInput(c); fetchWeather(c);}} style={{
               padding:"7px 16px", borderRadius:50, cursor:"pointer",
@@ -198,36 +198,36 @@ export default function WeatherPage() {
         {weather && curr && !loading && (<>
 
           {/* ── Current weather card ── */}
-          <div data-tilt style={{ background:"linear-gradient(135deg,#040d06,#0d2b1a,#1b4332)", borderRadius:22, padding:"28px 28px", marginBottom:24, border:"1px solid rgba(82,183,136,0.15)", boxShadow:"0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06)", position:"relative", overflow:"hidden" }}>
+          <div data-tilt style={{ background:"linear-gradient(135deg,#040d06,#0d2b1a,#1b4332)", borderRadius:16, padding:"16px 16px", marginBottom:14, border:"1px solid rgba(82,183,136,0.15)", boxShadow:"0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06)", position:"relative", overflow:"hidden" }}>
             <div style={{ position:"absolute", top:"-30%", right:"-5%", width:250, height:250, borderRadius:"50%", background:"rgba(82,183,136,0.06)", pointerEvents:"none" }} />
             <div style={{ position:"absolute", bottom:"-20%", left:"20%", width:180, height:180, borderRadius:"50%", background:"rgba(82,183,136,0.04)", pointerEvents:"none" }} />
 
             <div className="weather-current" style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", flexWrap:"wrap", gap:20, position:"relative" }}>
               <div>
-                <div style={{ display:"inline-flex", alignItems:"center", gap:6, background:"rgba(82,183,136,0.18)", backdropFilter:"blur(8px)", border:"1px solid rgba(82,183,136,0.25)", borderRadius:20, padding:"4px 14px", fontSize:11, fontWeight:700, letterSpacing:"1px", textTransform:"uppercase", color:"#74c69d", marginBottom:16 }}>
+                <div style={{ display:"inline-flex", alignItems:"center", gap:6, background:"rgba(82,183,136,0.18)", backdropFilter:"blur(8px)", border:"1px solid rgba(82,183,136,0.25)", borderRadius:20, padding:"4px 12px", fontSize:10, fontWeight:700, letterSpacing:"1px", textTransform:"uppercase", color:"#74c69d", marginBottom:10 }}>
                   <span style={{ width:6, height:6, borderRadius:"50%", background:"#52b788", display:"inline-block", animation:"pulse 2s infinite" }} />
                   📍 {weather.cityName}, {weather.country}
                 </div>
-                <div style={{ fontSize:88, fontWeight:900, color:"#fff", lineHeight:1, fontFamily:"'Inter',sans-serif", fontFeatureSettings:'"tnum"', letterSpacing:"-4px" }}>
-                  {Math.round(curr.temperature_2m)}<span style={{ fontSize:44, fontWeight:400, letterSpacing:0, opacity:0.7 }}>°C</span>
+                <div style={{ fontSize:72, fontWeight:900, color:"#fff", lineHeight:1, fontFamily:"'Inter',sans-serif", fontFeatureSettings:'"tnum"', letterSpacing:"-3px" }}>
+                  {Math.round(curr.temperature_2m)}<span style={{ fontSize:34, fontWeight:400, letterSpacing:0, opacity:0.7 }}>°C</span>
                 </div>
-                <div style={{ fontSize:22, marginTop:10, color:"rgba(255,255,255,0.88)", display:"flex", alignItems:"center", gap:8 }}>
-                  <span style={{ fontSize:28 }}>{wmo.emoji}</span> {wmo.label}
+                <div style={{ fontSize:20, marginTop:6, color:"rgba(255,255,255,0.88)", display:"flex", alignItems:"center", gap:8 }}>
+                  <span style={{ fontSize:24 }}>{wmo.emoji}</span> {wmo.label}
                 </div>
                 <div style={{ fontSize:13, color:"rgba(255,255,255,0.5)", marginTop:6 }}>Feels like {Math.round(curr.apparent_temperature)}°C</div>
               </div>
 
               {/* Stat grid */}
-              <div className="weather-stats-grid" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:12, minWidth:240 }}>
+              <div className="weather-stats-grid" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:10, minWidth:220 }}>
                 {[
                   ["💧",`${curr.relative_humidity_2m}%`,"Humidity","#60a5fa"],
                   ["💨",`${curr.wind_speed_10m} km/h`,"Wind Speed","#a3e635"],
                   ["🌡️",`${Math.round(curr.apparent_temperature)}°C`,"Feels Like","#fb923c"],
                   ["☀️",`${curr.uv_index}/11`,"UV Index","#fcd34d"],
                 ].map(([icon,val,lbl,color])=>(
-                  <div key={lbl} style={{ background:"rgba(255,255,255,0.07)", backdropFilter:"blur(12px)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:16, padding:"16px 14px", textAlign:"center", boxShadow:"inset 0 1px 0 rgba(255,255,255,0.1)" }}>
-                    <div style={{ fontSize:26, marginBottom:6 }}>{icon}</div>
-                    <div style={{ fontSize:20, fontWeight:800, color, fontFamily:"'Inter',sans-serif", fontFeatureSettings:'"tnum"' }}>{val}</div>
+                  <div key={lbl} style={{ background:"rgba(255,255,255,0.07)", backdropFilter:"blur(12px)", border:"1px solid rgba(255,255,255,0.1)", borderRadius:14, padding:"12px 10px", textAlign:"center", boxShadow:"inset 0 1px 0 rgba(255,255,255,0.1)" }}>
+                    <div style={{ fontSize:22, marginBottom:4 }}>{icon}</div>
+                    <div style={{ fontSize:18, fontWeight:800, color, fontFamily:"'Inter',sans-serif", fontFeatureSettings:'"tnum"' }}>{val}</div>
                     <div style={{ fontSize:10, color:"rgba(255,255,255,0.45)", textTransform:"uppercase", letterSpacing:"0.5px", marginTop:3 }}>{lbl}</div>
                   </div>
                 ))}
@@ -236,7 +236,7 @@ export default function WeatherPage() {
           </div>
 
           {/* ── Chart tabs ── */}
-          <div className="weather-tab-row filter-pills" style={{ display:"flex", gap:8, marginBottom:22, flexWrap:"wrap" }}>
+          <div className="weather-tab-row filter-pills" style={{ display:"flex", gap:8, marginBottom:14, flexWrap:"wrap" }}>
             {tabBtn("hourly","🌡️ Hourly Temp")}
             {tabBtn("rain","🌧️ Rain Chart")}
             {tabBtn("wind","💨 Wind Chart")}

@@ -29,6 +29,11 @@ export default function OrdersPage() {
 
   if (!user) return null;
 
+  const getUnitLabel = (unit) => {
+    const u = String(unit || "kg").toLowerCase();
+    return ["l", "lt", "ltr", "liter", "litre", "liters", "litres"].includes(u) ? "L" : "kg";
+  };
+
   const btnBase = (color) => ({
     padding:"6px 12px",
     background:`rgba(${color},0.15)`,
@@ -40,15 +45,15 @@ export default function OrdersPage() {
 
   return (
     <div style={{ background:tk.bg, minHeight:"100%", animation:"fadeIn 0.4s ease" }}>
-      <div style={{ background:"linear-gradient(135deg,#0d2b1a,#1b4332,#2d6a4f)", padding:"52px var(--page-px,clamp(16px,4vw,48px))", position:"relative", overflow:"hidden" }}>
+      <div style={{ background:"linear-gradient(135deg,#0d2b1a,#1b4332,#2d6a4f)", padding:"clamp(28px,3.2vw,40px) var(--page-px,clamp(16px,3.2vw,36px))", position:"relative", overflow:"hidden" }}>
         <div style={{ position:"absolute", inset:0, backgroundImage:"radial-gradient(circle at 70% 50%,rgba(82,183,136,0.1),transparent 55%)", pointerEvents:"none" }} />
         <div style={{ textAlign:"center", position:"relative" }}>
-          <h1 style={{ color:"#fff", fontSize:38, fontFamily:"'Playfair Display',Georgia,serif", marginBottom:6 }}>📦 My Orders</h1>
-          <p style={{ color:"rgba(255,255,255,0.65)", fontSize:14 }}>Track your farm fresh deliveries</p>
+          <h1 style={{ color:"#fff", fontSize:"clamp(28px,3.8vw,42px)", fontFamily:"'Playfair Display',Georgia,serif", marginBottom:4 }}>📦 My Orders</h1>
+          <p style={{ color:"rgba(255,255,255,0.65)", fontSize:13 }}>Track your farm fresh deliveries</p>
         </div>
       </div>
 
-      <div style={{ maxWidth:1100, margin:"0 auto", padding:"36px var(--page-px,clamp(16px,4vw,48px)) 100px" }}>
+      <div style={{ maxWidth:"var(--content-max,1680px)", margin:"0 auto", padding:"clamp(18px,2.6vw,30px) var(--page-px,clamp(16px,3.2vw,36px)) 64px" }}>
         {loading ? (
           <div style={{ textAlign:"center", padding:"80px 0", color:tk.textLt }}>
             <div style={{ fontSize:48, marginBottom:14, animation:"float 2s ease-in-out infinite" }}>📦</div>
@@ -67,11 +72,11 @@ export default function OrdersPage() {
           const ordId = ord._id||ord.id;
           const ss = STATUS_STYLE[ord.status] || STATUS_STYLE.pending;
           return (
-            <div key={ordId} data-tilt style={{ background:tk.bgCard, borderRadius:22, padding:28, marginBottom:18, border:`1px solid ${tk.border}`, animation:`fadeUp 0.5s ease ${i*0.07}s both`, transition:"all 0.25s" }}
+            <div key={ordId} data-no-tilt style={{ background:tk.bgCard, borderRadius:16, padding:"14px 16px", marginBottom:10, border:`1px solid ${tk.border}`, animation:`fadeUp 0.5s ease ${i*0.07}s both`, transition:"all 0.25s" }}
               onMouseEnter={e=>{e.currentTarget.style.boxShadow=tk.shadowMd; e.currentTarget.style.borderColor=dark?"#52b78833":"#2d6a4f44";}}
               onMouseLeave={e=>{e.currentTarget.style.boxShadow="none"; e.currentTarget.style.borderColor=tk.border;}}
             >
-              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:20, flexWrap:"wrap", gap:12 }}>
+              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"flex-start", marginBottom:10, flexWrap:"wrap", gap:10 }}>
                 <div>
                   <div style={{ fontWeight:900, fontSize:14, color:tk.text, marginBottom:4, fontFamily:"monospace", letterSpacing:"0.5px" }}>
                     #{ordId?.toString().slice(-10).toUpperCase()}
@@ -89,7 +94,7 @@ export default function OrdersPage() {
                     </div>
                   )}
                 </div>
-                <div style={{ textAlign:"right", display:"flex", flexDirection:"column", alignItems:"flex-end", gap:8 }}>
+                  <div style={{ textAlign:"right", display:"flex", flexDirection:"column", alignItems:"flex-end", gap:6 }}>
                   <div style={{ display:"flex", gap:8 }}>
                     {ord.status !== "cancelled" && (
                       <button onClick={()=>navigate(`/orders/${ordId}/track`)}
@@ -103,28 +108,38 @@ export default function OrdersPage() {
                   <span style={{ background:ss.bg, color:ss.color, border:`1px solid ${ss.border}`, borderRadius:20, padding:"4px 14px", fontWeight:700, fontSize:12 }}>
                     ● {ord.status}
                   </span>
-                  <div className="num" style={{ fontSize:26, fontWeight:900, color:tk.green5, fontFamily:"'Inter',sans-serif" }}>
+                  <div className="num" style={{ fontSize:34, lineHeight:1, fontWeight:900, color:tk.green5, fontFamily:"'Inter',sans-serif" }}>
                     ₹{ord.totalPrice||ord.total}
                   </div>
                 </div>
               </div>
 
-              <div style={{ display:"flex", flexDirection:"column", gap:10, marginBottom:18 }}>
+              <div style={{ display:"flex", flexDirection:"column", gap:8, marginBottom:10 }}>
                 {(ord.items||[]).map((item,j) => {
                   const itemKey = `${ordId}-${item.productId||item.id}`;
                   const alreadyRated = ratedItems.has(itemKey);
                   // Only show Rate button if: order delivered AND customer is the buyer
                   const canRate = ord.status==="delivered" && !alreadyRated;
+                  const qty = item.quantity||item.qty||1;
+                  const unit = getUnitLabel(item.unit);
+                  const unitPrice = item.pricePerKg||item.price||0;
+                  const total = item.totalPrice||(unitPrice*qty);
                   return (
-                    <div key={j} style={{ display:"flex", alignItems:"center", gap:12, padding:"12px 16px", background:tk.bgMuted, borderRadius:14, border:`1px solid ${tk.border}` }}>
+                    <div key={j} style={{ display:"flex", alignItems:"center", gap:14, padding:"10px 12px", background:tk.bgMuted, borderRadius:12, border:`1px solid ${tk.border}` }}>
                       {(item.image||item.img) && (
-                        <img src={item.image||item.img} alt={item.name} style={{ width:48, height:48, borderRadius:10, objectFit:"cover", flexShrink:0 }} onError={e=>e.target.style.display="none"} />
+                        <img src={item.image||item.img} alt={item.name} style={{ width:72, height:72, borderRadius:12, objectFit:"cover", flexShrink:0 }} onError={e=>e.target.style.display="none"} />
                       )}
                       <div style={{ flex:1 }}>
-                        <div style={{ fontWeight:800, color:tk.text, fontSize:14, marginBottom:2 }}>{item.name}</div>
-                        <div style={{ fontSize:12, color:tk.textMid }}>
-                          {item.quantity||item.qty}kg × ₹{item.pricePerKg||item.price} = <strong style={{ color:tk.green5 }}>₹{item.totalPrice||(item.pricePerKg||item.price)*(item.quantity||item.qty)}</strong>
+                        <div style={{ fontWeight:900, color:dark?"#e9fff2":"#123c2a", fontSize:22, lineHeight:1.15, marginBottom:4 }}>{item.name}</div>
+                        <div style={{ display:"inline-flex", alignItems:"center", gap:6, marginBottom:4, background:dark?"rgba(82,183,136,0.18)":"rgba(82,183,136,0.16)", border:"1px solid rgba(82,183,136,0.42)", color:dark?"#74c69d":"#1f6b4c", borderRadius:999, padding:"3px 10px", fontWeight:900, fontSize:13 }}>
+                          Qty {qty}{unit}
                         </div>
+                        <div style={{ fontSize:13, color:tk.textMid, fontWeight:700 }}>
+                          ₹{unitPrice}/{unit}
+                        </div>
+                      </div>
+                      <div style={{ textAlign:"right", minWidth:86 }}>
+                        <div style={{ fontSize:30, lineHeight:1, color:dark?"#52b788":"#2f8f69", fontWeight:900, fontFamily:"'Inter',sans-serif" }}>₹{total}</div>
                       </div>
                       {canRate && (
                         <button
@@ -143,7 +158,7 @@ export default function OrdersPage() {
                 })}
               </div>
 
-              <div style={{ fontSize:12, color:tk.textLt, paddingTop:14, borderTop:`1px solid ${tk.border}`, display:"flex", flexWrap:"wrap", gap:12 }}>
+              <div style={{ fontSize:12, color:tk.textLt, paddingTop:10, borderTop:`1px solid ${tk.border}`, display:"flex", flexWrap:"wrap", gap:10 }}>
                 <span>📍 {ord.deliveryAddress||ord.address}, {ord.city}</span>
                 <span>📞 {ord.phone}</span>
                 {(ord.deliveryStatus==="processing"||ord.status==="confirmed") && <span style={{ color:tk.green5, fontWeight:700 }}>🕐 Est. delivery: ~24 hours</span>}
