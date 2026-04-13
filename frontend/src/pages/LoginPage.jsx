@@ -17,38 +17,7 @@ const ROLE_DEST = {
   admin:    "/admin/dashboard",
 };
 
-const FARMING_COLLAGE = [
-  {
-    title: "Fresh fields",
-    image: "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=900&q=80",
-    size: "34%",
-  },
-  {
-    title: "Harvest baskets",
-    image: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=900&q=80",
-    size: "28%",
-  },
-  {
-    title: "Irrigated rows",
-    image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=80",
-    size: "30%",
-  },
-  {
-    title: "Hands in soil",
-    image: "https://images.unsplash.com/photo-1500932338760-5bf2d6f1f49c?auto=format&fit=crop&w=900&q=80",
-    size: "26%",
-  },
-  {
-    title: "Golden crop",
-    image: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=1200&q=80",
-    size: "32%",
-  },
-  {
-    title: "Farm delivery",
-    image: "https://images.unsplash.com/photo-1574943320219-553eb213f72c?auto=format&fit=crop&w=900&q=80",
-    size: "27%",
-  },
-];
+const LOGIN_BG_IMAGE = "/login-farming-collage.png";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -165,38 +134,19 @@ export default function LoginPage() {
       justifyContent:"center",
       padding:"60px var(--page-px,clamp(16px,4vw,48px))",
     }}>
-      <div aria-hidden="true" style={{ position:"absolute", inset:0, pointerEvents:"none", opacity:0.95 }}>
-        <div style={{ position:"absolute", inset:"-12% -8% auto -8%", height:"60%", transform:"rotate(-7deg)", filter:"blur(0.2px)" }}>
-          {FARMING_COLLAGE.map((tile, index) => {
-            const row = Math.floor(index / 3);
-            const col = index % 3;
-            const left = `${8 + col * 31 + (row % 2) * 6}%`;
-            const top = `${6 + row * 29 + (col % 2) * 4}%`;
-            const rotate = [-9, 6, -4, 8, -7, 5][index];
-            return (
-              <div
-                key={tile.title}
-                style={{
-                  position:"absolute",
-                  left,
-                  top,
-                  width: tile.size,
-                  aspectRatio:"4 / 3",
-                  borderRadius: 22,
-                  backgroundImage:`linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.34)), url(${tile.image})`,
-                  backgroundSize:"cover",
-                  backgroundPosition:"center",
-                  boxShadow: dark
-                    ? "0 20px 45px rgba(0,0,0,0.34)"
-                    : "0 18px 40px rgba(27,67,50,0.15)",
-                  border: dark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(255,255,255,0.75)",
-                  transform:`rotate(${rotate}deg)`,
-                }}
-              />
-            );
-          })}
-        </div>
-
+      <div
+        aria-hidden="true"
+        style={{
+          position:"absolute",
+          inset:0,
+          pointerEvents:"none",
+          backgroundImage:`linear-gradient(180deg, ${dark ? "rgba(7,14,10,0.58), rgba(7,14,10,0.72)" : "rgba(255,255,255,0.42), rgba(255,255,255,0.56)"}), url(${LOGIN_BG_IMAGE})`,
+          backgroundSize:"cover",
+          backgroundPosition:"center",
+          backgroundRepeat:"no-repeat",
+          opacity:0.98,
+        }}
+      >
         <div style={{ position:"absolute", right:"-10%", top:"14%", width:"38vw", height:"38vw", borderRadius:"50%", background:"radial-gradient(circle, rgba(82,183,136,0.20) 0%, rgba(82,183,136,0.06) 34%, transparent 70%)", filter:"blur(4px)" }} />
         <div style={{ position:"absolute", left:"-12%", bottom:"-10%", width:"32vw", height:"32vw", borderRadius:"50%", background:"radial-gradient(circle, rgba(214,153,58,0.16) 0%, rgba(214,153,58,0.05) 35%, transparent 72%)", filter:"blur(4px)" }} />
       </div>
