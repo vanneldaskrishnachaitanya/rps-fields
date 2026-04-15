@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useTheme, TK } from "../../context/ThemeContext";
 import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
-import { useNotifications } from "../../context/NotificationContext";
+
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
