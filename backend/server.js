@@ -27,6 +27,7 @@ app.use("/api/partnerships", require("./routes/partnershipRoutes"));
 app.use("/api/ratings",      require("./routes/ratingRoutes"));
 app.use("/api/admin",        require("./routes/adminRoutes"));
 app.use("/api/todos",        require("./routes/todoRoutes"));
+app.use("/api/notifications", require("./routes/notificationRoutes"));
 
 // Backward-compat aliases that old frontend used
 app.use("/api/farmer/orders", (req, res, next) => {

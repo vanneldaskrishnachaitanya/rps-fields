@@ -1,5 +1,6 @@
 const Product = require("../models/Product");
 const User    = require("../models/User");
+const Notification = require("../models/Notification");
 
 // GET /api/products
 const getProducts = async (req, res) => {
@@ -77,6 +78,15 @@ const createProduct = async (req, res) => {
       { path: "farmerId", select: "name fullName city location" },
       { path: "agentId",  select: "name fullName" },
     ]);
+
+    await Notification.create({
+      recipientId: null, // global
+      type: "product",
+      title: "New Product Available!",
+      message: `${name} has just been added to the market. Check it out!`,
+      productId: product._id
+    }).catch(()=>{});
+
     res.status(201).json({ success: true, product: shapeProduct(populated) });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });

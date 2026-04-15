@@ -8,7 +8,6 @@ export function NotificationProvider({ children }) {
   const [notifications, setNotifications] = useState([]);
   const [announcements, setAnnouncements] = useState([]); // popup banners
   const seenIds = useRef(new Set());
-  const prevStatuses = useRef({});
 
   const addAnnouncement = useCallback((ann) => {
     const id = Date.now() + Math.random();
@@ -22,85 +21,77 @@ export function NotificationProvider({ children }) {
     setAnnouncements(prev => prev.filter(a => a.id !== id));
   }, []);
 
-  const addNotification = useCallback((notif) => {
-    const id = Date.now() + Math.random();
-    setNotifications(prev => [{ ...notif, id, time: new Date(), read: false }, ...prev].slice(0, 50));
-    return id;
-  }, []);
-
-  const markAllRead = useCallback(() => {
-    setNotifications(prev => prev.map(n => ({ ...n, read: true })));
-  }, []);
+  const markAllRead = useCallback(async () => {
+    if (!user) return;
+    try {
+      await authFetch("/notifications/read-all", { method: "PUT" });
+      setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+      // Track globals in localstorage so they don't show up again
+      const globals = notifications.filter(n => !n.recipientId).map(n => n._id);
+      if (globals.length > 0) {
+        let readGlobals = [];
+        try { readGlobals = JSON.parse(localStorage.getItem(`readGlobals_${user._id}`) || "[]"); } catch(e){}
+        const merged = Array.from(new Set([...readGlobals, ...globals]));
+        localStorage.setItem(`readGlobals_${user._id}`, JSON.stringify(merged));
+      }
+    } catch (_) {}
+  }, [user, authFetch, notifications]);
 
   const clearAll = useCallback(() => {
     setNotifications([]);
   }, []);
 
-  // Poll orders for status changes (customer only)
-  const pollOrders = useCallback(async () => {
-    if (!user || user.role !== "customer") return;
+  // Poll backend for real notifications
+  const pollNotifications = useCallback(async () => {
+    if (!user) return;
     try {
-      const data = await authFetch("/orders");
+      const data = await authFetch("/notifications");
       if (!data.success) return;
-      (data.orders || []).forEach(ord => {
-        const oid = ord._id || ord.id;
-        const prev = prevStatuses.current[oid];
-        const cur = ord.deliveryStatus || ord.status;
 
-        if (prev === undefined) {
-          prevStatuses.current[oid] = cur;
-          return;
+      let readGlobals = [];
+      try { readGlobals = JSON.parse(localStorage.getItem(`readGlobals_${user._id}`) || "[]"); } catch(e){}
+
+      const fetchedNotifs = (data.notifications || []).map(n => {
+        // global notifications read state tracking
+        if (!n.recipientId && readGlobals.includes(n._id)) {
+          return { ...n, read: true };
         }
-        if (prev === cur) return;
+        return n;
+      });
 
-        prevStatuses.current[oid] = cur;
+      setNotifications(fetchedNotifs);
 
-        const shortId = oid?.toString().slice(-6).toUpperCase();
+      fetchedNotifs.forEach(n => {
+        if (!n.read && !seenIds.current.has(n._id)) {
+          seenIds.current.add(n._id);
+          
+          let color = "#3b82f6";
+          let icon = "🔔";
+          if (n.type === "product") { color = "#f59e0b"; icon = "✨"; }
+          else if (n.type === "delivery") { color = "#10b981"; icon = "🚚"; }
+          else if (n.type === "order") { color = "#52b788"; icon = "🌿"; }
 
-        if (cur === "out_for_delivery" || cur === "picked_up") {
-          const msg = `Your order #${shortId} is out for delivery! 🚚`;
-          if (!seenIds.current.has(`ofd-${oid}`)) {
-            seenIds.current.add(`ofd-${oid}`);
-            addNotification({ type: "delivery", title: "Out for Delivery", message: msg, orderId: oid });
-            addAnnouncement({ type: "delivery", title: "🚚 On the Way!", message: msg, color: "#3b82f6" });
-          }
-        }
-
-        if (cur === "delivered" || ord.status === "delivered") {
-          const msg = `Your order #${shortId} has been delivered! 🎉`;
-          if (!seenIds.current.has(`del-${oid}`)) {
-            seenIds.current.add(`del-${oid}`);
-            addNotification({ type: "delivered", title: "Order Delivered!", message: msg, orderId: oid });
-            addAnnouncement({ type: "delivered", title: "✅ Delivered!", message: msg, color: "#10b981" });
-          }
+          addAnnouncement({ type: n.type, title: `${icon} ${n.title}`, message: n.message, color });
         }
       });
     } catch (_) {}
-  }, [user, authFetch, addNotification, addAnnouncement]);
-
-  // Notify on new order placed (called from CheckoutPage)
-  const notifyOrderPlaced = useCallback((order) => {
-    const oid = order._id || order.id;
-    const shortId = oid?.toString().slice(-6).toUpperCase();
-    const msg = `Order #${shortId} placed successfully! We'll deliver within 24 hours. 🌿`;
-    addNotification({ type: "placed", title: "Order Placed!", message: msg, orderId: oid });
-    addAnnouncement({ type: "placed", title: "🎉 Order Placed!", message: msg, color: "#52b788" });
-    prevStatuses.current[oid] = order.deliveryStatus || "processing";
-  }, [addNotification, addAnnouncement]);
+  }, [user, authFetch, addAnnouncement]);
 
   useEffect(() => {
-    if (!user || user.role !== "customer") return;
-    const iv = setInterval(pollOrders, 15000);
-    pollOrders();
+    if (!user) {
+      setNotifications([]);
+      return;
+    }
+    const iv = setInterval(pollNotifications, 8000);
+    pollNotifications();
     return () => clearInterval(iv);
-  }, [user, pollOrders]);
+  }, [user, pollNotifications]);
 
   const unreadCount = notifications.filter(n => !n.read).length;
 
   return (
     <NotificationContext.Provider value={{
       notifications, announcements, unreadCount,
-      addNotification, notifyOrderPlaced,
       markAllRead, clearAll, dismissAnnouncement,
     }}>
       {children}

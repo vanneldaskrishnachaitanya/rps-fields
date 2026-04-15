@@ -1,5 +1,39 @@
 const Order   = require("../models/Order");
 const Product = require("../models/Product");
+const Notification = require("../models/Notification");
+
+// Simulates time-based order progress for demonstration purposes
+async function autoAdvanceOrder(order) {
+  if (!order || !order.createdAt || order.status === "cancelled") return order;
+  let changed = false;
+  const elapsedMins = Math.round((Date.now() - order.createdAt.getTime()) / 60000);
+  const shortId = order._id.toString().slice(-6).toUpperCase();
+
+  if (order.deliveryStatus === "processing" && elapsedMins >= 2) {
+    order.deliveryStatus = "picked_up";
+    order.deliveryStartTime = new Date(order.createdAt.getTime() + 2 * 60000);
+    changed = true;
+    await Notification.create({ recipientId: order.customerId, type: "delivery", title: "Order Picked Up", message: `Your order #${shortId} has been picked up by an agent! 📦`, orderId: order._id }).catch(()=>{});
+  }
+  
+  if (order.deliveryStatus === "picked_up" && elapsedMins >= 4) {
+    order.deliveryStatus = "out_for_delivery";
+    changed = true;
+    await Notification.create({ recipientId: order.customerId, type: "delivery", title: "Out for Delivery", message: `Your order #${shortId} is out for delivery! 🚚`, orderId: order._id }).catch(()=>{});
+  }
+
+  if (order.deliveryStatus === "out_for_delivery" && elapsedMins >= 8) {
+    order.deliveryStatus = "delivered";
+    order.status = "delivered";
+    order.actualDeliveryTime = new Date(order.createdAt.getTime() + 8 * 60000);
+    order.otpVerified = true;
+    changed = true;
+    await Notification.create({ recipientId: order.customerId, type: "delivery", title: "Order Delivered!", message: `Your order #${shortId} has been successfully delivered! 🎉`, orderId: order._id }).catch(()=>{});
+  }
+
+  if (changed) Object.assign(order, await order.save());
+  return order;
+}
 
 // POST /api/orders  (customer)
 const createOrder = async (req, res) => {
@@ -65,6 +99,15 @@ const createOrder = async (req, res) => {
       agentIds:  [...agentIds],
     });
 
+    const shortId = order._id.toString().slice(-6).toUpperCase();
+    await Notification.create({ recipientId: req.user._id, type: "order", title: "Order Confirmed", message: `Your order #${shortId} has been confirmed.`, orderId: order._id }).catch(()=>{});
+    for (const fid of farmerIds) {
+      await Notification.create({ recipientId: fid, type: "order", title: "New Order", message: `A new order includes your products!`, orderId: order._id }).catch(()=>{});
+    }
+    for (const aid of agentIds) {
+      await Notification.create({ recipientId: aid, type: "order", title: "New Delivery Assigned", message: `Order #${shortId} needs delivery.`, orderId: order._id }).catch(()=>{});
+    }
+
     res.status(201).json({ success: true, order: shapeOrder(order) });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
@@ -74,8 +117,9 @@ const createOrder = async (req, res) => {
 // GET /api/orders  (customer: own orders)
 const getMyOrders = async (req, res) => {
   try {
-    const orders = await Order.find({ customerId: req.user._id })
+    let orders = await Order.find({ customerId: req.user._id })
       .sort({ createdAt: -1 });
+    orders = await Promise.all(orders.map(autoAdvanceOrder));
     res.json({ success: true, orders: orders.map(shapeOrder) });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
@@ -96,6 +140,7 @@ const getOrder = async (req, res) => {
     if (!isOwner && !isFarmer && !isAgent && !isAdmin)
       return res.status(403).json({ success: false, error: "Not authorised" });
 
+    await autoAdvanceOrder(order);
     res.json({ success: true, order: shapeOrder(order) });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
@@ -105,8 +150,9 @@ const getOrder = async (req, res) => {
 // GET /api/farmer/orders
 const getFarmerOrders = async (req, res) => {
   try {
-    const orders = await Order.find({ farmerIds: req.user._id })
+    let orders = await Order.find({ farmerIds: req.user._id })
       .sort({ createdAt: -1 });
+    orders = await Promise.all(orders.map(autoAdvanceOrder));
     res.json({ success: true, orders: orders.map(shapeOrder) });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
@@ -116,8 +162,9 @@ const getFarmerOrders = async (req, res) => {
 // GET /api/agent/orders
 const getAgentOrders = async (req, res) => {
   try {
-    const orders = await Order.find({ agentIds: req.user._id })
+    let orders = await Order.find({ agentIds: req.user._id })
       .sort({ createdAt: -1 });
+    orders = await Promise.all(orders.map(autoAdvanceOrder));
     res.json({ success: true, orders: orders.map(shapeOrder) });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
@@ -127,9 +174,10 @@ const getAgentOrders = async (req, res) => {
 // GET /api/admin/orders
 const getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find()
+    let orders = await Order.find()
       .populate("customerId", "name email")
       .sort({ createdAt: -1 });
+    orders = await Promise.all(orders.map(autoAdvanceOrder));
     res.json({ success: true, orders: orders.map(shapeOrder) });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
@@ -211,6 +259,8 @@ const getOrderTracking = async (req, res) => {
 
     const isOwner = order.customerId.toString() === req.user._id.toString();
     if (!isOwner) return res.status(403).json({ success: false, error: "Not authorised" });
+
+    await autoAdvanceOrder(order);
 
     const timeElapsed = Math.round((Date.now() - order.createdAt) / 1000 / 60); // minutes
     const estimatedDeliveryMinutes = 24 * 60; // 24 hours
