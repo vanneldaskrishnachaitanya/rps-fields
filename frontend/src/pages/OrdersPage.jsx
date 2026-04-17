@@ -170,8 +170,22 @@ export default function OrdersPage() {
                       )}
                       <div style={{ flex:1 }}>
                         <div style={{ fontWeight:900, color:dark?"#e9fff2":"#123c2a", fontSize:17, lineHeight:1.15, marginBottom:4, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis", maxWidth:"100%" }}>{item.name}</div>
-                        <div style={{ display:"inline-flex", alignItems:"center", gap:6, marginBottom:4, background:dark?"rgba(82,183,136,0.18)":"rgba(82,183,136,0.16)", border:"1px solid rgba(82,183,136,0.42)", color:dark?"#74c69d":"#1f6b4c", borderRadius:999, padding:"2px 8px", fontWeight:900, fontSize:12 }}>
-                          Qty {qty}{unit}
+                        <div style={{ display:"flex", alignItems:"center", gap:8, flexWrap:"wrap", marginBottom:4 }}>
+                          <div style={{ display:"inline-flex", alignItems:"center", gap:6, background:dark?"rgba(82,183,136,0.18)":"rgba(82,183,136,0.16)", border:"1px solid rgba(82,183,136,0.42)", color:dark?"#74c69d":"#1f6b4c", borderRadius:999, padding:"2px 8px", fontWeight:900, fontSize:12 }}>
+                            Qty {qty}{unit}
+                          </div>
+                          {canRate && (
+                            <button
+                              onClick={()=>setRateModal({item:{...item,productId:item.productId||item.id},orderId:ordId,itemKey})}
+                              style={{...btnBase("212,160,23"), padding:"2px 8px", fontSize:11}}
+                              onMouseEnter={e=>{e.currentTarget.style.background="rgba(212,160,23,0.3)";}}
+                              onMouseLeave={e=>{e.currentTarget.style.background="rgba(212,160,23,0.15)";}}>
+                              ⭐ Rate
+                            </button>
+                          )}
+                          {alreadyRated && (
+                            <span style={{ fontSize:11, color:tk.textLt, padding:"2px 8px", background:tk.bgMuted, borderRadius:10, border:`1px solid ${tk.border}` }}>✓ Rated</span>
+                          )}
                         </div>
                         <div style={{ fontSize:12, color:tk.textMid, fontWeight:700 }}>
                           ₹{unitPrice}/{unit}
@@ -180,18 +194,6 @@ export default function OrdersPage() {
                       <div style={{ textAlign:"right", minWidth:72 }}>
                         <div style={{ fontSize:24, lineHeight:1, color:dark?"#52b788":"#2f8f69", fontWeight:900, fontFamily:"'Inter',sans-serif" }}>₹{total}</div>
                       </div>
-                      {canRate && (
-                        <button
-                          onClick={()=>setRateModal({item:{...item,productId:item.productId||item.id},orderId:ordId,itemKey})}
-                          style={btnBase("212,160,23")}
-                          onMouseEnter={e=>{e.currentTarget.style.background="rgba(212,160,23,0.3)";}}
-                          onMouseLeave={e=>{e.currentTarget.style.background="rgba(212,160,23,0.15)";}}>
-                          ⭐ Rate
-                        </button>
-                      )}
-                      {alreadyRated && (
-                        <span style={{ fontSize:11, color:tk.textLt, padding:"4px 10px", background:tk.bgMuted, borderRadius:10, border:`1px solid ${tk.border}` }}>✓ Rated</span>
-                      )}
                     </div>
                   );
                 })}

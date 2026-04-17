@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { useTheme, TK } from "../context/ThemeContext";
 import { useAuth } from "../context/AuthContext";
 
@@ -32,7 +33,7 @@ export default function RateProductModal({ item, orderId, onClose, onDone }) {
     finally { setLoading(false); }
   };
 
-  return (
+  return createPortal(
     <div style={{
       position:"fixed", inset:0, zIndex:2000,
       background:"rgba(0,0,0,0.6)",
@@ -87,6 +88,7 @@ export default function RateProductModal({ item, orderId, onClose, onDone }) {
           </>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

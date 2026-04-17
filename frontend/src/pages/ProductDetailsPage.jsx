@@ -18,6 +18,7 @@ export default function ProductDetailsPage() {
   const [imgErr,  setImgErr]    = useState(false);
   const [error,   setError]     = useState("");
   const [qty,     setQty]       = useState(1);
+  const [showReviews, setShowReviews] = useState(false);
   const unitLabel = (() => {
     const u = String(product?.unit || "kg").toLowerCase();
     return ["l", "lt", "ltr", "liter", "litre", "liters", "litres"].includes(u) ? "L" : "kg";
@@ -210,7 +211,20 @@ export default function ProductDetailsPage() {
 
         {/* Ratings */}
         <div style={{ marginBottom:48, animation:"fadeUp 0.5s ease 0.2s both" }}>
-          <RatingsSection productId={id} />
+          <button data-magnetic onClick={() => setShowReviews(!showReviews)} style={{ padding:"12px 24px", background:tk.bgMuted, border:`1px solid ${tk.border}`, color:tk.text, borderRadius:12, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", display:"flex", alignItems:"center", gap:8, width:"100%", justifyContent:"center" }}>
+            <span>⭐</span> Customer Reviews {product.totalRatings > 0 ? `(${product.totalRatings})` : ""} {showReviews ? "▲" : "▼"}
+          </button>
+          <div style={{ 
+            display:"grid",
+            gridTemplateRows: showReviews ? "1fr" : "0fr",
+            transition: "grid-template-rows 0.3s ease",
+          }}>
+            <div style={{ overflow: "hidden" }}>
+              <div style={{ paddingTop: 24 }}>
+                <RatingsSection productId={id} />
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Related products */}
