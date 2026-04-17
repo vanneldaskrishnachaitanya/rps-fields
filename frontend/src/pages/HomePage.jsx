@@ -311,9 +311,8 @@ export default function HomePage() {
   useEffect(() => {
     let isSnapping = false;
     const handleWheel = (e) => {
-      // Only snap if user is at the absolute top of the page and scrolling down
+      // Keep native scrolling. Trigger an optional gentle snap only once at the top.
       if (window.scrollY < 50 && e.deltaY > 0 && !isSnapping) {
-        e.preventDefault();
         isSnapping = true;
         
         const target = sectionRefs.current[1];
@@ -327,8 +326,7 @@ export default function HomePage() {
       }
     };
 
-    // We must use passive: false to allow e.preventDefault() for overriding the scroll
-    window.addEventListener("wheel", handleWheel, { passive: false });
+    window.addEventListener("wheel", handleWheel, { passive: true });
     return () => window.removeEventListener("wheel", handleWheel);
   }, [headerOffset]);
 
