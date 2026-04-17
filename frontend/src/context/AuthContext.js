@@ -1,7 +1,11 @@
 import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext(null);
-export const API_BASE = process.env.REACT_APP_API_URL || "https://rps-fields-3.onrender.com/api";
+const rawApiBase = (process.env.REACT_APP_API_URL || "https://rps-fields-3.onrender.com/api").trim();
+const normalizedApiBase = rawApiBase.replace(/\/+$/, "");
+export const API_BASE = /\/api$/i.test(normalizedApiBase)
+  ? normalizedApiBase
+  : `${normalizedApiBase}/api`;
 
 export function AuthProvider({ children }) {
   const [user, setUser]   = useState(null);
