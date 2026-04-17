@@ -308,28 +308,6 @@ export default function HomePage() {
     window.scrollTo({ top, behavior: "smooth" });
   };
 
-  useEffect(() => {
-    let isSnapping = false;
-    const handleWheel = (e) => {
-      // Keep native scrolling. Trigger an optional gentle snap only once at the top.
-      if (window.scrollY < 50 && e.deltaY > 0 && !isSnapping) {
-        isSnapping = true;
-        
-        const target = sectionRefs.current[1];
-        if (target) {
-          const top = target.getBoundingClientRect().top + window.scrollY - headerOffset;
-          window.scrollTo({ top, behavior: "smooth" });
-        }
-        
-        // Cooldown before they can snap again (allows smooth scroll to finish)
-        setTimeout(() => { isSnapping = false; }, 800);
-      }
-    };
-
-    window.addEventListener("wheel", handleWheel, { passive: true });
-    return () => window.removeEventListener("wheel", handleWheel);
-  }, [headerOffset]);
-
 
   const sectionTransitionStyle = (idx) => {
     const outgoing = blurFlash && idx === transitionFrom;
