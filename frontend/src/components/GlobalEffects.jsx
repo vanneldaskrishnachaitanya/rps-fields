@@ -106,7 +106,7 @@ export default function GlobalEffects() {
           const r = card.getBoundingClientRect();
           const x = e.clientX - r.left;
           const y = e.clientY - r.top;
-          glow.style.background = `radial-gradient(140px circle at ${x}px ${y}px, rgba(82,183,136,0.16), transparent 60%)`;
+          glow.style.background = `radial-gradient(140px circle at ${x}px ${y}px, rgba(82,183,136,0.08), transparent 60%)`;
           glow.style.opacity = "1";
         };
         const onLeave = () => { glow.style.opacity = "0"; };
