@@ -5,8 +5,7 @@ import ProductCard from "../components/ProductCard";
 import MagneticText from "../components/MagneticText";
 import { useState, useEffect, useRef } from "react";
 
-
-import { API_BASE } from "../context/AuthContext";
+import { useAuth, API_BASE } from "../context/AuthContext";
 import { CATEGORIES } from "../data/products";
 
 const SLIDES = [
@@ -242,6 +241,7 @@ const ScrollRevealTestimonial = ({ dark, tk }) => {
 
 export default function HomePage() {
   const navigate  = useNavigate();
+  const { user }  = useAuth();
   const { dark }  = useTheme();
   const tk        = TK(dark);
   const [products, setProducts]   = useState([]);
@@ -438,15 +438,17 @@ export default function HomePage() {
                 {cur.cta} →
               </button>
 
-              <button
-                data-magnetic
-                onClick={() => navigate("/register")}
-                style={homeBtnGhost}
-                onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-2px)"; e.currentTarget.style.background="rgba(255,255,255,0.24)";}}
-                onMouseLeave={e=>{e.currentTarget.style.transform="none"; e.currentTarget.style.background="rgba(255,255,255,0.16)";}}
-              >
-                Join as Farmer / Agent
-              </button>
+              {(!user || user.role === 'customer') && (
+                <button
+                  data-magnetic
+                  onClick={() => navigate("/register")}
+                  style={homeBtnGhost}
+                  onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-2px)"; e.currentTarget.style.background="rgba(255,255,255,0.24)";}}
+                  onMouseLeave={e=>{e.currentTarget.style.transform="none"; e.currentTarget.style.background="rgba(255,255,255,0.16)";}}
+                >
+                  Join as Farmer / Agent
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -616,37 +618,39 @@ export default function HomePage() {
       <ScrollRevealTestimonial dark={dark} tk={tk} />
 
       {/* ─────────────── JOIN CTA ─────────────── */}
-      <section style={{ padding:"clamp(16px,2.3vw,24px) var(--page-px,clamp(10px,2.2vw,24px))", background: dark?"#080f09":"#f0f7f2", borderTop:`1px solid ${tk.border}` }}>
-        <div data-id="cta" style={{ maxWidth:620, margin:"0 auto", textAlign:"center", ...reveal("cta") }}>
-          <div style={{ fontSize:34, marginBottom:10 }}>🌿</div>
-          <h2 style={{ fontSize:"clamp(22px,3vw,32px)", fontFamily:"'Playfair Display',Georgia,serif", color:tk.text, marginBottom:10 }}>
-            Are You a Farmer or Agent?
-          </h2>
-          <p style={{ color:tk.textLt, fontSize:14, lineHeight:1.6, maxWidth:520, margin:"0 auto 16px" }}>
-            Join the RPS Fields network. List your produce, reach thousands of customers across Telangana, and earn more by cutting out the middleman.
-          </p>
-          <div style={{ display:"flex", gap:10, justifyContent:"center", flexWrap:"wrap", marginTop: 12 }}>
-            <button
-              data-magnetic
-              onClick={() => navigate("/register/farmer")}
-              style={homeBtnGreen}
-              onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-2px)"; e.currentTarget.style.filter="brightness(1.06)";}}
-              onMouseLeave={e=>{e.currentTarget.style.transform="none"; e.currentTarget.style.filter="none";}}
-            >
-              🌾 Join as Farmer
-            </button>
-            <button
-              data-magnetic
-              onClick={() => navigate("/register/agent")}
-              style={homeBtnPrimary}
-              onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-2px)"; e.currentTarget.style.filter="brightness(1.06)";}}
-              onMouseLeave={e=>{e.currentTarget.style.transform="none"; e.currentTarget.style.filter="none";}}
-            >
-              🏢 Join as Agent
-            </button>
+      {(!user || user.role === 'customer') && (
+        <section style={{ padding:"clamp(16px,2.3vw,24px) var(--page-px,clamp(10px,2.2vw,24px))", background: dark?"#080f09":"#f0f7f2", borderTop:`1px solid ${tk.border}` }}>
+          <div data-id="cta" style={{ maxWidth:620, margin:"0 auto", textAlign:"center", ...reveal("cta") }}>
+            <div style={{ fontSize:34, marginBottom:10 }}>🌿</div>
+            <h2 style={{ fontSize:"clamp(22px,3vw,32px)", fontFamily:"'Playfair Display',Georgia,serif", color:tk.text, marginBottom:10 }}>
+              Are You a Farmer or Agent?
+            </h2>
+            <p style={{ color:tk.textLt, fontSize:14, lineHeight:1.6, maxWidth:520, margin:"0 auto 16px" }}>
+              Join the RPS Fields network. List your produce, reach thousands of customers across Telangana, and earn more by cutting out the middleman.
+            </p>
+            <div style={{ display:"flex", gap:10, justifyContent:"center", flexWrap:"wrap", marginTop: 12 }}>
+              <button
+                data-magnetic
+                onClick={() => navigate("/register/farmer")}
+                style={homeBtnGreen}
+                onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-2px)"; e.currentTarget.style.filter="brightness(1.06)";}}
+                onMouseLeave={e=>{e.currentTarget.style.transform="none"; e.currentTarget.style.filter="none";}}
+              >
+                🌾 Join as Farmer
+              </button>
+              <button
+                data-magnetic
+                onClick={() => navigate("/register/agent")}
+                style={homeBtnPrimary}
+                onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-2px)"; e.currentTarget.style.filter="brightness(1.06)";}}
+                onMouseLeave={e=>{e.currentTarget.style.transform="none"; e.currentTarget.style.filter="none";}}
+              >
+                🏢 Join as Agent
+              </button>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
       </div>
 
     </div>

@@ -89,12 +89,12 @@ function Layout() {
 
   return (
     <div style={{ fontFamily:"'Inter','Segoe UI',sans-serif", background:tk.bg, minHeight:"100vh", color:tk.text, transition:"background 0.3s,color 0.3s" }}>
-      {!isAdmin && <Header />}
+      <Header />
       <AnnouncementPopups />
       {/* Movable Quick Actions panel — desktop only, hidden on mobile via CSS */}
-      {!isAdmin && <QuickActions />}
-      {!isAdmin && <PwaInstallPrompt />}
-      <main className={isAdmin ? "" : "anim-page-enter"} style={{ paddingTop:isAdmin?0:68, paddingBottom:isAdmin?0:52, minHeight:"100vh" }}>
+      <QuickActions />
+      <PwaInstallPrompt />
+      <main className={isAdmin ? "" : "anim-page-enter"} style={{ paddingTop:68, paddingBottom:52, minHeight:"100vh" }}>
         <Routes>
           <Route path="/"            element={<HomePage />} />
           <Route path="/catalog"     element={<CatalogPage />} />
@@ -155,7 +155,7 @@ function Layout() {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
-      {!isAdmin && <Footer />}
+      <Footer />
     </div>
   );
 }

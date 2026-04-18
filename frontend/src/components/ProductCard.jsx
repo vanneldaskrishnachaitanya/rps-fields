@@ -2,10 +2,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme, TK } from "../context/ThemeContext";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 
 export default function ProductCard({ product, onQuickView, onViewProduct }) {
   const navigate = useNavigate();
   const { dark } = useTheme(); const tk = TK(dark);
+  const { user } = useAuth();
   const { addToCart } = useCart();
   const [hovered,   setHovered]   = useState(false);
   const [imgError,  setImgError]  = useState(false);
@@ -168,7 +170,7 @@ export default function ProductCard({ product, onQuickView, onViewProduct }) {
             {outOfStock ? "Out of Stock" : "View Details"}
           </button>
 
-          {!outOfStock && (
+          {!outOfStock && user?.role !== 'admin' && (
             <button
               className="product-card-action-btn product-card-action-btn-cart"
               onClick={handleAddToCart}

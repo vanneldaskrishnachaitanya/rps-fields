@@ -2,7 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import { useTheme, TK } from "../context/ThemeContext";
 import { useCart } from "../context/CartContext";
-import { API_BASE } from "../context/AuthContext";
+import { useAuth, API_BASE } from "../context/AuthContext";
 import RatingsSection from "../components/RatingsSection";
 import ProductCard from "../components/ProductCard";
 
@@ -10,6 +10,7 @@ export default function ProductDetailsPage() {
   const navigate = useNavigate();
   const { id } = useParams();
   const { dark } = useTheme(); const tk = TK(dark);
+  const { user } = useAuth();
   const { addToCart } = useCart();
   const [product, setProduct] = useState(null);
   const [related, setRelated]   = useState([]);
@@ -165,45 +166,47 @@ export default function ProductDetailsPage() {
 
             {/* Quantity selector + CTA */}
             {product.qty > 0 ? (
-              <div>
-                <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:16 }}>
-                  <span style={{ fontSize:13, fontWeight:700, color:tk.textMid }}>Quantity ({unitLabel}):</span>
-                  <div style={{ display:"flex", alignItems:"center", gap:0, border:`1.5px solid ${tk.border}`, borderRadius:12, overflow:"hidden" }}>
-                    <button data-magnetic onClick={() => setQty(q => Math.max(1,q-1))} style={{ width:36, height:36, background:tk.bgMuted, border:"none", cursor:"pointer", fontSize:18, fontFamily:"'Inter',sans-serif", color:tk.text, transition:"background 0.2s" }}
-                      onMouseEnter={e=>e.target.style.background=tk.border} onMouseLeave={e=>e.target.style.background=tk.bgMuted}>−</button>
-                    <span style={{ width:40, textAlign:"center", fontWeight:800, fontSize:15, color:tk.text }}>{qty}</span>
-                    <button data-magnetic onClick={() => setQty(q => Math.min(product.qty,q+1))} style={{ width:36, height:36, background:tk.bgMuted, border:"none", cursor:"pointer", fontSize:18, fontFamily:"'Inter',sans-serif", color:tk.text, transition:"background 0.2s" }}
-                      onMouseEnter={e=>e.target.style.background=tk.border} onMouseLeave={e=>e.target.style.background=tk.bgMuted}>+</button>
+              user?.role === 'admin' ? null : (
+                <div>
+                  <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:16 }}>
+                    <span style={{ fontSize:13, fontWeight:700, color:tk.textMid }}>Quantity ({unitLabel}):</span>
+                    <div style={{ display:"flex", alignItems:"center", gap:0, border:`1.5px solid ${tk.border}`, borderRadius:12, overflow:"hidden" }}>
+                      <button data-magnetic onClick={() => setQty(q => Math.max(1,q-1))} style={{ width:36, height:36, background:tk.bgMuted, border:"none", cursor:"pointer", fontSize:18, fontFamily:"'Inter',sans-serif", color:tk.text, transition:"background 0.2s" }}
+                        onMouseEnter={e=>e.target.style.background=tk.border} onMouseLeave={e=>e.target.style.background=tk.bgMuted}>−</button>
+                      <span style={{ width:40, textAlign:"center", fontWeight:800, fontSize:15, color:tk.text }}>{qty}</span>
+                      <button data-magnetic onClick={() => setQty(q => Math.min(product.qty,q+1))} style={{ width:36, height:36, background:tk.bgMuted, border:"none", cursor:"pointer", fontSize:18, fontFamily:"'Inter',sans-serif", color:tk.text, transition:"background 0.2s" }}
+                        onMouseEnter={e=>e.target.style.background=tk.border} onMouseLeave={e=>e.target.style.background=tk.bgMuted}>+</button>
+                    </div>
+                    <span className="num" style={{ fontSize:13, color:tk.textLt }}>
+                      = ₹{Number((product.price || product.pricePerKg || 0) * qty).toLocaleString("en-IN")}
+                    </span>
                   </div>
-                  <span className="num" style={{ fontSize:13, color:tk.textLt }}>
-                    = ₹{Number((product.price || product.pricePerKg || 0) * qty).toLocaleString("en-IN")}
-                  </span>
-                </div>
 
-                <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
-                  <button data-magnetic onClick={handleAdd} style={{
-                    width:"100%", padding:"15px", fontSize:16, fontWeight:800,
-                    background: added
-                      ? "linear-gradient(135deg,rgba(34,197,140,0.96),rgba(4,155,108,1))"
-                      : "linear-gradient(135deg,rgba(93,198,150,0.96),rgba(47,131,94,0.98))",
-                    color:"#fff", textShadow:"0 1px 4px rgba(0,0,0,0.30)", border:"1px solid rgba(194,255,226,0.44)", borderRadius:14, cursor:"pointer", fontFamily:"'Inter',sans-serif",
-                    boxShadow: added
-                      ? "inset 0 1.5px 0 rgba(255,255,255,0.62), inset 0 -1px 0 rgba(0,0,0,0.18), 0 12px 30px rgba(4,155,108,0.48)"
-                      : "inset 0 1.5px 0 rgba(255,255,255,0.62), inset 0 -1px 0 rgba(0,0,0,0.18), 0 12px 30px rgba(28,120,86,0.50)",
-                    transition:"all 0.3s ease",
-                    transform: added ? "scale(0.98)" : "scale(1)",
-                  }}>
-                    {added ? `✓ Added ${qty}${unitLabel} to Cart!` : `🛒 Add to Cart`}
-                  </button>
-                  <button
-                    data-magnetic
-                    onClick={() => navigate("/cart")}
-                    style={{ width:"100%", padding:"15px", background:"linear-gradient(135deg,rgba(248,201,72,0.98),rgba(204,147,8,1))", border:"1px solid rgba(255,236,163,0.82)", color:"#fff", textShadow:"0 1px 4px rgba(0,0,0,0.30)", borderRadius:14, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", transition:"all 0.2s", boxShadow:"inset 0 1.5px 0 rgba(255,245,205,0.62), inset 0 -1px 0 rgba(0,0,0,0.18), 0 12px 30px rgba(212,160,23,0.52)" }}
-                  >
-                    View Cart →
-                  </button>
+                  <div style={{ display:"flex", flexDirection:"column", gap:12 }}>
+                    <button data-magnetic onClick={handleAdd} style={{
+                      width:"100%", padding:"15px", fontSize:16, fontWeight:800,
+                      background: added
+                        ? "linear-gradient(135deg,rgba(34,197,140,0.96),rgba(4,155,108,1))"
+                        : "linear-gradient(135deg,rgba(93,198,150,0.96),rgba(47,131,94,0.98))",
+                      color:"#fff", textShadow:"0 1px 4px rgba(0,0,0,0.30)", border:"1px solid rgba(194,255,226,0.44)", borderRadius:14, cursor:"pointer", fontFamily:"'Inter',sans-serif",
+                      boxShadow: added
+                        ? "inset 0 1.5px 0 rgba(255,255,255,0.62), inset 0 -1px 0 rgba(0,0,0,0.18), 0 12px 30px rgba(4,155,108,0.48)"
+                        : "inset 0 1.5px 0 rgba(255,255,255,0.62), inset 0 -1px 0 rgba(0,0,0,0.18), 0 12px 30px rgba(28,120,86,0.50)",
+                      transition:"all 0.3s ease",
+                      transform: added ? "scale(0.98)" : "scale(1)",
+                    }}>
+                      {added ? `✓ Added ${qty}${unitLabel} to Cart!` : `🛒 Add to Cart`}
+                    </button>
+                    <button
+                      data-magnetic
+                      onClick={() => navigate("/cart")}
+                      style={{ width:"100%", padding:"15px", background:"linear-gradient(135deg,rgba(248,201,72,0.98),rgba(204,147,8,1))", border:"1px solid rgba(255,236,163,0.82)", color:"#fff", textShadow:"0 1px 4px rgba(0,0,0,0.30)", borderRadius:14, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", transition:"all 0.2s", boxShadow:"inset 0 1.5px 0 rgba(255,245,205,0.62), inset 0 -1px 0 rgba(0,0,0,0.18), 0 12px 30px rgba(212,160,23,0.52)" }}
+                    >
+                      View Cart →
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )
             ) : (
               <div style={{ background: dark?"rgba(239,68,68,0.1)":"#fff3f3", border:"1px solid rgba(239,68,68,0.3)", borderRadius:14, padding:"16px 24px", color:"#ef4444", fontWeight:700 }}>
                 ⚠ Out of Stock — This product is currently unavailable.
