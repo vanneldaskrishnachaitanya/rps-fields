@@ -118,29 +118,31 @@ export default function ProductCard({ product, onQuickView, onViewProduct }) {
 
       {/* Body */}
       <div className="product-card-body" style={{ padding: "12px 12px 10px" }}>
-        <div onClick={handleOpenProduct} style={{ cursor: "pointer" }}>
-          <div style={{ fontWeight: 800, fontSize: 14, color: tk.text, marginBottom: 3, lineHeight: 1.25 }}>{product.name}</div>
-          <div style={{ fontSize: 12, color: tk.textLt, marginBottom: 10, display: "flex", alignItems: "center", gap: 4 }}>
+        <div className="product-card-info" onClick={handleOpenProduct} style={{ cursor: "pointer" }}>
+          <div className="product-card-title" style={{ fontWeight: 800, fontSize: 14, color: tk.text, marginBottom: 3, lineHeight: 1.25 }}>{product.name}</div>
+          <div className="product-card-farmer" style={{ fontSize: 12, color: tk.textLt, marginBottom: 10, display: "flex", alignItems: "center", gap: 4 }}>
             <span>🧑‍🌾</span>
             <span>{farmerName}</span>
           </div>
 
-          <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 10 }}>
+          <div className="product-card-price-row" style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 10 }}>
             <span className="price-value" style={{ fontSize: 18, fontWeight: 900, color: tk.green5, fontFamily: "'Inter',sans-serif", fontFeatureSettings: '"tnum"', letterSpacing: "-0.5px" }}>
               ₹{Number(price).toLocaleString("en-IN")}
             </span>
             <span style={{ fontSize: 12, color: tk.textLt, fontFamily: "'Inter',sans-serif" }}>/{unit}</span>
           </div>
 
-          {/* Rating shown statically — no live count */}
-          {product.avgRating > 0 && (
-            <div style={{ display: "flex", alignItems: "center", gap: 4, marginBottom: 10 }}>
+          <div className="product-card-rating-row" style={{ display: "flex", alignItems: "center", gap: 4, marginBottom: 10 }}>
+            {/* Rating shown statically — no live count */}
+            {product.avgRating > 0 ? (
               {[1,2,3,4,5].map(s => (
                 <span key={s} style={{ fontSize: 11, color: s <= Math.round(product.avgRating) ? "#d4a017" : tk.border }}>★</span>
               ))}
-              <span style={{ fontSize: 11, color: tk.textLt, marginLeft: 2 }}>{product.avgRating.toFixed(1)}</span>
-            </div>
-          )}
+            ) : (
+              <span className="product-card-rating-placeholder" aria-hidden="true">.</span>
+            )}
+            {product.avgRating > 0 && <span style={{ fontSize: 11, color: tk.textLt, marginLeft: 2 }}>{product.avgRating.toFixed(1)}</span>}
+          </div>
         </div>
 
         {/* Buttons */}
