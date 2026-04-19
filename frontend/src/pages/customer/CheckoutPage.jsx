@@ -2,21 +2,18 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme, TK } from "../../context/ThemeContext";
 import { useCart } from "../../context/CartContext";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext"; // eslint-disable-line no-unused-vars
 
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
   const { dark } = useTheme(); const tk = TK(dark);
-  const { cart, total, clearCart } = useCart();
-  const { user, authFetch } = useAuth();
+  const { cart, total } = useCart();
+  const { user } = useAuth();
 
 
   const [form, setForm] = useState({ address: user?.address || "", city: user?.city || "", phone: user?.phone || "" });
   const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [apiError, setApiError] = useState("");
-  const [order, setOrder] = useState(null);
 
   const set = k => e => setForm(f => ({ ...f, [k]: e.target.value }));
 
@@ -81,7 +78,7 @@ export default function CheckoutPage() {
           {/* Delivery form */}
           <div style={{ background:tk.bgCard, borderRadius:20, padding:32, boxShadow:tk.shadow, border:`1px solid ${tk.border}` }}>
             <h2 style={{ fontSize:18, fontWeight:800, color:tk.text, marginBottom:22 }}>📦 Delivery Details</h2>
-            {apiError && <div style={{ background:"#fff0f0", border:"1px solid #e74c3c", borderRadius:10, padding:"10px 14px", marginBottom:16, color:"#c0392b", fontSize:13 }}>⚠ {apiError}</div>}
+
             {[["Delivery Address","address","text","Full address, landmark..."],["City","city","text","Your city"],["Phone Number","phone","tel","10-digit mobile"]].map(([label,k,t,ph])=>(
               <div key={k} style={{ marginBottom:16 }}>
                 {lbl(label)}
