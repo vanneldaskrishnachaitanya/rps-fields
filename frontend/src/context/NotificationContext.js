@@ -9,6 +9,18 @@ export function NotificationProvider({ children }) {
   const [announcements, setAnnouncements] = useState([]); // popup banners
   const seenIds = useRef(new Set());
 
+  const getStoredIds = useCallback((key) => {
+    try {
+      return JSON.parse(localStorage.getItem(key) || "[]");
+    } catch (_) {
+      return [];
+    }
+  }, []);
+
+  const storeIds = useCallback((key, ids) => {
+    localStorage.setItem(key, JSON.stringify(Array.from(new Set(ids))));
+  }, []);
+
   const addAnnouncement = useCallback((ann) => {
     const id = Date.now() + Math.random();
     setAnnouncements(prev => [...prev, { ...ann, id }]);
@@ -29,17 +41,52 @@ export function NotificationProvider({ children }) {
       // Track globals in localstorage so they don't show up again
       const globals = notifications.filter(n => !n.recipientId).map(n => n._id);
       if (globals.length > 0) {
-        let readGlobals = [];
-        try { readGlobals = JSON.parse(localStorage.getItem(`readGlobals_${user._id}`) || "[]"); } catch(e){}
-        const merged = Array.from(new Set([...readGlobals, ...globals]));
-        localStorage.setItem(`readGlobals_${user._id}`, JSON.stringify(merged));
+        const readKey = `readGlobals_${user._id}`;
+        const readGlobals = getStoredIds(readKey);
+        storeIds(readKey, [...readGlobals, ...globals]);
       }
     } catch (_) {}
-  }, [user, authFetch, notifications]);
+  }, [user, authFetch, notifications, getStoredIds, storeIds]);
 
-  const clearAll = useCallback(() => {
+  const deleteNotification = useCallback(async (id) => {
+    if (!user || !id) return;
+
+    const target = notifications.find(n => (n._id || n.id) === id);
+    setNotifications(prev => prev.filter(n => (n._id || n.id) !== id));
+
+    // Global notifications are dismissed per-user in local storage.
+    if (!target || !target.recipientId) {
+      const dismissedKey = `dismissedGlobals_${user._id}`;
+      const dismissed = getStoredIds(dismissedKey);
+      storeIds(dismissedKey, [...dismissed, id]);
+      return;
+    }
+
+    try {
+      await authFetch(`/notifications/${id}`, { method: "DELETE" });
+    } catch (_) {
+      if (target) {
+        setNotifications(prev => [target, ...prev]);
+      }
+    }
+  }, [user, notifications, authFetch, getStoredIds, storeIds]);
+
+  const clearAll = useCallback(async () => {
+    if (!user) return;
+
+    const globals = notifications.filter(n => !n.recipientId).map(n => n._id || n.id).filter(Boolean);
+    const dismissedKey = `dismissedGlobals_${user._id}`;
+    const dismissed = getStoredIds(dismissedKey);
+    if (globals.length > 0) {
+      storeIds(dismissedKey, [...dismissed, ...globals]);
+    }
+
     setNotifications([]);
-  }, []);
+
+    try {
+      await authFetch("/notifications", { method: "DELETE" });
+    } catch (_) {}
+  }, [user, notifications, authFetch, getStoredIds, storeIds]);
 
   // Poll backend for real notifications
   const pollNotifications = useCallback(async () => {
@@ -48,10 +95,13 @@ export function NotificationProvider({ children }) {
       const data = await authFetch("/notifications");
       if (!data.success) return;
 
-      let readGlobals = [];
-      try { readGlobals = JSON.parse(localStorage.getItem(`readGlobals_${user._id}`) || "[]"); } catch(e){}
+      const readGlobals = getStoredIds(`readGlobals_${user._id}`);
+      const dismissedGlobals = getStoredIds(`dismissedGlobals_${user._id}`);
 
-      const fetchedNotifs = (data.notifications || []).map(n => {
+      const fetchedNotifs = (data.notifications || []).filter(n => {
+        if (!n.recipientId && dismissedGlobals.includes(n._id)) return false;
+        return true;
+      }).map(n => {
         // global notifications read state tracking
         if (!n.recipientId && readGlobals.includes(n._id)) {
           return { ...n, read: true };
@@ -75,7 +125,7 @@ export function NotificationProvider({ children }) {
         }
       });
     } catch (_) {}
-  }, [user, authFetch, addAnnouncement]);
+  }, [user, authFetch, addAnnouncement, getStoredIds]);
 
   useEffect(() => {
     if (!user) {
@@ -92,7 +142,7 @@ export function NotificationProvider({ children }) {
   return (
     <NotificationContext.Provider value={{
       notifications, announcements, unreadCount,
-      markAllRead, clearAll, dismissAnnouncement,
+      markAllRead, clearAll, deleteNotification, dismissAnnouncement,
     }}>
       {children}
     </NotificationContext.Provider>

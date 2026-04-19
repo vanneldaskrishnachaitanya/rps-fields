@@ -3,7 +3,7 @@ import { useNotifications } from "../context/NotificationContext";
 import { useNavigate } from "react-router-dom";
 
 export default function NotificationBell() {
-  const { notifications, unreadCount, markAllRead, clearAll } = useNotifications();
+  const { notifications, unreadCount, markAllRead, clearAll, deleteNotification } = useNotifications();
   const [open, setOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 768);
   const ref = useRef(null);
@@ -86,8 +86,10 @@ export default function NotificationBell() {
               No notifications yet
             </div>
           ) : (
-            notifications.map(n => (
-              <div key={n.id}
+            notifications.map(n => {
+              const id = n._id || n.id;
+              return (
+              <div key={id}
                 onClick={() => { if (n.orderId) { navigate(`/orders/${n.orderId}/track`); setOpen(false); } }}
                 style={{
                   padding: "12px 16px", borderBottom: "1px solid rgba(255,255,255,0.05)",
@@ -111,8 +113,32 @@ export default function NotificationBell() {
                     {n.time?.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                   </div>
                 </div>
+                <button
+                  type="button"
+                  title="Delete notification"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteNotification(id);
+                  }}
+                  style={{
+                    width: 26,
+                    height: 26,
+                    borderRadius: 8,
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    background: "rgba(255,255,255,0.04)",
+                    color: "rgba(255,255,255,0.65)",
+                    cursor: "pointer",
+                    fontSize: 13,
+                    fontWeight: 700,
+                    flexShrink: 0,
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.background = "rgba(239,68,68,0.2)"}
+                  onMouseLeave={e => e.currentTarget.style.background = "rgba(255,255,255,0.04)"}
+                >
+                  ×
+                </button>
               </div>
-            ))
+            )})
           )}
         </div>
       )}
