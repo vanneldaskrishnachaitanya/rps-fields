@@ -122,29 +122,29 @@ export default function ProductCard({ product, onQuickView, onViewProduct }) {
       {/* Body */}
       <div className="product-card-body" style={{ padding: "12px 12px 10px" }}>
         <div className="product-card-info" onClick={handleOpenProduct} style={{ cursor: "pointer" }}>
-          <div className="product-card-title" style={{ fontWeight: 800, fontSize: 14, color: tk.text, marginBottom: 3, lineHeight: 1.25 }}>{product.name}</div>
-          <div className="product-card-farmer" style={{ fontSize: 12, color: tk.textLt, marginBottom: 10, display: "flex", alignItems: "center", gap: 4 }}>
+          <div className="product-card-title" style={{ fontWeight: 800, fontSize: 16, color: tk.text, marginBottom: 4, lineHeight: 1.25 }}>{product.name}</div>
+          <div className="product-card-farmer" style={{ fontSize: 13, color: tk.textLt, marginBottom: 10, display: "flex", alignItems: "center", gap: 4 }}>
             <span>🧑‍🌾</span>
             <span>{farmerName}</span>
           </div>
 
           <div className="product-card-price-row" style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 10 }}>
-            <span className="price-value" style={{ fontSize: 18, fontWeight: 900, color: tk.green5, fontFamily: "'Inter',sans-serif", fontFeatureSettings: '"tnum"', letterSpacing: "-0.5px" }}>
+            <span className="price-value" style={{ fontSize: 24, fontWeight: 900, color: tk.green5, fontFamily: "'Inter',sans-serif", fontFeatureSettings: '"tnum"', letterSpacing: "-0.5px" }}>
               ₹{Number(price).toLocaleString("en-IN")}
             </span>
-            <span style={{ fontSize: 12, color: tk.textLt, fontFamily: "'Inter',sans-serif" }}>/{unit}</span>
+            <span style={{ fontSize: 14, color: tk.textLt, fontFamily: "'Inter',sans-serif", fontWeight: 700 }}>/{unit}</span>
           </div>
 
           <div className="product-card-rating-row" style={{ display: "flex", alignItems: "center", gap: 4, marginBottom: 10 }}>
             {/* Rating shown statically — no live count */}
             {ratingValue > 0 ? (
               ratingStars.map((star) => (
-                <span key={star} style={{ fontSize: 11, color: star <= filledStars ? "#d4a017" : tk.border }}>★</span>
+                <span key={star} style={{ fontSize: 12, color: star <= filledStars ? "#d4a017" : tk.border }}>★</span>
                   ))
             ) : (
               <span className="product-card-rating-placeholder" aria-hidden="true">.</span>
             )}
-            {ratingValue > 0 && <span style={{ fontSize: 11, color: tk.textLt, marginLeft: 2 }}>{ratingValue.toFixed(1)}</span>}
+            {ratingValue > 0 && <span style={{ fontSize: 12, color: tk.textLt, marginLeft: 2, fontWeight: 600 }}>{ratingValue.toFixed(1)}</span>}
           </div>
         </div>
 
