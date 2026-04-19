@@ -6,8 +6,8 @@ import { useAuth } from "../context/AuthContext";
 export default function CartPage() {
   const navigate = useNavigate();
   const { dark } = useTheme(); const tk = TK(dark);
-  const { cart, removeFromCart, updateQty, total, clearCart } = useCart();
-  const { user, authFetch } = useAuth();
+  const { cart, removeFromCart, updateQty, total } = useCart();
+  const { user } = useAuth();
 
 
   const getUnitLabel = (unit) => {
