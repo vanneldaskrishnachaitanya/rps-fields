@@ -129,10 +129,10 @@ export default function ProductCard({ product, onQuickView, onViewProduct }) {
           </div>
 
           <div className="product-card-price-row" style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 10 }}>
-            <span className="price-value" style={{ fontSize: 24, fontWeight: 900, color: tk.green5, fontFamily: "'Inter',sans-serif", fontFeatureSettings: '"tnum"', letterSpacing: "-0.5px" }}>
+            <span className="price-value" style={{ fontSize: 26, fontWeight: 900, color: tk.green5, fontFamily: "'Inter',sans-serif", fontFeatureSettings: '"tnum"', letterSpacing: "-0.5px", lineHeight: 1 }}>
               ₹{Number(price).toLocaleString("en-IN")}
             </span>
-            <span style={{ fontSize: 14, color: tk.textLt, fontFamily: "'Inter',sans-serif", fontWeight: 700 }}>/{unit}</span>
+            <span style={{ fontSize: 15, color: tk.textLt, fontFamily: "'Inter',sans-serif", fontWeight: 700 }}>/{unit}</span>
           </div>
 
           <div className="product-card-rating-row" style={{ display: "flex", alignItems: "center", gap: 4, marginBottom: 10 }}>
