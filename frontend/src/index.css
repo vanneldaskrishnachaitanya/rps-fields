@@ -1130,21 +1130,22 @@ img { display: block; }
   width: max-content;
   min-width: 92px;
   overflow: hidden;
-  border: 1px solid rgba(217,255,235,0.46);
+  border: 1px solid rgba(236,255,246,0.56);
   border-radius: 999px;
   padding: 7px 12px;
   font-size: 10.5px;
   font-weight: 800;
-  color: #f4fff8;
+  color: #f7fff9;
   cursor: pointer;
   text-transform: uppercase;
   letter-spacing: 0.45px;
   background:
-    linear-gradient(180deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.06) 45%, rgba(0,0,0,0.05) 100%),
-    linear-gradient(135deg, rgba(74,177,132,0.78), rgba(33,105,74,0.84));
-  backdrop-filter: blur(24px) saturate(210%);
-  -webkit-backdrop-filter: blur(24px) saturate(210%);
-  box-shadow: 0 10px 24px rgba(0,0,0,0.24), inset 0 1px 0 rgba(255,255,255,0.56), inset 0 -1px 0 rgba(0,0,0,0.18);
+    radial-gradient(circle at 16% 14%, rgba(255,255,255,0.46) 0%, rgba(255,255,255,0.1) 33%, rgba(255,255,255,0) 64%),
+    linear-gradient(180deg, rgba(255,255,255,0.32) 0%, rgba(255,255,255,0.12) 46%, rgba(0,0,0,0.05) 100%),
+    linear-gradient(135deg, rgba(117,206,166,0.48), rgba(39,117,82,0.52));
+  backdrop-filter: blur(28px) saturate(230%);
+  -webkit-backdrop-filter: blur(28px) saturate(230%);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.72), inset 0 -1px 0 rgba(0,0,0,0.12), 0 0 0 1px rgba(208,255,232,0.18);
   transition: transform 0.22s cubic-bezier(0.22,1,0.36,1), box-shadow 0.22s cubic-bezier(0.22,1,0.36,1), background 0.22s ease, border-color 0.22s ease, filter 0.22s ease;
 }
 
@@ -1152,24 +1153,25 @@ img { display: block; }
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(255,255,255,0.28), rgba(255,255,255,0.04) 52%, rgba(255,255,255,0));
+  background: linear-gradient(180deg, rgba(255,255,255,0.42), rgba(255,255,255,0.16) 34%, rgba(255,255,255,0) 68%);
   pointer-events: none;
 }
 
 .product-quick-btn::after {
   content: '';
   position: absolute;
-  inset: -2px auto -2px -30%;
-  width: 38%;
-  background: linear-gradient(120deg, rgba(255,255,255,0), rgba(255,255,255,0.34), rgba(255,255,255,0));
+  inset: -2px auto -2px -34%;
+  width: 42%;
+  background: linear-gradient(120deg, rgba(255,255,255,0), rgba(255,255,255,0.5), rgba(255,255,255,0));
   opacity: 0;
   pointer-events: none;
 }
 
 .product-quick-btn:hover {
   transform: translateY(-2px) scale(1.018);
-  filter: saturate(1.08) brightness(1.02);
-  box-shadow: 0 16px 34px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.52), inset 0 -1px 0 rgba(0,0,0,0.16);
+  filter: saturate(1.12) brightness(1.03);
+  border-color: rgba(236,255,246,0.72);
+  box-shadow: 0 16px 34px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.82), inset 0 -1px 0 rgba(0,0,0,0.1), 0 0 0 1px rgba(208,255,232,0.24);
 }
 
 .product-quick-btn:hover::after {
@@ -1179,26 +1181,26 @@ img { display: block; }
 
 .product-quick-btn-primary {
   background:
-    radial-gradient(circle at 18% 12%, rgba(230,255,241,0.54) 0%, rgba(230,255,241,0) 44%),
-    linear-gradient(145deg, rgba(41,136,96,0.9), rgba(62,170,123,0.93) 50%, rgba(24,92,65,0.96));
-  border: 1px solid rgba(210,255,232,0.62);
+    radial-gradient(circle at 18% 12%, rgba(244,255,249,0.58) 0%, rgba(244,255,249,0.08) 38%, rgba(244,255,249,0) 62%),
+    linear-gradient(145deg, rgba(119,205,166,0.45), rgba(54,145,103,0.48) 50%, rgba(24,92,65,0.52));
+  border: 1px solid rgba(220,255,239,0.68);
   color: #f4fff8;
-  text-shadow: 0 1px 6px rgba(5,20,11,0.52);
+  text-shadow: 0 1px 5px rgba(7,25,15,0.42);
   box-shadow:
-    inset 0 1.5px 0 rgba(255,255,255,0.58),
-    inset 0 -1px 0 rgba(0,0,0,0.2),
-    0 12px 30px rgba(27,67,50,0.42),
-    0 0 0 1px rgba(82,183,136,0.25);
+    inset 0 1.5px 0 rgba(255,255,255,0.86),
+    inset 0 -1px 0 rgba(0,0,0,0.1),
+    0 12px 30px rgba(27,67,50,0.28),
+    0 0 0 1px rgba(130,218,178,0.24);
   animation: quickBtnGlow 2.6s ease-in-out infinite;
 }
 
 .product-quick-btn-primary:hover {
-  background: radial-gradient(circle at 18% 14%, rgba(239,255,247,0.54) 0%, rgba(239,255,247,0) 42%), linear-gradient(145deg, rgba(42,139,98,0.96), rgba(79,182,138,0.96) 48%, rgba(24,92,65,0.98));
+  background: radial-gradient(circle at 18% 14%, rgba(248,255,251,0.66) 0%, rgba(248,255,251,0.12) 40%, rgba(248,255,251,0) 62%), linear-gradient(145deg, rgba(145,223,188,0.52), rgba(74,168,127,0.54) 48%, rgba(33,110,77,0.58));
   box-shadow:
-    inset 0 1.5px 0 rgba(255,255,255,0.62),
-    inset 0 -1px 0 rgba(0,0,0,0.18),
-    0 16px 36px rgba(27,67,50,0.48),
-    0 0 0 1px rgba(132,214,175,0.32);
+    inset 0 1.5px 0 rgba(255,255,255,0.92),
+    inset 0 -1px 0 rgba(0,0,0,0.08),
+    0 16px 36px rgba(27,67,50,0.34),
+    0 0 0 1px rgba(170,236,205,0.34);
 }
 
 .product-quick-btn.is-active {
