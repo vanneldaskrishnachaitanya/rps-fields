@@ -29,19 +29,15 @@ export default function CheckoutPage() {
     return Object.keys(errs).length === 0;
   };
 
-  const handlePlace = async () => {
+  const handlePlace = () => {
     if (!validate()) return;
-    setLoading(true); setApiError("");
-    try {
-      const data = await authFetch("/orders", {
-        method: "POST",
-        body: JSON.stringify({ items: cart.map(i => ({ id: i.id, name: i.name, price: i.price, qty: i.qty, img: i.img })), ...form }),
-      });
-      if (!data.success) throw new Error(data.error);
-      clearCart();
-      setOrder(data.order);
-    } catch (e) { setApiError(e.message); }
-    finally { setLoading(false); }
+    // Pass delivery info + cart total to the Payment Page
+    navigate("/payment", {
+      state: {
+        delivery: { address: form.address, city: form.city, phone: form.phone },
+        total,
+      },
+    });
   };
 
   const inp = hasErr => ({ width:"100%", padding:"11px 14px", borderRadius:10, border:`1.5px solid ${hasErr?"#e74c3c":tk.border}`, background:hasErr?"#fff0f0":tk.bgInput, color:tk.text, fontSize:14, boxSizing:"border-box", outline:"none", fontFamily:"'Inter',sans-serif" });
@@ -115,9 +111,9 @@ export default function CheckoutPage() {
                   {total >= 500 ? "✅ Free delivery" : `Add ₹${500-total} more for free delivery`}
                 </div>
               </div>
-              <button data-magnetic onClick={handlePlace} disabled={loading}
-                style={{ background:"rgba(200,150,12,0.32)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", border:"none", width:"100%", padding:14, borderRadius:10, cursor:loading?"not-allowed":"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif", opacity:loading?0.7:1 }}>
-                {loading ? "Placing Order..." : `✓ Place Order · ₹${total}`}
+              <button data-magnetic onClick={handlePlace}
+                style={{ background:"rgba(200,150,12,0.32)", backdropFilter:"blur(28px) saturate(200%)", WebkitBackdropFilter:"blur(28px) saturate(200%)", color:"#fff", boxShadow:"inset 0 1.5px 0 rgba(255,255,255,0.55),inset 0 -1px 0 rgba(0,0,0,0.12),0 8px 28px rgba(0,0,0,0.22)", border:"none", width:"100%", padding:14, borderRadius:10, cursor:"pointer", fontWeight:800, fontSize:15, fontFamily:"'Inter',sans-serif" }}>
+                Proceed to Payment · ₹{total} →
               </button>
               <button data-magnetic onClick={() => navigate("/cart")} style={{ background:"transparent", border:`1px solid ${tk.border}`, color:tk.textMid, width:"100%", padding:9, borderRadius:8, cursor:"pointer", fontSize:13, fontFamily:"'Inter',sans-serif", marginTop:10, boxSizing:"border-box" }}>
                 ← Back to Cart
