@@ -18,6 +18,9 @@ export default function ProductCard({ product, onQuickView, onViewProduct }) {
   const farmerLoc  = product.farmerLocation || product.location || "";
   const unit       = product.unit || "kg";
   const price      = product.price || product.pricePerKg || 0;
+  const ratingValue = Number(product.avgRating || 0);
+  const filledStars = Math.round(ratingValue);
+  const ratingStars = [1, 2, 3, 4, 5];
   const outOfStock = product.qty === 0 || product.quantity === 0;
 
   const handleAddToCart = (e) => {
@@ -134,14 +137,14 @@ export default function ProductCard({ product, onQuickView, onViewProduct }) {
 
           <div className="product-card-rating-row" style={{ display: "flex", alignItems: "center", gap: 4, marginBottom: 10 }}>
             {/* Rating shown statically — no live count */}
-            {product.avgRating > 0 ? (
-              {[1,2,3,4,5].map(s => (
-                <span key={s} style={{ fontSize: 11, color: s <= Math.round(product.avgRating) ? "#d4a017" : tk.border }}>★</span>
-              ))}
+            {ratingValue > 0 ? (
+              ratingStars.map((star) => (
+                <span key={star} style={{ fontSize: 11, color: star <= filledStars ? "#d4a017" : tk.border }}>★</span>
+                  ))
             ) : (
               <span className="product-card-rating-placeholder" aria-hidden="true">.</span>
             )}
-            {product.avgRating > 0 && <span style={{ fontSize: 11, color: tk.textLt, marginLeft: 2 }}>{product.avgRating.toFixed(1)}</span>}
+            {ratingValue > 0 && <span style={{ fontSize: 11, color: tk.textLt, marginLeft: 2 }}>{ratingValue.toFixed(1)}</span>}
           </div>
         </div>
 
