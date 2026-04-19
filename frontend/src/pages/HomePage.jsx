@@ -68,7 +68,7 @@ const ScrollRevealTestimonial = ({ dark, tk }) => {
     {
       text: "Since ordering directly from the farmers here, we've seen a huge difference in taste. Healthy, organic, and highly recommended.",
       author: "Priya M.",
-      location: "Verified Mother",
+      location: "Verified Customer",
       highlights: ["huge difference in taste", "highly recommended"]
     },
     {
